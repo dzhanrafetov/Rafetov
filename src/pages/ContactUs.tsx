@@ -18,7 +18,7 @@ const FreeConsultation = () => {
 
 
         <motion.p
-          className="text-md sm:text-xl text-gray-400 mt-4 max-w-3xl mx-auto"
+          className="text-lg sm:text-xl text-gray-400 mt-4 max-w-3xl mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 1 }}

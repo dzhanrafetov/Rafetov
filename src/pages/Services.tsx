@@ -83,7 +83,7 @@ const Services = () => (
 
 
       <motion.p
-        className="text-xl sm:text-xl text-gray-400 mt-4 max-w-3xl mx-auto"
+        className="text-lg sm:text-xl text-gray-400 mt-4 max-w-3xl mx-auto"
 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
