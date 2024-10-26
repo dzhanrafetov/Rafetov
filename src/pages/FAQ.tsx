@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaSearch, FaChevronDown } from 'react-icons/fa';
 
@@ -87,9 +87,8 @@ const FAQPage = () => {
                 {faq.question}
               </h2>
               <FaChevronDown
-                className={`text-gray-400 transform transition-transform duration-300 ${
-                  expanded === index ? 'rotate-180' : ''
-                }`}
+                className={`text-gray-400 transform transition-transform duration-300 ${expanded === index ? 'rotate-180' : ''
+                  }`}
               />
             </div>
             {expanded === index && (

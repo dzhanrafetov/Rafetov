@@ -36,13 +36,19 @@ const servicesData = [
   },
 ];
 
-// Updated ServiceCard Component
+
+
+
 const ServiceCard = ({ icon: Icon, title, description, iconColor, gradient }) => (
   <motion.div
     className="group relative p-8 bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105"
-    initial={{ opacity: 0, y: 50 }}
+    initial={{ opacity: 0, y: 60 }}
     whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8 }}
+    transition={{
+      duration: 0.5,
+      ease: "linear",
+    }}
+    viewport={{ once: true }}
   >
     <Icon className={`text-4xl ${iconColor} mx-auto mb-6 group-hover:scale-110 transition-transform`} />
     <h3 className="text-2xl font-bold text-white mb-4">{title}</h3>
