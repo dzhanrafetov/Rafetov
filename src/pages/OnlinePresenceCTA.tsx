@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { FaLightbulb, FaSearchDollar, FaGlobe, FaUserClock } from 'react-icons/fa';
 

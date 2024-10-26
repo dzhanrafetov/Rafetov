@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import SkarataLogo from '../assets/skarataLogo.jpg';
 import SkarataWeb from '../assets/skarataWeb.png';

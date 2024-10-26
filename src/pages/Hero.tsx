@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import djanam from '../assets/djanam-logo.svg';
 import skarata from '../assets/skarataTest.png';
 import azteca from '../assets/azteca_v2.png';
@@ -7,7 +7,7 @@ import anotherClientLogo from '../assets/laoopera.png'; // Add more logos as nee
 import { motion } from 'framer-motion';
 
 const Hero = () => {
-  const [animationComplete, setAnimationComplete] = useState(false);
+  const [setAnimationComplete] = useState(false);
 
   // Array of client logos
   const clientLogos = [
