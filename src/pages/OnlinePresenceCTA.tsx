@@ -36,14 +36,14 @@ const OnlinePresenceCTA = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white py-16 px-8 sm:px-20">
       {/* Section Header */}
-      <header className="text-center mb-20">
+      <header className="text-center mb-16">
         <motion.h1
-          className="text-4xl sm:text-6xl font-extrabold tracking-wide bg-gradient-to-r from-purple-500 to-teal-500 bg-clip-text text-transparent"
+          className="text-6xl sm:text-7xl font-extrabold tracking-wide bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent"
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-ЗАЩО ВИ Е НУЖНО ДИГИТАЛНО ПРИСЪСТВИЕ ?
+         ЗА ВАШИЯТ БИЗНЕС
         </motion.h1>
         <motion.p
           className="text-md sm:text-xl text-gray-400 mt-4 max-w-3xl mx-auto"
@@ -51,7 +51,7 @@ const OnlinePresenceCTA = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 1 }}
         >
-Силното дигитално присъствие е основата на успеха в съвременния бизнес.      </motion.p>
+          Силното дигитално присъствие е основата на успеха в съвременния бизнес.      </motion.p>
       </header>
 
       {/* Key Points Section */}
