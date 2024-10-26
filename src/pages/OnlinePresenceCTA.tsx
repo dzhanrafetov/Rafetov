@@ -43,7 +43,7 @@ const OnlinePresenceCTA = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-         ЗА ВАШИЯТ БИЗНЕС
+          ЗА ВАШИЯТ БИЗНЕС
         </motion.h1>
         <motion.p
           className="text-md sm:text-xl text-gray-400 mt-4 max-w-3xl mx-auto"
@@ -95,16 +95,17 @@ const OnlinePresenceCTA = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
         >
-          Take Your Business Online Today
+
+          ПРЕНЕСЕТЕ БИЗНЕСА СИ ОНЛАЙН
         </motion.h2>
         <motion.a
           href="/get-started"
-          className="inline-block py-4 px-12 bg-gradient-to-r from-teal-400 to-purple-500 text-white font-semibold rounded-full shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300"
+          className="inline-block py-4 px-12 bg-gradient-to-r from-teal-400 to-purple-500 text-white font-semibold rounded-full shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 hover:bg-gradient-to-r hover:from-purple-500 hover:to-teal-400"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 1 }}
         >
-          Get Started Now
+          ЗАПОЧНИ СЕГА
         </motion.a>
       </section>
     </div>

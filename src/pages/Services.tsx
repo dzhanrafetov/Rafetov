@@ -29,7 +29,7 @@ const servicesData = [
   {
     id: 4,
     icon: FiShare2,
-    title: 'Управление на социалните медии',
+    title: 'Управление на социални медии',
     description: 'Maximize your social presence and engage your audience.',
     iconColor: 'text-purple-500',
     gradient: 'from-purple-500 to-pink-600',
@@ -66,7 +66,7 @@ const ServiceCard = ({ icon: Icon, title, description, iconColor, gradient }) =>
 
 // Services Page Component
 const Services = () => (
-  <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white py-16 px-6 sm:px-20 ">
+  <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white py-16 px-8 sm:px-20 ">
     {/* Page Header */}
     <header className="text-center mb-16">
       <motion.h1

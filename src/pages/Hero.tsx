@@ -27,7 +27,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <h1 className="text-custom-xl sm:text-5xl md:text-8xl font-extrabold tracking-wide mb-4 leading-tight">
+          <h1 className="text-custom-xl sm:text-6xl md:text-8xl font-extrabold tracking-wide mb-4 leading-tight">
             ДИГИТАЛНИ <br />
             РЕШЕНИЯ ЗА
             <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">

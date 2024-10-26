@@ -3,26 +3,30 @@ import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 const FreeConsultation = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white py-16 px-6 sm:px-14">
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white py-16 px-8 sm:px-20">
 
       {/* Page Header */}
-      <header className="text-center mb-12">
+      <header className="text-center mb-16">
         <motion.h1
-          className="text-4xl sm:text-5xl md:text-8xl font-semibold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-300 via-pink-400 to-red-400"
+          className="text-6xl sm:text-7xl md:text-8xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-300 via-pink-400 to-red-400"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          Book a Free Consultation
+          СВЪРЖИ СЕ
         </motion.h1>
+
+
         <motion.p
-          className="text-sm sm:text-lg text-gray-300 mt-2 max-w-xl mx-auto leading-snug"
+          className="text-md sm:text-xl text-gray-400 mt-4 max-w-3xl mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 1 }}
         >
-          Discover tailored solutions for your business with our team of experts.
+          Find answers to common questions or get in touch if you need more help.
         </motion.p>
+
+
       </header>
 
       {/* Contact Information */}

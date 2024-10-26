@@ -34,25 +34,31 @@ const FAQPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white py-20 px-8 sm:px-20">
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white py-16 px-8 sm:px-20">
       {/* Page Header */}
-      <header className="text-center mb-12">
+      <header className="text-center mb-16">
         <motion.h1
-          className="text-5xl sm:text-6xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-500 to-teal-400"
+          className="text-6xl sm:text-7xl font-extrabold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-500 to-teal-400"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          Frequently Asked Questions
+          ЧЕСТО ЗАДАВАНИ ВЪПРОСИ
         </motion.h1>
+
+
+
         <motion.p
-          className="text-lg sm:text-2xl text-gray-400 mt-4 max-w-3xl mx-auto"
+          className="text-md sm:text-xl text-gray-400 mt-4 max-w-3xl mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 1 }}
         >
           Find answers to common questions or get in touch if you need more help.
         </motion.p>
+
+
+
       </header>
 
       {/* Search Bar */}

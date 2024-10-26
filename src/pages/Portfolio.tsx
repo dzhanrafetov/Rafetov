@@ -24,25 +24,29 @@ const portfolioItems = [
 
 const Portfolio = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white py-24 px-8 sm:px-20">
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white py-16 px-8 sm:px-20">
       {/* Header */}
       <header className="text-center mb-16">
         <motion.h1
-          className="text-6xl sm:text-7xl md:text-8xl font-extrabold tracking-wide bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 bg-clip-text text-transparent"
+          className="text-6xl sm:text-7xl  font-extrabold tracking-wide bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 bg-clip-text text-transparent"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          Our Premium Creations
+          ПРОЕКТИ
         </motion.h1>
         <motion.p
-          className="text-xl sm:text-2xl text-gray-400 mt-4 max-w-3xl mx-auto leading-relaxed"
+          className="text-md sm:text-xl text-gray-400 mt-4 max-w-3xl mx-auto leading-relaxed"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 1 }}
         >
           Experience a curated selection of responsive web projects and mobile app designs that blend creativity and functionality.
         </motion.p>
+
+
+
+
       </header>
 
       {/* Portfolio Grid */}
