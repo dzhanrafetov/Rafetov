@@ -3,7 +3,7 @@ import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 const FreeConsultation = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white py-16 px-8 sm:px-20">
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white py-16 px-8 sm:px-20">
 
       {/* Page Header */}
       <header className="text-center mb-16">
@@ -23,27 +23,27 @@ const FreeConsultation = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 1 }}
         >
-          Find answers to common questions or get in touch if you need more help.
+          Свържете се с нас и нека заедно превърнем вашите идеи в реалност!
         </motion.p>
 
 
       </header>
 
-      {/* Contact Information */}
-      <div className="flex flex-col lg:flex-row justify-center gap-4 lg:gap-8 items-center mb-10">
-        <div className="flex items-center space-x-2 text-sm">
-          <FaPhone className="text-lg text-green-400" />
-          <p className="text-gray-300 font-medium">+1 234 567 890</p>
-        </div>
-        <div className="flex items-center space-x-2 text-sm">
-          <FaEnvelope className="text-lg text-blue-400" />
-          <p className="text-gray-300 font-medium">contact@yourdomain.com</p>
-        </div>
-        <div className="flex items-center space-x-2 text-sm">
-          <FaMapMarkerAlt className="text-lg text-pink-400" />
-          <p className="text-gray-300 font-medium">Sofia, Bulgaria</p>
-        </div>
-      </div>
+ {/* Contact Information */}
+<div className="flex flex-col lg:flex-row justify-center text-xl sm:text-xl gap-4 lg:gap-8 items-center mb-10 -mt-10">
+  <div className="flex items-center space-x-2">
+    <FaPhone className="text-lg text-green-400" />
+    <p className="text-gray-300 font-medium">+359 897 758 062</p>
+  </div>
+  <div className="flex items-center space-x-2">
+    <FaEnvelope className="text-lg text-blue-400" />
+    <p className="text-gray-300 font-medium">business@rafetov.com</p>
+  </div>
+  <div className="flex items-center space-x-2">
+    <FaMapMarkerAlt className="text-lg text-pink-400" />
+    <p className="text-gray-300 font-medium">Sofia, Bulgaria</p>
+  </div>
+</div>
 
       {/* Consultation Form */}
       <motion.div
@@ -56,73 +56,72 @@ const FreeConsultation = () => {
         <form className="space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-gray-400 text-xs font-medium mb-1">First Name</label>
+              <label className="block text-gray-400 text-s font-medium mb-1">Име</label>
               <input
                 type="text"
                 className="w-full px-3 py-2 text-sm rounded-lg bg-gray-800 text-gray-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all duration-300 focus:border-transparent focus:ring-gradient"
-                placeholder="Enter your first name"
+                placeholder="Въведете вашето име.."
               />
             </div>
             <div>
-              <label className="block text-gray-400 text-xs font-medium mb-1">Last Name</label>
+              <label className="block text-gray-400 text-s font-medium mb-1">Фамилия</label>
               <input
                 type="text"
                 className="w-full px-3 py-2 text-sm rounded-lg bg-gray-800 text-gray-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all duration-300 focus:border-transparent focus:ring-gradient"
-                placeholder="Enter your last name"
+                placeholder="Въведете вашата фамилия.."
               />
             </div>
           </div>
 
           {/* Email Field */}
           <div>
-            <label className="block text-gray-400 text-xs font-medium mb-1">Email</label>
+            <label className="block text-gray-400 text-s font-medium mb-1">Имейл</label>
             <input
               type="email"
               className="w-full px-3 py-2 text-sm rounded-lg bg-gray-800 text-gray-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all duration-300 focus:border-transparent focus:ring-gradient"
-              placeholder="Enter your email"
+              placeholder="Въведете вашият имейл.."
             />
           </div>
 
           {/* Phone and Services Fields */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-gray-400 text-xs font-medium mb-1">Phone</label>
+              <label className="block text-gray-400 text-s font-medium mb-1">Телефонен Номер</label>
               <input
                 type="text"
                 className="w-full px-3 py-2 text-sm rounded-lg bg-gray-800 text-gray-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all duration-300 focus:border-transparent focus:ring-gradient"
-                placeholder="Enter your phone number"
+                placeholder="Въведете вашият тел.."
               />
             </div>
             <div>
-              <label className="block text-gray-400 text-xs font-medium mb-1">Services</label>
+              <label className="block text-gray-400 text-s font-medium mb-1">Избере Услуга</label>
               <select
                 className="w-full px-3 py-2 text-sm rounded-lg bg-gray-800 text-gray-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all duration-300 focus:border-transparent focus:ring-gradient"
               >
                 <option value="" disabled selected>
-                  Select a Service
+                  Изберете Услуга
                 </option>
-                <option value="consulting">Business Consulting</option>
-                <option value="development">Software Development</option>
-                <option value="marketing">Digital Marketing</option>
-                <option value="design">Design Services</option>
+                <option value="website">Уебсайт</option>
+                <option value="shop">Електронен Магазин</option>
+                <option value="app">Мобилно приложение</option>
               </select>
             </div>
           </div>
 
           {/* Message Field */}
           <div>
-            <label className="block text-gray-400 text-xs font-medium mb-1">Message</label>
+            <label className="block text-gray-400 text-s font-medium mb-1">Съобщение</label>
             <textarea
               className="w-full px-3 py-2 text-sm rounded-lg bg-gray-800 text-gray-100 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all duration-300 focus:border-transparent focus:ring-gradient"
               rows={3}
-              placeholder="Tell us about your goals"
+              placeholder="Опишете накратко за вашата идея"
             ></textarea>
           </div>
 
           {/* Submit Button */}
           <motion.button
             type="submit"
-            className="relative w-full py-3 text-sm font-semibold rounded-lg bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 text-white shadow-md hover:shadow-xl transition-transform duration-300 transform hover:scale-105"
+            className="relative w-full py-3 text-xl font-extrabold rounded-lg bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 text-white shadow-md hover:shadow-xl transition-transform duration-300 transform hover:scale-105"
             style={{
               boxShadow: "0px 4px 20px rgba(255, 105, 135, 0.4)", // Soft glow effect
             }}
@@ -132,7 +131,7 @@ const FreeConsultation = () => {
             }}
             whileTap={{ scale: 0.98 }}
           >
-            <span className="relative z-10">Book Your Free Consultation</span>
+            <span className="relative z-10">Изпрати</span>
           </motion.button>
         </form>
       </motion.div>

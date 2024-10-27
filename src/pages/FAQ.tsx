@@ -3,21 +3,38 @@ import { motion } from 'framer-motion';
 import { FaSearch, FaChevronDown } from 'react-icons/fa';
 
 const faqItems = [
+
   {
-    question: 'What services do you offer?',
-    answer: 'We offer comprehensive services including web development, mobile app design, SEO optimization, and digital marketing strategies.',
+    question: 'Колко време отнема един проект?',
+    answer: 'Продължителността зависи от сложността, обикновено от 1 до 2 седмици, като в началото предоставяме ясен график.',
   },
   {
-    question: 'How long does a project take?',
-    answer: 'The duration varies based on complexity, generally ranging from 4 to 8 weeks, with a clear timeline provided at the start.',
+    question: 'Каква е вашата ценова политика?',
+    answer: 'Предлагаме фиксирани цени, съобразени с вашите нужди и изисквания за проекта.',
   },
   {
-    question: 'What is your pricing model?',
-    answer: 'We offer flexible pricing, including fixed-rate, hourly, and retainer options, tailored to the project’s scope and needs.',
+    question: 'Предоставяте ли поддръжка след пускане?',
+    answer: 'Да, нашите пакети за поддръжка и обслужване осигуряват безпроблемна работа на проекта с актуализации и оптимизации.',
   },
   {
-    question: 'Do you provide post-launch support?',
-    answer: 'Yes, our support and maintenance packages keep your project running smoothly, with ongoing updates and optimizations.',
+    question: 'Как мога да следя прогреса на проекта?',
+    answer: 'Ние поддържаме редовна комуникация и предоставяме отчет за напредъка всяка седмица, за да сте информирани за развитието на проекта.',
+  },
+  {
+    question: 'Предлагате ли персонализирани решения?',
+    answer: 'Да, разработваме индивидуални решения, напълно адаптирани към вашите бизнес цели и специфични изисквания.',
+  },
+  {
+    question: 'Имате ли опит в интеграцията на платежни системи?',
+    answer: 'Да, имаме опит с интеграция на различни платежни системи, включително карти, PayPal и други популярни методи за онлайн плащания.',
+  },
+  {
+    question: 'Мога ли да променям проекта в процеса на работа?',
+    answer: 'Да, прилагаме гъвкав подход и сме отворени за промени, стига да бъдат обсъдени и съгласувани преди внедряване.',
+  },
+  {
+    question: 'Какви технологии използвате?',
+    answer: 'Работим с най-новите технологии и платформи, включително JavaScript, React, Node.js, и PHP, за да осигурим максимална ефективност и надеждност.',
   },
 ];
 
@@ -34,7 +51,7 @@ const FAQPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white py-16 px-8 sm:px-20">
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white py-16 px-8 sm:px-20">
       {/* Page Header */}
       <header className="text-center mb-16">
         <motion.h1
@@ -51,7 +68,7 @@ const FAQPage = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 1 }}
         >
-          Find answers to common questions or get in touch if you need more help.
+          Открийте отговори на често задавани въпроси.
         </motion.p>
       </header>
 
@@ -61,7 +78,7 @@ const FAQPage = () => {
           <input
             type="text"
             className="w-full p-4 pl-12 text-gray-200 bg-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-            placeholder="Search questions..."
+            placeholder="Потърси въпрос..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -103,6 +120,7 @@ const FAQPage = () => {
           </motion.div>
         ))}
       </div>
+
     </div>
   );
 };

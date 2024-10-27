@@ -1,4 +1,4 @@
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from 'react-icons/fa';
+import { FaFacebookF, FaTiktok, FaInstagram } from 'react-icons/fa';
 
 const Footer = () => {
   return (
@@ -21,15 +21,16 @@ const Footer = () => {
         {/* Social Media Icons */}
         <div className="flex space-x-4 text-gray-500 text-lg">
           <a href="#" className="hover:text-pink-500 transition-colors"><FaFacebookF /></a>
-          <a href="#" className="hover:text-pink-500 transition-colors"><FaTwitter /></a>
-          <a href="#" className="hover:text-pink-500 transition-colors"><FaLinkedinIn /></a>
+
           <a href="#" className="hover:text-pink-500 transition-colors"><FaInstagram /></a>
+          <a href="#" className="hover:text-pink-500 transition-colors"><FaTiktok /></a>
+
         </div>
       </div>
 
       {/* Copyright Section */}
       <div className="text-center mt-6 text-sm text-gray-500 border-t border-gray-700 pt-4">
-        &copy; {new Date().getFullYear()} RAFETOV.COM . All rights reserved.
+        &copy; {new Date().getFullYear()} RAFETOV.COM . ВСИЧКИ ПРАВА СА ЗАПАЗЕНИ.
       </div>
     </footer>
   );

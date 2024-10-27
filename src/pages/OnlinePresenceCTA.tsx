@@ -4,29 +4,29 @@ import { FaLightbulb, FaSearchDollar, FaGlobe, FaUserClock } from 'react-icons/f
 const keyPoints = [
   {
     id: 1,
-    title: '24/7 Visibility',
-    description: 'Your business is always open online, welcoming new customers anytime.',
+    title: 'Видимост 24/7',
+    description: 'Вашият бизнес е винаги отворен онлайн, приветствайки нови клиенти по всяко време.',
     icon: FaUserClock,
     color: 'from-indigo-500 to-indigo-600',
   },
   {
     id: 2,
-    title: 'Reach Global Audiences',
-    description: 'Go beyond your local market and sell to a global audience with ease.',
+    title: 'Достигнете глобални аудитории',
+    description: 'Превъзмогнете местния си пазар и продавайте на глобална аудитория с лекота.',
     icon: FaGlobe,
     color: 'from-green-500 to-teal-500',
   },
   {
     id: 3,
-    title: 'Increase Sales Opportunities',
-    description: 'Capture leads and drive sales with a tailored online experience.',
+    title: 'Увеличете възможностите за продажби',
+    description: 'Уловете потенциални клиенти и стимулирайте продажбите с персонализирано онлайн преживяване.',
     icon: FaSearchDollar,
     color: 'from-pink-500 to-red-500',
   },
   {
     id: 4,
-    title: 'Build Brand Trust',
-    description: 'Showcase your expertise and establish your authority in the market.',
+    title: 'Изградете доверие в бранда',
+    description: 'Покажете своята експертиза и утвърдете авторитета си на пазара.',
     icon: FaLightbulb,
     color: 'from-yellow-500 to-orange-500',
   },
@@ -43,7 +43,7 @@ const OnlinePresenceCTA = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          ЗА ВАШИЯТ БИЗНЕС
+        ВАШИЯТ БИЗНЕС
         </motion.h1>
         <motion.p
           className="text-lg sm:text-xl text-gray-400 mt-4 max-w-3xl mx-auto"
@@ -51,63 +51,99 @@ const OnlinePresenceCTA = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 1 }}
         >
-          Силното дигитално присъствие е основата на успеха в съвременния бизнес.      </motion.p>
+Изградете видимост, спечелете доверие и разширете бизнеса си с интелигентно дигитално присъствие.
+        </motion.p>
       </header>
+      <section className="relative grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 p-8 lg:p-16 -mt-14 ">
+  {keyPoints.map((point) => (
+    <motion.div
+      key={point.id}
+      className="relative p-10 rounded-xl shadow-lg transition-transform transform hover:scale-105 duration-500 bg-gradient-to-br from-gray-800 via-gray-900 to-black overflow-hidden"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+      style={{
+        perspective: "1000px",
+      }}
+      whileHover={{
+        rotateX: 10,
+        rotateY: -10,
+      }}
+    >
+      {/* Light Trail Effect */}
+      <div className="absolute -inset-2 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent opacity-10 blur-lg pointer-events-none " style={{
+          backgroundPosition: "100% 0%",
+          backgroundSize: "300% 300%",
+          animation: "slide 5s linear infinite"
+      }}></div>
 
-      {/* Key Points Section */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
-        {keyPoints.map((point) => (
-          <motion.div
-            key={point.id}
-            className={`group relative p-8 rounded-2xl bg-gradient-to-br ${point.color} transform hover:scale-105 transition-transform duration-500`}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-          >
-            {/* Icon */}
-            <motion.div
-              className="p-5 rounded-full bg-black bg-opacity-50 shadow-xl transform group-hover:rotate-45 transition-transform duration-500"
-              whileHover={{ rotate: 360 }}
-            >
-              <point.icon className="text-4xl text-white" />
-            </motion.div>
+      {/* Icon with Neon Accent */}
+      <div className="relative z-10 flex items-center justify-center mb-6">
+        <point.icon className="text-5xl text-teal-400 drop-shadow-[0_0_8px_rgba(0,255,255,0.8)]" />
+      </div>
 
-            {/* Title and Description */}
-            <div className="mt-6">
-              <h3 className="text-2xl font-semibold text-white">{point.title}</h3>
-              <p className="mt-2 text-gray-200">{point.description}</p>
-            </div>
+      {/* Title and Description */}
+      <div className="relative z-10 text-center">
+        <h3 className="text-2xl font-semibold text-white mb-3" style={{ textShadow: "0 0 10px rgba(0, 0, 0, 0.5)" }}>
+          {point.title}
+        </h3>
+        <p className="text-gray-300 leading-relaxed">
+          {point.description}
+        </p>
+      </div>
 
-            {/* Hover Glow Effect */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-white to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-500"
-              style={{ zIndex: -1 }}
-            />
-          </motion.div>
-        ))}
-      </section>
+      {/* Animated Border Glow */}
+      <div className="absolute inset-0 rounded-xl border-2 border-transparent pointer-events-none" style={{
+          borderImage: "linear-gradient(45deg, teal, purple) 1",
+          animation: "borderGlow 5s ease-in-out infinite alternate"
+      }}></div>
+    </motion.div>
+  ))}
 
-      {/* CTA Section */}
-      <section className="text-center mt-28">
-        <motion.h2
-          className="text-4xl sm:text-5xl font-bold text-white mb-6"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-        >
 
-          ПРЕНЕСЕТЕ БИЗНЕСА СИ ОНЛАЙН
-        </motion.h2>
-        <motion.a
-          href="/get-started"
-          className="inline-block py-4 px-12 bg-gradient-to-r from-teal-400 to-purple-500 text-white font-semibold rounded-full shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 hover:bg-gradient-to-r hover:from-purple-500 hover:to-teal-400"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 1 }}
-        >
-          ЗАПОЧНИ СЕГА
-        </motion.a>
-      </section>
+</section>
+
+<section className="text-center mt-28 relative">
+  {/* Background Particles or Overlay */}
+  <div className="absolute inset-0 flex justify-center items-center">
+    <div className="w-80 h-80 bg-gradient-to-r from-teal-400 to-purple-500 opacity-20 blur-3xl rounded-full transform scale-125"></div>
+  </div>
+
+  {/* Heading with Glow Effect */}
+  <motion.h2
+    className="relative z-10 text-4xl sm:text-5xl font-bold text-white mb-6"
+    initial={{ opacity: 0, scale: 0.9 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 1 }}
+    style={{ textShadow: '0px 0px 15px rgba(255, 255, 255, 0.7)' }}
+  >
+    ПРЕНЕСЕТЕ БИЗНЕСА СИ ОНЛАЙН
+  </motion.h2>
+
+
+
+  {/* Floating Particles */}
+  <div className="absolute inset-0 pointer-events-none z-0">
+    {/* Particle 1 */}
+    <motion.div
+      className="absolute top-1/4 left-1/4 w-6 h-6 bg-white rounded-full opacity-20"
+      animate={{ y: [0, -20, 0], x: [0, 20, 0] }}
+      transition={{ duration: 4, repeat: Infinity }}
+    ></motion.div>
+    {/* Particle 2 */}
+    <motion.div
+      className="absolute top-1/3 right-1/3 w-8 h-8 bg-white rounded-full opacity-10"
+      animate={{ y: [0, 20, 0], x: [0, -20, 0] }}
+      transition={{ duration: 6, repeat: Infinity }}
+    ></motion.div>
+    {/* Particle 3 */}
+    <motion.div
+      className="absolute bottom-1/4 left-1/2 w-4 h-4 bg-white rounded-full opacity-30"
+      animate={{ y: [0, -10, 0], x: [0, 15, 0] }}
+      transition={{ duration: 5, repeat: Infinity }}
+    ></motion.div>
+  </div>
+</section>
     </div>
   );
 };

@@ -19,13 +19,12 @@ const App = () => {
             <>
               <Hero />
               <Services />
-              <Market />
 
               <Portfolio />
+              <Market />
 
-              <HowWeWork />
                <Contact />
-              {/* <Separate /> */}
+               <HowWeWork />
 
             </>
           }
