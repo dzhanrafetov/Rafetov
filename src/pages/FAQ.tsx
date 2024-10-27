@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaSearch, FaChevronDown } from 'react-icons/fa';
 
@@ -23,7 +23,16 @@ const faqItems = [
 
 const FAQPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [expanded, setExpanded] = useState(0); // Open the first item by default
+  const [expanded, setExpanded] = useState(null); // Initialize with null for no open item
+
+  useEffect(() => {
+    // Set the first FAQ item to be expanded after 1 second (matching the animation duration)
+    const timer = setTimeout(() => {
+      setExpanded(0);
+    }, 1000);
+
+    return () => clearTimeout(timer); // Cleanup the timer on component unmount
+  }, []);
 
   const filteredFaqItems = faqItems.filter((faq) =>
     faq.question.toLowerCase().includes(searchTerm.toLowerCase())
@@ -45,9 +54,6 @@ const FAQPage = () => {
         >
           ВЪПРОСИ
         </motion.h1>
-
-
-
         <motion.p
           className="text-lg sm:text-xl text-gray-400 mt-4 max-w-3xl mx-auto"
           initial={{ opacity: 0 }}
@@ -56,9 +62,6 @@ const FAQPage = () => {
         >
           Find answers to common questions or get in touch if you need more help.
         </motion.p>
-
-
-
       </header>
 
       {/* Search Bar */}
@@ -80,21 +83,20 @@ const FAQPage = () => {
         {filteredFaqItems.map((faq, index) => (
           <motion.div
             key={index}
-            className="p-6 bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform group"
+            onClick={() => handleToggle(index)} // Make entire card clickable
+            className="p-6 bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform group cursor-pointer"
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.6, delay: index * 0.15, type: 'spring', stiffness: 100 }}
           >
-            <div
-              className="flex justify-between items-center cursor-pointer"
-              onClick={() => handleToggle(index)}
-            >
+            <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold text-gray-100 group-hover:text-blue-400 transition-colors">
                 {faq.question}
               </h2>
               <FaChevronDown
-                className={`text-gray-400 transform transition-transform duration-300 ${expanded === index ? 'rotate-180' : ''
-                  }`}
+                className={`text-gray-400 transform transition-transform duration-300 ${
+                  expanded === index ? 'rotate-180' : ''
+                }`}
               />
             </div>
             {expanded === index && (
