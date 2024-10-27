@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaSearch, FaChevronDown } from 'react-icons/fa';
 
@@ -23,22 +23,13 @@ const faqItems = [
 
 const FAQPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [expanded, setExpanded] = useState(null); // Initialize with null for no open item
-
-  useEffect(() => {
-    // Set the first FAQ item to be expanded after 1 second (matching the animation duration)
-    const timer = setTimeout(() => {
-      setExpanded(0);
-    }, 1000);
-
-    return () => clearTimeout(timer); // Cleanup the timer on component unmount
-  }, []);
+  const [expanded, setExpanded] = useState<number | null>(0); // Type the state as number or null
 
   const filteredFaqItems = faqItems.filter((faq) =>
     faq.question.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleToggle = (index) => {
+  const handleToggle = (index: number) => {
     setExpanded(expanded === index ? null : index);
   };
 

@@ -78,7 +78,7 @@ const Portfolio = () => {
                   <img
                     src={item.logo}
                     alt={`${item.title} logo`}
-                    className="w-full h-full object-cover rounded-full border-2 border-gray-700 shadow-lg"
+                    className="w-full h-full object-fit rounded-full border-2 border-gray-700 shadow-lg"
                   />
                 </motion.div>
 
