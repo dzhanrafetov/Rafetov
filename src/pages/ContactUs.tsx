@@ -8,12 +8,12 @@ const FreeConsultation = () => {
       {/* Page Header */}
       <header className="text-center mb-16">
         <motion.h1
-          className="text-6xl sm:text-7xl md:text-8xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-300 via-pink-400 to-red-400"
+          className="text-6xl sm:text-7xl  font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-300 via-pink-400 to-red-400"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          СВЪРЖИ СЕ
+          КОНТАКТ
         </motion.h1>
 
 

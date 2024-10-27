@@ -43,7 +43,7 @@ const FAQPage = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          ЧЕСТО ЗАДАВАНИ ВЪПРОСИ
+          ВЪПРОСИ
         </motion.h1>
 
 
