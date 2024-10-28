@@ -47,51 +47,51 @@ const Portfolio = () => {
 
       {/* Portfolio Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {portfolioItems.map((item) => (
-          <motion.a
-            href={item.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            key={item.id}
-            className="group relative block rounded-xl overflow-hidden shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl bg-gradient-to-br from-gray-900/70 to-gray-800/70 backdrop-blur-lg"
-            whileHover={{ scale: 1.05, rotate: 1 }}
-            transition={{ type: 'spring', stiffness: 200 }}
-          >
-            <motion.div
-              className="flex flex-col h-full relative"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-            >
-              {/* Floating Logo Section */}
-              <div className="absolute top-4 left-4 bg-white/20 p-2 rounded-full shadow-md backdrop-blur-md">
-                <img
-                  src={item.logo}
-                  alt={`${item.title} logo`}
-                  className="w-12 h-12 object-cover rounded-full"
-                />
-              </div>
+  {portfolioItems.map((item) => (
+    <motion.a
+      href={item.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      key={item.id}
+      className="group relative block rounded-xl overflow-hidden shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-lg"
+      whileHover={{ scale: 1.05, rotate: 1 }}
+      transition={{ type: 'spring', stiffness: 200 }}
+    >
+      <motion.div
+        className="flex flex-col h-full relative"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+      >
+        {/* Floating Logo Section */}
+        <div className="absolute top-4 left-4 bg-white/30 p-2 rounded-full shadow-md backdrop-blur-md">
+          <img
+            src={item.logo}
+            alt={`${item.title} logo`}
+            className="w-12 h-12 object-cover rounded-full"
+          />
+        </div>
 
-              {/* Screenshot Section with Overlay */}
-              <div className="relative overflow-hidden flex-grow rounded-xl shadow-inner transition-transform duration-500 group-hover:scale-105">
-                <motion.img
-                  src={item.screenshot}
-                  alt={`${item.title} screenshot`}
-                  className="w-full h-48 md:h-60 lg:h-72 object-cover rounded-xl"
-                />
-                {/* Title and Description Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                  <h3 className="text-2xl font-bold text-white ">{item.title}</h3>
-                  <p className="text-gray-300 text-sm mt-1">{item.description}</p>
-                </div>
-              </div>
+        {/* Screenshot Section with Overlay */}
+        <div className="relative overflow-hidden flex-grow rounded-xl shadow-inner transition-transform duration-500 group-hover:scale-105">
+          <motion.img
+            src={item.screenshot}
+            alt={`${item.title} screenshot`}
+            className="w-full h-48 md:h-60 lg:h-72 object-cover rounded-xl"
+          />
+          {/* Title and Description Overlay */}
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-4">
+            <h3 className="text-2xl font-bold text-white drop-shadow-lg">{item.title}</h3>
+            <p className="text-gray-300 text-sm mt-1 drop-shadow-md">{item.description}</p>
+          </div>
+        </div>
 
-              {/* Soft Glow on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
-            </motion.div>
-          </motion.a>
-        ))}
-      </div>
+        {/* Soft Glow on Hover */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
+      </motion.div>
+    </motion.a>
+  ))}
+</div>
     </div>
   );
 };
