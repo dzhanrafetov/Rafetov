@@ -28,7 +28,7 @@ const servicesData = [
   },
 ];
 
-const ServiceCard = ({ icon: Icon, title, description, iconColor, gradient }) => (
+const ServiceCard = ({ icon: Icon, title, description, iconColor }) => (
   <motion.div
     className="group relative p-6 md:p-8 bg-gradient-to-r from-white/5 to-white/10 rounded-3xl shadow-lg transition-transform transform hover:scale-[1.02] hover:shadow-xl border border-transparent"
     initial={{ opacity: 0, y: 20 }}
@@ -89,7 +89,7 @@ const Services = () => (
           title={service.title}
           description={service.description}
           iconColor={service.iconColor}
-          gradient={service.gradient}
+          // gradient={service.gradient}
         />
       ))}
     </section>
