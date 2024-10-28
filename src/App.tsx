@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, memo } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -11,22 +11,39 @@ const HowWeWork = React.lazy(() => import('./pages/FAQ'));
 const Market = React.lazy(() => import('./pages/OnlinePresenceCTA'));
 const Contact = React.lazy(() => import('./pages/ContactUs'));
 
+// Minimal Spinner as fallback
+const Loader = () => (
+  <div className="flex items-center justify-center min-h-screen text-gray-500">
+    <span className="loader" aria-label="Loading content" />
+  </div>
+);
+
 const App = () => {
   return (
     <Router>
       <Header />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Routes>
           <Route
             path="/"
             element={
               <>
                 <Hero />
-                <Services />
-                <Portfolio />
-                <Market />
-                <Contact />
-                <HowWeWork />
+                <Suspense fallback={<Loader />}>
+                  <Services />
+                </Suspense>
+                <Suspense fallback={<Loader />}>
+                  <Portfolio />
+                </Suspense>
+                <Suspense fallback={<Loader />}>
+                  <Market />
+                </Suspense>
+                <Suspense fallback={<Loader />}>
+                  <Contact />
+                </Suspense>
+                <Suspense fallback={<Loader />}>
+                  <HowWeWork />
+                </Suspense>
               </>
             }
           />
@@ -37,4 +54,5 @@ const App = () => {
   );
 };
 
-export default App;
+// Memoized Header and Footer to avoid re-renders
+export default memo(App);
