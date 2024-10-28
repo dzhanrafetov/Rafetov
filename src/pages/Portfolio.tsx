@@ -38,7 +38,7 @@ const portfolioItems = [
 
 const Portfolio = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white py-16 px-8 sm:px-20">
+    <div  id="portfolio" className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white py-16 px-8 sm:px-20">
       {/* Header */}
       <header className="text-center mb-16">
         <motion.h1

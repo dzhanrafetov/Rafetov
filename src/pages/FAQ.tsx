@@ -51,7 +51,7 @@ const FAQPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white py-16 px-8 sm:px-20">
+    <div  id="faq" className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white py-16 px-8 sm:px-20">
       {/* Page Header */}
       <header className="text-center mb-16">
         <motion.h1

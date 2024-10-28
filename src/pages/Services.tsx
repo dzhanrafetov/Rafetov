@@ -31,9 +31,9 @@ const servicesData = [
 const ServiceCard = ({ icon: Icon, title, description, iconColor }) => (
   <motion.div
 
-   className="group relative p-6 md:p-8 bg-gray-800 rounded-3xl shadow-lg transition-transform transform hover:scale-[1.02] hover:shadow-xl border border-transparent"
-  // //  className="group relative p-6 md:p-8 bg-gradient-to-r from-gray-800 to-gray-900 rounded-3xl shadow-lg transition-transform transform hover:scale-[1.02] hover:shadow-xl border border-transparent"
-  // div className="group relative p-6 md:p-8 bg-gradient-to-r from-gray-800 to-gray-900 rounded-3xl shadow-lg transition-transform transform hover:scale-[1.02] hover:shadow-xl border border-transparent"
+    className="group relative p-6 md:p-8 bg-gray-800 rounded-3xl shadow-lg transition-transform transform hover:scale-[1.02] hover:shadow-xl border border-transparent"
+    // //  className="group relative p-6 md:p-8 bg-gradient-to-r from-gray-800 to-gray-900 rounded-3xl shadow-lg transition-transform transform hover:scale-[1.02] hover:shadow-xl border border-transparent"
+    // div className="group relative p-6 md:p-8 bg-gradient-to-r from-gray-800 to-gray-900 rounded-3xl shadow-lg transition-transform transform hover:scale-[1.02] hover:shadow-xl border border-transparent"
 
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -63,7 +63,8 @@ const ServiceCard = ({ icon: Icon, title, description, iconColor }) => (
 );
 
 const Services = () => (
-  <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white py-16 px-8 sm:px-20 ">
+
+  <div  id="services" className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white py-16 px-8 sm:px-20 ">
     {/* Page Header */}
     <header className="text-center mb-16">
       <motion.h1
@@ -93,11 +94,23 @@ const Services = () => (
           title={service.title}
           description={service.description}
           iconColor={service.iconColor}
-          // gradient={service.gradient}
+        // gradient={service.gradient}
         />
       ))}
     </section>
+    {/* CTA Section */}
+    <section className="text-center mt-28">
+      <motion.h2
+        className="text-4xl sm:text-5xl font-bold text-white mb-6"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6 }}
+      >
+        ПОКАЖЕТЕ СЕ ПРЕД СВЕТА С НАС
+      </motion.h2>
+    </section>
   </div>
+
 );
 
 export default Services;

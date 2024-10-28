@@ -77,18 +77,18 @@ const PremiumCTA = () => {
           </div>
         ))}
       </section>
+  {/* CTA Section */}
+  <section className="text-center mt-28">
+      <motion.h2
+        className="text-4xl sm:text-5xl font-bold text-white mb-6"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6 }}
+      >
+        ЗАЕДНО КЪМ ВАШИТЕ ЦЕЛИ
+      </motion.h2>
+    </section>
 
-      {/* CTA Section */}
-      <section className="text-center mt-28">
-        <motion.h2
-          className="text-4xl sm:text-5xl font-bold text-white mb-6"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          НАЙ-ДОБРОТО РЕШЕНИЕ ЗА ВАШИЯТ БИЗНЕС
-        </motion.h2>
-      </section>
     </div>
   );
 };

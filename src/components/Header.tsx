@@ -1,6 +1,7 @@
 import  { useState, useEffect } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { FaInstagram, FaYoutube, FaLinkedin } from 'react-icons/fa';
+import { Link } from 'react-scroll';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,6 +23,7 @@ const Header = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
 
   return (
     <>
@@ -88,20 +90,52 @@ const Header = () => {
         </div>
 
         {/* Menu Links */}
+
         <nav className="flex-1 flex flex-col justify-center space-y-8 text-2xl font-semibold text-center">
-          <a href="#home" className="hover:text-gray-600 transition-colors duration-300">
+        <Link
+            to="hero"
+            smooth={true}
+            duration={200}
+            offset={-70}
+            onClick={toggleMenu}
+            className="hover:text-gray-600 transition-colors duration-300 transform hover:scale-105 cursor-pointer"
+          >
             Начало
-          </a>
-          <a href="#about" className="hover:text-gray-600 transition-colors duration-300">
+          </Link>
+          <Link
+            to="services"
+            smooth={true}
+            duration={200}
+            offset={-70}
+            onClick={toggleMenu}
+
+            className="hover:text-gray-600 transition-colors duration-300 hover:shadow-s transform hover:scale-105 transition duration-300 cursor-pointer"
+          >
             Услуги
-          </a>
-          <a href="#projects" className="hover:text-gray-600 transition-colors duration-300">
+          </Link>
+          <Link
+            to="portfolio"
+            smooth={true}
+            duration={200}
+            offset={-70}
+            onClick={toggleMenu}
+
+            className="hover:text-gray-600 transition-colors duration-300 hover:shadow-s transform hover:scale-105 transition duration-300 cursor-pointer"
+          >
             Проекти
-          </a>
-         
-          <a href="#learn-more" className="hover:text-gray-600 transition-colors duration-300">
+          </Link>
+
+          <Link
+            to="contact"
+            smooth={true}
+            duration={200}
+            offset={-70}
+            onClick={toggleMenu}
+
+            className="hover:text-gray-600 transition-colors duration-300 hover:shadow-s transform hover:scale-105 transition duration-300 cursor-pointer"
+          >
             Свържи се
-          </a>
+          </Link>
 
         </nav>
 
