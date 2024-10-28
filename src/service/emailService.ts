@@ -19,12 +19,16 @@ const convertToRecord = (data: FormData): Record<string, unknown> => ({
 });
 
 const sendEmail = async (formData: FormData): Promise<EmailJSResponseStatus | void> => {
-  const SERVICE_ID = import.meta.env.SERVICE_ID;
-  const TEMPLATE_ID = import.meta.env.TEMPLATE_ID;
-  const USER_ID = import.meta.env.USER_ID;
+  const SERVICE_ID = import.meta.env.VITE_SERVICE_ID;
+  const TEMPLATE_ID = import.meta.env.VITE_TEMPLATE_ID;
+  const USER_ID = import.meta.env.VITE_USER_ID;
 
+  // Log an error if any required environment variable is missing
   if (!SERVICE_ID || !TEMPLATE_ID || !USER_ID) {
-    console.error("Missing EmailJS configuration.");
+    console.error("Missing EmailJS configuration:", { SERVICE_ID, TEMPLATE_ID, USER_ID });
+    console.log("SERVICE_ID:", import.meta.env.VITE_SERVICE_ID);
+    console.log("TEMPLATE_ID:", import.meta.env.VITE_TEMPLATE_ID);
+    console.log("USER_ID:", import.meta.env.VITE_USER_ID);
     return;
   }
 
