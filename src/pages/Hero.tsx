@@ -62,7 +62,7 @@ const Hero = () => {
           </Link>
 
           <Link
-            to="services"
+            to="portfolio"
             smooth={true}
             duration={200}
             offset={-70}
@@ -91,7 +91,7 @@ const Hero = () => {
                 width={80} // Set a default width based on image dimensions
                 height={80} // Set a default height based on image dimensions
                 className="h-20 w-auto sm:h-20 md:h-24 transition-transform duration-500 ease-in-out transform hover:scale-110"
-                style={{ maxWidth: '100px', maxHeight: '100px' }} // Optional: adjust max size to prevent stretching
+                style={{ maxWidth: '120px', maxHeight: '100px' }} // Optional: adjust max size to prevent stretching
               />
             ))}
           </div>
