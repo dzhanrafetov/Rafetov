@@ -31,9 +31,9 @@ const servicesData = [
 const ServiceCard = ({ icon: Icon, title, description, iconColor }) => (
   <motion.div
 
-  //  className="group relative p-6 md:p-8 bg-gray-800 rounded-3xl shadow-lg transition-transform transform hover:scale-[1.02] hover:shadow-xl border border-transparent"
-  //  className="group relative p-6 md:p-8 bg-gradient-to-r from-gray-800 to-gray-900 rounded-3xl shadow-lg transition-transform transform hover:scale-[1.02] hover:shadow-xl border border-transparent"
-   className="group relative p-6 md:p-8 bg-gradient-to-r from-gray-800 to-gray-900 rounded-3xl shadow-lg transition-transform transform hover:scale-[1.02] hover:shadow-xl border border-transparent"
+   className="group relative p-6 md:p-8 bg-gray-800 rounded-3xl shadow-lg transition-transform transform hover:scale-[1.02] hover:shadow-xl border border-transparent"
+  // //  className="group relative p-6 md:p-8 bg-gradient-to-r from-gray-800 to-gray-900 rounded-3xl shadow-lg transition-transform transform hover:scale-[1.02] hover:shadow-xl border border-transparent"
+  // div className="group relative p-6 md:p-8 bg-gradient-to-r from-gray-800 to-gray-900 rounded-3xl shadow-lg transition-transform transform hover:scale-[1.02] hover:shadow-xl border border-transparent"
 
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -43,7 +43,6 @@ const ServiceCard = ({ icon: Icon, title, description, iconColor }) => (
     {/* Icon */}
     <div className="flex items-center justify-center mb-6 relative">
       <Icon className={`text-6xl md:text-7xl ${iconColor} relative z-10`} />
-
     </div>
 
     {/* Gradient Title */}
