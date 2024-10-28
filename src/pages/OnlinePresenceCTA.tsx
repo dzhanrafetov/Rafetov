@@ -74,7 +74,7 @@ const OnlinePresenceCTA = () => {
       <div className="absolute -inset-2 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent opacity-10 blur-lg pointer-events-none " style={{
           backgroundPosition: "100% 0%",
           backgroundSize: "300% 300%",
-          animation: "slide 5s linear infinite"
+          // animation: "slide 5s linear infinite"
       }}></div>
 
       {/* Icon with Neon Accent */}
@@ -103,47 +103,7 @@ const OnlinePresenceCTA = () => {
 
 </section>
 
-<section className="text-center mt-28 relative">
-  {/* Background Particles or Overlay */}
-  <div className="absolute inset-0 flex justify-center items-center">
-    <div className="w-80 h-80 bg-gradient-to-r from-teal-400 to-purple-500 opacity-20 blur-3xl rounded-full transform scale-125"></div>
-  </div>
 
-  {/* Heading with Glow Effect */}
-  <motion.h2
-    className="relative z-10 text-4xl sm:text-5xl font-bold text-white mb-6"
-    initial={{ opacity: 0, scale: 0.9 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 1 }}
-    style={{ textShadow: '0px 0px 15px rgba(255, 255, 255, 0.7)' }}
-  >
-    ПРЕНЕСЕТЕ БИЗНЕСА СИ ОНЛАЙН
-  </motion.h2>
-
-
-
-  {/* Floating Particles */}
-  <div className="absolute inset-0 pointer-events-none z-0">
-    {/* Particle 1 */}
-    <motion.div
-      className="absolute top-1/4 left-1/4 w-6 h-6 bg-white rounded-full opacity-20"
-      animate={{ y: [0, -20, 0], x: [0, 20, 0] }}
-      transition={{ duration: 4, repeat: Infinity }}
-    ></motion.div>
-    {/* Particle 2 */}
-    <motion.div
-      className="absolute top-1/3 right-1/3 w-8 h-8 bg-white rounded-full opacity-10"
-      animate={{ y: [0, 20, 0], x: [0, -20, 0] }}
-      transition={{ duration: 6, repeat: Infinity }}
-    ></motion.div>
-    {/* Particle 3 */}
-    <motion.div
-      className="absolute bottom-1/4 left-1/2 w-4 h-4 bg-white rounded-full opacity-30"
-      animate={{ y: [0, -10, 0], x: [0, 15, 0] }}
-      transition={{ duration: 5, repeat: Infinity }}
-    ></motion.div>
-  </div>
-</section>
     </div>
   );
 };
