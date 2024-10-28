@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 
 // Lazy loading pages
 const Hero = React.lazy(() => import('./pages/Hero'));
@@ -32,7 +32,7 @@ const App = () => {
           />
         </Routes>
       </Suspense>
-      <Footer />
+      {/* <Footer /> */}
     </Router>
   );
 };
