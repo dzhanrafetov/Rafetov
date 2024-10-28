@@ -30,7 +30,7 @@ const servicesData = [
 
 const ServiceCard = ({ icon: Icon, title, description, iconColor }) => (
   <motion.div
-    className="group relative  p-6 md:p-8 bg-gradient-to-r from-white/10 to-white/20 backdrop-blur-md rounded-3xl shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl border border-transparent hover:border-opacity-100 hover:border-cyan-300/50"
+    className="group relative p-6 md:p-8 bg-gradient-to-r from-white/5 to-white/10 rounded-3xl shadow-lg transition-transform transform hover:scale-[1.02] hover:shadow-xl border border-transparent"
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5 }}
@@ -38,10 +38,9 @@ const ServiceCard = ({ icon: Icon, title, description, iconColor }) => (
   >
     {/* Icon */}
     <div className="flex items-center justify-center mb-6 relative">
-    <Icon
-        className={`text-6xl md:text-7xl ${iconColor} relative z-10 transition-transform transform group-hover:scale-110`}
-        style={{ filter: 'drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.2))' }}
-      />    </div>
+    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent to-blue-500 opacity-20 group-hover:opacity-30 transition-opacity"></div>
+      <Icon className={`text-6xl md:text-7xl ${iconColor} relative z-10`} />
+    </div>
 
     {/* Gradient Title */}
     <h3 className="text-2xl font-semibold text-white mb-2 tracking-wide">
