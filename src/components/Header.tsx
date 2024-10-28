@@ -90,22 +90,22 @@ const Header = () => {
         {/* Menu Links */}
         <nav className="flex-1 flex flex-col justify-center space-y-8 text-2xl font-semibold text-center">
           <a href="#home" className="hover:text-gray-600 transition-colors duration-300">
-            Home
+            Начало
           </a>
           <a href="#about" className="hover:text-gray-600 transition-colors duration-300">
-            About
+            Услуги
           </a>
           <a href="#projects" className="hover:text-gray-600 transition-colors duration-300">
-            Projects
+            Проекти
           </a>
           <a href="#services" className="hover:text-gray-600 transition-colors duration-300">
-            Services
+            Вашият Бизнес
           </a>
           <a href="#learn-more" className="hover:text-gray-600 transition-colors duration-300">
-            Learn More
+            Свържи се
           </a>
           <a href="#contact" className="hover:text-gray-600 transition-colors duration-300">
-            Get In Touch
+            Често Задавани Въпроси
           </a>
         </nav>
 
