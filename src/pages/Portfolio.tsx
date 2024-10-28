@@ -1,23 +1,37 @@
 import { motion } from 'framer-motion';
-import SkarataLogo from '../assets/skarataLogo.jpg';
-import SkarataWeb from '../assets/skarataPhoto.jpg';
-import DjanamLogo from '../assets/djanam-logo.svg';
+import SkarataWeb from '../assets/skarata_1.webp';
+import DjanamWeb from '../assets/djanam_2.webp';
+import AztecaWeb from '../assets/azteca.webp';
+import KoleloWeb from '../assets/ekolelo.webp';
+
 
 const portfolioItems = [
   {
     id: 1,
     title: 'Skarata',
     description: 'Уебсайт за ресторант',
-    logo: SkarataLogo,
     screenshot: SkarataWeb,
     link: 'https://skarata.bg',
   },
   {
     id: 2,
     title: 'Djanam & La Opera',
-    description: 'Уебсайт за ресторант & стекхаус',
-    logo: DjanamLogo,
-    screenshot: SkarataWeb,
+    description: 'Уебсайт за ресторант',
+    screenshot: DjanamWeb,
+    link: 'https://djanam.bg',
+  },
+  {
+    id: 2,
+    title: 'Azteca Cigars',
+    description: 'Електронен магазин за пури',
+    screenshot: AztecaWeb,
+    link: 'https://djanam.bg',
+  },
+  {
+    id: 2,
+    title: 'ERB',
+    description: 'Уебсайт за наемане на колела',
+    screenshot: KoleloWeb,
     link: 'https://djanam.bg',
   },
 ];
@@ -63,14 +77,14 @@ const Portfolio = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-        {/* Floating Logo Section */}
+        {/* Floating Logo Section
         <div className="absolute top-4 left-4 bg-white/30 p-2 rounded-full shadow-md backdrop-blur-md">
           <img
             src={item.logo}
             alt={`${item.title} logo`}
             className="w-12 h-12 object-cover rounded-full"
           />
-        </div>
+        </div> */}
 
         {/* Screenshot Section with Overlay */}
         <div className="relative overflow-hidden flex-grow rounded-xl shadow-inner transition-transform duration-500 group-hover:scale-105">
@@ -80,8 +94,8 @@ const Portfolio = () => {
             className="w-full h-48 md:h-60 lg:h-72 object-cover rounded-xl"
           />
           {/* Title and Description Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-4">
-            <h3 className="text-2xl font-bold text-white drop-shadow-lg">{item.title}</h3>
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/90 to-transparent p-3">
+            <h3 className="text-lg md:text-2xl  font-bold text-white drop-shadow-lg">{item.title}</h3>
             <p className="text-gray-300 text-sm mt-1 drop-shadow-md">{item.description}</p>
           </div>
         </div>

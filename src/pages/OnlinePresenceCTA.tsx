@@ -14,21 +14,21 @@ const keyPoints = [
     title: 'Достигнете глобални аудитории',
     description: 'Превъзмогнете местния си пазар и продавайте на глобална аудитория с лекота.',
     icon: FaGlobe,
-    color: 'bg-gradient-to-br from-green-800 to-teal-500',
+    color: 'bg-gradient-to-br from-green-800 to-teal-600',
   },
   {
     id: 3,
     title: 'Увеличете възможностите за продажби',
     description: 'Уловете потенциални клиенти и стимулирайте продажбите с персонализирано онлайн преживяване.',
     icon: FaSearchDollar,
-    color: 'bg-gradient-to-br from-pink-700 to-red-500',
+    color: 'bg-gradient-to-br from-pink-700 to-red-800',
   },
   {
     id: 4,
     title: 'Изградете доверие в бранда',
     description: 'Покажете своята експертиза и утвърдете авторитета си на пазара.',
     icon: FaLightbulb,
-    color: 'bg-gradient-to-br from-amber-600 to-orange-600',
+    color: 'bg-gradient-to-br from-amber-600 to-orange-800',
   },
 ];
 
@@ -60,10 +60,10 @@ const PremiumCTA = () => {
         {keyPoints.map((point) => (
           <div
             key={point.id}
-            className={`relative p-8 rounded-2xl ${point.color} bg-opacity-10 backdrop-blur-md shadow-md transition-transform duration-300 hover:scale-105`}
+            className={`relative p-8 rounded-2xl ${point.color} text-center bg-opacity-10 backdrop-blur-md shadow-md transition-transform duration-300 hover:scale-105`}
           >
             {/* Icon */}
-            <div className="p-4 rounded-full bg-white/20 shadow-md mb-6 flex items-center justify-center">
+            <div className="p-4 rounded-full bg-white/20 shadow-md mb-6 flex  items-center justify-center ">
               <point.icon className="text-4xl text-gray-200" />
             </div>
 
@@ -71,7 +71,7 @@ const PremiumCTA = () => {
             <h3 className="text-2xl font-semibold text-gray-200 leading-tight mb-2">
               {point.title}
             </h3>
-            <p className="text-base text-gray-300 leading-relaxed">
+            <p className="text-base  font-semibold text-gray-300 leading-relaxed">
               {point.description}
             </p>
           </div>
@@ -86,7 +86,7 @@ const PremiumCTA = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
         >
-          Пресенете Вашият Бизнес Онлайн
+          НАЙ-ДОБРОТО РЕШЕНИЕ ЗА ВАШИЯТ БИЗНЕС
         </motion.h2>
       </section>
     </div>
