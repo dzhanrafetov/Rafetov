@@ -86,7 +86,7 @@ const PremiumCTA = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
         >
-          Take Your Business Online Today
+          Пресенете Вашият Бизнес Онлайн
         </motion.h2>
       </section>
     </div>
