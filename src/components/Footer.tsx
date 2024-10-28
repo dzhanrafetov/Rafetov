@@ -8,14 +8,14 @@ const Footer = () => {
         {/* Company Name and Tagline */}
         <div className="text-center md:text-left">
           <h2 className="text-xl font-bold text-white">Rafetov.com</h2>
-          <p className="text-sm text-gray-500">Innovating your business, one solution at a time.</p>
+          <p className="text-sm text-gray-500">Иновирайте вашия бизнес, едно решение наведнъж.</p>
         </div>
 
         {/* Navigation Links */}
         <div className="flex space-x-6 text-sm">
-          <a href="#services" className="hover:text-pink-500 transition-colors">Services</a>
-          <a href="#about" className="hover:text-pink-500 transition-colors">About</a>
-          <a href="#contact" className="hover:text-pink-500 transition-colors">Contact</a>
+          <a href="#services" className="hover:text-pink-500 transition-colors">Проекти</a>
+          <a href="#about" className="hover:text-pink-500 transition-colors">Услуги</a>
+          <a href="#contact" className="hover:text-pink-500 transition-colors">Свържи се</a>
         </div>
 
         {/* Social Media Icons */}

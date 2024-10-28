@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import SkarataLogo from '../assets/skarataLogo.jpg';
-import SkarataWeb from '../assets/1.jpg';
+import SkarataWeb from '../assets/skarataPhoto.jpg';
 import DjanamLogo from '../assets/djanam-logo.svg';
 
 const portfolioItems = [

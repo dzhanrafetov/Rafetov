@@ -98,15 +98,11 @@ const Header = () => {
           <a href="#projects" className="hover:text-gray-600 transition-colors duration-300">
             Проекти
           </a>
-          <a href="#services" className="hover:text-gray-600 transition-colors duration-300">
-            Вашият Бизнес
-          </a>
+         
           <a href="#learn-more" className="hover:text-gray-600 transition-colors duration-300">
             Свържи се
           </a>
-          <a href="#contact" className="hover:text-gray-600 transition-colors duration-300">
-            Често Задавани Въпроси
-          </a>
+
         </nav>
 
         {/* Social Media Icons */}
