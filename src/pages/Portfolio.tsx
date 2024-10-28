@@ -18,21 +18,21 @@ const portfolioItems = [
     title: 'Djanam & La Opera',
     description: 'Уебсайт за ресторант',
     screenshot: DjanamWeb,
-    link: 'https://djanam.bg',
+    link: 'https://djanam-laopera.bg',
   },
   {
     id: 2,
     title: 'Azteca Cigars',
     description: 'Електронен магазин за пури',
     screenshot: AztecaWeb,
-    link: 'https://djanam.bg',
+    link: 'https://azteca-premium.com',
   },
   {
     id: 2,
     title: 'ERB',
     description: 'Уебсайт за наемане на колела',
     screenshot: KoleloWeb,
-    link: 'https://djanam.bg',
+    link: 'https://d-group.bg/emil/public/index.php',
   },
 ];
 
