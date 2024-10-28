@@ -62,15 +62,18 @@ const Hero = () => {
 
   {/* Wrapping flex container for logos */}
   <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8 opacity-100">
-    {clientLogos.map((logo, index) => (
-      <motion.img
-        key={index}
-        src={logo.src}
-        alt={logo.alt}
-        className="h-20 w-auto sm:h-20 md:h-24 transition-transform duration-500 ease-in-out transform hover:scale-110"
-      />
-    ))}
-  </div>
+  {clientLogos.map((logo, index) => (
+    <motion.img
+      key={index}
+      src={logo.src}
+      alt={logo.alt}
+      width={80} // Set a default width based on image dimensions
+      height={80} // Set a default height based on image dimensions
+      className="h-20 w-auto sm:h-20 md:h-24 transition-transform duration-500 ease-in-out transform hover:scale-110"
+      style={{ maxWidth: '100px', maxHeight: '100px' }} // Optional: adjust max size to prevent stretching
+    />
+  ))}
+</div>
 </motion.div>
       </div>
     </div>

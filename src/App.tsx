@@ -8,7 +8,7 @@ const Hero = React.lazy(() => import('./pages/Hero'));
 const Services = React.lazy(() => import('./pages/Services'));
 const Portfolio = React.lazy(() => import('./pages/Portfolio'));
 const HowWeWork = React.lazy(() => import('./pages/FAQ'));
-// const Market = React.lazy(() => import('./pages/OnlinePresenceCTA'));
+const Market = React.lazy(() => import('./pages/OnlinePresenceCTA'));
 const Contact = React.lazy(() => import('./pages/ContactUs'));
 
 const App = () => {
@@ -24,7 +24,7 @@ const App = () => {
                 <Hero />
                 <Services />
                 <Portfolio />
-                {/* <Market /> */}
+                <Market />
                 <Contact />
                 <HowWeWork />
               </>
