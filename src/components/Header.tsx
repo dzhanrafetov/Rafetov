@@ -1,6 +1,6 @@
 import  { useState, useEffect } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
-import { FaInstagram, FaYoutube, FaLinkedin } from 'react-icons/fa';
+import { FaInstagram, FaFacebook, FaEnvelope } from 'react-icons/fa';
 import { Link } from 'react-scroll';
 
 const Header = () => {
@@ -141,14 +141,15 @@ const Header = () => {
 
         {/* Social Media Icons */}
         <div className="flex justify-between items-center space-x-6 mt-4 px-4">
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2">
+          <a href="https://www.instagram.com/rafetov.com_/" target="_blank" rel="noopener noreferrer" className="p-2">
             <FaInstagram className="w-8 h-8 md:w-10 md:h-10 text-black hover:text-gray-600 transition-all duration-300" />
           </a>
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="p-2">
-            <FaYoutube className="w-8 h-8 md:w-10 md:h-10 text-black hover:text-gray-600 transition-all duration-300" />
+          <a href="https://www.facebook.com/profile.php?id=61565660383482" target="_blank" rel="noopener noreferrer" className="p-2">
+            <FaFacebook className="w-8 h-8 md:w-10 md:h-10 text-black hover:text-gray-600 transition-all duration-300" />
           </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-2">
-            <FaLinkedin className="w-8 h-8 md:w-10 md:h-10 text-black hover:text-gray-600 transition-all duration-300" />
+
+          <a href="mailto:business@rafetov.com" target="_blank" rel="noopener noreferrer" className="p-2">
+            <FaEnvelope className="w-8 h-8 md:w-10 md:h-10 text-black hover:text-gray-600 transition-all duration-300" />
           </a>
         </div>
       </div>
