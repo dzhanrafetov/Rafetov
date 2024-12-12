@@ -11,7 +11,7 @@ const portfolioItems = [
     title: 'Skarata',
     description: 'Уебсайт за ресторант',
     screenshot: SkarataWeb,
-    link: 'https://skarata.bg',
+    link: 'https://eacf-bg.eu/skarata/',
   },
   {
     id: 2,
