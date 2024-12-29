@@ -4,6 +4,9 @@ import DjanamWeb from '../assets/djanam_2.webp';
 import AztecaWeb from '../assets/azteca.webp';
 import KoleloWeb from '../assets/ekolelo.webp';
 import DGroup from '../assets/vdudo.webp';
+import Zeus from '../assets/zeus_he.webp';
+import Mebelen from '../assets/mebelen.webp';
+import Eacf from '../assets/eacf.webp';
 
 
 const portfolioItems = [
@@ -35,7 +38,30 @@ const portfolioItems = [
     screenshot: KoleloWeb,
     link: 'https://d-group.bg/emil/public/index.php',
   },
+  {
+    id: 2,
+    title: 'D-Group',
+    description: 'Е-магазин за мебели',
+    screenshot: Mebelen,
+    link: 'https://d-group.bg/dudo-mebeli/',
+  },
 
+
+
+  {
+    id: 2,
+    title: 'EACF',
+    description: 'Уебсайт за фондация',
+    screenshot: Eacf,
+    link: 'https://eacf-bg.eu/',
+  },
+  {
+    id: 2,
+    title: 'Zeus & Hera',
+    description: 'Уебсайт за ресторант',
+    screenshot: Zeus,
+    link: 'https://d-group.bg/zeus-hera/',
+  },
   {
     id: 2,
     title: 'D-Group',
@@ -43,6 +69,8 @@ const portfolioItems = [
     screenshot: DGroup,
     link: 'https://d-group.bg/dudo-stroitelen/index.php',
   },
+
+
 ];
 
 const Portfolio = () => {
