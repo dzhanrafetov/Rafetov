@@ -24,7 +24,7 @@ const portfolioItems = [
   {
     id: 2,
     title: 'Azteca Cigars',
-    description: 'Електронен магазин за пури',
+    description: 'Е-магазин за пури',
     screenshot: AztecaWeb,
     link: 'https://azteca-premium.com',
   },
@@ -39,7 +39,7 @@ const portfolioItems = [
   {
     id: 2,
     title: 'D-Group',
-    description: 'Електронен магазин за строителен магазин',
+    description: 'Е-магазин за строителен хипермаркет',
     screenshot: DGroup,
     link: 'https://d-group.bg/dudo-stroitelen/index.php',
   },
