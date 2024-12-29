@@ -39,7 +39,7 @@ const portfolioItems = [
   {
     id: 2,
     title: 'D-Group',
-    description: 'Електронен магазин за строителен хипермаркет',
+    description: 'Електронен магазин за строителен магазин',
     screenshot: DGroup,
     link: 'https://d-group.bg/dudo-stroitelen/index.php',
   },
