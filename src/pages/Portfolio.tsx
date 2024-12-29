@@ -3,6 +3,7 @@ import SkarataWeb from '../assets/skarata_1.webp';
 import DjanamWeb from '../assets/djanam_2.webp';
 import AztecaWeb from '../assets/azteca.webp';
 import KoleloWeb from '../assets/ekolelo.webp';
+import DGroup from '../assets/vdudo.webp';
 
 
 const portfolioItems = [
@@ -33,6 +34,14 @@ const portfolioItems = [
     description: 'Уебсайт за наемане на колела',
     screenshot: KoleloWeb,
     link: 'https://d-group.bg/emil/public/index.php',
+  },
+
+  {
+    id: 2,
+    title: 'D-Group',
+    description: 'Електронен магазин за строителен хипермаркет',
+    screenshot: DGroup,
+    link: 'https://d-group.bg/dudo-stroitelen/index.php',
   },
 ];
 
