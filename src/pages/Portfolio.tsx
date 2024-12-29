@@ -3,9 +3,9 @@ import SkarataWeb from '../assets/skarata_1.webp';
 import DjanamWeb from '../assets/djanam_2.webp';
 import AztecaWeb from '../assets/azteca.webp';
 import KoleloWeb from '../assets/ekolelo.webp';
-import DGroup from '../assets/vdudo.webp';
-import Zeus from '../assets/zeus_he.webp';
-import Mebelen from '../assets/mebelen.webp';
+import DGroup from '../assets/zStroitel.webp';
+import Zeus from '../assets/zZeus.webp';
+import Mebelen from '../assets/mMebeli.webp';
 import Eacf from '../assets/eacf.webp';
 
 
@@ -38,6 +38,14 @@ const portfolioItems = [
     screenshot: KoleloWeb,
     link: 'https://d-group.bg/emil/public/index.php',
   },
+
+  {
+    id: 2,
+    title: 'EACF',
+    description: 'Уебсайт за фондация',
+    screenshot: Eacf,
+    link: 'https://eacf-bg.eu/',
+  },
   {
     id: 2,
     title: 'D-Group',
@@ -48,13 +56,7 @@ const portfolioItems = [
 
 
 
-  {
-    id: 2,
-    title: 'EACF',
-    description: 'Уебсайт за фондация',
-    screenshot: Eacf,
-    link: 'https://eacf-bg.eu/',
-  },
+
   {
     id: 2,
     title: 'Zeus & Hera',
