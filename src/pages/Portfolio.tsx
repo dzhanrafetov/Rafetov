@@ -7,6 +7,7 @@ import DGroup from '../assets/zStroitel.webp';
 import Zeus from '../assets/zZeus.webp';
 import Mebelen from '../assets/mMebeli.webp';
 import Eacf from '../assets/eacf.webp';
+import Slap from '../assets/slap2.webp';
 
 
 const portfolioItems = [
@@ -33,6 +34,13 @@ const portfolioItems = [
   },
   {
     id: 2,
+    title: 'Slap Fight BG',
+    description: 'Уебсайт за закупуване на билети',
+    screenshot: Slap,
+    link: 'https://slapfightbulgaria.com/',
+  },
+  {
+    id: 2,
     title: 'ERB',
     description: 'Уебсайт за наемане на колела',
     screenshot: KoleloWeb,
@@ -46,6 +54,7 @@ const portfolioItems = [
     screenshot: Eacf,
     link: 'https://eacf-bg.eu/',
   },
+
   {
     id: 2,
     title: 'D-Group',
