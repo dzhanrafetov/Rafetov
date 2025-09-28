@@ -1,30 +1,57 @@
 import { motion } from 'framer-motion';
-import SkarataWeb from '../assets/skarata_1.webp';
-import DjanamWeb from '../assets/djanam_2.webp';
+
 import AztecaWeb from '../assets/azteca.webp';
 import KoleloWeb from '../assets/ekolelo.webp';
 import DGroup from '../assets/zStroitel.webp';
-import Zeus from '../assets/zZeus.webp';
-import Mebelen from '../assets/mMebeli.webp';
-import Eacf from '../assets/eacf.webp';
+
 import Slap from '../assets/slap2.webp';
+import Zirve1 from '../assets/zirve_for_rafetov.jpg';
+import MotoTours from '../assets/mototours_for_rafetov.jpg';
+import Taupe from '../assets/taupe2_for_rafetov.jpg';
+import ChefResat from '../assets/chef_resat_for_rafetov.jpg';
+import SkarataWeb from '../assets/skarata_1.webp';
 
 
 const portfolioItems = [
+
+
+
+
   {
     id: 1,
-    title: 'Skarata',
-    description: 'Уебсайт за ресторант',
-    screenshot: SkarataWeb,
-    link: 'https://www.skarata.bg',
+    title: 'Zirve1',
+    description: 'Електронен магазин',
+    screenshot: Zirve1,
+    link: 'https://www.zirve1.bg/',
   },
   {
-    id: 2,
-    title: 'Djanam & La Opera',
-    description: 'Уебсайт за ресторант',
-    screenshot: DjanamWeb,
-    link: 'https://djanam-laopera.bg',
+    id: 1,
+    title: 'MotoTours24',
+    description: 'Електронен магазин',
+    screenshot: MotoTours,
+    link: 'https://www.24tours.bg/',
   },
+
+
+
+  {
+    id: 1,
+    title: 'Taupe',
+    description: 'Уебсайт',
+    screenshot: Taupe,
+    link: 'https://www.taupe.bg/',
+  },
+
+
+  {
+    id: 1,
+    title: 'Chef Resat',
+    description: 'Уебсайт',
+    screenshot: ChefResat,
+    link: 'https://www.chefresatsofya.com/',
+  },
+
+
   {
     id: 2,
     title: 'Azteca Cigars',
@@ -47,32 +74,19 @@ const portfolioItems = [
     link: 'https://d-group.bg/emil/public/index.php',
   },
 
-  {
-    id: 2,
-    title: 'EACF',
-    description: 'Уебсайт за фондация',
-    screenshot: Eacf,
-    link: 'https://eacf-bg.eu/',
-  },
-
-  {
-    id: 2,
-    title: 'D-Group',
-    description: 'Е-магазин за мебели',
-    screenshot: Mebelen,
-    link: 'https://d-group.bg/dudo-mebeli/',
-  },
 
 
 
 
   {
     id: 2,
-    title: 'Zeus & Hera',
-    description: 'Уебсайт за ресторант',
-    screenshot: Zeus,
-    link: 'https://d-group.bg/zeus-hera/',
+    title: 'Skarata',
+    description: 'Уебсайт',
+    screenshot: SkarataWeb,
+    link: 'https://www.skarata.bg/',
   },
+
+
   {
     id: 2,
     title: 'D-Group',
