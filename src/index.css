@@ -15,20 +15,6 @@ html, body {
   padding: 0;
 }
 /* Example CSS for scroll effect */
-a.relative.group::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: 0;
-  background-color: #38b248; /* Tailwind's green-400 */
-  transition: width 0.3s;
-}
-
-a.relative.group:hover::after {
-  width: 100%;
-}
 
 
 /* Animation for RAFETOV.COM */
