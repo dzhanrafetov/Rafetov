@@ -1,175 +1,206 @@
-import { motion } from 'framer-motion';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Link as ScrollLink } from "react-scroll";
 
-import AztecaWeb from '../assets/azteca.webp';
-import KoleloWeb from '../assets/ekolelo.webp';
-import DGroup from '../assets/zStroitel.webp';
-
-import Slap from '../assets/slap2.webp';
-import Zirve1 from '../assets/zirve_for_rafetov.jpg';
-import MotoTours from '../assets/mototours_for_rafetov.jpg';
-import Taupe from '../assets/taupe2_for_rafetov.jpg';
-import ChefResat from '../assets/chef_resat_for_rafetov.jpg';
-import SkarataWeb from '../assets/skarata_1.webp';
-
-
-const portfolioItems = [
-
-
-
-
-  {
-    id: 1,
-    title: 'Zirve1',
-    description: 'Електронен магазин',
-    screenshot: Zirve1,
-    link: 'https://www.zirve1.bg/',
-  },
-  {
-    id: 1,
-    title: 'MotoTours24',
-    description: 'Електронен магазин',
-    screenshot: MotoTours,
-    link: 'https://www.24tours.bg/',
-  },
-
-
-
-  {
-    id: 1,
-    title: 'Taupe',
-    description: 'Уебсайт',
-    screenshot: Taupe,
-    link: 'https://www.taupe.bg/',
-  },
-
-
-  {
-    id: 1,
-    title: 'Chef Resat',
-    description: 'Уебсайт',
-    screenshot: ChefResat,
-    link: 'https://www.chefresatsofya.com/',
-  },
-
-
-  {
-    id: 2,
-    title: 'Azteca Cigars',
-    description: 'Е-магазин за пури',
-    screenshot: AztecaWeb,
-    link: 'https://azteca-premium.com',
-  },
-  {
-    id: 2,
-    title: 'Slap Fight BG',
-    description: 'Уебсайт за закупуване на билети',
-    screenshot: Slap,
-    link: 'https://slapfightbulgaria.com/',
-  },
-  {
-    id: 2,
-    title: 'ERB',
-    description: 'Уебсайт за наемане на колела',
-    screenshot: KoleloWeb,
-    link: 'https://d-group.bg/emil/public/index.php',
-  },
-
-
-
-
-
-  {
-    id: 2,
-    title: 'Skarata',
-    description: 'Уебсайт',
-    screenshot: SkarataWeb,
-    link: 'https://www.skarata.bg/',
-  },
-
-
-  {
-    id: 2,
-    title: 'D-Group',
-    description: 'Е-магазин за строителен хипермаркет',
-    screenshot: DGroup,
-    link: 'https://d-group.bg/dudo-stroitelen/index.php',
-  },
-
-
-];
-
-const Portfolio = () => {
-  return (
-    <div  id="portfolio" className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white py-16 px-8 sm:px-20">
-      {/* Header */}
-      <header className="text-center mb-16">
-        <motion.h1
-          className="text-6xl sm:text-7xl font-extrabold tracking-wide bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 bg-clip-text text-transparent"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          ПРОЕКТИ
-        </motion.h1>
-        <motion.p
-          className="text-lg sm:text-xl text-gray-400 mt-4 max-w-3xl mx-auto leading-relaxed"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 1 }}
-        >
-          Създаваме решения, които привличат и задържат аудиторията.
-        </motion.p>
-      </header>
-
-      {/* Portfolio Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-  {portfolioItems.map((item) => (
-    <motion.a
-      href={item.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      key={item.id}
-      className="group relative block rounded-xl overflow-hidden shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-lg"
-      whileHover={{ scale: 1.05, rotate: 1 }}
-      transition={{ type: 'spring', stiffness: 200 }}
-    >
-      <motion.div
-        className="flex flex-col h-full relative"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-      >
-        {/* Floating Logo Section
-        <div className="absolute top-4 left-4 bg-white/30 p-2 rounded-full shadow-md backdrop-blur-md">
-          <img
-            src={item.logo}
-            alt={`${item.title} logo`}
-            className="w-12 h-12 object-cover rounded-full"
-          />
-        </div> */}
-
-        {/* Screenshot Section with Overlay */}
-        <div className="relative overflow-hidden flex-grow rounded-xl shadow-inner transition-transform duration-500 group-hover:scale-105">
-          <motion.img
-            src={item.screenshot}
-            alt={`${item.title} screenshot`}
-            className="w-full h-48 md:h-60 lg:h-72 object-cover rounded-xl"
-          />
-          {/* Title and Description Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/90 to-transparent p-3">
-            <h3 className="text-lg md:text-2xl  font-bold text-white drop-shadow-lg">{item.title}</h3>
-            <p className="text-gray-300 text-sm mt-1 drop-shadow-md">{item.description}</p>
-          </div>
-        </div>
-
-        {/* Soft Glow on Hover */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
-      </motion.div>
-    </motion.a>
-  ))}
-</div>
-    </div>
-  );
+const fade = {
+  hidden: { opacity: 0, y: 10 },
+  show: (i = 0) => ({
+    opacity: 1, y: 0,
+    transition: { duration: 0.45, delay: 0.06 * i, ease: [0.22, 1, 0.36, 1] }
+  }),
 };
 
-export default Portfolio;
+const FAQ = [
+  {
+    q: "Колко време отнема?",
+    a: "Сайт: около 1–3 седмици според обхвата и съдържанието. Онлайн магазин: около 2–4 седмици с интеграции (доставки, плащания).",
+  },
+  {
+    q: "Какво трябва от мен?",
+    a: "Кратко описание на бизнеса и целите, лого/снимки (ако има) и човек за обратна връзка. Останалото движим ние.",
+  },
+  {
+    q: "Може ли от стар сайт?",
+    a: "Да. Прехвърляме съдържание, подреждаме структурата и подобряваме скоростта и видимостта в Google.",
+  },
+];
+
+export default function SectionProcessSimple() {
+  const [open, setOpen] = useState<number | null>(0);
+
+  return (
+    <section
+      id="process"
+      className="relative isolate overflow-hidden text-slate-200"
+      style={
+        {
+          backgroundColor: "#0b0f19",
+          ["--accent"]: "#22D3EE",
+          ["--hairline"]: "#1f2937",
+        } as React.CSSProperties
+      }
+    >
+      {/* hairline top */}
+      <div aria-hidden className="absolute inset-x-0 top-0 h-px" style={{ backgroundColor: "var(--hairline)" }} />
+
+      <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24">
+        {/* Header */}
+        <motion.div variants={fade} initial="hidden" animate="show" className="text-center">
+          <div className="mx-auto mb-3 w-fit text-[12px] uppercase tracking-[0.18em] text-slate-400">процес</div>
+          <h2 className="balance mx-auto max-w-[26ch] text-[clamp(1.9rem,5.8vw,2.6rem)] font-extrabold leading-[1.06] tracking-tight text-slate-100">
+            Как работим — кратко и ясно
+          </h2>
+          <p className="balance mx-auto mt-4 max-w-[50ch] text-[15.5px] leading-relaxed text-slate-300">
+            4 стъпки, без излишно. Вие давате идеи и материали — ние движим всичко останало.
+          </p>
+        </motion.div>
+
+        {/* Steps */}
+        <div className="mt-9 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            {
+              n: "01",
+              title: "Кратък разговор (15 мин)",
+              text: "Уточняваме целта: повече запитвания, продажби или по-ясно представяне.",
+              bullets: ["Без подготовка", "По телефон или онлайн"],
+            },
+            {
+              n: "02",
+              title: "План и оферта",
+              text: "Получавате ясен план с етапи и срокове. Без „дребен шрифт“.",
+              bullets: ["Фиксирани стъпки", "Реалистични срокове"],
+            },
+            {
+              n: "03",
+              title: "Изработка",
+              text: "Дизайн + съдържание + настройки. Даваме визуализации преди пускане.",
+              bullets: ["Мобилна версия", "SEO основи"],
+            },
+            {
+              n: "04",
+              title: "Старт и растеж",
+              text: "Публикуваме и следим. По желание включваме реклами и надграждане.",
+              bullets: ["Техническа поддръжка", "Идеи за подобрение"],
+            },
+          ].map((s, i) => (
+            <motion.article
+              key={s.n}
+              variants={fade}
+              initial="hidden"
+              animate="show"
+              custom={i + 1}
+              className="group rounded-2xl border border-slate-700/60 bg-[#0f1424] p-5"
+            >
+              <div className="flex items-center gap-3">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-600 text-[13px] font-bold text-slate-200">
+                  {s.n}
+                </span>
+                <div className="h-[2px] w-8 rounded-full bg-[var(--accent)]/70" aria-hidden />
+              </div>
+
+              <h3 className="mt-3 text-[clamp(1.2rem,2.4vw,1.4rem)] font-extrabold leading-[1.15] tracking-tight text-slate-100">
+                {s.title}
+              </h3>
+
+              <p className="mt-2 text-[15px] leading-relaxed text-slate-300/90">{s.text}</p>
+
+              <ul className="mt-3 space-y-1.5 text-[13.5px] text-slate-300/90">
+                {s.bullets.map((b) => (
+                  <li key={b} className="inline-flex items-center gap-2">
+                    <svg viewBox="0 0 24 24" className="h-4 w-4 text-[var(--accent)]" aria-hidden>
+                      <path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </motion.article>
+          ))}
+        </div>
+
+        {/* FAQ — нов, по-четим акордеон */}
+        <motion.div variants={fade} initial="hidden" animate="show" custom={6} className="mx-auto mt-10 max-w-3xl">
+          <div className="rounded-2xl border border-slate-700/60 bg-[#0f1424]">
+            {FAQ.map((f, i) => {
+              const expanded = open === i;
+              const cid = `faq-${i}`;
+              return (
+                <div key={f.q} className={i !== FAQ.length - 1 ? "border-b border-slate-700/60" : ""}>
+                  <button
+                    type="button"
+                    aria-expanded={expanded}
+                    aria-controls={cid}
+                    onClick={() => setOpen(expanded ? null : i)}
+                    className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left sm:px-5 sm:py-5"
+                  >
+                    <span className="flex items-center gap-3">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" aria-hidden />
+                      <span className="text-[16.5px] font-semibold leading-snug text-slate-100 sm:text-[17px]">
+                        {f.q}
+                      </span>
+                    </span>
+                    <svg
+                      viewBox="0 0 24 24"
+                      className={`h-5 w-5 text-slate-400 transition-transform ${expanded ? "rotate-45" : ""}`}
+                      aria-hidden
+                    >
+                      <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+                    </svg>
+                  </button>
+
+                  <motion.div
+                    id={cid}
+                    role="region"
+                    initial={false}
+                    animate={{ height: expanded ? "auto" : 0, opacity: expanded ? 1 : 0 }}
+                    transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                    style={{ overflow: "hidden" }}
+                  >
+                    <div className="px-4 pb-5 pt-0 text-[14.5px] leading-relaxed text-slate-300 sm:px-5">
+                      {f.a}
+                    </div>
+                  </motion.div>
+                </div>
+              );
+            })}
+          </div>
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div variants={fade} initial="hidden" animate="show" custom={7} className="mt-10 text-center">
+          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <ScrollLink
+              to="contact"
+              smooth
+              duration={220}
+              offset={-70}
+              className="inline-flex h-12 items-center justify-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-slate-900 ring-1 ring-inset ring-slate-200/10 hover:opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/40 cursor-pointer"
+            >
+              Започнете безплатна консултация
+            </ScrollLink>
+            <ScrollLink
+              to="work"
+              smooth
+              duration={220}
+              offset={-70}
+              className="inline-flex h-12 items-center justify-center rounded-full border border-slate-700/60 px-6 text-sm font-semibold text-slate-200 hover:bg-[#101626] focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500/40 cursor-pointer"
+            >
+              Вижте реални проекти
+            </ScrollLink>
+          </div>
+          <div className="mt-3 text-[12.5px] text-slate-400">15 минути, без ангажимент.</div>
+        </motion.div>
+      </div>
+
+      {/* hairline bottom */}
+      <div aria-hidden className="absolute inset-x-0 bottom-0 h-px" style={{ backgroundColor: "var(--hairline)" }} />
+
+      <style>{`
+        .balance { text-wrap: balance }
+        @media (prefers-reduced-motion: reduce) {
+          * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+        }
+      `}</style>
+    </section>
+  );
+}

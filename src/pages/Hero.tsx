@@ -175,9 +175,9 @@ export default function HeroSpotlightSmartTabs() {
               <div className="h-full w-[75%]" style={{ background: "linear-gradient(90deg, var(--accent) 0%, rgba(34,211,238,0.45) 100%)" }} />
             </div>
             <div className="mt-3 grid grid-cols-1 gap-2 text-center text-[13.5px] text-slate-300 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-3 sm:text-[12.5px]">
-              <span>Свободни места: <strong className="text-slate-100">2</strong></span>
+              <span>Свободни места: <strong className="text-slate-100">3</strong></span>
               <span className="hidden h-1 w-1 rounded-full bg-slate-600/70 sm:inline-block" aria-hidden />
-              <span>Следващ старт: <strong className="text-slate-100">6 окт.</strong></span>
+              <span>Следващ старт: <strong className="text-slate-100">2 март.</strong></span>
             </div>
           </div>
         </motion.div>

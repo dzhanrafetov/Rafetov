@@ -114,7 +114,7 @@ const Header = () => {
             Услуги
           </Link>
           <Link
-            to="portfolio"
+            to="work"
             smooth={true}
             duration={200}
             offset={-70}

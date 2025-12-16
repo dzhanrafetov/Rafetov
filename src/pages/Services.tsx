@@ -19,8 +19,7 @@ export default function SectionServicesPlainSpeak() {
           backgroundColor: "#0b0f19",
           ["--accent"]: "#22D3EE",
           ["--hairline"]: "#1f2937",
-        } as React.CSSProperties
-      }
+        } as React.CSSProperties}
     >
       {/* hairline top */}
       <div aria-hidden className="absolute inset-x-0 top-0 h-px" style={{ backgroundColor: "var(--hairline)" }} />
@@ -45,33 +44,46 @@ export default function SectionServicesPlainSpeak() {
             {
               k: "site",
               title: "Сайт",
-              // НОВ, по-силен текст за „Сайт“
               text:
-                "Начална страница, която казва за секунди с какво помагате — и води към „Обади се“ или „Пиши“. " +
-                "Лек, бърз и супер четим на телефон.",
+                "Сайт, който с едно изречение казва кой сте и как помагате. Бърз, чист, удобен на телефон и готов за Google.",
               points: [
-                "Ясно послание + снимка/видео на началото",
-                "Меню до 5 раздела: Начало · За нас · Услуги · Галерия · Контакт",
-                "Бутони „Обади се/Пиши“ на видими места",
+                "Многоезичност (BG/EN/…)",
+                "Ясно заглавие и видими бутони „Обади се/Пиши“",
+                "Контакти с карта, телефон и кратка форма",
               ],
             },
             {
               k: "shop",
               title: "Онлайн магазин",
-              text: "Продавате лесно от първия ден.",
-              points: ["Каталог с продукти", "Поръчки и плащания", "Проследяване на доставки"],
+              text:
+                "Магазин, който продава лесно от телефон и компютър. Приема плащания от цял свят.",
+              points: [
+                "Плащания от цял свят (карти — Visa/Mastercard, банков превод)",
+                "Промокодове, отстъпки и промо кампании",
+                "Доставки и интеграции: Еконт, Спиди.",
+              ],
             },
             {
               k: "ads",
               title: "Реклами",
-              text: "Повече хора научават за вас.",
-              points: ["Facebook и Instagram", "Google търсене и банери", "Показваме на точните хора"],
+              text:
+                "Показваме ви във Facebook, Instagram и Google на точните хора. Цел: запитвания и продажби.",
+              points: [
+                "Facebook и Instagram кампании",
+                "Google търсене и банери",
+                "Ежеседмична оптимизация и кратък отчет",
+              ],
             },
             {
               k: "menu",
               title: "Дигитално меню",
-              text: "QR меню за заведения.",
-              points: ["Сканираш и виждаш менюто", "Снимки и описания", "Менюто е винаги актуално"],
+              text:
+                "QR меню — клиентът сканира и вижда менюто на телефона. Винаги актуално, без нов печат.",
+              points: [
+                "Снимки, категории и алергени",
+                "Бърза промяна от телефон",
+                "QR кодове за маси",
+              ],
             },
           ].map((c, i) => (
             <motion.article
@@ -88,7 +100,7 @@ export default function SectionServicesPlainSpeak() {
                 услуга
               </div>
 
-              {/* ГОЛЯМО име на услуга + тънък акцент */}
+              {/* Име на услуга + тънък акцент */}
               <h3 className="mt-2 text-[clamp(1.5rem,3vw,2.1rem)] font-extrabold leading-[1.08] tracking-tight text-slate-100">
                 {c.title}
               </h3>
@@ -110,7 +122,7 @@ export default function SectionServicesPlainSpeak() {
           ))}
         </div>
 
-        {/* Section CTA (без цени, ясни действия) */}
+        {/* Section CTA */}
         <motion.div variants={fade} initial="hidden" animate="show" custom={6} className="mt-10 text-center sm:mt-12">
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <ScrollLink
@@ -141,9 +153,7 @@ export default function SectionServicesPlainSpeak() {
       {/* hairline bottom */}
       <div aria-hidden className="absolute inset-x-0 bottom-0 h-px" style={{ backgroundColor: "var(--hairline)" }} />
 
-      <style>{`
-        .balance { text-wrap: balance }
-      `}</style>
+      <style>{`.balance { text-wrap: balance }`}</style>
     </section>
   );
 }

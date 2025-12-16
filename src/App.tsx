@@ -42,9 +42,9 @@ const App = () => {
                 <Suspense fallback={<Loader />}>
                   <Contact />
                 </Suspense>
-                <Suspense fallback={<Loader />}>
+                {/* <Suspense fallback={<Loader />}>
                   <HowWeWork />
-                </Suspense>
+                </Suspense> */}
               </>
             }
           />
