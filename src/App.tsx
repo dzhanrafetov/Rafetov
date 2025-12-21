@@ -32,15 +32,17 @@ const App = () => {
                 <Suspense fallback={<Loader />}>
                   <Services />
                 </Suspense>
-                <Suspense fallback={<Loader />}>
-                  <Portfolio />
-                </Suspense>
+
                 <Suspense fallback={<Loader />}>
                   <Market />
+                </Suspense>
+                 <Suspense fallback={<Loader />}>
+                  <Portfolio />
                 </Suspense>
                 <Suspense fallback={<Loader />}>
                   <Contact />
                 </Suspense>
+
                 {/* <Suspense fallback={<Loader />}>
                   <HowWeWork />
                 </Suspense> */}
