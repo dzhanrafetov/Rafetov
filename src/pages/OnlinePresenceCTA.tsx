@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
-
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { LayoutGroup, motion } from "framer-motion";
 type Tag = "Сайт" | "E-магазин" | "Дигитално меню";
 type Country = "BG" | "NO" | "DE" | "ES";
 
@@ -23,6 +22,15 @@ const COUNTRY: Record<Country, { name: string }> = {
 
 const PROJECTS: Project[] = [
   {
+    id: "chef-resat-site",
+    tag: "Сайт",
+    title: "Chef Resat",
+    desc: "Официален сайт на ресторант Chef Resat с акцент върху атмосферата, кухнята и ключова информация за посетители. ",
+    img: "/rft.jpg",
+    href: "https://www.chefresatsofya.com/",
+    country: "BG",
+  },
+  {
     id: "zirve1",
     tag: "E-магазин",
     title: "Zirve1",
@@ -36,17 +44,17 @@ const PROJECTS: Project[] = [
     tag: "Сайт",
     title: "Alp Taxi Santander",
     desc: "Сайт за такси услуги в Сантандер, Испания, с бърза форма за резервация и изпращане на заявка.",
-    img: "/santander.jpg",
+    img: "/sndr.jpg",
     href: "https://taxisantander.online/",
     country: "ES",
   },
   {
-    id: "chef-resat-site",
-    tag: "Сайт",
-    title: "Chef Resat",
-    desc: "Официален сайт на ресторант Chef Resat с акцент върху атмосферата, кухнята и ключова информация за посетители. ",
-    img: "/chefresatt.jpg",
-    href: "https://www.chefresatsofya.com/",
+    id: "24tours",
+    tag: "E-магазин",
+    title: "24Tours",
+    desc: "Платформа за турове с онлайн резервации и плащания, включително подаръчни ваучери, промокодове и отстъпки. ",
+    img: "/mototours.jpg",
+    href: "https://www.24tours.bg/",
     country: "BG",
   },
   {
@@ -57,15 +65,6 @@ const PROJECTS: Project[] = [
     img: "/km5.jpg",
     href: "https://becaumzug.de/",
     country: "DE",
-  },
-  {
-    id: "24tours",
-    tag: "E-магазин",
-    title: "24Tours",
-    desc: "Платформа за турове с онлайн резервации и плащания, включително подаръчни ваучери, промокодове и отстъпки. ",
-    img: "/mototours.jpg",
-    href: "https://www.24tours.bg/",
-    country: "BG",
   },
   {
     id: "amalfi-menu",
@@ -158,6 +157,9 @@ export default function SectionWorkGalleryMinimal() {
   const [filter, setFilter] = useState<Tag | "Всички">("Всички");
   const [lightbox, setLightbox] = useState<{ open: boolean; index: number }>({ open: false, index: 0 });
 
+  // IMPORTANT: useRef трябва да е вътре в component
+  const tabsRef = useRef<HTMLDivElement | null>(null);
+
   const filtered = useMemo(
     () => (filter === "Всички" ? PROJECTS : PROJECTS.filter((p) => p.tag === filter)),
     [filter]
@@ -184,6 +186,22 @@ export default function SectionWorkGalleryMinimal() {
     if (!hasItems) return;
     setLightbox((v) => ({ open: true, index: (v.index - 1 + filtered.length) % filtered.length }));
   }, [hasItems, filtered.length]);
+
+  // Auto-center active tab on mobile when filter changes
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!window.matchMedia("(max-width: 639px)").matches) return;
+
+    const wrap = tabsRef.current;
+    if (!wrap) return;
+
+    const activeBtn = wrap.querySelector<HTMLButtonElement>('[data-active="true"]');
+    if (!activeBtn) return;
+
+    requestAnimationFrame(() => {
+      activeBtn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    });
+  }, [filter]);
 
   useEffect(() => {
     if (!lightbox.open) return;
@@ -236,44 +254,100 @@ export default function SectionWorkGalleryMinimal() {
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24">
         <motion.div variants={fade} initial="hidden" animate="show" className="text-center">
           <div className="mx-auto mb-3 w-fit text-[12px] uppercase tracking-[0.18em] text-slate-400">проекти</div>
-         <h2 className="balance mx-auto max-w-[26ch] text-[clamp(1.9rem,5.8vw,2.6rem)] font-extrabold leading-[1.06] tracking-tight text-slate-100">
-  Това са проектите, с които се гордеем.
-</h2>
-<p className="balance mx-auto mt-4 max-w-[50ch] text-[15.5px] leading-relaxed text-slate-300">
-  Правим сайтове, които изглеждат премиум и не оставят място за „ами“. Влизаш, разбираш, действаш.
-</p>
+
+          <h2 className="balance mx-auto max-w-[26ch] text-[clamp(1.9rem,5.8vw,2.6rem)] font-extrabold leading-[1.06] tracking-tight text-slate-100">
+            Това са проектите, с които се гордеем.
+          </h2>
+
+          <p className="balance mx-auto mt-4 max-w-[50ch] text-[15.5px] leading-relaxed text-slate-300">
+            Правим сайтове, които изглеждат премиум и не оставят място за „ами“. Влизаш, разбираш, действаш.
+          </p>
         </motion.div>
 
-        <motion.div variants={fade} initial="hidden" animate="show" custom={1} className="mt-8 flex justify-center">
-          <div
-            className="
-              inline-flex flex-wrap gap-2 rounded-full
-              border border-slate-700/60 bg-[#0f1424]/80 p-1.5
-              shadow-[0_10px_40px_-24px_rgba(0,0,0,0.8)]
-              backdrop-blur
-            "
-          >
-            {(["Всички", "Сайт", "E-магазин", "Дигитално меню"] as const).map((t) => {
-              const active = filter === t;
-              return (
+      <LayoutGroup id="workFilters">
+  <motion.div variants={fade} initial="hidden" animate="show" custom={1} className="mt-8 flex justify-center">
+    <div className="w-full px-2 sm:w-auto sm:px-0">
+      <div
+        className="
+          relative w-full sm:w-fit
+          rounded-3xl sm:rounded-full
+          border border-slate-700/60 bg-[#0f1424]/80 p-1.5
+          shadow-[0_12px_50px_-28px_rgba(0,0,0,0.85)]
+          backdrop-blur
+        "
+      >
+        {/* mobile row separator (subtle “seam”) */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-4 right-4 top-[50%] hidden max-[639px]:block"
+          style={{ height: 1, background: "rgba(148,163,184,0.18)" }}
+        />
+
+        <div
+          ref={tabsRef}
+          className="
+            no-scrollbar
+            flex flex-wrap sm:flex-nowrap
+            items-center gap-2
+            overflow-visible sm:overflow-visible
+            justify-center
+            scroll-smooth px-1
+          "
+        >
+          {(["Всички", "Сайт", "E-магазин", "Дигитално меню"] as const).map((t) => {
+            const active = filter === t;
+            const isMenu = t === "Дигитално меню";
+
+            return (
+              <div
+                key={t}
+                className={`
+                  ${isMenu ? "basis-full flex justify-center sm:basis-auto" : "basis-auto"}
+                `}
+              >
                 <button
-                  key={t}
-                  onClick={() => setFilter(t)}
-                  className={`
-                    h-9 rounded-full px-4 text-sm transition
-                    ${
-                      active
-                        ? "bg-white/90 text-slate-900 shadow-[0_10px_26px_-18px_rgba(255,255,255,0.55)]"
-                        : "text-slate-300 hover:bg-white/[0.05]"
+                  data-active={active ? "true" : "false"}
+                  onClick={(e) => {
+                    setFilter(t);
+
+                    // ако искаш да центрира долния ред при клик (mobile):
+                    if (typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches) {
+                      requestAnimationFrame(() => {
+                        e.currentTarget.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+                      });
                     }
-                  `}
+                  }}
+                  className="
+                    relative isolate flex-none whitespace-nowrap
+                    h-10 rounded-full px-4
+                    text-[13px] sm:text-sm font-semibold
+                    transition
+                    text-slate-200/90 hover:text-slate-100
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25
+                  "
                 >
-                  {t}
+                  {active && (
+                    <motion.span
+                      layoutId="workFilterPill"
+                      transition={{ type: "spring", stiffness: 520, damping: 38 }}
+                      className="
+                        absolute inset-0 -z-10 rounded-full
+                        bg-white/90
+                        shadow-[0_14px_34px_-22px_rgba(255,255,255,0.75)]
+                      "
+                    />
+                  )}
+
+                  <span className={active ? "text-slate-900" : ""}>{t}</span>
                 </button>
-              );
-            })}
-          </div>
-        </motion.div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </motion.div>
+</LayoutGroup>
 
         {!hasItems ? (
           <div className="mt-10 rounded-3xl border border-slate-700/60 bg-[#0f1424] p-8 text-center text-slate-300">
@@ -317,12 +391,9 @@ export default function SectionWorkGalleryMinimal() {
                   <div
                     aria-hidden
                     className="pointer-events-none absolute -inset-12 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
-                    style={{
-                      background: "radial-gradient(closest-side, var(--glow), transparent 70%)",
-                    }}
+                    style={{ background: "radial-gradient(closest-side, var(--glow), transparent 70%)" }}
                   />
 
-                  {/* IMAGE — nothing on top */}
                   <div className="aspect-[16/11] overflow-hidden">
                     <img
                       src={p.img}
@@ -333,10 +404,8 @@ export default function SectionWorkGalleryMinimal() {
                     />
                   </div>
 
-                  {/* CONTENT */}
                   <div className="p-5">
                     <div className="flex items-center justify-between gap-3">
-                      {/* tag + country as text (no flags) */}
                       <div className="flex min-w-0 items-center gap-2">
                         <span
                           className="inline-flex h-8 w-8 items-center justify-center rounded-xl"
@@ -354,14 +423,11 @@ export default function SectionWorkGalleryMinimal() {
                             {p.tag}
                           </div>
                           {p.country && (
-                            <div className="truncate text-[12.5px] text-slate-300/70">
-                              {COUNTRY[p.country].name}
-                            </div>
+                            <div className="truncate text-[12.5px] text-slate-300/70">{COUNTRY[p.country].name}</div>
                           )}
                         </div>
                       </div>
 
-                      {/* CTA higher, no empty footer */}
                       {p.href && (
                         <a
                           href={p.href}
@@ -402,7 +468,8 @@ export default function SectionWorkGalleryMinimal() {
                       aria-hidden
                       className="mt-4 h-px w-full"
                       style={{
-                        background: "linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 55%, transparent), transparent)",
+                        background:
+                          "linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 55%, transparent), transparent)",
                         opacity: 0.9,
                       }}
                     />
@@ -493,12 +560,16 @@ export default function SectionWorkGalleryMinimal() {
 
       <style>{`
         .balance { text-wrap: balance; }
+
         .lineclamp-3 {
           display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { scrollbar-width: none; }
       `}</style>
     </section>
   );
