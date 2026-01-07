@@ -188,20 +188,29 @@ export default function SectionWorkGalleryMinimal() {
   }, [hasItems, filtered.length]);
 
   // Auto-center active tab on mobile when filter changes
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (!window.matchMedia("(max-width: 639px)").matches) return;
+const didMount = useRef(false);
 
-    const wrap = tabsRef.current;
-    if (!wrap) return;
+useEffect(() => {
+  if (typeof window === "undefined") return;
+  if (!window.matchMedia("(max-width: 639px)").matches) return;
 
-    const activeBtn = wrap.querySelector<HTMLButtonElement>('[data-active="true"]');
-    if (!activeBtn) return;
+  // ✅ не скролвай при първото зареждане
+  if (!didMount.current) {
+    didMount.current = true;
+    return;
+  }
 
-    requestAnimationFrame(() => {
-      activeBtn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-    });
-  }, [filter]);
+  const wrap = tabsRef.current;
+  if (!wrap) return;
+
+  const activeBtn = wrap.querySelector<HTMLButtonElement>('[data-active="true"]');
+  if (!activeBtn) return;
+
+  requestAnimationFrame(() => {
+    // по-добре без smooth тук
+    activeBtn.scrollIntoView({ behavior: "auto", inline: "center", block: "nearest" });
+  });
+}, [filter]);
 
   useEffect(() => {
     if (!lightbox.open) return;
