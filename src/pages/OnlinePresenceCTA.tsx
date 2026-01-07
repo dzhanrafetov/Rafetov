@@ -187,14 +187,29 @@ export default function SectionWorkGalleryMinimal() {
     setLightbox((v) => ({ open: true, index: (v.index - 1 + filtered.length) % filtered.length }));
   }, [hasItems, filtered.length]);
 
+
+  const isMobile = () =>
+  typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches;
+
+const centerTab = useCallback((btn: HTMLElement, behavior: ScrollBehavior = "smooth") => {
+  const wrap = tabsRef.current;
+  if (!wrap) return;
+
+  // центриране само вътре в контейнера (без вертикален скрол)
+  const wrapRect = wrap.getBoundingClientRect();
+  const btnRect = btn.getBoundingClientRect();
+
+  const current = wrap.scrollLeft;
+  const delta = (btnRect.left - wrapRect.left) - (wrapRect.width / 2 - btnRect.width / 2);
+
+  wrap.scrollTo({ left: current + delta, behavior });
+}, []);
   // Auto-center active tab on mobile when filter changes
 const didMount = useRef(false);
 
 useEffect(() => {
-  if (typeof window === "undefined") return;
-  if (!window.matchMedia("(max-width: 639px)").matches) return;
+  if (!isMobile()) return;
 
-  // ✅ не скролвай при първото зареждане
   if (!didMount.current) {
     didMount.current = true;
     return;
@@ -206,11 +221,8 @@ useEffect(() => {
   const activeBtn = wrap.querySelector<HTMLButtonElement>('[data-active="true"]');
   if (!activeBtn) return;
 
-  requestAnimationFrame(() => {
-    // по-добре без smooth тук
-    activeBtn.scrollIntoView({ behavior: "auto", inline: "center", block: "nearest" });
-  });
-}, [filter]);
+  requestAnimationFrame(() => centerTab(activeBtn, "smooth"));
+}, [filter, centerTab]);
 
   useEffect(() => {
     if (!lightbox.open) return;
@@ -273,8 +285,14 @@ useEffect(() => {
           </p>
         </motion.div>
 
-      <LayoutGroup id="workFilters">
-  <motion.div variants={fade} initial="hidden" animate="show" custom={1} className="mt-8 flex justify-center">
+    <LayoutGroup id="workFilters">
+  <motion.div
+    variants={fade}
+    initial="hidden"
+    animate="show"
+    custom={1}
+    className="mt-8 flex justify-center"
+  >
     <div className="w-full px-2 sm:w-auto sm:px-0">
       <div
         className="
@@ -285,45 +303,42 @@ useEffect(() => {
           backdrop-blur
         "
       >
-        {/* mobile row separator (subtle “seam”) */}
+        {/* (по избор) леки fade краища, за да личи че се скролва хоризонтално на мобилен */}
         <div
           aria-hidden
-          className="pointer-events-none absolute left-4 right-4 top-[50%] hidden max-[639px]:block"
-          style={{ height: 1, background: "rgba(148,163,184,0.18)" }}
+          className="pointer-events-none absolute left-0 top-0 h-full w-6 rounded-3xl bg-gradient-to-r from-[#0f1424] to-transparent sm:hidden"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute right-0 top-0 h-full w-6 rounded-3xl bg-gradient-to-l from-[#0f1424] to-transparent sm:hidden"
         />
 
         <div
           ref={tabsRef}
           className="
             no-scrollbar
-            flex flex-wrap sm:flex-nowrap
-            items-center gap-2
-            overflow-visible sm:overflow-visible
-            justify-center
-            scroll-smooth px-1
+            flex flex-nowrap items-center gap-2
+            overflow-x-auto overflow-y-hidden
+            justify-start sm:justify-center
+            px-2 py-0.5
+            overscroll-x-contain touch-pan-x
+            [-webkit-overflow-scrolling:touch]
           "
         >
           {(["Всички", "Сайт", "E-магазин", "Дигитално меню"] as const).map((t) => {
             const active = filter === t;
-            const isMenu = t === "Дигитално меню";
 
             return (
-              <div
-                key={t}
-                className={`
-                  ${isMenu ? "basis-full flex justify-center sm:basis-auto" : "basis-auto"}
-                `}
-              >
+              <div key={t} className="flex-none">
                 <button
+                  type="button"
                   data-active={active ? "true" : "false"}
                   onClick={(e) => {
                     setFilter(t);
 
-                    // ако искаш да центрира долния ред при клик (mobile):
-                    if (typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches) {
-                      requestAnimationFrame(() => {
-                        e.currentTarget.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-                      });
+                    // ✅ плавно центриране САМО в хоризонталния контейнер
+                    if (isMobile()) {
+                      requestAnimationFrame(() => centerTab(e.currentTarget, "smooth"));
                     }
                   }}
                   className="
@@ -333,12 +348,14 @@ useEffect(() => {
                     transition
                     text-slate-200/90 hover:text-slate-100
                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25
+                    will-change-transform
                   "
                 >
                   {active && (
                     <motion.span
                       layoutId="workFilterPill"
-                      transition={{ type: "spring", stiffness: 520, damping: 38 }}
+                      // ✅ по-плавно от spring на мобилен
+                      transition={{ type: "tween", duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
                       className="
                         absolute inset-0 -z-10 rounded-full
                         bg-white/90
