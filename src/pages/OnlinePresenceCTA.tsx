@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { LayoutGroup, motion } from "framer-motion";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+
 type Tag = "Сайт" | "E-магазин" | "Дигитално меню";
 type Country = "BG" | "NO" | "DE" | "ES";
 
@@ -10,7 +11,7 @@ type Project = {
   desc: string;
   img: string;
   href?: string;
-  country?: Country; // ще го покажем като текст (не флаг)
+  country?: Country;
 };
 
 const COUNTRY: Record<Country, { name: string }> = {
@@ -25,7 +26,7 @@ const PROJECTS: Project[] = [
     id: "chef-resat-site",
     tag: "Сайт",
     title: "Chef Resat",
-    desc: "Официален сайт на ресторант Chef Resat с акцент върху атмосферата, кухнята и ключова информация за посетители. ",
+    desc: "Официален сайт на ресторант Chef Resat с акцент върху атмосферата, кухнята и ключова информация за посетители.",
     img: "/rft.jpg",
     href: "https://www.chefresatsofya.com/",
     country: "BG",
@@ -52,7 +53,7 @@ const PROJECTS: Project[] = [
     id: "24tours",
     tag: "E-магазин",
     title: "24Tours",
-    desc: "Платформа за турове с онлайн резервации и плащания, включително подаръчни ваучери, промокодове и отстъпки. ",
+    desc: "Платформа за турове с онлайн резервации и плащания, включително подаръчни ваучери, промокодове и отстъпки.",
     img: "/mototours.jpg",
     href: "https://www.24tours.bg/",
     country: "BG",
@@ -61,7 +62,7 @@ const PROJECTS: Project[] = [
     id: "beca",
     tag: "Сайт",
     title: "BECA Umzugsservice",
-    desc: "Корпоративен сайт за услуги по преместване и почистване в Мюнхен, Германия. ",
+    desc: "Корпоративен сайт за услуги по преместване и почистване в Мюнхен, Германия.",
     img: "/km5.jpg",
     href: "https://becaumzug.de/",
     country: "DE",
@@ -70,7 +71,7 @@ const PROJECTS: Project[] = [
     id: "amalfi-menu",
     tag: "Дигитално меню",
     title: "Amalfi",
-    desc: "Дигитално меню за ресторант Amalfi (Елверум, Норвегия) на норвежки и английски език. Включва категории, бързо разглеждане и опция за харесване на ястия за по-лесна поръчка.",
+    desc: "Дигитално меню за ресторант Amalfi (Елверум, Норвегия) на норвежки и английски език. Включва категории, бързо разглеждане и опция за харесване на ястия.",
     img: "/amalfi.jpg",
     href: "https://www.amalfirestaurant.no/",
     country: "NO",
@@ -79,7 +80,7 @@ const PROJECTS: Project[] = [
     id: "chef-resat-menu",
     tag: "Дигитално меню",
     title: "Chef Resat",
-    desc: "Дигитално меню за ресторант Chef Resat на три езика – български, турски и английски. Структурирани категории и удобно преживяване на мобилни устройства.",
+    desc: "Дигитално меню за ресторант Chef Resat на три езика – български, турски и английски.",
     img: "/dijitalMenuch.jpg",
     href: "https://www.chefresatsofya.com/menu",
     country: "BG",
@@ -148,452 +149,268 @@ function TagIcon({ tag }: { tag: Tag }) {
 }
 
 const TAG_THEME: Record<Tag, { accent: string; glow: string }> = {
-  "Сайт": { accent: "#22D3EE", glow: "rgba(34,211,238,.18)" },
-  "E-магазин": { accent: "#34D399", glow: "rgba(52,211,153,.18)" },
+  "Сайт":           { accent: "#22D3EE", glow: "rgba(34,211,238,.18)" },
+  "E-магазин":      { accent: "#34D399", glow: "rgba(52,211,153,.18)" },
   "Дигитално меню": { accent: "#A78BFA", glow: "rgba(167,139,250,.18)" },
 };
 
+const CATEGORY_ORDER: Tag[] = ["Сайт", "E-магазин", "Дигитално меню"];
+
+// ── Category section divider ─────────────────────────────────────────────────
+function CategoryHeader({ tag }: { tag: Tag }) {
+  const theme = TAG_THEME[tag];
+  return (
+    <div className="mb-6 flex items-center gap-3">
+      <span
+        className="flex items-center justify-center rounded-lg p-2"
+        style={{ background: `color-mix(in srgb,${theme.accent} 14%,transparent)`, color: theme.accent }}
+      >
+        <TagIcon tag={tag} />
+      </span>
+      <span className="text-[14px] font-bold tracking-wide text-slate-300">{tag}</span>
+      <div
+        className="h-px flex-1"
+        style={{ background: `linear-gradient(90deg,color-mix(in srgb,${theme.accent} 40%,transparent),transparent)` }}
+      />
+    </div>
+  );
+}
+
+// ── Cards grid ───────────────────────────────────────────────────────────────
+function CardsGrid({ projects }: { projects: Project[] }) {
+  return (
+    <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
+      {projects.map((p, i) => {
+        const theme = TAG_THEME[p.tag];
+        return (
+          <motion.div
+            key={p.id}
+            variants={fade}
+            initial="hidden"
+            animate="show"
+            exit={{ opacity: 0, y: 8, transition: { duration: 0.15 } }}
+            custom={i}
+          >
+            <a
+              href={p.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ "--accent": theme.accent, "--glow": theme.glow } as React.CSSProperties}
+              className="group relative block overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.045] to-white/[0.02] shadow-[0_18px_80px_-46px_rgba(0,0,0,0.9)] transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/60"
+            >
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -inset-12 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
+                style={{ background: "radial-gradient(closest-side, var(--glow), transparent 70%)" }}
+              />
+
+              <div className="aspect-[16/11] overflow-hidden">
+                <img
+                  src={p.img}
+                  alt={p.title}
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+
+              <div className="p-5">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <span
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-xl"
+                      style={{
+                        background: "rgba(255,255,255,0.06)",
+                        border: "1px solid rgba(255,255,255,0.10)",
+                        color: "var(--accent)",
+                      }}
+                    >
+                      <TagIcon tag={p.tag} />
+                    </span>
+                    <div className="min-w-0">
+                      <div className="truncate text-[12.5px] font-extrabold" style={{ color: "var(--accent)" }}>
+                        {p.tag}
+                      </div>
+                      {p.country && (
+                        <div className="truncate text-[12.5px] text-slate-300/70">{COUNTRY[p.country].name}</div>
+                      )}
+                    </div>
+                  </div>
+
+                  <span
+                    className="inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-2 text-[12.5px] font-semibold"
+                    style={{
+                      background: "color-mix(in srgb, var(--accent) 18%, transparent)",
+                      border: "1px solid color-mix(in srgb, var(--accent) 30%, transparent)",
+                      color: "color-mix(in srgb, var(--accent) 92%, white)",
+                    }}
+                  >
+                    Виж сайта
+                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" aria-hidden fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                      <path d="M14 3h7v7M21 3l-9 9M10 5H6a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-4" />
+                    </svg>
+                  </span>
+                </div>
+
+                <h3 className="mt-4 text-[1.08rem] font-extrabold tracking-tight text-slate-100">{p.title}</h3>
+                <p className="mt-2 line-clamp-3 text-[13.5px] leading-relaxed text-slate-300/90">{p.desc}</p>
+
+                <div
+                  aria-hidden
+                  className="mt-4 h-px w-full"
+                  style={{
+                    background: "linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 55%, transparent), transparent)",
+                    opacity: 0.9,
+                  }}
+                />
+              </div>
+            </a>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ── Main component ───────────────────────────────────────────────────────────
 export default function SectionWorkGalleryMinimal() {
   const [filter, setFilter] = useState<Tag | "Всички">("Всички");
-  const [lightbox, setLightbox] = useState<{ open: boolean; index: number }>({ open: false, index: 0 });
-
-  // IMPORTANT: useRef трябва да е вътре в component
   const tabsRef = useRef<HTMLDivElement | null>(null);
-
-  const filtered = useMemo(
-    () => (filter === "Всички" ? PROJECTS : PROJECTS.filter((p) => p.tag === filter)),
-    [filter]
-  );
-
-  const hasItems = filtered.length > 0;
-
-  const openAt = useCallback(
-    (idx: number) => {
-      if (!hasItems) return;
-      setLightbox({ open: true, index: Math.max(0, Math.min(idx, filtered.length - 1)) });
-    },
-    [hasItems, filtered.length]
-  );
-
-  const close = useCallback(() => setLightbox({ open: false, index: 0 }), []);
-
-  const next = useCallback(() => {
-    if (!hasItems) return;
-    setLightbox((v) => ({ open: true, index: (v.index + 1) % filtered.length }));
-  }, [hasItems, filtered.length]);
-
-  const prev = useCallback(() => {
-    if (!hasItems) return;
-    setLightbox((v) => ({ open: true, index: (v.index - 1 + filtered.length) % filtered.length }));
-  }, [hasItems, filtered.length]);
-
+  const didMount = useRef(false);
 
   const isMobile = () =>
-  typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches;
+    typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches;
 
-const centerTab = useCallback((btn: HTMLElement, behavior: ScrollBehavior = "smooth") => {
-  const wrap = tabsRef.current;
-  if (!wrap) return;
-
-  // центриране само вътре в контейнера (без вертикален скрол)
-  const wrapRect = wrap.getBoundingClientRect();
-  const btnRect = btn.getBoundingClientRect();
-
-  const current = wrap.scrollLeft;
-  const delta = (btnRect.left - wrapRect.left) - (wrapRect.width / 2 - btnRect.width / 2);
-
-  wrap.scrollTo({ left: current + delta, behavior });
-}, []);
-  // Auto-center active tab on mobile when filter changes
-const didMount = useRef(false);
-
-useEffect(() => {
-  if (!isMobile()) return;
-
-  if (!didMount.current) {
-    didMount.current = true;
-    return;
-  }
-
-  const wrap = tabsRef.current;
-  if (!wrap) return;
-
-  const activeBtn = wrap.querySelector<HTMLButtonElement>('[data-active="true"]');
-  if (!activeBtn) return;
-
-  requestAnimationFrame(() => centerTab(activeBtn, "smooth"));
-}, [filter, centerTab]);
+  const centerTab = useCallback((btn: HTMLElement, behavior: ScrollBehavior = "smooth") => {
+    const wrap = tabsRef.current;
+    if (!wrap) return;
+    const wrapRect = wrap.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    const delta = (btnRect.left - wrapRect.left) - (wrapRect.width / 2 - btnRect.width / 2);
+    wrap.scrollTo({ left: wrap.scrollLeft + delta, behavior });
+  }, []);
 
   useEffect(() => {
-    if (!lightbox.open) return;
-    if (!hasItems) {
-      close();
-      return;
-    }
-    if (lightbox.index > filtered.length - 1) {
-      setLightbox((v) => ({ ...v, index: filtered.length - 1 }));
-    }
-  }, [filter, filtered.length, hasItems, lightbox.open, lightbox.index, close]);
-
-  useEffect(() => {
-    if (!lightbox.open) return;
-
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
-    };
-
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [lightbox.open, close, next, prev]);
-
-  useEffect(() => {
-    if (!lightbox.open) return;
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prevOverflow;
-    };
-  }, [lightbox.open]);
-
-  const activeProject = hasItems ? filtered[lightbox.index] : undefined;
+    if (!isMobile()) return;
+    if (!didMount.current) { didMount.current = true; return; }
+    const wrap = tabsRef.current;
+    if (!wrap) return;
+    const activeBtn = wrap.querySelector<HTMLButtonElement>('[data-active="true"]');
+    if (activeBtn) requestAnimationFrame(() => centerTab(activeBtn, "smooth"));
+  }, [filter, centerTab]);
 
   return (
     <section
       id="work"
       className="relative isolate overflow-hidden text-slate-200"
-      style={
-        {
-          backgroundColor: "#0b0f19",
-          ["--hairline" as any]: "#1f2937",
-        } as React.CSSProperties
-      }
+      style={{ backgroundColor: "#07090f", ["--hairline" as any]: "#1a2234" } as React.CSSProperties}
     >
+      {/* Background */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute inset-0 opacity-[0.03] [background-image:linear-gradient(rgba(148,163,184,.15)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,.15)_1px,transparent_1px)] [background-size:28px_28px]" />
+        <div className="absolute -right-56 top-20 h-[500px] w-[500px] rounded-full opacity-[0.05]" style={{ background: "radial-gradient(circle,#34D399 0%,transparent 65%)" }} />
+        <div className="absolute -left-56 bottom-10 h-[420px] w-[420px] rounded-full opacity-[0.04]" style={{ background: "radial-gradient(circle,#22D3EE 0%,transparent 65%)" }} />
+      </div>
       <div aria-hidden className="absolute inset-x-0 top-0 h-px" style={{ backgroundColor: "var(--hairline)" }} />
 
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24">
-        <motion.div variants={fade} initial="hidden" animate="show" className="text-center">
-          <div className="mx-auto mb-3 w-fit text-[12px] uppercase tracking-[0.18em] text-slate-400">проекти</div>
 
-          <h2 className="balance mx-auto max-w-[26ch] text-[clamp(1.9rem,5.8vw,2.6rem)] font-extrabold leading-[1.06] tracking-tight text-slate-100">
-            Това са проектите, с които се гордеем.
+        {/* Header */}
+        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
+            проекти
+          </span>
+          <h2 className="mx-auto mt-5 max-w-[26ch] text-[clamp(1.75rem,5.5vw,2.8rem)] font-extrabold leading-[1.06] tracking-[-0.02em] text-slate-100" style={{ textWrap: "balance" } as React.CSSProperties}>
+            Проекти, с които{" "}
+            <span style={{ background: "linear-gradient(110deg,#e2e8f0 0%,#f1f5f9 50%,#94a3b8 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+              се гордеем.
+            </span>
           </h2>
-
-          <p className="balance mx-auto mt-4 max-w-[50ch] text-[15.5px] leading-relaxed text-slate-300">
-            Правим сайтове, които изглеждат премиум и не оставят място за „ами“. Влизаш, разбираш, действаш.
+          <p className="mx-auto mt-4 max-w-[46ch] text-[15.5px] leading-relaxed text-slate-400" style={{ textWrap: "balance" } as React.CSSProperties}>
+            Правим сайтове, които изглеждат премиум и не оставят място за „ами". Влизаш, разбираш, действаш.
           </p>
         </motion.div>
 
-    <LayoutGroup id="workFilters">
-  <motion.div
-    variants={fade}
-    initial="hidden"
-    animate="show"
-    custom={1}
-    className="mt-8 flex justify-center"
-  >
-    <div className="w-full px-2 sm:w-auto sm:px-0">
-      <div
-        className="
-          relative w-full sm:w-fit
-          rounded-3xl sm:rounded-full
-          border border-slate-700/60 bg-[#0f1424]/80 p-1.5
-          shadow-[0_12px_50px_-28px_rgba(0,0,0,0.85)]
-          backdrop-blur
-        "
-      >
-        {/* (по избор) леки fade краища, за да личи че се скролва хоризонтално на мобилен */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute left-0 top-0 h-full w-6 rounded-3xl bg-gradient-to-r from-[#0f1424] to-transparent sm:hidden"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute right-0 top-0 h-full w-6 rounded-3xl bg-gradient-to-l from-[#0f1424] to-transparent sm:hidden"
-        />
-
-        <div
-          ref={tabsRef}
-          className="
-            no-scrollbar
-            flex flex-nowrap items-center gap-2
-            overflow-x-auto overflow-y-hidden
-            justify-start sm:justify-center
-            px-2 py-0.5
-            overscroll-x-contain touch-pan-x
-            [-webkit-overflow-scrolling:touch]
-          "
-        >
-          {(["Всички", "Сайт", "E-магазин", "Дигитално меню"] as const).map((t) => {
-            const active = filter === t;
-
-            return (
-              <div key={t} className="flex-none">
-                <button
-                  type="button"
-                  data-active={active ? "true" : "false"}
-                  onClick={(e) => {
-                    setFilter(t);
-
-                    // ✅ плавно центриране САМО в хоризонталния контейнер
-                    if (isMobile()) {
-                      requestAnimationFrame(() => centerTab(e.currentTarget, "smooth"));
-                    }
-                  }}
-                  className="
-                    relative isolate flex-none whitespace-nowrap
-                    h-10 rounded-full px-4
-                    text-[13px] sm:text-sm font-semibold
-                    transition
-                    text-slate-200/90 hover:text-slate-100
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25
-                    will-change-transform
-                  "
-                >
-                  {active && (
-                    <motion.span
-                      layoutId="workFilterPill"
-                      // ✅ по-плавно от spring на мобилен
-                      transition={{ type: "tween", duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                      className="
-                        absolute inset-0 -z-10 rounded-full
-                        bg-white/90
-                        shadow-[0_14px_34px_-22px_rgba(255,255,255,0.75)]
-                      "
-                    />
-                  )}
-
-                  <span className={active ? "text-slate-900" : ""}>{t}</span>
-                </button>
+        {/* Filter tabs */}
+        <LayoutGroup id="workFilters">
+          <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} custom={1} className="mt-8 flex justify-center">
+            <div className="relative -my-2 w-full sm:w-auto">
+              <div ref={tabsRef} className="no-scrollbar flex items-center justify-center gap-2 overflow-x-auto px-4 py-4 sm:overflow-visible sm:px-0">
+                {(["Всички", "Сайт", "E-магазин", "Дигитално меню"] as const).map((t) => {
+                  const active = filter === t;
+                  const accent = t === "Сайт" ? "#22D3EE" : t === "E-магазин" ? "#34D399" : t === "Дигитално меню" ? "#A78BFA" : null;
+                  return (
+                    <button
+                      key={t}
+                      type="button"
+                      data-active={active ? "true" : "false"}
+                      onClick={() => setFilter(t)}
+                      className="relative isolate flex-none whitespace-nowrap h-10 rounded-full px-4 text-[13px] font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
+                      style={
+                        active
+                          ? accent
+                            ? { background: `color-mix(in srgb,${accent} 18%,rgba(255,255,255,0.06))`, border: `1px solid color-mix(in srgb,${accent} 40%,transparent)`, color: accent, boxShadow: `0 0 18px -6px ${accent}` }
+                            : { background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.18)", color: "#f1f5f9", boxShadow: "0 0 18px -6px rgba(255,255,255,0.2)" }
+                          : accent
+                            ? { background: `color-mix(in srgb,${accent} 7%,transparent)`, border: `1px solid color-mix(in srgb,${accent} 18%,transparent)`, color: `color-mix(in srgb,${accent} 60%,#94a3b8)` }
+                            : { background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "#94a3b8" }
+                      }
+                    >
+                      {accent
+                        ? <span aria-hidden className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full align-middle transition-opacity" style={{ background: accent, opacity: active ? 1 : 0.4 }} />
+                        : <span aria-hidden className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full align-middle" style={{ background: "linear-gradient(135deg,#22D3EE,#34D399,#A78BFA)", opacity: active ? 1 : 0.5 }} />
+                      }
+                      {t}
+                    </button>
+                  );
+                })}
               </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  </motion.div>
-</LayoutGroup>
-
-        {!hasItems ? (
-          <div className="mt-10 rounded-3xl border border-slate-700/60 bg-[#0f1424] p-8 text-center text-slate-300">
-            Няма добавени проекти за този филтър.
-          </div>
-        ) : (
-          <div className="mt-10 grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((p, i) => {
-              const theme = TAG_THEME[p.tag];
-
-              return (
-                <motion.article
-                  key={p.id}
-                  variants={fade}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, amount: 0.2 }}
-                  custom={i + 2}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") openAt(i);
-                  }}
-                  onClick={() => openAt(i)}
-                  style={
-                    {
-                      ["--accent" as any]: theme.accent,
-                      ["--glow" as any]: theme.glow,
-                    } as React.CSSProperties
-                  }
-                  className="
-                    group relative overflow-hidden rounded-3xl
-                    border border-white/10
-                    bg-gradient-to-b from-white/[0.045] to-white/[0.02]
-                    shadow-[0_18px_80px_-46px_rgba(0,0,0,0.9)]
-                    transition-all duration-300 hover:-translate-y-1
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/60
-                    cursor-pointer
-                  "
-                >
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute -inset-12 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
-                    style={{ background: "radial-gradient(closest-side, var(--glow), transparent 70%)" }}
-                  />
-
-                  <div className="aspect-[16/11] overflow-hidden">
-                    <img
-                      src={p.img}
-                      alt={p.title}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-
-                  <div className="p-5">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="flex min-w-0 items-center gap-2">
-                        <span
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-xl"
-                          style={{
-                            background: "rgba(255,255,255,0.06)",
-                            border: "1px solid rgba(255,255,255,0.10)",
-                            color: "var(--accent)",
-                          }}
-                        >
-                          <TagIcon tag={p.tag} />
-                        </span>
-
-                        <div className="min-w-0">
-                          <div className="truncate text-[12.5px] font-extrabold" style={{ color: "var(--accent)" }}>
-                            {p.tag}
-                          </div>
-                          {p.country && (
-                            <div className="truncate text-[12.5px] text-slate-300/70">{COUNTRY[p.country].name}</div>
-                          )}
-                        </div>
-                      </div>
-
-                      {p.href && (
-                        <a
-                          href={p.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="
-                            inline-flex shrink-0 items-center gap-2 rounded-full
-                            px-3.5 py-2 text-[12.5px] font-semibold
-                            transition hover:brightness-110
-                          "
-                          style={{
-                            background: "color-mix(in srgb, var(--accent) 18%, transparent)",
-                            border: "1px solid color-mix(in srgb, var(--accent) 30%, transparent)",
-                            color: "color-mix(in srgb, var(--accent) 92%, white)",
-                          }}
-                        >
-                          Виж сайта
-                          <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
-                            <path d="M14 3h7v7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                            <path d="M21 3l-9 9" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                            <path
-                              d="M10 5H6a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-4"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                            />
-                          </svg>
-                        </a>
-                      )}
-                    </div>
-
-                    <h3 className="mt-4 text-[1.08rem] font-extrabold tracking-tight text-slate-100">{p.title}</h3>
-                    <p className="mt-2 text-[13.5px] leading-relaxed text-slate-300/90 lineclamp-3">{p.desc}</p>
-
-                    <div
-                      aria-hidden
-                      className="mt-4 h-px w-full"
-                      style={{
-                        background:
-                          "linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 55%, transparent), transparent)",
-                        opacity: 0.9,
-                      }}
-                    />
-                  </div>
-                </motion.article>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* LIGHTBOX */}
-      {lightbox.open && hasItems && activeProject && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-[70] flex items-center justify-center bg-black/80 backdrop-blur-[2px]"
-          onClick={close}
-        >
-          <button
-            onClick={close}
-            aria-label="Затвори"
-            className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-slate-100 hover:bg-white/10"
-          >
-            ✕
-          </button>
-
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              prev();
-            }}
-            aria-label="Предишен"
-            className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-white/20 p-3 text-slate-100 hover:bg-white/10"
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5">
-              <path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" strokeWidth="2" />
-            </svg>
-          </button>
-
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              next();
-            }}
-            aria-label="Следващ"
-            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/20 p-3 text-slate-100 hover:bg-white/10"
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5">
-              <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2" />
-            </svg>
-          </button>
-
-          <div className="mx-auto w-full max-w-6xl px-4" onClick={(e) => e.stopPropagation()}>
-            <img
-              src={activeProject.img}
-              alt={activeProject.title}
-              className="max-h-[76vh] w-full rounded-2xl object-contain ring-1 ring-white/10"
-            />
-
-            <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <div className="min-w-0">
-                <div className="truncate text-[14px] text-slate-200/90">
-                  {activeProject.tag} · {activeProject.title}
-                  <span className="ml-2 text-slate-300/60">
-                    ({lightbox.index + 1}/{filtered.length})
-                  </span>
-                </div>
-                <div className="mt-1 text-[13.5px] leading-relaxed text-slate-300/90">{activeProject.desc}</div>
-              </div>
-
-              {!!activeProject.href && (
-                <a
-                  href={activeProject.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-fit rounded-full bg-white/90 px-4 py-2 text-[13px] font-semibold text-slate-900 transition hover:brightness-110"
-                >
-                  Виж сайта
-                </a>
-              )}
             </div>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        </LayoutGroup>
+
+        {/* Projects */}
+        <AnimatePresence mode="wait">
+          {filter === "Всички" ? (
+            <motion.div
+              key="all"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mt-10 space-y-12"
+            >
+              {CATEGORY_ORDER.map((cat) => {
+                const items = PROJECTS.filter((p) => p.tag === cat);
+                if (!items.length) return null;
+                return (
+                  <div key={cat}>
+                    <CategoryHeader tag={cat} />
+                    <CardsGrid projects={items} />
+                  </div>
+                );
+              })}
+            </motion.div>
+          ) : (
+            <motion.div
+              key={filter}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-10"
+            >
+              <CategoryHeader tag={filter as Tag} />
+              <CardsGrid projects={PROJECTS.filter((p) => p.tag === filter)} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+      </div>
 
       <div aria-hidden className="absolute inset-x-0 bottom-0 h-px" style={{ backgroundColor: "var(--hairline)" }} />
 
       <style>{`
-        .balance { text-wrap: balance; }
-
-        .lineclamp-3 {
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { scrollbar-width: none; }
       `}</style>
