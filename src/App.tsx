@@ -9,8 +9,7 @@ const Hero = React.lazy(() => import('./pages/Hero'));
 const Services = React.lazy(() => import('./pages/Services'));
 const Portfolio = React.lazy(() => import('./pages/Portfolio'));
 const Market = React.lazy(() => import('./pages/OnlinePresenceCTA'));
-const Stats = React.lazy(() => import('./pages/StatsSection'));
-const BrandFilm = React.lazy(() => import('./pages/BrandFilm'));
+
 const Contact = React.lazy(() => import('./pages/ContactUs'));
 
 // Minimal Spinner as fallback
