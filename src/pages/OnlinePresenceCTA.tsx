@@ -71,8 +71,8 @@ const PROJECTS: Project[] = [
     id: "amalfi-menu",
     tag: "Дигитално меню",
     title: "Amalfi",
-    desc: "Дигитално меню за ресторант Amalfi (Елверум, Норвегия) на норвежки и английски език. Включва категории, бързо разглеждане и опция за харесване на ястия.",
-    img: "/amalfi.jpg",
+    desc: "Дигитално меню за ресторант Amalfi (Елверум, Норвегия) на норвежки и английски език. ",
+    img: "/corected-amalfi.jpg",
     href: "https://www.amalfirestaurant.no/",
     country: "NO",
   },
@@ -81,8 +81,44 @@ const PROJECTS: Project[] = [
     tag: "Дигитално меню",
     title: "Chef Resat",
     desc: "Дигитално меню за ресторант Chef Resat на три езика – български, турски и английски.",
-    img: "/dijitalMenuch.jpg",
+    img: "/chefresatcorected.jpg",
     href: "https://www.chefresatsofya.com/menu",
+    country: "BG",
+  },
+  {
+    id: "pancetita-menu",
+    tag: "Дигитално меню",
+    title: "Pizza Pancetita",
+    desc: "Дигитално меню за ресторант Pizza Pancetita (Осло, Норвегия) на норвежки и английски език.",
+    img: "/corectedpancetita.jpg",
+    href: "https://pancetta.vercel.app/",
+    country: "NO",
+  },
+  {
+    id: "abi-studio",
+    tag: "Сайт",
+    title: "Abi Studio",
+    desc: "Сайт за козметично студио във Варна с детайлни процедури, апаратури и цени.",
+    img: "/public/abistudio1.jpg",
+    href: "https://www.abistudiovarna.com/",
+    country: "BG",
+  },
+  {
+    id: "metesso",
+    tag: "Сайт",
+    title: "Metesso",
+    desc: "Сайт за мебелен шоурум в Пловдив с каталог от колекции и решения за всяко пространство.",
+    img: "/metesso1.jpg",
+    href: "https://www.metesso.com/",
+    country: "BG",
+  },
+  {
+    id: "9-april-village",
+    tag: "Сайт",
+    title: "9 April Village",
+    desc: "Сайт за къща за гости с информация за стаите, спа зоната, локацията и предстоящите събития.",
+    img: "/9april.jpg",
+    href: "https://9-aprill-village-h8bb.vercel.app/",
     country: "BG",
   },
   {
@@ -109,7 +145,7 @@ const PROJECTS: Project[] = [
     title: "SlapFight Bulgaria",
     desc: "Онлайн платформа за продажба на билети за събития с бърза покупка и ясна информация за събитията.",
     img: "/slpbg.jpg",
-    href: "https://www.slapfightbulgaria.com/",
+    href: "https://slap-fight-bulgaria-nine.vercel.app/",
     country: "BG",
   },
 ];
@@ -204,11 +240,11 @@ function CardsGrid({ projects }: { projects: Project[] }) {
                 style={{ background: "radial-gradient(closest-side, var(--glow), transparent 70%)" }}
               />
 
-              <div className="aspect-[16/11] overflow-hidden">
+              <div className={p.tag === "Дигитално меню" ? "overflow-hidden bg-[#0a0f1d]" : "aspect-[16/11] overflow-hidden"}>
                 <img
                   src={p.img}
                   alt={p.title}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                  className={`w-full transition-transform duration-700 group-hover:scale-[1.02] ${p.tag === "Дигитално меню" ? "object-contain" : "h-full object-cover group-hover:scale-[1.05]"}`}
                   loading="lazy"
                   decoding="async"
                 />
@@ -245,7 +281,7 @@ function CardsGrid({ projects }: { projects: Project[] }) {
                       color: "color-mix(in srgb, var(--accent) 92%, white)",
                     }}
                   >
-                    Виж сайта
+                    {p.tag === "Дигитално меню" ? "Виж менюто" : "Виж сайта"}
                     <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" aria-hidden fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                       <path d="M14 3h7v7M21 3l-9 9M10 5H6a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-4" />
                     </svg>
@@ -253,7 +289,7 @@ function CardsGrid({ projects }: { projects: Project[] }) {
                 </div>
 
                 <h3 className="mt-4 text-[1.08rem] font-extrabold tracking-tight text-slate-100">{p.title}</h3>
-                <p className="mt-2 line-clamp-3 text-[13.5px] leading-relaxed text-slate-300/90">{p.desc}</p>
+                <p className="mt-2 text-[13.5px] leading-relaxed text-slate-300/90">{p.desc}</p>
 
                 <div
                   aria-hidden

@@ -75,7 +75,7 @@ function spreadPoints(pts: { x: number; y: number }[], minDist: number) {
 }
 
 // ── Static Globe ──
-function Globe() {
+function Globe({ activeCountry }: { activeCountry: number }) {
   const wrapRef   = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [flagPos, setFlagPos] = useState<{ x: number; y: number }[]>([]);
@@ -161,27 +161,37 @@ function Globe() {
       />
 
       {/* Flag badges */}
-      {flagPos.map((pos, i) => (
-        <div
-          key={COUNTRIES[i].name}
-          aria-label={COUNTRIES[i].name}
-          className="pointer-events-none absolute flex items-center justify-center rounded-full"
-          style={{
-            width:      BADGE,
-            height:     BADGE,
-            left:       pos.x,
-            top:        pos.y,
-            transform:  "translate(-50%, -50%)",
-            border:     `1px solid ${COUNTRIES[i].accent}55`,
-            background: `color-mix(in srgb,${COUNTRIES[i].accent} 18%,rgba(4,8,16,0.82))`,
-            boxShadow:  `0 0 10px -2px ${COUNTRIES[i].accent}55`,
-            fontSize:   15,
-            lineHeight: 1,
-          }}
-        >
-          {COUNTRIES[i].flag}
-        </div>
-      ))}
+      {flagPos.map((pos, i) => {
+        const isActive = activeCountry === i;
+        const c = COUNTRIES[i];
+        return (
+          <div
+            key={c.name}
+            aria-label={c.name}
+            className="pointer-events-none absolute flex items-center justify-center rounded-full"
+            style={{
+              width:      isActive ? BADGE + 4 : BADGE,
+              height:     isActive ? BADGE + 4 : BADGE,
+              left:       pos.x,
+              top:        pos.y,
+              transform:  "translate(-50%, -50%)",
+              border:     `${isActive ? 2 : 1}px solid ${c.accent}${isActive ? "cc" : "55"}`,
+              background: isActive
+                ? `color-mix(in srgb,${c.accent} 32%,rgba(4,8,16,0.75))`
+                : `color-mix(in srgb,${c.accent} 18%,rgba(4,8,16,0.82))`,
+              boxShadow:  isActive
+                ? `0 0 22px -2px ${c.accent}bb, 0 0 6px 0 ${c.accent}66`
+                : `0 0 10px -2px ${c.accent}55`,
+              fontSize:   15,
+              lineHeight: 1,
+              transition: "all 0.35s ease",
+              zIndex:     isActive ? 10 : 1,
+            }}
+          >
+            {c.flag}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -355,7 +365,7 @@ export default function Hero() {
 
             {/* Globe */}
             <div className="order-2 w-full max-w-[340px] lg:flex-1 lg:max-w-[420px]">
-              <Globe />
+              <Globe activeCountry={activeCountry} />
             </div>
 
             {/* Right — last 3 */}
