@@ -132,11 +132,20 @@ const PROJECTS: Project[] = [
   },
   {
     id: "azteca-site",
-    tag: "Сайт",
+    tag: "E-магазин",
     title: "Azteca",
-    desc: "Презентационен сайт за шоурум Azteca с премиум селекция от пури и запалки.",
+    desc: "Електронен магазин за премиум пури и запалки с онлайн поръчка и доставка.",
     img: "/aztecanew.jpg",
     href: "https://azteca-premium.com/",
+    country: "BG",
+  },
+  {
+    id: "dudo-group",
+    tag: "Сайт",
+    title: "Dudo Group",
+    desc: "Сайт за строителен хипермаркет с каталог от материали за строителство и ремонт.",
+    img: "/dudohip2.jpg",
+    href: "https://d-group.bg/dudo-stroitelen/index.php",
     country: "BG",
   },
   {
