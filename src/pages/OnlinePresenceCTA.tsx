@@ -99,7 +99,7 @@ const PROJECTS: Project[] = [
     tag: "Сайт",
     title: "Abi Studio",
     desc: "Сайт за козметично студио във Варна с детайлни процедури, апаратури и цени.",
-    img: "/public/abistudio1.jpg",
+    img: "/abistudio1.jpg",
     href: "https://www.abistudiovarna.com/",
     country: "BG",
   },
