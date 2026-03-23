@@ -46,18 +46,27 @@ const Header = () => {
   const triggerTranslation = (lang: string) => {
     setCurrentLang(lang);
     setLangOpen(false);
-
-    // Първо изтриваме старото (важно при смяна между езици)
     clearGoogTransCookies();
 
     if (lang === 'bg') {
       sessionStorage.setItem('noTranslate', '1');
-    } else {
-      const transl = `/bg/${lang}`;
-      document.cookie = `googtrans=${transl};path=/`;
-      document.cookie = `googtrans=${transl};path=/;domain=.${location.hostname}`;
+      window.location.replace(window.location.pathname + window.location.search);
+      return;
     }
-    window.location.replace(window.location.pathname + window.location.search);
+
+    // Задаваме новия cookie
+    document.cookie = `googtrans=/bg/${lang};path=/`;
+    document.cookie = `googtrans=/bg/${lang};path=/;domain=.${location.hostname}`;
+
+    // Ако GT вече е зареден — сменяме директно без reload
+    const select = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
+    if (select) {
+      select.value = lang;
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    } else {
+      // GT не е зареден (идваме от BG) — нужен е reload
+      window.location.replace(window.location.pathname + window.location.search);
+    }
   };
 
   useEffect(() => {
