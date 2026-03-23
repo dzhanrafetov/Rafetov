@@ -67,17 +67,15 @@
     font[style] { background-color: transparent !important; }
   </style>
   <script>
-    function googleTranslateElementInit() {
-      // Ако сме превключили към BG — изчистваме всички GT cookies преди инициализация
-      if (sessionStorage.getItem('noTranslate')) {
-        sessionStorage.removeItem('noTranslate');
-        var past = 'expires=Thu, 01 Jan 1970 00:00:00 GMT';
-        var host = location.hostname;
-        // Изтриваме googtrans от всички варианти
+    (function() {
+      var past = 'expires=Thu, 01 Jan 1970 00:00:00 GMT';
+      var host = location.hostname;
+
+      function deleteAllGTCookies() {
         document.cookie = 'googtrans=;path=/;expires=' + past;
         document.cookie = 'googtrans=;path=/;domain=' + host + ';expires=' + past;
         document.cookie = 'googtrans=;path=/;domain=.' + host + ';expires=' + past;
-        // Изтриваме и googtrans_{hostname} варианта
+        document.cookie = 'googtrans=;path=/;domain=www.' + host + ';expires=' + past;
         var hc = 'googtrans_' + host;
         document.cookie = hc + '=;path=/;expires=' + past;
         document.cookie = hc + '=;path=/;domain=' + host + ';expires=' + past;
@@ -85,11 +83,26 @@
         try { localStorage.removeItem('googtrans'); sessionStorage.removeItem('googtrans'); } catch(e) {}
       }
 
-      // ВИНАГИ инициализираме TranslateElement
-      new google.translate.TranslateElement({ pageLanguage: 'bg', autoDisplay: false }, 'google_translate_element');
-    }
+      // Ако потребителят е избрал БГ — изчистваме ВСИЧКО и НЕ зареждаме GT
+      if (sessionStorage.getItem('noTranslate')) {
+        sessionStorage.removeItem('noTranslate');
+        deleteAllGTCookies();
+        return; // НЕ зареждаме GT скрипта — страницата остава на оригинален български
+      }
+
+      // Проверяваме дали има googtrans cookie (т.е. потребителят е избрал друг език)
+      var match = document.cookie.match(/googtrans=\/bg\/([a-z]+)/);
+      if (!match) return; // Няма cookie → НЕ зареждаме GT → страницата е на български
+
+      // Само ако трябва превод — дефинираме callback-а и зареждаме GT динамично
+      window.googleTranslateElementInit = function() {
+        new google.translate.TranslateElement({ pageLanguage: 'bg', autoDisplay: false }, 'google_translate_element');
+      };
+      var s = document.createElement('script');
+      s.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      document.head.appendChild(s);
+    })();
   </script>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <script>
     function removeTextHighlight() {
       document.querySelectorAll('.goog-text-highlight').forEach(function(el) {
