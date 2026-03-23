@@ -133,6 +133,7 @@ export default function Services() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
+                paddingRight: "0.1em",
               }}
             >
              идея до резултат
