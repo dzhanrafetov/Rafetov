@@ -57,7 +57,7 @@ const Header = () => {
       document.cookie = `googtrans=${transl};path=/`;
       document.cookie = `googtrans=${transl};path=/;domain=.${location.hostname}`;
     }
-    window.location.reload();
+    window.location.replace(window.location.pathname + window.location.search);
   };
 
   useEffect(() => {
