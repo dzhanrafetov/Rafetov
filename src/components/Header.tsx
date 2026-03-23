@@ -20,6 +20,8 @@ const Header = () => {
   const langRef = useRef<HTMLDivElement>(null);
 
   const getCurrentLang = () => {
+    const stored = sessionStorage.getItem('currentLang');
+    if (stored) return stored;
     const match = document.cookie.match(/googtrans=\/bg\/([a-z]+)/);
     return match ? match[1] : 'bg';
   };
@@ -47,6 +49,7 @@ const Header = () => {
     setCurrentLang(lang);
     setLangOpen(false);
     clearGoogTransCookies();
+    sessionStorage.setItem('currentLang', lang);
 
     if (lang === 'bg') {
       sessionStorage.setItem('noTranslate', '1');
