@@ -25,39 +25,21 @@ const Header = () => {
   };
   const [currentLang, setCurrentLang] = useState(getCurrentLang);
 
-  const clearGoogtransCookies = () => {
-    const expired = 'expires=Thu, 01 Jan 1970 00:00:00 UTC';
-    document.cookie = `googtrans=; ${expired}; path=/;`;
-    document.cookie = `googtrans=; ${expired}; path=/; domain=${location.hostname}`;
-    document.cookie = `googtrans=; ${expired}; path=/; domain=.${location.hostname}`;
-  };
-
   const triggerTranslation = (lang: string) => {
     setCurrentLang(lang);
     setLangOpen(false);
 
-    const select = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
+    const expired = 'expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+    document.cookie = `googtrans=; ${expired}`;
+    document.cookie = `googtrans=; ${expired}; domain=${location.hostname}`;
+    document.cookie = `googtrans=; ${expired}; domain=.${location.hostname}`;
 
-    if (lang === 'bg') {
-      clearGoogtransCookies();
-      if (select) {
-        select.value = '';
-        select.dispatchEvent(new Event('change'));
-        setTimeout(() => window.location.reload(), 200);
-      } else {
-        window.location.reload();
-      }
-    } else {
-      clearGoogtransCookies();
+    if (lang !== 'bg') {
       document.cookie = `googtrans=/bg/${lang}; path=/`;
       document.cookie = `googtrans=/bg/${lang}; path=/; domain=.${location.hostname}`;
-      if (select) {
-        select.value = lang;
-        select.dispatchEvent(new Event('change'));
-      } else {
-        window.location.reload();
-      }
     }
+
+    window.location.href = window.location.pathname + window.location.search;
   };
 
   useEffect(() => {
