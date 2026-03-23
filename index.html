@@ -68,13 +68,12 @@
   </style>
   <script>
     function googleTranslateElementInit() {
-      var match = document.cookie.match(/googtrans=\/bg\/([a-z]+)/);
-      if (!match) {
-        // No translation cookie → make sure Google Translate doesn't re-apply a cached translation
-        var sel = document.querySelector('.goog-te-combo');
-        if (sel) { sel.value = ''; sel.dispatchEvent(new Event('change')); }
+      if (sessionStorage.getItem('noTranslate')) {
+        sessionStorage.removeItem('noTranslate');
         return;
       }
+      var match = document.cookie.match(/googtrans=\/bg\/([a-z]+)/);
+      if (!match) return;
       new google.translate.TranslateElement({ pageLanguage: 'bg', autoDisplay: false }, 'google_translate_element');
     }
   </script>

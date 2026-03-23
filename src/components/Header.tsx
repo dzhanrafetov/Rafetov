@@ -44,24 +44,8 @@ const Header = () => {
     clearGoogTransCookies();
 
     if (lang === 'bg') {
-      // Programmatically tell Google Translate to restore the original page
-      const frame = document.querySelector('.goog-te-menu-frame') as HTMLIFrameElement;
-      if (frame?.contentDocument) {
-        const items = frame.contentDocument.querySelectorAll('.goog-te-menu2-item');
-        const restoreItem = items[0] as HTMLElement; // first item is always "restore"
-        if (restoreItem) restoreItem.click();
-      }
-      // Also try the select-based restore
-      const sel = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-      if (sel) {
-        sel.value = '';
-        sel.dispatchEvent(new Event('change', { bubbles: true }));
-      }
-      // Give Google Translate a moment to restore, then hard reload
-      setTimeout(() => {
-        clearGoogTransCookies();
-        window.location.href = window.location.pathname + window.location.search;
-      }, 100);
+      sessionStorage.setItem('noTranslate', '1');
+      window.location.replace(window.location.pathname + window.location.search);
     } else {
       document.cookie = `googtrans=/bg/${lang}; path=/`;
       document.cookie = `googtrans=/bg/${lang}; path=/; domain=.${location.hostname}`;
