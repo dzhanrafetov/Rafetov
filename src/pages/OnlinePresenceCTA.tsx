@@ -367,7 +367,7 @@ export default function SectionWorkGalleryMinimal() {
           </span>
           <h2 className="mx-auto mt-5 max-w-[26ch] text-[clamp(1.75rem,5.5vw,2.8rem)] font-extrabold leading-[1.06] tracking-[-0.02em] text-slate-100" style={{ textWrap: "balance" } as React.CSSProperties}>
             Проекти, с които{" "}
-            <span style={{ background: "linear-gradient(110deg,#e2e8f0 0%,#f1f5f9 50%,#94a3b8 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+            <span style={{ background: "linear-gradient(110deg,#22d3ee 0%,#a78bfa 60%,#34d399 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
               се гордеем.
             </span>
           </h2>
