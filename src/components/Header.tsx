@@ -26,11 +26,17 @@ const Header = () => {
   const [currentLang, setCurrentLang] = useState(getCurrentLang);
 
   const clearGoogTransCookies = () => {
-    const expired = 'expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
-    document.cookie = `googtrans=; ${expired}`;
-    document.cookie = `googtrans=; ${expired}; domain=${location.hostname}`;
-    document.cookie = `googtrans=; ${expired}; domain=.${location.hostname}`;
-    document.cookie = `googtrans=; ${expired}; domain=www.${location.hostname}`;
+    const past = 'expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    // Изтриваме googtrans от всички възможни домейни/пътища
+    document.cookie = `googtrans=;path=/;expires=${past}`;
+    document.cookie = `googtrans=;path=/;domain=${location.hostname};expires=${past}`;
+    document.cookie = `googtrans=;path=/;domain=.${location.hostname};expires=${past}`;
+    document.cookie = `googtrans=;path=/;domain=www.${location.hostname};expires=${past}`;
+    // Google Translate също създава cookie с underscore + hostname
+    const hostCookie = `googtrans_${location.hostname}`;
+    document.cookie = `${hostCookie}=;path=/;expires=${past}`;
+    document.cookie = `${hostCookie}=;path=/;domain=${location.hostname};expires=${past}`;
+    document.cookie = `${hostCookie}=;path=/;domain=.${location.hostname};expires=${past}`;
     try {
       localStorage.removeItem('googtrans');
       sessionStorage.removeItem('googtrans');
@@ -41,16 +47,17 @@ const Header = () => {
     setCurrentLang(lang);
     setLangOpen(false);
 
+    // Първо изтриваме старото (важно при смяна между езици)
     clearGoogTransCookies();
 
     if (lang === 'bg') {
       sessionStorage.setItem('noTranslate', '1');
-      window.location.replace(window.location.pathname + window.location.search);
     } else {
-      document.cookie = `googtrans=/bg/${lang}; path=/`;
-      document.cookie = `googtrans=/bg/${lang}; path=/; domain=.${location.hostname}`;
-      window.location.replace(window.location.pathname + window.location.search);
+      const transl = `/bg/${lang}`;
+      document.cookie = `googtrans=${transl};path=/`;
+      document.cookie = `googtrans=${transl};path=/;domain=.${location.hostname}`;
     }
+    window.location.reload();
   };
 
   useEffect(() => {

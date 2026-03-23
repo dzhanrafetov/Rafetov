@@ -68,24 +68,25 @@
   </style>
   <script>
     function googleTranslateElementInit() {
-      // ВИНАГИ инициализираме TranslateElement (както в работещия Next.js код)
-      // Без ранен return — иначе GT вътрешно кешира и преприлага стария превод
-      new google.translate.TranslateElement({ pageLanguage: 'bg', autoDisplay: false }, 'google_translate_element');
-
-      // Ако сме превключили към BG — изчакваме GT да се инициализира и го ресетваме
+      // Ако сме превключили към BG — изчистваме всички GT cookies преди инициализация
       if (sessionStorage.getItem('noTranslate')) {
         sessionStorage.removeItem('noTranslate');
-        var waitForCombo = setInterval(function() {
-          var sel = document.querySelector('.goog-te-combo');
-          if (sel) {
-            clearInterval(waitForCombo);
-            sel.value = '';
-            sel.dispatchEvent(new Event('change'));
-          }
-        }, 50);
-        // Safety: спираме след 3 секунди
-        setTimeout(function() { clearInterval(waitForCombo); }, 3000);
+        var past = 'expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        var host = location.hostname;
+        // Изтриваме googtrans от всички варианти
+        document.cookie = 'googtrans=;path=/;expires=' + past;
+        document.cookie = 'googtrans=;path=/;domain=' + host + ';expires=' + past;
+        document.cookie = 'googtrans=;path=/;domain=.' + host + ';expires=' + past;
+        // Изтриваме и googtrans_{hostname} варианта
+        var hc = 'googtrans_' + host;
+        document.cookie = hc + '=;path=/;expires=' + past;
+        document.cookie = hc + '=;path=/;domain=' + host + ';expires=' + past;
+        document.cookie = hc + '=;path=/;domain=.' + host + ';expires=' + past;
+        try { localStorage.removeItem('googtrans'); sessionStorage.removeItem('googtrans'); } catch(e) {}
       }
+
+      // ВИНАГИ инициализираме TranslateElement
+      new google.translate.TranslateElement({ pageLanguage: 'bg', autoDisplay: false }, 'google_translate_element');
     }
   </script>
   <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
