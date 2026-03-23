@@ -126,7 +126,7 @@ export default function Services() {
             услуги
           </span>
           <h2 className="balance mx-auto mt-5 max-w-[26ch] text-[clamp(1.75rem,5.5vw,2.8rem)] font-extrabold leading-[1.06] tracking-[-0.02em] text-slate-100">
-            Как помагаме  {" "}
+            Как помагаме от {" "}
             <span
               style={{
                 background: "linear-gradient(110deg,#22d3ee 0%,#a78bfa 60%,#34d399 100%)",
@@ -135,7 +135,7 @@ export default function Services() {
                 backgroundClip: "text",
               }}
             >
-            до детайла.
+             идея до резултат
             </span>
           </h2>
           <p className="balance mx-auto mt-4 max-w-[46ch] text-[15.5px] leading-relaxed text-slate-400">

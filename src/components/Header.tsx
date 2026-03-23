@@ -28,13 +28,18 @@ const Header = () => {
   const triggerTranslation = (lang: string) => {
     setCurrentLang(lang);
     setLangOpen(false);
-    if (lang === 'bg') {
-      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${location.hostname}`;
-    } else {
+
+    // Първо изчисти всички googtrans cookie варианти
+    const expired = 'expires=Thu, 01 Jan 1970 00:00:00 UTC';
+    document.cookie = `googtrans=; ${expired}; path=/;`;
+    document.cookie = `googtrans=; ${expired}; path=/; domain=${location.hostname}`;
+    document.cookie = `googtrans=; ${expired}; path=/; domain=.${location.hostname}`;
+
+    if (lang !== 'bg') {
       document.cookie = `googtrans=/bg/${lang}; path=/`;
       document.cookie = `googtrans=/bg/${lang}; path=/; domain=.${location.hostname}`;
     }
+
     window.location.reload();
   };
 
