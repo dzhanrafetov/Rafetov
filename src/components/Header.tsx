@@ -25,26 +25,48 @@ const Header = () => {
   };
   const [currentLang, setCurrentLang] = useState(getCurrentLang);
 
-  const triggerTranslation = (lang: string) => {
-    setCurrentLang(lang);
-    setLangOpen(false);
-
+  const clearGoogTransCookies = () => {
     const expired = 'expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
     document.cookie = `googtrans=; ${expired}`;
     document.cookie = `googtrans=; ${expired}; domain=${location.hostname}`;
     document.cookie = `googtrans=; ${expired}; domain=.${location.hostname}`;
-
+    document.cookie = `googtrans=; ${expired}; domain=www.${location.hostname}`;
     try {
       localStorage.removeItem('googtrans');
       sessionStorage.removeItem('googtrans');
     } catch (_) {}
+  };
 
-    if (lang !== 'bg') {
+  const triggerTranslation = (lang: string) => {
+    setCurrentLang(lang);
+    setLangOpen(false);
+
+    clearGoogTransCookies();
+
+    if (lang === 'bg') {
+      // Programmatically tell Google Translate to restore the original page
+      const frame = document.querySelector('.goog-te-menu-frame') as HTMLIFrameElement;
+      if (frame?.contentDocument) {
+        const items = frame.contentDocument.querySelectorAll('.goog-te-menu2-item');
+        const restoreItem = items[0] as HTMLElement; // first item is always "restore"
+        if (restoreItem) restoreItem.click();
+      }
+      // Also try the select-based restore
+      const sel = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+      if (sel) {
+        sel.value = '';
+        sel.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      // Give Google Translate a moment to restore, then hard reload
+      setTimeout(() => {
+        clearGoogTransCookies();
+        window.location.href = window.location.pathname + window.location.search;
+      }, 100);
+    } else {
       document.cookie = `googtrans=/bg/${lang}; path=/`;
       document.cookie = `googtrans=/bg/${lang}; path=/; domain=.${location.hostname}`;
+      window.location.replace(window.location.pathname + window.location.search);
     }
-
-    window.location.replace(window.location.pathname + window.location.search);
   };
 
   useEffect(() => {
