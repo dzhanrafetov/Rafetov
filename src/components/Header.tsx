@@ -34,12 +34,17 @@ const Header = () => {
     document.cookie = `googtrans=; ${expired}; domain=${location.hostname}`;
     document.cookie = `googtrans=; ${expired}; domain=.${location.hostname}`;
 
+    try {
+      localStorage.removeItem('googtrans');
+      sessionStorage.removeItem('googtrans');
+    } catch (_) {}
+
     if (lang !== 'bg') {
       document.cookie = `googtrans=/bg/${lang}; path=/`;
       document.cookie = `googtrans=/bg/${lang}; path=/; domain=.${location.hostname}`;
     }
 
-    window.location.href = window.location.pathname + window.location.search;
+    window.location.replace(window.location.pathname + window.location.search);
   };
 
   useEffect(() => {

@@ -68,6 +68,8 @@
   </style>
   <script>
     function googleTranslateElementInit() {
+      var match = document.cookie.match(/googtrans=\/bg\/([a-z]+)/);
+      if (!match) return;
       new google.translate.TranslateElement({ pageLanguage: 'bg', autoDisplay: false }, 'google_translate_element');
     }
   </script>
