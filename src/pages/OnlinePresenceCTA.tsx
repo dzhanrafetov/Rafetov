@@ -149,6 +149,15 @@ const PROJECTS: Project[] = [
     country: "BG",
   },
   {
+    id: "shop4home",
+    tag: "E-магазин",
+    title: "Shop4Home",
+    desc: "Онлайн магазин за дома с широк асортимент от продукти, удобна поръчка и лесно администриране на поръчки, продукти и категории.",
+    img: "/shop111.jpg",
+    href: "https://shop4home.bg/",
+    country: "BG",
+  },
+  {
     id: "slapfight",
     tag: "E-магазин",
     title: "SlapFight Bulgaria",
