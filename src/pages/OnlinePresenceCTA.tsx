@@ -167,15 +167,15 @@ const PROJECTS: Project[] = [
     href: "https://shop4home.bg/",
     country: "BG",
   },
-  {
-    id: "slapfight",
-    tag: "E-магазин",
-    title: "SlapFight Bulgaria",
-    desc: "Онлайн платформа за продажба на билети за събития с бърза покупка и ясна информация за събитията.",
-    img: "/slpbg.jpg",
-    href: "https://slap-fight-bulgaria-nine.vercel.app/",
-    country: "BG",
-  },
+  // {
+  //   id: "slapfight",
+  //   tag: "E-магазин",
+  //   title: "SlapFight Bulgaria",
+  //   desc: "Онлайн платформа за продажба на билети за събития с бърза покупка и ясна информация за събитията.",
+  //   img: "/slpbg.jpg",
+  //   href: "https://slap-fight-bulgaria-nine.vercel.app/",
+  //   country: "BG",
+  // },
 ];
 
 const fade = {
