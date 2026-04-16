@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 
 type Tag = "Сайт" | "E-магазин" | "Дигитално меню";
-type Country = "BG" | "NO" | "DE" | "ES";
+type Country = "BG" | "NO" | "DE" | "ES" | "GB";
 
 type Project = {
   id: string;
@@ -19,6 +19,7 @@ const COUNTRY: Record<Country, { name: string }> = {
   NO: { name: "Норвегия" },
   DE: { name: "Германия" },
   ES: { name: "Испания" },
+  GB: { name: "Великобритания" },
 };
 
 const PROJECTS: Project[] = [
@@ -39,6 +40,15 @@ const PROJECTS: Project[] = [
     img: "/ztest.jpg",
     href: "https://www.zirve1.bg/",
     country: "BG",
+  },
+  {
+    id: "emis-cleaning",
+    tag: "Сайт",
+    title: "Emis Cleaning",
+    desc: "Сайт за почистващи услуги в Лондон с бърза онлайн резервация и ясна информация за услугите.",
+    img: "/london.jpg",
+    href: "https://www.emiscleaning.co.uk/",
+    country: "GB",
   },
   {
     id: "santander",
