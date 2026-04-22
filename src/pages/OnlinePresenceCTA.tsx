@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 
 type Tag = "Сайт" | "E-магазин" | "Дигитално меню";
-type Country = "BG" | "NO" | "DE" | "ES" | "GB";
+type Country = "BG" | "NO" | "DE" | "ES" | "GB" | "BE";
 
 type Project = {
   id: string;
@@ -20,6 +20,7 @@ const COUNTRY: Record<Country, { name: string }> = {
   DE: { name: "Германия" },
   ES: { name: "Испания" },
   GB: { name: "Великобритания" },
+  BE: { name: "Белгия" },
 };
 
 const PROJECTS: Project[] = [
@@ -157,6 +158,15 @@ const PROJECTS: Project[] = [
     img: "/dudohip2.jpg",
     href: "https://d-group.bg/dudo-stroitelen/index.php",
     country: "BG",
+  },
+  {
+    id: "het-pitta-loft",
+    tag: "Сайт",
+    title: "Het Pitta Loft",
+    desc: "Сайт за ресторант в Антверпен, Белгия, с вградена резервационна система, имейл известявания и управление на резервации.",
+    img: "/hetpittaloft.jpg",
+    href: "https://hetpittaloft.be/",
+    country: "BE",
   },
   {
     id: "shop4home",
