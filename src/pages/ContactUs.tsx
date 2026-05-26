@@ -80,7 +80,7 @@ const SERVICES_OPTIONS = [
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
-    firstName: "", lastName: "", email: "", phone: "", service: "", message: "",
+    name: "", email: "", phone: "", service: "", message: "",
   });
   const [isSending, setIsSending] = useState(false);
   const [sent, setSent] = useState(false);
@@ -96,7 +96,7 @@ export default function ContactUs() {
     try {
       await sendEmail(formData);
       setSent(true);
-      setFormData({ firstName: "", lastName: "", email: "", phone: "", service: "", message: "" });
+      setFormData({ name: "", email: "", phone: "", service: "", message: "" });
     } catch (err) {
       alert("Грешка при изпращане. Опитайте пак.");
       console.error(err);
@@ -287,21 +287,13 @@ export default function ContactUs() {
                       <div className="mt-1 text-[13.5px] text-slate-500">Попълнете формата — ще се свържем с вас бързо.</div>
                     </div>
 
-                    {/* Name row */}
+                    {/* Name + Email row */}
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <FormField label="Иme">
-                        <input type="text" name="firstName" value={formData.firstName}
-                          onChange={handleChange} required placeholder="Вашето иme"
+                      <FormField label="Име">
+                        <input type="text" name="name" value={formData.name}
+                          onChange={handleChange} required placeholder="Вашето име"
                           className={inputCls} />
                       </FormField>
-                      <FormField label="Фамилия">
-                        <input type="text" name="lastName" value={formData.lastName}
-                          onChange={handleChange} required placeholder="Вашата фамилия"
-                          className={inputCls} />
-                      </FormField>
-                    </div>
-
-                    <div className="mt-4">
                       <FormField label="Имейл">
                         <input type="email" name="email" value={formData.email}
                           onChange={handleChange} required placeholder="name@gmail.com"
@@ -310,9 +302,9 @@ export default function ContactUs() {
                     </div>
 
                     <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <FormField label="Телефон">
+                      <FormField label="Телефон (по желание)">
                         <input type="tel" name="phone" value={formData.phone}
-                          onChange={handleChange} required placeholder="+359 8xx xxx xxx"
+                          onChange={handleChange} placeholder="+359 8xx xxx xxx"
                           className={inputCls} />
                       </FormField>
                       <FormField label="Услуга">

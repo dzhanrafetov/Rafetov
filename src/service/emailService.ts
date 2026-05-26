@@ -1,8 +1,7 @@
 import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
 
 interface FormData {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   phone: string;
   service: string;
@@ -10,8 +9,7 @@ interface FormData {
 }
 
 const convertToRecord = (data: FormData): Record<string, unknown> => ({
-  firstName: data.firstName,
-  lastName: data.lastName,
+  name: data.name,
   email: data.email,
   phone: data.phone,
   service: data.service,
