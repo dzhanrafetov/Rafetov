@@ -2,11 +2,13 @@ import React, { Suspense, memo } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import FloatingContact from './components/FloatingContact';
 import { Analytics } from "@vercel/analytics/react"
 
 // Lazy loading pages
 const Hero = React.lazy(() => import('./pages/Hero'));
 const Services = React.lazy(() => import('./pages/Services'));
+const Guarantees = React.lazy(() => import('./pages/Guarantees'));
 const Portfolio = React.lazy(() => import('./pages/Portfolio'));
 const Market = React.lazy(() => import('./pages/OnlinePresenceCTA'));
 
@@ -33,29 +35,25 @@ const App = () => {
                 <Suspense fallback={<Loader />}>
                   <Services />
                 </Suspense>
-
                 <Suspense fallback={<Loader />}>
-                  {/* <BrandFilm /> */}
+                  <Guarantees />
                 </Suspense>
                 <Suspense fallback={<Loader />}>
                   <Market />
                 </Suspense>
-                 <Suspense fallback={<Loader />}>
+                <Suspense fallback={<Loader />}>
                   <Portfolio />
                 </Suspense>
                 <Suspense fallback={<Loader />}>
                   <Contact />
                 </Suspense>
-
-                {/* <Suspense fallback={<Loader />}>
-                  <HowWeWork />
-                </Suspense> */}
               </>
             }
           />
         </Routes>
       </Suspense>
       <Footer />
+      <FloatingContact />
       <Analytics /> {/* Include Analytics component here */}
 
     </Router>

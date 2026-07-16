@@ -34,6 +34,15 @@ const PROJECTS: Project[] = [
     country: "BG",
   },
   {
+    id: "vulcho",
+    tag: "E-магазин",
+    title: "Vulcho.bg",
+    desc: "Онлайн магазин за месарски продукти с лоялна програма, промо кодове, ваучери и AI рецепти, с пълно управление на поръчки и наличности.",
+    img: "/valchoph.jpg",
+    href: "https://valcho.vercel.app/",
+    country: "BG",
+  },
+  {
     id: "zirve1",
     tag: "E-магазин",
     title: "Zirve1",
@@ -191,7 +200,7 @@ const PROJECTS: Project[] = [
     tag: "E-магазин",
     title: "Security Systems",
     desc: "Онлайн магазин за системи за сигурност — камери, алармени системи и рекордери, с поръчка онлайн и запитване за монтаж.",
-    img: "/kamera1.jpg",
+    img: "/szof1.jpg",
     href: "https://www.szo.bg/",
     country: "BG",
   },
@@ -202,6 +211,15 @@ const PROJECTS: Project[] = [
     desc: "Платформа за турове с онлайн резервации и плащания, включително подаръчни ваучери, промокодове и отстъпки.",
     img: "/mototours.jpg",
     href: "https://www.24tours.bg/",
+    country: "BG",
+  },
+  {
+    id: "hustle-clothing",
+    tag: "E-магазин",
+    title: "Hustle Clothing",
+    desc: "Онлайн магазин за дрехи с админ панел за самостоятелно управление на продукти, промо кодове и разпродажби.",
+    img: "/hustle2.jpg",
+    href: "https://hustleclothing.shop/",
     country: "BG",
   },
   {
@@ -437,7 +455,7 @@ export default function SectionWorkGalleryMinimal() {
             </span>
           </h2>
           <p className="mx-auto mt-4 max-w-[46ch] text-[15.5px] leading-relaxed text-slate-400" style={{ textWrap: "balance" } as React.CSSProperties}>
-            Правим сайтове, които изглеждат премиум и не оставят място за „ами". Влизаш, разбираш, действаш.
+            Всеки проект е истински, работещ сайт на наш клиент — натиснете „Виж сайта" и го разгледайте на живо.
           </p>
         </motion.div>
 
@@ -445,7 +463,8 @@ export default function SectionWorkGalleryMinimal() {
         <LayoutGroup id="workFilters">
           <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} custom={1} className="mt-8 flex justify-center">
             <div className="relative -my-2 w-full sm:w-auto">
-              <div ref={tabsRef} className="no-scrollbar flex items-center justify-center gap-2 overflow-x-auto px-4 py-4 sm:overflow-visible sm:px-0">
+              <div ref={tabsRef} className="no-scrollbar flex overflow-x-auto py-4 sm:overflow-visible">
+                <div className="mx-auto flex w-max items-center gap-2 px-4 sm:px-0">
                 {(["Всички", "Сайт", "E-магазин", "Дигитално меню"] as const).map((t) => {
                   const active = filter === t;
                   const accent = t === "Сайт" ? "#22D3EE" : t === "E-магазин" ? "#34D399" : t === "Дигитално меню" ? "#A78BFA" : null;
@@ -474,6 +493,7 @@ export default function SectionWorkGalleryMinimal() {
                     </button>
                   );
                 })}
+                </div>
               </div>
             </div>
           </motion.div>

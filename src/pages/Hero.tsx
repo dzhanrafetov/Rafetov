@@ -317,6 +317,14 @@ export default function Hero() {
           </ScrollLink>
         </motion.div>
 
+        {/* Reassurance microcopy */}
+        {/* <motion.p
+          variants={fade} initial="hidden" animate="show" custom={3}
+          className="mt-5 text-[12px] font-medium uppercase tracking-wider text-slate-500"
+        >
+          Безплатна консултация · Оферта до 24 ч · Безплатен хостинг
+        </motion.p> */}
+
         {/* ── Globe Section ── */}
         <motion.div
           variants={fade} initial="hidden" animate="show" custom={3.5}

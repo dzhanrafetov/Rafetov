@@ -3,7 +3,7 @@ import { Link as ScrollLink } from "react-scroll";
 const NAV_LINKS = [
   { label: "Услуги",  to: "services" },
   { label: "Проекти", to: "work"     },
-  { label: "Процес",  to: "faq"      },
+  { label: "Процес",  to: "process"  },
   { label: "Контакт", to: "contact"  },
 ];
 

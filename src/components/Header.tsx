@@ -114,6 +114,20 @@ const Header = () => {
           )}
 
           <div className="flex items-center gap-2 ml-auto">
+            {/* Phone */}
+            {!isMenuOpen && (
+              <a
+                href="tel:+359897758062"
+                aria-label="Обадете се: +359 897 758 062"
+                className="flex items-center gap-1.5 text-white/80 hover:text-white border border-white/20 hover:border-white/40 rounded-full px-2 py-1 md:px-3 md:py-1.5 transition-all duration-200"
+              >
+                <svg viewBox="0 0 24 24" className="w-3 h-3 md:w-4 md:h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.9v2a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 5.2 2 2 0 0 1 4.1 3h2a2 2 0 0 1 2 1.7c.1.8.3 1.6.6 2.3a2 2 0 0 1-.5 2.1L7.4 10a16 16 0 0 0 6.6 6.6l.9-.8a2 2 0 0 1 2.1-.5c.7.3 1.5.5 2.3.6A2 2 0 0 1 22 16.9Z" />
+                </svg>
+                <span className="hidden md:inline text-sm font-semibold whitespace-nowrap">+359 897 758 062</span>
+              </a>
+            )}
+
             {/* Language Selector */}
             {!isMenuOpen && (
               <div ref={langRef} className="relative">
@@ -226,6 +240,18 @@ const Header = () => {
             className="hover:text-gray-600 transition-colors duration-300 hover:shadow-s transform hover:scale-105 transition duration-300 cursor-pointer"
           >
             Проекти
+          </Link>
+
+          <Link
+            to="process"
+            smooth={true}
+            duration={200}
+            offset={-70}
+            onClick={toggleMenu}
+
+            className="hover:text-gray-600 transition-colors duration-300 hover:shadow-s transform hover:scale-105 transition duration-300 cursor-pointer"
+          >
+            Процес
           </Link>
 
           <Link

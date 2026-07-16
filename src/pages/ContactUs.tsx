@@ -74,8 +74,8 @@ const SERVICES_OPTIONS = [
   { value: "уебсайт", label: "Уебсайт" },
   { value: "електронен магазин", label: "Електронен магазин" },
   { value: "дигитално меню", label: "Дигитално меню" },
-  { value: "мобилно приложение", label: "Мобилно приложение" },
-  { value: "друго", label: "Друго" },
+  { value: "реклами", label: "Реклами (Google / Facebook)" },
+  { value: "друго", label: "Друго / Не съм сигурен" },
 ];
 
 export default function ContactUs() {
@@ -265,6 +265,12 @@ export default function ContactUs() {
                     <div>
                       <div className="text-xl font-extrabold tracking-tight text-slate-100">Получихме съобщението!</div>
                       <div className="mt-2 text-[14px] text-slate-400">Ще ви върнем отговор до 24 часа.</div>
+                      <div className="mt-2 text-[13px] text-slate-500">
+                        Ако бързате:{" "}
+                        <a href="tel:+359897758062" className="font-semibold text-slate-300 transition-colors hover:text-white">
+                          +359 897 758 062
+                        </a>
+                      </div>
                     </div>
                     <button
                       onClick={() => setSent(false)}
@@ -294,17 +300,17 @@ export default function ContactUs() {
                           onChange={handleChange} required placeholder="Вашето име"
                           className={inputCls} />
                       </FormField>
-                      <FormField label="Имейл">
-                        <input type="email" name="email" value={formData.email}
-                          onChange={handleChange} required placeholder="name@gmail.com"
+                      <FormField label="Телефон">
+                        <input type="tel" name="phone" value={formData.phone}
+                          onChange={handleChange} required placeholder="+359 8xx xxx xxx"
                           className={inputCls} />
                       </FormField>
                     </div>
 
                     <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <FormField label="Телефон (по желание)">
-                        <input type="tel" name="phone" value={formData.phone}
-                          onChange={handleChange} placeholder="+359 8xx xxx xxx"
+                      <FormField label="Имейл (по желание)">
+                        <input type="email" name="email" value={formData.email}
+                          onChange={handleChange} placeholder="name@gmail.com"
                           className={inputCls} />
                       </FormField>
                       <FormField label="Услуга">
@@ -320,10 +326,10 @@ export default function ContactUs() {
                     </div>
 
                     <div className="mt-4">
-                      <FormField label="Съобщение">
+                      <FormField label="Съобщение (по желание)">
                         <textarea name="message" value={formData.message}
-                          onChange={handleChange} required rows={4}
-                          placeholder="Кратко описание — цел, бюджет, срок, примери..."
+                          onChange={handleChange} rows={4}
+                          placeholder="Например: Имам ресторант и искам сайт с меню и резервации."
                           className={`${inputCls} h-auto resize-none py-3`} />
                       </FormField>
                     </div>
@@ -355,7 +361,10 @@ export default function ContactUs() {
                         )}
                       </motion.button>
                       <p className="mt-3 text-center text-[11.5px] text-slate-500">
-                        Без спам · Само конкретен отговор за вашия проект
+                        Без спам · Отговор до 24 часа · Предпочитате да говорим?{" "}
+                        <a href="tel:+359897758062" className="font-semibold text-slate-300 transition-colors hover:text-white">
+                          Обадете се
+                        </a>
                       </p>
                     </div>
                   </motion.form>
