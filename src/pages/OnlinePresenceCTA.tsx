@@ -231,6 +231,15 @@ const PROJECTS: Project[] = [
     href: "https://shop4home.bg/",
     country: "BG",
   },
+  {
+    id: "korn-metal",
+    tag: "Сайт",
+    title: "Korn Metal",
+    desc: "Корпоративен сайт за търговия с метали, термопанели и изработка на метални конструкции, с продуктов каталог, портфолио и система за запитвания.",
+    img: "/korn.jpg",
+    href: "https://www.korn-metal.com/",
+    country: "BG",
+  },
   // {
   //   id: "slapfight",
   //   tag: "E-магазин",
@@ -547,3 +556,5 @@ export default function SectionWorkGalleryMinimal() {
     </section>
   );
 }
+
+
