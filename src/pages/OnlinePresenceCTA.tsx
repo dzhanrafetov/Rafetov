@@ -240,6 +240,15 @@ const PROJECTS: Project[] = [
     href: "https://www.korn-metal.com/",
     country: "BG",
   },
+  {
+    id: "hotel-fenix",
+    tag: "Сайт",
+    title: "Хотел Феникс",
+    desc: "Сайт за семеен хотел в Чепеларе с представяне на стаите, ресторанта и пакетите, галерия и система за резервационни запитвания.",
+    img: "/chepelare.jpg",
+    href: "https://hotelfenix.vercel.app/",
+    country: "BG",
+  },
   // {
   //   id: "slapfight",
   //   tag: "E-магазин",
