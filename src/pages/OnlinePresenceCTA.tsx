@@ -249,15 +249,15 @@ const PROJECTS: Project[] = [
     href: "https://hotelfenix.vercel.app/",
     country: "BG",
   },
-  // {
-  //   id: "slapfight",
-  //   tag: "E-магазин",
-  //   title: "SlapFight Bulgaria",
-  //   desc: "Онлайн платформа за продажба на билети за събития с бърза покупка и ясна информация за събитията.",
-  //   img: "/slpbg.jpg",
-  //   href: "https://slap-fight-bulgaria-nine.vercel.app/",
-  //   country: "BG",
-  // },
+  {
+    id: "slapfight",
+    tag: "E-магазин",
+    title: "SlapFight Bulgaria",
+    desc: "Онлайн платформа за продажба на билети за събития с бърза покупка и ясна информация за събитията.",
+    img: "/slapfight2.jpg",
+    href: "https://slap-fight-bulgaria-nine.vercel.app/",
+    country: "BG",
+  },
 ];
 
 const fade = {
