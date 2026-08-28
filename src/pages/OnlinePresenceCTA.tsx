@@ -124,15 +124,6 @@ const PROJECTS: Project[] = [
     country: "BG",
   },
   {
-    id: "9-april-village",
-    tag: "Сайт",
-    title: "9 April Village",
-    desc: "Сайт за къща за гости с информация за стаите, спа зоната, локацията и предстоящите събития.",
-    img: "/9april.jpg",
-    href: "https://9-aprill-village-h8bb.vercel.app/",
-    country: "BG",
-  },
-  {
     id: "taupe",
     tag: "Сайт",
     title: "Taupe",
