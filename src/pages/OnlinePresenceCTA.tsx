@@ -124,6 +124,15 @@ const PROJECTS: Project[] = [
     country: "BG",
   },
   {
+    id: "opaka-fits",
+    tag: "Сайт",
+    title: "Комплекс Фъц",
+    desc: "Сайт за комплекс в Опака с басейн, ресторант и стаи за нощувка, дигитално меню и заявка за резервация.",
+    img: "/opakafits.jpg",
+    href: "https://opakafits.com/",
+    country: "BG",
+  },
+  {
     id: "taupe",
     tag: "Сайт",
     title: "Taupe",
