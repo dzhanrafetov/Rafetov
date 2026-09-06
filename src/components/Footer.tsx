@@ -1,6 +1,6 @@
 import { Link as ScrollLink } from "react-scroll";
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import { BUSINESS, ROUTES } from "../constants/business";
+import { ROUTES } from "../constants/business";
 
 const NAV_LINKS = [
   { label: "Услуги",  to: "services" },
@@ -125,24 +125,8 @@ export default function Footer() {
         {/* ── Divider ── */}
         <div aria-hidden className="mt-10 h-px" style={{ backgroundColor: "var(--hairline)" }} />
 
-        {/* ── Legal (дискретен ред с идентификация и правни страници) ── */}
-        <div className="mt-5 flex flex-col items-center gap-3 text-center sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:text-left">
-
-          <div className="text-[12px] leading-relaxed text-slate-600">
-            <span className="text-slate-500">{BUSINESS.brand}</span>
-            <Dot />
-            {BUSINESS.legalName}
-            <Dot />
-            БУЛСТАТ {BUSINESS.bulstat}
-            <Dot />
-            <a
-              href={`mailto:${BUSINESS.email}`}
-              className="transition-colors hover:text-slate-300"
-            >
-              {BUSINESS.email}
-            </a>
-          </div>
-
+        {/* ── Legal (връзки към правните страници) ── */}
+        <div className="mt-5 flex justify-center">
           <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
             {LEGAL_LINKS.map((l) => (
               <li key={l.to}>
@@ -174,9 +158,4 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
-
-/** Дискретен разделител между данните в правния ред. */
-function Dot() {
-  return <span aria-hidden className="mx-1.5 text-slate-700">·</span>;
 }

@@ -46,8 +46,12 @@ export default function LegalNotice() {
               </dd>
             </div>
             <div>
+              <dt className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-600">Адрес по регистрация</dt>
+              <dd className="mt-1 text-slate-200">{BUSINESS.registeredAddress}</dd>
+            </div>
+            <div className="sm:col-span-2">
               <dt className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-600">Място на дейност</dt>
-              <dd className="mt-1 text-slate-200">{BUSINESS.city}</dd>
+              <dd className="mt-1 text-slate-200">{BUSINESS.activityScope}</dd>
             </div>
           </dl>
         </Card>

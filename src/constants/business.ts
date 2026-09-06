@@ -7,7 +7,8 @@ export const BUSINESS = {
   email: "business@rafetov.com",
   phone: "+359 897 758 062",
   phoneHref: "tel:+359897758062",
-  city: "София, България",
+  registeredAddress: "гр. Попово, обл. Търговище",
+  activityScope: "Услугите се предоставят дистанционно на територията на цялата страна.",
   updated: "6 септември 2026",
 } as const;
 
