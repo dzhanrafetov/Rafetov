@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import FloatingContact from './components/FloatingContact';
+import ScrollManager from './components/ScrollManager';
 import { Analytics } from "@vercel/analytics/react"
 
 // Lazy loading pages
@@ -13,6 +14,8 @@ const Portfolio = React.lazy(() => import('./pages/Portfolio'));
 const Market = React.lazy(() => import('./pages/OnlinePresenceCTA'));
 
 const Contact = React.lazy(() => import('./pages/ContactUs'));
+const PrivacyPolicy = React.lazy(() => import('./pages/PrivacyPolicy'));
+const LegalNotice = React.lazy(() => import('./pages/LegalNotice'));
 
 // Minimal Spinner as fallback
 const Loader = () => (
@@ -24,6 +27,7 @@ const Loader = () => (
 const App = () => {
   return (
     <Router>
+      <ScrollManager />
       <Header />
       <Suspense fallback={<Loader />}>
         <Routes>
@@ -50,6 +54,8 @@ const App = () => {
               </>
             }
           />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/legal" element={<LegalNotice />} />
         </Routes>
       </Suspense>
       <Footer />

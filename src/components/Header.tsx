@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { FaInstagram, FaFacebook, FaEnvelope } from 'react-icons/fa';
 import { Link } from 'react-scroll';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 
 const LANGUAGES = [
   { code: 'bg', label: 'БГ', flag: '🇧🇬', name: 'Български' },
@@ -13,7 +14,20 @@ const LANGUAGES = [
   { code: 'nl', label: 'NL', flag: '🇧🇪', name: 'Vlaams' },
 ];
 
+const MENU_LINKS = [
+  { to: 'hero',     label: 'Начало'    },
+  { to: 'services', label: 'Услуги'    },
+  { to: 'work',     label: 'Проекти'   },
+  { to: 'process',  label: 'Процес'    },
+  { to: 'contact',  label: 'Свържи се' },
+];
+
+const MENU_LINK_CLASS =
+  'hover:text-gray-600 transition-colors duration-300 transform hover:scale-105 cursor-pointer';
+
 const Header = () => {
+  const { pathname } = useLocation();
+  const isHome = pathname === '/';
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
@@ -108,9 +122,18 @@ const Header = () => {
         <div className="max-w-7xl mx-auto px-4 py-2.5 md:px-6 md:py-6 flex justify-between items-center">
           {/* Conditionally Render RAFETOV.COM */}
           {!isMenuOpen && (
-            <div className="text-sm md:text-2xl font-bold text-white tracking-widest">
-              RAFETOV.COM
-            </div>
+            isHome ? (
+              <div className="text-sm md:text-2xl font-bold text-white tracking-widest">
+                RAFETOV.COM
+              </div>
+            ) : (
+              <RouterLink
+                to="/"
+                className="text-sm md:text-2xl font-bold text-white tracking-widest transition-opacity hover:opacity-80"
+              >
+                RAFETOV.COM
+              </RouterLink>
+            )
           )}
 
           <div className="flex items-center gap-2 ml-auto">
@@ -209,63 +232,26 @@ const Header = () => {
         {/* Menu Links */}
 
         <nav className="flex-1 flex flex-col justify-center space-y-8 text-2xl font-semibold text-center">
-        <Link
-            to="hero"
-            smooth={true}
-            duration={200}
-            offset={-70}
-            onClick={toggleMenu}
-            className="hover:text-gray-600 transition-colors duration-300 transform hover:scale-105 cursor-pointer"
-          >
-            Начало
-          </Link>
-          <Link
-            to="services"
-            smooth={true}
-            duration={200}
-            offset={-70}
-            onClick={toggleMenu}
-
-            className="hover:text-gray-600 transition-colors duration-300 hover:shadow-s transform hover:scale-105 transition duration-300 cursor-pointer"
-          >
-            Услуги
-          </Link>
-          <Link
-            to="work"
-            smooth={true}
-            duration={200}
-            offset={-70}
-            onClick={toggleMenu}
-
-            className="hover:text-gray-600 transition-colors duration-300 hover:shadow-s transform hover:scale-105 transition duration-300 cursor-pointer"
-          >
-            Проекти
-          </Link>
-
-          <Link
-            to="process"
-            smooth={true}
-            duration={200}
-            offset={-70}
-            onClick={toggleMenu}
-
-            className="hover:text-gray-600 transition-colors duration-300 hover:shadow-s transform hover:scale-105 transition duration-300 cursor-pointer"
-          >
-            Процес
-          </Link>
-
-          <Link
-            to="contact"
-            smooth={true}
-            duration={200}
-            offset={-70}
-            onClick={toggleMenu}
-
-            className="hover:text-gray-600 transition-colors duration-300 hover:shadow-s transform hover:scale-105 transition duration-300 cursor-pointer"
-          >
-            Свържи се
-          </Link>
-
+          {/* На началната страница скролваме плавно; извън нея навигираме към "/#секция". */}
+          {MENU_LINKS.map(({ to, label }) =>
+            isHome ? (
+              <Link
+                key={to}
+                to={to}
+                smooth={true}
+                duration={200}
+                offset={-70}
+                onClick={toggleMenu}
+                className={MENU_LINK_CLASS}
+              >
+                {label}
+              </Link>
+            ) : (
+              <RouterLink key={to} to={`/#${to}`} onClick={toggleMenu} className={MENU_LINK_CLASS}>
+                {label}
+              </RouterLink>
+            )
+          )}
         </nav>
 
 

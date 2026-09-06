@@ -1,4 +1,6 @@
 import { Link as ScrollLink } from "react-scroll";
+import { Link as RouterLink, useLocation } from "react-router-dom";
+import { BUSINESS, ROUTES } from "../constants/business";
 
 const NAV_LINKS = [
   { label: "Услуги",  to: "services" },
@@ -13,7 +15,15 @@ const CONTACT_LINKS = [
   { label: "WhatsApp",             href: "https://wa.me/359897758062",  external: true  },
 ];
 
+const LEGAL_LINKS = [
+  { label: "Политика за поверителност", to: ROUTES.privacy },
+  { label: "Правна информация",         to: ROUTES.legal   },
+];
+
 export default function Footer() {
+  const { pathname } = useLocation();
+  const isHome = pathname === "/";
+
   return (
     <footer
       className="relative isolate overflow-hidden text-slate-400"
@@ -61,17 +71,30 @@ export default function Footer() {
                 Навигация
               </div>
               <ul className="space-y-2">
-                {NAV_LINKS.map((l) => (
-                  <li key={l.to}>
-                    <ScrollLink
-                      to={l.to} smooth duration={220} offset={-70}
-                      className="group flex cursor-pointer items-center gap-2 text-[13px] text-slate-400 transition-colors hover:text-slate-100"
-                    >
+                {NAV_LINKS.map((l) => {
+                  const inner = (
+                    <>
                       <span aria-hidden className="h-px w-3 rounded-full bg-slate-700 transition-all duration-200 group-hover:w-4 group-hover:bg-[#22D3EE]" />
                       {l.label}
-                    </ScrollLink>
-                  </li>
-                ))}
+                    </>
+                  );
+                  const cls =
+                    "group flex cursor-pointer items-center gap-2 text-[13px] text-slate-400 transition-colors hover:text-slate-100";
+
+                  return (
+                    <li key={l.to}>
+                      {isHome ? (
+                        <ScrollLink to={l.to} smooth duration={220} offset={-70} className={cls}>
+                          {inner}
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink to={`/#${l.to}`} className={cls}>
+                          {inner}
+                        </RouterLink>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
 
@@ -102,6 +125,40 @@ export default function Footer() {
         {/* ── Divider ── */}
         <div aria-hidden className="mt-10 h-px" style={{ backgroundColor: "var(--hairline)" }} />
 
+        {/* ── Legal (дискретен ред с идентификация и правни страници) ── */}
+        <div className="mt-5 flex flex-col items-center gap-3 text-center sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:text-left">
+
+          <div className="text-[12px] leading-relaxed text-slate-600">
+            <span className="text-slate-500">{BUSINESS.brand}</span>
+            <Dot />
+            {BUSINESS.legalName}
+            <Dot />
+            БУЛСТАТ {BUSINESS.bulstat}
+            <Dot />
+            <a
+              href={`mailto:${BUSINESS.email}`}
+              className="transition-colors hover:text-slate-300"
+            >
+              {BUSINESS.email}
+            </a>
+          </div>
+
+          <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
+            {LEGAL_LINKS.map((l) => (
+              <li key={l.to}>
+                <RouterLink
+                  to={l.to}
+                  className="text-[12px] text-slate-600 underline decoration-transparent underline-offset-4 transition-colors hover:text-slate-300 hover:decoration-slate-600"
+                >
+                  {l.label}
+                </RouterLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div aria-hidden className="mt-5 h-px" style={{ backgroundColor: "var(--hairline)" }} />
+
         {/* ── Bottom ── */}
         <div className="mt-4 flex flex-col items-center gap-1 text-center sm:flex-row sm:justify-between sm:text-left">
           <div className="text-[12px] text-slate-600">
@@ -117,4 +174,9 @@ export default function Footer() {
       </div>
     </footer>
   );
+}
+
+/** Дискретен разделител между данните в правния ред. */
+function Dot() {
+  return <span aria-hidden className="mx-1.5 text-slate-700">·</span>;
 }

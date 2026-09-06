@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import sendEmail from "../service/emailService";
+import { ROUTES } from "../constants/business";
 
 const fade = {
   hidden: { opacity: 0, y: 22 },
@@ -365,6 +367,16 @@ export default function ContactUs() {
                         <a href="tel:+359897758062" className="font-semibold text-slate-300 transition-colors hover:text-white">
                           Обадете се
                         </a>
+                      </p>
+                      <p className="mt-2 text-center text-[11.5px] leading-relaxed text-slate-600">
+                        С изпращането на запитването потвърждавате, че сте запознати с{" "}
+                        <Link
+                          to={ROUTES.privacy}
+                          className="text-slate-400 underline decoration-slate-700 underline-offset-2 transition-colors hover:text-slate-200 hover:decoration-[#22D3EE]"
+                        >
+                          Политиката за поверителност
+                        </Link>
+                        .
                       </p>
                     </div>
                   </motion.form>
