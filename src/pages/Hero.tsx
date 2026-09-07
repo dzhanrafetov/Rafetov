@@ -88,10 +88,8 @@ function Globe({ activeCountry }: { activeCountry: number }) {
     const wrap   = wrapRef.current;
     if (!canvas || !wrap) return;
 
-    // Глобусът е статичен: cobe го рисува веднъж при създаване, затова няма нужда от
-    // requestAnimationFrame цикъл (преди се пререндерираше 60 пъти в секунда).
     const globe = createGlobe(canvas, {
-      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+      devicePixelRatio: 2,
       width:  760,
       height: 760,
       phi:    GLOBE_PHI,
@@ -105,6 +103,14 @@ function Globe({ activeCountry }: { activeCountry: number }) {
       glowColor:   [0.07, 0.12, 0.22],
       markers: [],
     });
+
+    // Keep rendering loop alive (cobe needs RAF to draw)
+    let rafId = 0;
+    const tick = () => {
+      globe.update({ phi: GLOBE_PHI });
+      rafId = requestAnimationFrame(tick);
+    };
+    tick();
 
     // Project lat/lng onto 2D canvas overlay
     const W  = wrap.offsetWidth;
@@ -126,7 +132,7 @@ function Globe({ activeCountry }: { activeCountry: number }) {
 
     setFlagPos(spreadPoints(raw, BADGE + 5));
 
-    return () => globe.destroy();
+    return () => { cancelAnimationFrame(rafId); globe.destroy(); };
   }, []);
 
   return (
