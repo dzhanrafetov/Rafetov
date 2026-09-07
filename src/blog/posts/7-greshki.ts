@@ -34,10 +34,10 @@ const post: Post = {
           type: "p",
           text: "Снимки от 5 MB, десет плъгина, видео на цял екран. На компютъра в офиса зарежда добре, на телефон с мобилен интернет отнема 8 секунди, а клиентът си е тръгнал на третата. Проверете сайта си на собствения си телефон, с изключен Wi-Fi. Ако чакате, чакат и клиентите ви.",
         },
-        { type: "h2", text: "4. Няма цени и няма „от“" },
+        { type: "h2", text: "4. Не е ясно какво включва офертата" },
         {
           type: "p",
-          text: "Разбираме, че цената зависи. Но „свържете се за цена“ на всяка услуга кара хората да си мислят, че е скъпо, и да отидат при конкурента, който пише „от 40 €“. Дори ориентир помага: „от“, „между“, „примерни пакети“. Повече в [колко струва един сайт](/blog/kolko-struva-izrabotka-na-sait-2026).",
+          text: "Нормално е цената да е по оферта, особено при по-големи проекти. Но клиентът трябва да разбере от сайта какво получава: какво е включено, какви са етапите, кога и как ще получи конкретна цена. „Индивидуална оферта“ без нищо след това оставя въпроси, а въпросите пращат хората при конкурента. Повече в [колко струва един сайт](/blog/kolko-struva-izrabotka-na-sait-2026).",
         },
         { type: "h2", text: "5. Стара информация" },
         {
@@ -101,10 +101,10 @@ const post: Post = {
           type: "p",
           text: "5 MB photos, ten plugins, a full-screen video. On the office computer it loads fine, on a phone with mobile data it takes 8 seconds, and the customer left at the third. Check your site on your own phone with Wi-Fi off. If you are waiting, so are your customers.",
         },
-        { type: "h2", text: "4. No prices and no “from”" },
+        { type: "h2", text: "4. It is not clear what the quote includes" },
         {
           type: "p",
-          text: "We understand that the price depends. But “contact us for a price” on every service makes people assume it is expensive and go to the competitor who writes “from €40”. Even a reference point helps: “from”, “between”, “example packages”. More in [how much a website costs](/blog/how-much-does-a-website-cost-2026).",
+          text: "It is normal for the price to be quoted individually, especially on larger projects. But the visitor has to understand from the website what they get: what is included, what the stages are, and when and how they will receive a concrete price. “Individual quote” with nothing after it leaves questions, and questions send people to the competitor. More in [how much a website costs](/blog/how-much-does-a-website-cost-2026).",
         },
         { type: "h2", text: "5. Outdated information" },
         {
@@ -168,10 +168,10 @@ const post: Post = {
           type: "p",
           text: "5-MB-Fotos, zehn Plugins, ein Vollbild-Video. Auf dem Bürocomputer lädt sie gut, auf dem Handy mit mobilen Daten dauert es 8 Sekunden, und der Kunde ist bei der dritten weg. Prüfen Sie Ihre Seite auf Ihrem eigenen Handy mit ausgeschaltetem WLAN. Wenn Sie warten, warten auch Ihre Kunden.",
         },
-        { type: "h2", text: "4. Keine Preise und kein „ab“" },
+        { type: "h2", text: "4. Unklar, was das Angebot enthält" },
         {
           type: "p",
-          text: "Wir verstehen, dass der Preis davon abhängt. Aber „Preis auf Anfrage“ bei jeder Leistung lässt die Leute denken, dass es teuer ist, und sie gehen zum Mitbewerber, der „ab 40 €“ schreibt. Schon ein Anhaltspunkt hilft: „ab“, „zwischen“, „Beispielpakete“. Mehr in [was eine Webseite kostet](/blog/was-kostet-eine-webseite-2026).",
+          text: "Es ist normal, dass der Preis individuell angeboten wird, besonders bei größeren Projekten. Aber der Besucher muss auf der Webseite verstehen, was er bekommt: was enthalten ist, welche Schritte es gibt und wann und wie er einen konkreten Preis erhält. „Individuelles Angebot“ ohne alles Weitere lässt Fragen offen, und Fragen schicken die Leute zum Mitbewerber. Mehr in [was eine Webseite kostet](/blog/was-kostet-eine-webseite-2026).",
         },
         { type: "h2", text: "5. Veraltete Informationen" },
         {

@@ -44,13 +44,13 @@ export const SERVICES: Service[] = [
     content: {
       bg: {
         slug: "izrabotka-na-sait",
-        metaTitle: "Изработка на сайт за малък бизнес | от 250 € | Rafetov.com",
+        metaTitle: "Изработка на сайт за бизнеса | Фиксирана цена | Rafetov.com",
         metaDescription:
-          "Изработка на уебсайт за вашия бизнес: бърз, удобен на телефон, готов за Google. Фиксирана цена, безплатен хостинг, поддръжка след пускане. Прост сайт от 250 €, по-голям 910–1 200 €.",
+          "Изработка на уебсайт за вашия бизнес: бърз, удобен на телефон, готов за Google. Фиксирана цена, безплатен хостинг, поддръжка след пускане.",
         title: "Изработка на сайт, който носи запитвания",
         intro:
           "Сайт, който с едно изречение казва кой сте и как помагате, зарежда бързо на телефон и излиза в Google за услугата и града ви. Без шаблони, които сте виждали при конкурентите, и без месечни такси за хостинг.",
-        priceLine: "От около 250 € за прост сайт до 910–1 200 € за по-голям. Фиксирана цена след 15-минутен разговор.",
+        priceLine: "Индивидуална оферта според обема и функциите. Фиксирана цена след 15-минутен разговор.",
         includes: [
           "Дизайн, направен за вашия бизнес, не шаблон",
           "Мобилна версия, тествана на реални телефони",
@@ -82,13 +82,13 @@ export const SERVICES: Service[] = [
       },
       en: {
         slug: "website-development",
-        metaTitle: "Website development for small businesses | from €250 | Rafetov.com",
+        metaTitle: "Website development for businesses | Fixed price | Rafetov.com",
         metaDescription:
-          "A website for your business: fast, mobile-friendly, ready for Google. Fixed price, free hosting, support after launch. Simple site from €250, larger sites €910–1,200.",
+          "A website for your business: fast, mobile-friendly, ready for Google. Fixed price, free hosting, support after launch.",
         title: "A website that brings in enquiries",
         intro:
           "A website that says in one sentence who you are and how you help, loads fast on phones and shows up on Google for your service and your town. No templates you have seen at your competitors, and no monthly hosting fees.",
-        priceLine: "From about €250 for a simple site to €910–1,200 for a larger one. Fixed price after a 15-minute call.",
+        priceLine: "An individual quote based on scope and features. Fixed price after a 15-minute call.",
         includes: [
           "A design made for your business, not a template",
           "Mobile version tested on real phones",
@@ -120,13 +120,13 @@ export const SERVICES: Service[] = [
       },
       de: {
         slug: "webseite-erstellen",
-        metaTitle: "Webseite erstellen lassen für kleine Unternehmen | ab 250 € | Rafetov.com",
+        metaTitle: "Webseite erstellen lassen für Unternehmen | Festpreis | Rafetov.com",
         metaDescription:
-          "Eine Webseite für Ihr Unternehmen: schnell, mobilfreundlich, bereit für Google. Festpreis, kostenloses Hosting, Betreuung nach dem Start. Einfache Seite ab 250 €, größere Seiten 910–1.200 €.",
+          "Eine Webseite für Ihr Unternehmen: schnell, mobilfreundlich, bereit für Google. Festpreis, kostenloses Hosting, Betreuung nach dem Start.",
         title: "Eine Webseite, die Anfragen bringt",
         intro:
           "Eine Webseite, die in einem Satz sagt, wer Sie sind und wie Sie helfen, auf dem Handy schnell lädt und bei Google für Ihre Leistung und Ihre Stadt erscheint. Keine Vorlagen, die Sie bei der Konkurrenz gesehen haben, und keine monatlichen Hosting-Gebühren.",
-        priceLine: "Ab etwa 250 € für eine einfache Seite bis 910–1.200 € für eine größere. Festpreis nach einem 15-minütigen Gespräch.",
+        priceLine: "Individuelles Angebot je nach Umfang und Funktionen. Festpreis nach einem 15-minütigen Gespräch.",
         includes: [
           "Ein Design für Ihr Unternehmen, keine Vorlage",
           "Mobile Version, auf echten Handys getestet",
@@ -298,7 +298,7 @@ export const SERVICES: Service[] = [
         title: "Дигитално меню с QR код за вашето заведение",
         intro:
           "Гостът сканира QR кода на масата и вижда менюто на телефона си, на своя език, със снимки и алергени. Вие сменяте цена или ястие за минута, от телефона, без нов печат.",
-        priceLine: "По-евтино от сайт и от един печат на ламинирани менюта. Точна цена след кратък разговор.",
+        priceLine: "Индивидуална оферта според броя ястия и езици. Фиксирана цена след кратък разговор.",
         includes: [
           "Категории, ястия, снимки, цени, алергени",
           "Няколко езика: български, английски, немски, турски и др.",
@@ -336,7 +336,7 @@ export const SERVICES: Service[] = [
         title: "A digital QR menu for your restaurant",
         intro:
           "The guest scans the QR code on the table and sees the menu on their phone, in their language, with photos and allergens. You change a price or a dish in a minute, from your phone, with no reprinting.",
-        priceLine: "Cheaper than a website and than one print run of laminated menus. Exact price after a short call.",
+        priceLine: "An individual quote based on the number of dishes and languages. Fixed price after a short call.",
         includes: [
           "Categories, dishes, photos, prices, allergens",
           "Several languages: English, German, Bulgarian, Turkish and more",
@@ -374,7 +374,7 @@ export const SERVICES: Service[] = [
         title: "Digitale Speisekarte mit QR-Code für Ihr Lokal",
         intro:
           "Der Gast scannt den QR-Code auf dem Tisch und sieht die Karte auf seinem Handy, in seiner Sprache, mit Fotos und Allergenen. Sie ändern einen Preis oder ein Gericht in einer Minute, vom Handy, ohne Neudruck.",
-        priceLine: "Günstiger als eine Webseite und als ein Druck laminierter Karten. Genauer Preis nach einem kurzen Gespräch.",
+        priceLine: "Individuelles Angebot je nach Anzahl der Gerichte und Sprachen. Festpreis nach einem kurzen Gespräch.",
         includes: [
           "Kategorien, Gerichte, Fotos, Preise, Allergene",
           "Mehrere Sprachen: Deutsch, Englisch, Bulgarisch, Türkisch und mehr",
