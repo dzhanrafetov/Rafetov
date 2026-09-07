@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { FaInstagram, FaFacebook, FaEnvelope } from 'react-icons/fa';
 import { Link } from 'react-scroll';
@@ -64,6 +64,14 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const goHome = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    setIsMenuOpen(false);
+    if (!isHome) return; // друга страница: RouterLink навигира към "/"
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (hash) navigate(href('/'), { replace: true });
+  };
+
   return (
     <>
       {/* Header Section */}
@@ -75,20 +83,16 @@ const Header = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 py-2.5 md:px-6 md:py-6 flex justify-between items-center">
-          {/* Conditionally Render RAFETOV.COM */}
+          {/* Логото винаги води към началната страница; на нея само скролва най-горе. */}
           {!isMenuOpen && (
-            isHome ? (
-              <div className="text-sm md:text-2xl font-bold text-white tracking-widest">
-                RAFETOV.COM
-              </div>
-            ) : (
-              <RouterLink
-                to={href('/')}
-                className="text-sm md:text-2xl font-bold text-white tracking-widest transition-opacity hover:opacity-80"
-              >
-                RAFETOV.COM
-              </RouterLink>
-            )
+            <RouterLink
+              to={href('/')}
+              onClick={goHome}
+              aria-label={t.header.links.hero}
+              className="text-sm md:text-2xl font-bold text-white tracking-widest transition-opacity hover:opacity-80"
+            >
+              RAFETOV.COM
+            </RouterLink>
           )}
 
           {/* Desktop navigation */}
@@ -118,9 +122,9 @@ const Header = () => {
               <a
                 href="tel:+359897758062"
                 aria-label={t.header.callAria}
-                className="flex items-center gap-1.5 text-white/80 hover:text-white border border-white/20 hover:border-white/40 rounded-full px-2 py-1 md:px-3 md:py-1.5 transition-all duration-200"
+                className="flex items-center gap-2 text-white/85 hover:text-white border border-white/25 hover:border-white/50 rounded-full px-2.5 py-1.5 md:px-3.5 md:py-2 transition-all duration-200"
               >
-                <svg viewBox="0 0 24 24" className="w-3 h-3 md:w-4 md:h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg viewBox="0 0 24 24" className="w-[18px] h-[18px] md:w-5 md:h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 16.9v2a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 5.2 2 2 0 0 1 4.1 3h2a2 2 0 0 1 2 1.7c.1.8.3 1.6.6 2.3a2 2 0 0 1-.5 2.1L7.4 10a16 16 0 0 0 6.6 6.6l.9-.8a2 2 0 0 1 2.1-.5c.7.3 1.5.5 2.3.6A2 2 0 0 1 22 16.9Z" />
                 </svg>
                 <span className="hidden xl:inline text-sm font-semibold whitespace-nowrap">+359 897 758 062</span>
@@ -132,14 +136,14 @@ const Header = () => {
               <div ref={langRef} className="relative">
                 <button
                   onClick={() => setLangOpen((o) => !o)}
-                  className="flex items-center gap-1.5 text-white/70 hover:text-white border border-white/20 hover:border-white/40 rounded-full px-2 py-1 md:px-3 md:py-1.5 transition-all duration-200"
+                  className="flex items-center gap-2 text-white/80 hover:text-white border border-white/25 hover:border-white/50 rounded-full px-2.5 py-1.5 md:px-3.5 md:py-2 transition-all duration-200"
                   aria-label={t.header.langAria}
                   aria-haspopup="listbox"
                   aria-expanded={langOpen}
                 >
-                  <span className="text-sm md:text-base leading-none">{LANG_META[lang].flag}</span>
+                  <span className="text-lg md:text-xl leading-none">{LANG_META[lang].flag}</span>
                   <span className="hidden md:inline text-sm font-semibold">{LANG_META[lang].label}</span>
-                  <svg viewBox="0 0 24 24" className="w-3 h-3 shrink-0 opacity-70" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 shrink-0 opacity-70" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M6 9l6 6 6-6" />
                   </svg>
                 </button>
@@ -155,7 +159,7 @@ const Header = () => {
                         onClick={() => switchLang(code)}
                         className={`w-full flex items-center gap-2.5 px-4 py-2 text-[13px] whitespace-nowrap transition-colors duration-150 hover:bg-white/10 ${lang === code ? 'text-white font-semibold' : 'text-white/60'}`}
                       >
-                        <span className="text-base leading-none">{LANG_META[code].flag}</span>
+                        <span className="text-lg leading-none">{LANG_META[code].flag}</span>
                         <span>{LANG_META[code].name}</span>
                       </button>
                     ))}
@@ -184,10 +188,12 @@ const Header = () => {
             {/* Menu Button (mobile/tablet only) */}
             <button
               onClick={toggleMenu}
-              className="lg:hidden border-2 border-white text-white font-medium py-1.5 px-2.5 md:py-2 md:px-6 rounded-full hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-1.5"
+              aria-label={t.header.menu}
+              aria-expanded={isMenuOpen}
+              className="lg:hidden border-2 border-white text-white font-medium py-1.5 px-3 md:py-2 md:px-6 rounded-full hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-1.5"
             >
               <span className="hidden md:inline text-sm font-semibold">{t.header.menu}</span>
-              {isMenuOpen ? <FiX className="w-4 h-4 md:w-5 md:h-5" /> : <FiMenu className="w-4 h-4 md:w-5 md:h-5" />}
+              {isMenuOpen ? <FiX className="w-5 h-5 md:w-6 md:h-6" /> : <FiMenu className="w-5 h-5 md:w-6 md:h-6" />}
             </button>
           </div>
         </div>

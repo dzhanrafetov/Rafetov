@@ -46,9 +46,17 @@ export default function Footer() {
 
           {/* Logo + tagline */}
           <div>
-            <div className="text-[13px] font-black uppercase tracking-[0.22em] text-slate-100">
+            <RouterLink
+              to={href("/")}
+              onClick={(e) => {
+                if (!isHome) return;
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="inline-block text-[13px] font-black uppercase tracking-[0.22em] text-slate-100 transition-opacity hover:opacity-80"
+            >
               RAFETOV<span style={{ color: "#22D3EE" }}>.</span>COM
-            </div>
+            </RouterLink>
             <p className="mt-2 text-[13px] text-slate-500">
               {t.footer.tagline}
             </p>

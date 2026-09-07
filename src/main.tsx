@@ -8,7 +8,7 @@ import { stripLang } from "./i18n";
 /**
  * Страниците са пререндерирани в HTML (виж scripts/prerender.mjs). За да не мига спинър
  * върху вече видимото съдържание, зареждаме предварително частите за текущия адрес
- * и чак тогава монтираме React (React заменя статичния HTML при първия render).
+ * и чак тогава хидратираме React върху готовия HTML.
  */
 function preloadFor(path: string): Promise<unknown>[] {
   if (path === "/") {
@@ -31,11 +31,16 @@ function preloadFor(path: string): Promise<unknown>[] {
 }
 
 const mount = () => {
-  ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  const root = document.getElementById("root") as HTMLElement;
+  const app = (
     <React.StrictMode>
       <App />
-    </React.StrictMode>,
+    </React.StrictMode>
   );
+  // Пререндерираният HTML се хидратира (React „закача“ обработчиците към готовия DOM),
+  // а не се изтрива и строи наново — иначе картите и снимките примигват при първото зареждане.
+  if (root.hasChildNodes()) ReactDOM.hydrateRoot(root, app);
+  else ReactDOM.createRoot(root).render(app);
 };
 
 Promise.all(preloadFor(stripLang(window.location.pathname))).then(mount, mount);

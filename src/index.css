@@ -3,6 +3,17 @@
 @tailwind utilities;
 /* src/index.css */
 
+/* Без „сираци“: заглавията се балансират на редове с еднаква дължина, а параграфите
+   и списъците избягват сама дума на последния ред (браузъри без поддръжка просто ги пренебрегват). */
+@layer base {
+  h1, h2, h3, h4, h5, h6, dt, summary, figcaption, blockquote {
+    text-wrap: balance;
+  }
+  p, li, dd, td, th, small, label {
+    text-wrap: pretty;
+  }
+}
+
 /* Gradient text: background-clip:text paints only inside the element box, so with a
    tight line-height descenders (д, з, у, р) fall outside and vanish. Padding extends
    the painted area; the negative margin keeps layout unchanged. */
