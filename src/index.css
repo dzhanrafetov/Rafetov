@@ -143,3 +143,15 @@ html, body {
     }
   }
 }
+
+/* MobileBar: еднократен блясък през CTA бутона при появяване на лентата */
+@keyframes mobilebar-shine {
+  0%   { transform: translateX(-120%) skewX(-20deg); }
+  100% { transform: translateX(220%)  skewX(-20deg); }
+}
+.mobilebar-shine {
+  animation: mobilebar-shine 1.1s cubic-bezier(0.4, 0, 0.2, 1) 0.35s both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobilebar-shine { animation: none; transform: translateX(-120%) skewX(-20deg); }
+}
