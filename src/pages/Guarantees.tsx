@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
 import { Link as ScrollLink } from "react-scroll";
+import { useLang } from "../i18n";
+import type { CareKey } from "../i18n/types";
+import { CareArt } from "../services/HomeArt";
 
 const fade = {
   hidden: { opacity: 0, y: 18 },
@@ -9,13 +12,11 @@ const fade = {
   }),
 };
 
-const ITEMS = [
+const ITEMS: { k: CareKey; accent: string; glow: string; icon: JSX.Element }[] = [
   {
     k: "hosting",
     accent: "#22D3EE",
     glow: "rgba(34,211,238,.15)",
-    title: "Хостинг — подарък",
-    text: "Всеки сайт трябва да „живее“ на сървър — това е хостингът. При нас той е безплатен. Не плащате месечни такси.",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
         <polyline points="20 12 20 22 4 22 4 12" />
@@ -30,8 +31,6 @@ const ITEMS = [
     k: "support",
     accent: "#34D399",
     glow: "rgba(52,211,153,.15)",
-    title: "Поддръжка след пускане",
-    text: "Не изчезваме след старта. Нещо не работи или искате промяна? Пишете ни или се обадете — реагираме бързо.",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
@@ -43,8 +42,6 @@ const ITEMS = [
     k: "training",
     accent: "#A78BFA",
     glow: "rgba(167,139,250,.15)",
-    title: "Обучение на човешки език",
-    text: "Показваме ви как сами да сменяте снимки, цени и текстове. Просто и ясно, без технически думи.",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
         <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
@@ -56,8 +53,6 @@ const ITEMS = [
     k: "price",
     accent: "#FBBF24",
     glow: "rgba(251,191,36,.13)",
-    title: "Ясна цена предварително",
-    text: "Преди да започнем, знаете точно колко струва и какво включва. Без скрити такси и без изненади после.",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -69,6 +64,7 @@ const ITEMS = [
 ];
 
 export default function Guarantees() {
+  const { t } = useLang();
   return (
     <section
       id="care"
@@ -100,29 +96,36 @@ export default function Guarantees() {
         {/* Header */}
         <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
-            всичко включено
+            {t.care.eyebrow}
           </span>
-          <h2 className="balance mx-auto mt-5 max-w-[26ch] text-[clamp(1.75rem,5.5vw,2.8rem)] font-extrabold leading-[1.06] tracking-normal sm:tracking-[-0.02em] text-slate-100">
-            Вие си гледате бизнеса.{" "}
-            <span
-              style={{
-                background: "linear-gradient(110deg,#22d3ee 0%,#a78bfa 60%,#34d399 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                display: "inline-block",
-              }}
-            >
-              Ние поемаме останалото.
+          <h2 className="balance mx-auto mt-5 max-w-[26ch] text-[clamp(1.6rem,5.5vw,2.8rem)] font-extrabold leading-[1.06] tracking-normal sm:tracking-[-0.02em] text-slate-100">
+            {t.care.h2a}{" "}
+            <span className="gradient-text">
+              {t.care.h2b}
             </span>
           </h2>
           <p className="balance mx-auto mt-4 max-w-[50ch] text-[15.5px] leading-relaxed text-slate-400">
-            Хостинг, настройки, поддръжка — техническото е наша грижа, и след пускането.
+            {t.care.sub}
           </p>
         </motion.div>
 
-        {/* Cards */}
-        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Illustration + cards */}
+        <div className="mt-12 grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.97 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="relative mx-auto w-full max-w-[520px] lg:col-span-5"
+          >
+            <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+              <div className="absolute left-1/2 top-1/2 h-[85%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-400/[0.12]" />
+              <div className="absolute left-1/2 top-1/2 h-[65%] w-[65%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-violet-400/[0.12]" />
+            </div>
+            <CareArt />
+          </motion.div>
+
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-7">
           {ITEMS.map((c, i) => (
             <motion.article
               key={c.k}
@@ -159,7 +162,7 @@ export default function Guarantees() {
               </div>
 
               <h3 className="text-[1.1rem] font-extrabold leading-[1.2] tracking-tight text-slate-100">
-                {c.title}
+                {t.care.items[c.k].title}
               </h3>
 
               <div
@@ -169,10 +172,11 @@ export default function Guarantees() {
               />
 
               <p className="mt-3 flex-1 text-[14px] leading-relaxed text-slate-400">
-                {c.text}
+                {t.care.items[c.k].text}
               </p>
             </motion.article>
           ))}
+          </div>
         </div>
 
         {/* CTA */}
@@ -184,7 +188,7 @@ export default function Guarantees() {
           custom={6}
           className="mt-14 text-center"
         >
-          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <div className="mx-auto flex w-full max-w-sm flex-col items-stretch gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:items-center sm:justify-center">
             <ScrollLink
               to="contact"
               smooth
@@ -196,7 +200,7 @@ export default function Guarantees() {
               style={{ background: "linear-gradient(135deg, #34d9f0 0%, #0ea5e9 55%, #0284c7 100%)" }}
             >
               <span aria-hidden className="absolute inset-0 -skew-x-[20deg] -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-              <span className="relative">Безплатна консултация</span>
+              <span className="relative">{t.care.cta}</span>
               <svg viewBox="0 0 24 24" className="relative ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <path d="M5 12h14M13 5l7 7-7 7" />
               </svg>
@@ -214,8 +218,8 @@ export default function Guarantees() {
               +359 897 758 062
             </a>
           </div>
-          <p className="mt-4 text-[12px] font-medium text-slate-500 uppercase tracking-wider">
-            15 минути · Без ангажимент · Говорим просто и ясно
+          <p className="balance mx-auto mt-4 max-w-[30ch] text-[12px] font-medium uppercase tracking-wider text-slate-500 sm:max-w-none">
+            {t.care.micro.replace(/ · /g, "\u00A0· ")}
           </p>
         </motion.div>
 

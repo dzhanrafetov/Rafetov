@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Link as ScrollLink } from "react-scroll";
 import createGlobe from "cobe";
+import { useLang } from "../i18n";
+import type { CountryCode } from "../i18n/types";
 
 const fade = {
   hidden: { opacity: 0, y: 20 },
@@ -13,7 +15,7 @@ const fade = {
 
 const CHIPS = [
   {
-    label: "Сайт",
+    k: "site" as const,
     icon: (
       <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
         <rect x="2" y="4" width="20" height="16" rx="2" /><path d="M2 9h20M7 6h.01M10 6h.01" />
@@ -21,7 +23,7 @@ const CHIPS = [
     ),
   },
   {
-    label: "E-магазин",
+    k: "shop" as const,
     icon: (
       <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
         <path d="M6 7h15l-2 9H7L6 7Z" /><path d="M6 7 5 4H2" />
@@ -30,7 +32,7 @@ const CHIPS = [
     ),
   },
   {
-    label: "Реклами",
+    k: "ads" as const,
     icon: (
       <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
         <path d="M3 17l4-8 4 4 4-6 4 4" /><path d="M21 21H3" />
@@ -39,13 +41,13 @@ const CHIPS = [
   },
 ];
 
-const COUNTRIES = [
-  { name: "България",       flag: "🇧🇬", accent: "#22D3EE", lat: 42.7339, lng: 25.4858 },
-  { name: "Германия",       flag: "🇩🇪", accent: "#FBBF24", lat: 51.1657, lng: 10.4515 },
-  { name: "Белгия",         flag: "🇧🇪", accent: "#34D399", lat: 50.5039, lng:  4.4699 },
-  { name: "Великобритания", flag: "🇬🇧", accent: "#A78BFA", lat: 55.3781, lng: -3.4360 },
-  { name: "Испания",        flag: "🇪🇸", accent: "#f87171", lat: 40.4637, lng: -3.7492 },
-  { name: "Норвегия",       flag: "🇳🇴", accent: "#38bdf8", lat: 60.4720, lng:  8.4689 },
+const COUNTRIES: { code: CountryCode; flag: string; accent: string; lat: number; lng: number }[] = [
+  { code: "BG", flag: "🇧🇬", accent: "#22D3EE", lat: 42.7339, lng: 25.4858 },
+  { code: "DE", flag: "🇩🇪", accent: "#FBBF24", lat: 51.1657, lng: 10.4515 },
+  { code: "BE", flag: "🇧🇪", accent: "#34D399", lat: 50.5039, lng:  4.4699 },
+  { code: "GB", flag: "🇬🇧", accent: "#A78BFA", lat: 55.3781, lng: -3.4360 },
+  { code: "ES", flag: "🇪🇸", accent: "#f87171", lat: 40.4637, lng: -3.7492 },
+  { code: "NO", flag: "🇳🇴", accent: "#38bdf8", lat: 60.4720, lng:  8.4689 },
 ];
 
 // phi that centres Europe on the globe face
@@ -76,6 +78,7 @@ function spreadPoints(pts: { x: number; y: number }[], minDist: number) {
 
 // ── Static Globe ──
 function Globe({ activeCountry }: { activeCountry: number }) {
+  const { t } = useLang();
   const wrapRef   = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [flagPos, setFlagPos] = useState<{ x: number; y: number }[]>([]);
@@ -166,8 +169,8 @@ function Globe({ activeCountry }: { activeCountry: number }) {
         const c = COUNTRIES[i];
         return (
           <div
-            key={c.name}
-            aria-label={c.name}
+            key={c.code}
+            aria-label={t.countries[c.code]}
             className="pointer-events-none absolute flex items-center justify-center rounded-full"
             style={{
               width:      isActive ? BADGE + 4 : BADGE,
@@ -197,6 +200,7 @@ function Globe({ activeCountry }: { activeCountry: number }) {
 }
 
 export default function Hero() {
+  const { t } = useLang();
   const ref = useRef<HTMLDivElement | null>(null);
   const [activeCountry, setActiveCountry] = useState(0);
 
@@ -211,6 +215,36 @@ export default function Hero() {
     const r = el.getBoundingClientRect();
     el.style.setProperty("--mx", `${e.clientX - r.left}px`);
     el.style.setProperty("--my", `${e.clientY - r.top}px`);
+  };
+
+  // Пилче за държава. `shift` е хоризонталното отместване при активна държава (0 на телефон, ±6 в страничните колони на desktop).
+  const renderCountryPill = (c: (typeof COUNTRIES)[number], idx: number, shift: number) => {
+    const active = activeCountry === idx;
+    return (
+      <motion.div
+        key={c.code}
+        animate={active ? { scale: 1.05, x: shift } : { scale: 1, x: 0 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+        className="flex cursor-default items-center gap-2.5 whitespace-nowrap rounded-full px-3.5 py-2"
+        style={{
+          border: `1px solid ${active ? c.accent + "50" : "rgba(255,255,255,0.06)"}`,
+          background: active ? `color-mix(in srgb,${c.accent} 10%,transparent)` : "rgba(255,255,255,0.02)",
+          boxShadow: active ? `0 0 20px -4px ${c.accent}44` : "none",
+          transition: "border-color 0.3s, background 0.3s, box-shadow 0.3s",
+        }}
+      >
+        <span className="text-xl leading-none">{c.flag}</span>
+        <span className="text-[13px] font-semibold" style={{ color: active ? c.accent : "#94a3b8", transition: "color 0.3s" }}>
+          {t.countries[c.code]}
+        </span>
+        {active && (
+          <span className="relative flex h-[6px] w-[6px] shrink-0">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" style={{ backgroundColor: c.accent }} />
+            <span className="relative inline-flex h-[6px] w-[6px] rounded-full" style={{ backgroundColor: c.accent }} />
+          </span>
+        )}
+      </motion.div>
+    );
   };
 
   return (
@@ -250,7 +284,7 @@ export default function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
               <span className="relative inline-flex h-[7px] w-[7px] rounded-full bg-emerald-400" />
             </span>
-            Уеб агенция · България
+            {t.hero.badge}
           </span>
         </motion.div>
 
@@ -259,8 +293,8 @@ export default function Hero() {
           variants={fade} initial="hidden" animate="show" custom={1}
           className="balance mx-auto text-[clamp(2.2rem,9vw,5.2rem)] font-extrabold leading-[1.04] tracking-[-0.03em]"
         >
-          Сайт, който{" "}
-          <span className="hero-text-gradient">носи клиенти.</span>
+          {t.hero.h1a}{" "}
+          <span className="hero-text-gradient">{t.hero.h1b}</span>
         </motion.h1>
 
         {/* One-liner */}
@@ -268,22 +302,22 @@ export default function Hero() {
           variants={fade} initial="hidden" animate="show" custom={1.6}
           className="mx-auto mt-6 max-w-[36ch] text-[clamp(1rem,2.5vw,1.2rem)] leading-relaxed text-slate-400"
         >
-          Правим сайтове, e-магазини и реклами —{" "}
-          <span className="text-slate-200 font-medium">бързо, ясно и на цена, която има смисъл.</span>
+          {t.hero.sub1}{" "}
+          <span className="text-slate-200 font-medium">{t.hero.sub2}</span>
         </motion.p>
 
         {/* Service chips */}
         <motion.div
           variants={fade} initial="hidden" animate="show" custom={2}
-          className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-2.5"
+          className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-2.5"
         >
           {CHIPS.map((c) => (
             <span
-              key={c.label}
-              className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-[13px] font-semibold text-slate-300"
+              key={c.k}
+              className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-[12.5px] font-semibold text-slate-300 sm:gap-2 sm:px-4 sm:py-2 sm:text-[13px]"
             >
               <span className="text-cyan-400">{c.icon}</span>
-              {c.label}
+              {t.hero.chips[c.k]}
             </span>
           ))}
         </motion.div>
@@ -301,7 +335,7 @@ export default function Hero() {
             style={{ background: "linear-gradient(135deg,#34d9f0 0%,#0ea5e9 55%,#0284c7 100%)" }}
           >
             <span aria-hidden className="absolute inset-0 -skew-x-[20deg] -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-            <span className="relative">Искам оферта</span>
+            <span className="relative">{t.hero.cta}</span>
             <svg viewBox="0 0 24 24" className="relative ml-2.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               <path d="M5 12h14M13 5l7 7-7 7" />
             </svg>
@@ -313,17 +347,11 @@ export default function Hero() {
                        transition-all duration-200 hover:border-white/[0.16] hover:bg-white/[0.07] hover:text-slate-100
                        focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
           >
-            Виж проекти
+            {t.hero.cta2}
           </ScrollLink>
         </motion.div>
 
-        {/* Reassurance microcopy */}
-        {/* <motion.p
-          variants={fade} initial="hidden" animate="show" custom={3}
-          className="mt-5 text-[12px] font-medium uppercase tracking-wider text-slate-500"
-        >
-          Безплатна консултация · Оферта до 24 ч · Безплатен хостинг
-        </motion.p> */}
+
 
         {/* ── Globe Section ── */}
         <motion.div
@@ -334,7 +362,7 @@ export default function Hero() {
           <div className="mb-10 flex items-center justify-center gap-3">
             <div className="h-px flex-1" style={{ background: "linear-gradient(90deg,transparent,rgba(255,255,255,0.07))" }} />
             <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-slate-500">
-              Клиенти от 6 държави
+              {t.hero.clientsLabel}
             </span>
             <div className="h-px flex-1" style={{ background: "linear-gradient(270deg,transparent,rgba(255,255,255,0.07))" }} />
           </div>
@@ -342,33 +370,9 @@ export default function Hero() {
           {/* Globe + side lists */}
           <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-0">
 
-            {/* Left — first 3 */}
-            <div className="order-3 flex flex-row flex-wrap justify-center gap-2.5 lg:order-1 lg:flex-col lg:items-end lg:gap-3 lg:w-[210px] lg:shrink-0">
-              {COUNTRIES.slice(0, 3).map((c, i) => (
-                <motion.div
-                  key={c.name}
-                  animate={activeCountry === i ? { scale: 1.05, x: 6 } : { scale: 1, x: 0 }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="flex cursor-default items-center gap-2.5 rounded-full px-3.5 py-2"
-                  style={{
-                    border: `1px solid ${activeCountry === i ? c.accent + "50" : "rgba(255,255,255,0.06)"}`,
-                    background: activeCountry === i ? `color-mix(in srgb,${c.accent} 10%,transparent)` : "rgba(255,255,255,0.02)",
-                    boxShadow: activeCountry === i ? `0 0 20px -4px ${c.accent}44` : "none",
-                    transition: "border-color 0.3s, background 0.3s, box-shadow 0.3s",
-                  }}
-                >
-                  <span className="text-xl leading-none">{c.flag}</span>
-                  <span className="text-[13px] font-semibold" style={{ color: activeCountry === i ? c.accent : "#94a3b8", transition: "color 0.3s" }}>
-                    {c.name}
-                  </span>
-                  {activeCountry === i && (
-                    <span className="relative flex h-[6px] w-[6px] shrink-0">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" style={{ backgroundColor: c.accent }} />
-                      <span className="relative inline-flex h-[6px] w-[6px] rounded-full" style={{ backgroundColor: c.accent }} />
-                    </span>
-                  )}
-                </motion.div>
-              ))}
+            {/* Left — first 3 (desktop only) */}
+            <div className="hidden lg:order-1 lg:flex lg:w-[210px] lg:shrink-0 lg:flex-col lg:items-end lg:gap-3">
+              {COUNTRIES.slice(0, 3).map((c, i) => renderCountryPill(c, i, 6))}
             </div>
 
             {/* Globe */}
@@ -376,33 +380,14 @@ export default function Hero() {
               <Globe activeCountry={activeCountry} />
             </div>
 
-            {/* Right — last 3 */}
-            <div className="order-1 flex flex-row flex-wrap justify-center gap-2.5 lg:order-3 lg:flex-col lg:items-start lg:gap-3 lg:w-[210px] lg:shrink-0">
-              {COUNTRIES.slice(3).map((c, i) => (
-                <motion.div
-                  key={c.name}
-                  animate={activeCountry === i + 3 ? { scale: 1.05, x: -6 } : { scale: 1, x: 0 }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="flex cursor-default items-center gap-2.5 rounded-full px-3.5 py-2"
-                  style={{
-                    border: `1px solid ${activeCountry === i + 3 ? c.accent + "50" : "rgba(255,255,255,0.06)"}`,
-                    background: activeCountry === i + 3 ? `color-mix(in srgb,${c.accent} 10%,transparent)` : "rgba(255,255,255,0.02)",
-                    boxShadow: activeCountry === i + 3 ? `0 0 20px -4px ${c.accent}44` : "none",
-                    transition: "border-color 0.3s, background 0.3s, box-shadow 0.3s",
-                  }}
-                >
-                  <span className="text-xl leading-none">{c.flag}</span>
-                  <span className="text-[13px] font-semibold" style={{ color: activeCountry === i + 3 ? c.accent : "#94a3b8", transition: "color 0.3s" }}>
-                    {c.name}
-                  </span>
-                  {activeCountry === i + 3 && (
-                    <span className="relative flex h-[6px] w-[6px] shrink-0">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" style={{ backgroundColor: c.accent }} />
-                      <span className="relative inline-flex h-[6px] w-[6px] rounded-full" style={{ backgroundColor: c.accent }} />
-                    </span>
-                  )}
-                </motion.div>
-              ))}
+            {/* Right — last 3 (desktop only) */}
+            <div className="hidden lg:order-3 lg:flex lg:w-[210px] lg:shrink-0 lg:flex-col lg:items-start lg:gap-3">
+              {COUNTRIES.slice(3).map((c, i) => renderCountryPill(c, i + 3, -6))}
+            </div>
+
+            {/* Mobile / tablet: all 6 in an even 2-column grid under the globe */}
+            <div className="order-3 grid max-w-full grid-cols-[auto_auto] justify-center gap-2.5 lg:hidden">
+              {COUNTRIES.map((c, i) => renderCountryPill(c, i, 0))}
             </div>
 
           </div>

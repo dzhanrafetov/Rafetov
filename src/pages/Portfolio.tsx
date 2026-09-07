@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link as ScrollLink } from "react-scroll";
+import { useLang } from "../i18n";
+import { StepArt } from "../services/HomeArt";
 
 const fade = {
   hidden: { opacity: 0, y: 18 },
@@ -15,10 +17,6 @@ const STEPS = [
     n: "01",
     accent: "#22D3EE",
     glow: "rgba(34,211,238,.18)",
-    title: "Кратък разговор",
-    time: "15 мин",
-    text: "Уточняваме целта: повече запитвания, продажби или по-ясно представяне.",
-    bullets: ["Без подготовка", "По телефон или онлайн"],
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -29,10 +27,6 @@ const STEPS = [
     n: "02",
     accent: "#34D399",
     glow: "rgba(52,211,153,.18)",
-    title: "План и оферта",
-    time: "до 24 ч",
-    text: "Получавате ясен план с етапи и срокове. Без \"дребен шрифт\".",
-    bullets: ["Фиксирани стъпки", "Реалистични срокове"],
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
@@ -43,10 +37,6 @@ const STEPS = [
     n: "03",
     accent: "#A78BFA",
     glow: "rgba(167,139,250,.18)",
-    title: "Изработка",
-    time: "1 – 2 седм.",
-    text: "Дизайн, съдържание и настройки. Виждате сайта преди пускане и казвате какво да променим.",
-    bullets: ["Удобен на телефон", "Показване в Google"],
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
@@ -57,10 +47,6 @@ const STEPS = [
     n: "04",
     accent: "#FBBF24",
     glow: "rgba(251,191,36,.15)",
-    title: "Старт и растеж",
-    time: "готово 🚀",
-    text: "Пускаме сайта на живо и оставаме до вас. По желание включваме реклами и надграждане.",
-    bullets: ["Безплатен хостинг", "Поддръжка след пускане"],
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 2L11 13" /><path d="M22 2L15 22l-4-9-9-4 20-7z" />
@@ -69,40 +55,10 @@ const STEPS = [
   },
 ];
 
-const FAQ = [
-  {
-    accent: "#22D3EE",
-    q: "Колко струва един сайт?",
-    a: "Зависи от това какво ви трябва — затова първо говорим 15 минути. После получавате фиксирана цена: знаете точно колко и за какво плащате, без скрити такси. А хостингът е безплатен — подарък от нас.",
-  },
-  {
-    accent: "#34D399",
-    q: "Не разбирам от сайтове и технологии — проблем ли е?",
-    a: "Никак. Повечето ни клиенти не са технически хора. Вие ни разказвате за бизнеса си, ние правим всичко останало и ви обясняваме на прост език. Накрая ви показваме как сами да ползвате сайта.",
-  },
-  {
-    accent: "#A78BFA",
-    q: "Какво става, след като сайтът е готов?",
-    a: "Не ви оставяме сами. Оставаме на линия за промени, въпроси и помощ — пишете или се обаждате, реагираме бързо. Сайтът живее на наш хостинг безплатно, така че няма месечни такси за сървър.",
-  },
-  {
-    accent: "#FBBF24",
-    q: "Колко време отнема?",
-    a: "Сайт: около 1–3 седмици според обхвата и съдържанието. Онлайн магазин: около 2–4 седмици с доставки и плащания. Точния срок казваме в офертата.",
-  },
-  {
-    accent: "#22D3EE",
-    q: "Какво трябва от мен?",
-    a: "Кратко описание на бизнеса и целите, лого/снимки (ако има) и човек за обратна връзка. Останалото движим ние.",
-  },
-  {
-    accent: "#34D399",
-    q: "Имам стар сайт — може ли да го подновите?",
-    a: "Да. Прехвърляме съдържанието, подреждаме структурата и подобряваме скоростта и видимостта в Google.",
-  },
-];
+const FAQ_ACCENTS = ["#22D3EE", "#34D399", "#A78BFA", "#FBBF24", "#22D3EE", "#34D399"];
 
 export default function SectionProcessSimple() {
+  const { t } = useLang();
   const [open, setOpen] = useState<number | null>(null);
 
   return (
@@ -129,19 +85,16 @@ export default function SectionProcessSimple() {
         {/* Header */}
         <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
-            процес
+            {t.process.eyebrow}
           </span>
           <h2 className="balance mx-auto mt-5 max-w-[26ch] text-[clamp(1.75rem,5.5vw,2.8rem)] font-extrabold leading-[1.06] tracking-[-0.02em] text-slate-100">
-            Как работим —{" "}
-            <span style={{
-              background: "linear-gradient(110deg,#22d3ee 0%,#a78bfa 60%,#34d399 100%)",
-              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-            }}>
-              кратко и ясно
+            {t.process.h2a}{" "}
+            <span className="gradient-text">
+              {t.process.h2b}
             </span>
           </h2>
           <p className="balance mx-auto mt-4 max-w-[50ch] text-[15.5px] leading-relaxed text-slate-400">
-            4 стъпки, без излишно. Вие давате идеи и материали — ние движим всичко останало.
+            {t.process.sub}
           </p>
         </motion.div>
 
@@ -152,7 +105,9 @@ export default function SectionProcessSimple() {
             style={{ background: "linear-gradient(90deg,#22D3EE,#34D399,#A78BFA,#FBBF24)", opacity: 0.25 }} />
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {STEPS.map((s, i) => (
+            {STEPS.map((s, i) => {
+              const step = t.process.steps[i];
+              return (
               <motion.div
                 key={s.n}
                 variants={fade}
@@ -182,9 +137,14 @@ export default function SectionProcessSimple() {
                   <div aria-hidden className="absolute inset-x-0 top-0 h-[2px] rounded-t-2xl"
                     style={{ background: `linear-gradient(90deg,transparent,${s.accent} 40%,transparent)`, opacity: 0.55 }} />
 
+                  {/* mini scene */}
+                  <div className="-mx-5 -mt-5 mb-4 overflow-hidden rounded-t-2xl border-b border-white/[0.06] bg-white/[0.015] px-2 pt-2">
+                    <StepArt index={i} accent={s.accent} />
+                  </div>
+
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <span className="text-[11px] font-bold uppercase tracking-[0.18em]" style={{ color: s.accent }}>
-                      Стъпка {s.n}
+                      {t.process.stepLabel} {s.n}
                     </span>
                     <span className="shrink-0 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold"
                       style={{
@@ -192,19 +152,19 @@ export default function SectionProcessSimple() {
                         color: s.accent,
                         background: `color-mix(in srgb,${s.accent} 8%,transparent)`,
                       }}>
-                      {s.time}
+                      {step.time}
                     </span>
                   </div>
 
-                  <h3 className="text-[1.1rem] font-extrabold tracking-tight text-slate-100 mb-2">{s.title}</h3>
+                  <h3 className="text-[1.1rem] font-extrabold tracking-tight text-slate-100 mb-2">{step.title}</h3>
 
                   <div aria-hidden className="mb-3 h-px w-8 rounded-full transition-all duration-300 group-hover:w-14"
                     style={{ background: `linear-gradient(90deg,${s.accent},transparent)` }} />
 
-                  <p className="text-[13.5px] leading-relaxed text-slate-400 mb-3">{s.text}</p>
+                  <p className="text-[13.5px] leading-relaxed text-slate-400 mb-3">{step.text}</p>
 
                   <ul className="mt-auto space-y-1.5">
-                    {s.bullets.map((b) => (
+                    {step.bullets.map((b) => (
                       <li key={b} className="flex items-center gap-2 text-[13px] text-slate-300">
                         <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full"
                           style={{ background: `color-mix(in srgb,${s.accent} 15%,transparent)`, color: s.accent }}>
@@ -221,7 +181,8 @@ export default function SectionProcessSimple() {
                     style={{ color: s.accent }}>{s.n}</span>
                 </div>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -237,12 +198,13 @@ export default function SectionProcessSimple() {
         {/* FAQ */}
         <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-8">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
-            бързи отговори
+            {t.process.faqEyebrow}
           </span>
         </motion.div>
 
         <div className="mx-auto max-w-3xl space-y-3">
-          {FAQ.map((f, i) => {
+          {t.process.faq.map((item, i) => {
+            const f = { ...item, accent: FAQ_ACCENTS[i % FAQ_ACCENTS.length] };
             const expanded = open === i;
             return (
               <motion.div
@@ -324,7 +286,7 @@ export default function SectionProcessSimple() {
 
         {/* CTA */}
         <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} custom={5} className="mt-14 text-center">
-          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <div className="mx-auto flex w-full max-w-sm flex-col items-stretch gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:items-center sm:justify-center">
             <ScrollLink
               to="contact" smooth duration={220} offset={-70}
               className="group relative inline-flex h-12 cursor-pointer items-center justify-center overflow-hidden rounded-full px-7 text-[14px] font-bold text-[#03060d]
@@ -332,7 +294,7 @@ export default function SectionProcessSimple() {
               style={{ background: "linear-gradient(135deg,#34d9f0 0%,#0ea5e9 55%,#0284c7 100%)" }}
             >
               <span aria-hidden className="absolute inset-0 -skew-x-[20deg] -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-              <span className="relative">Започнете безплатна консултация</span>
+              <span className="relative">{t.process.cta}</span>
               <svg viewBox="0 0 24 24" className="relative ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <path d="M5 12h14M13 5l7 7-7 7" />
               </svg>
@@ -342,11 +304,11 @@ export default function SectionProcessSimple() {
               className="inline-flex h-12 cursor-pointer items-center justify-center rounded-full border border-white/[0.09] bg-white/[0.03] px-7 text-[14px] font-semibold text-slate-300
                          transition-all duration-200 hover:border-white/[0.15] hover:bg-white/[0.06] hover:text-slate-100"
             >
-              Вижте реални проекти
+              {t.process.cta2}
             </ScrollLink>
           </div>
-          <p className="mt-4 text-[12px] font-medium text-slate-500 uppercase tracking-wider">
-            15 минути · Без ангажимент · Отговаряме бързо
+          <p className="balance mx-auto mt-4 max-w-[30ch] text-[12px] font-medium uppercase tracking-wider text-slate-500 sm:max-w-none">
+            {t.process.micro.replace(/ · /g, "\u00A0· ")}
           </p>
         </motion.div>
 

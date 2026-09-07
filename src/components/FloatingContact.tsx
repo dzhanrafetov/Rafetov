@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useLang } from "../i18n";
 
 // Плаващ WhatsApp бутон — появява се след скрол покрай hero секцията
 export default function FloatingContact() {
   const [visible, setVisible] = useState(false);
+  const { t } = useLang();
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 500);
@@ -13,11 +15,11 @@ export default function FloatingContact() {
 
   return (
     <a
-      href="https://wa.me/359897758062?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D0%B5%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B2%D0%B0%D0%BC%20%D1%81%D0%B5%20%D0%BE%D1%82%20%D0%B8%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D1%81%D0%B0%D0%B9%D1%82."
+      href={`https://wa.me/359897758062?text=${encodeURIComponent(t.whatsapp.text)}`}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Пишете ни в WhatsApp"
-      className={`fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white
+      aria-label={t.whatsapp.aria}
+      className={`fixed bottom-5 right-5 z-40 hidden h-14 w-14 lg:flex items-center justify-center rounded-full bg-[#25D366] text-white
                   shadow-[0_8px_30px_-6px_rgba(37,211,102,0.55)] transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_40px_-4px_rgba(37,211,102,0.7)]
                   focus:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/60
                   ${visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"}`}

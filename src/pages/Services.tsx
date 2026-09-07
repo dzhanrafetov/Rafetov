@@ -1,5 +1,14 @@
 import { motion } from "framer-motion";
 import { Link as ScrollLink } from "react-scroll";
+import { useLang } from "../i18n";
+import { Link as RouterLink } from "react-router-dom";
+import { serviceById, servicePath } from "../services";
+import ServiceIllustration from "../services/ServiceArt";
+import type { ServiceKey } from "../i18n/types";
+import { POSTS, postPath } from "../blog";
+
+/** Статията с пазарния ориентир за цени — линкът, който отговаря на „колко струва“ без да ни обвързва. */
+const pricingPost = POSTS.find((p) => p.id === "kolko-struva-sait");
 
 const fade = {
   hidden: { opacity: 0, y: 18 },
@@ -9,19 +18,11 @@ const fade = {
   }),
 };
 
-const SERVICES = [
+const SERVICES: { k: ServiceKey; accent: string; glow: string; icon: JSX.Element }[] = [
   {
     k: "site",
     accent: "#22D3EE",
     glow: "rgba(34,211,238,.15)",
-    label: "Сайт",
-    title: "Сайт за вашия бизнес",
-    text: "Сайт, който с едно изречение казва кой сте и как помагате. Бърз, чист, удобен на телефон и готов за Google.",
-    points: [
-      "Многоезичност (BG / EN / …)",
-      "Ясно заглавие и видими бутони за контакт",
-      "Карта, телефон и кратка форма",
-    ],
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
         <rect x="2" y="4" width="20" height="16" rx="2" />
@@ -34,14 +35,6 @@ const SERVICES = [
     k: "shop",
     accent: "#34D399",
     glow: "rgba(52,211,153,.15)",
-    label: "E-магазин",
-    title: "Онлайн магазин",
-    text: "Магазин, който продава лесно от телефон и компютър. Приема плащания от цял свят.",
-    points: [
-      "Плащания: карти, банков превод",
-      "Промокодове, отстъпки и промо кампании",
-      "Интеграции с Еконт и Спиди",
-    ],
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
         <path d="M6 7h15l-2 9H7L6 7Z" />
@@ -55,14 +48,6 @@ const SERVICES = [
     k: "ads",
     accent: "#A78BFA",
     glow: "rgba(167,139,250,.15)",
-    label: "Реклами",
-    title: "Реклами в Google и Facebook",
-    text: "Показваме ви във Facebook, Instagram и Google на точните хора. Цел: запитвания и продажби.",
-    points: [
-      "Facebook и Instagram кампании",
-      "Google търсене и банери",
-      "Седмична оптимизация и отчет",
-    ],
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
         <path d="M3 17l4-8 4 4 4-6 4 4" />
@@ -74,14 +59,6 @@ const SERVICES = [
     k: "menu",
     accent: "#FBBF24",
     glow: "rgba(251,191,36,.13)",
-    label: "Меню",
-    title: "Дигитално меню",
-    text: "QR меню — клиентът сканира и вижда менюто на телефона. Винаги актуално, без нов печат.",
-    points: [
-      "Снимки, категории и алергени",
-      "Бърза промяна от телефон",
-      "QR кодове за маси",
-    ],
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
         <rect x="5" y="2" width="14" height="20" rx="2" />
@@ -92,6 +69,7 @@ const SERVICES = [
 ];
 
 export default function Services() {
+  const { t, lang, href } = useLang();
   return (
     <section
       id="services"
@@ -123,24 +101,16 @@ export default function Services() {
         {/* Header */}
         <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
-            услуги
+            {t.services.eyebrow}
           </span>
           <h2 className="balance mx-auto mt-5 max-w-[26ch] text-[clamp(1.75rem,5.5vw,2.8rem)] font-extrabold leading-[1.06] tracking-normal sm:tracking-[-0.02em] text-slate-100">
-            Как помагаме от {" "}
-            <span
-              style={{
-                background: "linear-gradient(110deg,#22d3ee 0%,#a78bfa 60%,#34d399 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                display: "inline-block",
-              }}
-            >
-             идея до резултат
+            {t.services.h2a}{" "}
+            <span className="gradient-text">
+              {t.services.h2b}
             </span>
           </h2>
           <p className="balance mx-auto mt-4 max-w-[46ch] text-[15.5px] leading-relaxed text-slate-400">
-            Без сложни думи. Правим неща, които работят и са лесни за ползване.
+            {t.services.sub}
           </p>
         </motion.div>
 
@@ -169,6 +139,16 @@ export default function Services() {
                 style={{ background: `linear-gradient(90deg, transparent, ${c.accent}, transparent)` }}
               />
 
+              {/* Illustration */}
+              <div
+                className="relative -mx-5 -mt-5 mb-5 overflow-hidden rounded-t-2xl border-b border-white/[0.06]"
+                style={{ background: `radial-gradient(ellipse at 50% 100%, color-mix(in srgb, ${c.accent} 10%, transparent), transparent 70%)` }}
+              >
+                <div className="px-3 pt-3">
+                  <ServiceIllustration id={c.k} accent={c.accent} />
+                </div>
+              </div>
+
               {/* Icon */}
               <div
                 className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl"
@@ -186,12 +166,12 @@ export default function Services() {
                 className="mb-2 text-[11px] font-bold uppercase tracking-[0.18em]"
                 style={{ color: c.accent }}
               >
-                {c.label}
+                {t.services.items[c.k].label}
               </div>
 
               {/* Title */}
               <h3 className="text-[1.15rem] font-extrabold leading-[1.15] tracking-tight text-slate-100">
-                {c.title}
+                {t.services.items[c.k].title}
               </h3>
 
               {/* Divider */}
@@ -201,12 +181,12 @@ export default function Services() {
                 style={{ background: `linear-gradient(90deg, ${c.accent}, transparent)` }}
               />
 
-              <p className="mt-3 flex-1 text-[14px] leading-relaxed text-slate-400">
-                {c.text}
+              <p className="mt-3 text-[14px] leading-relaxed text-slate-400">
+                {t.services.items[c.k].text}
               </p>
 
-              <ul className="mt-4 space-y-2">
-                {c.points.map((p) => (
+              <ul className="mb-5 mt-4 space-y-2">
+                {t.services.items[c.k].points.map((p) => (
                   <li key={p} className="flex items-start gap-2.5 text-[13px] text-slate-300">
                     <span
                       className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full"
@@ -223,6 +203,27 @@ export default function Services() {
                   </li>
                 ))}
               </ul>
+
+              {/* Цена — ориентир, не оферта. Твърдо число само там, където не зависи от обем и пазар. */}
+              <div className="mt-auto border-t border-white/[0.07] pt-4">
+                <div className="text-[1.05rem] font-extrabold leading-none tracking-tight text-slate-100">
+                  {t.services.items[c.k].price}
+                </div>
+                <div className="mt-1.5 text-[11.5px] leading-snug text-slate-400">
+                  {t.services.items[c.k].priceNote}
+                </div>
+              </div>
+
+              <RouterLink
+                to={href(servicePath(serviceById(c.k), lang))}
+                className="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold transition-all hover:gap-2.5"
+                style={{ color: c.accent }}
+              >
+                {t.services.more}
+                <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <path d="M5 12h14M13 5l7 7-7 7" />
+                </svg>
+              </RouterLink>
             </motion.article>
           ))}
         </div>
@@ -236,7 +237,7 @@ export default function Services() {
           custom={6}
           className="mt-14 text-center"
         >
-          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <div className="mx-auto flex w-full max-w-sm flex-col items-stretch gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:items-center sm:justify-center">
             <ScrollLink
               to="contact"
               smooth
@@ -248,7 +249,7 @@ export default function Services() {
               style={{ background: "linear-gradient(135deg, #34d9f0 0%, #0ea5e9 55%, #0284c7 100%)" }}
             >
               <span aria-hidden className="absolute inset-0 -skew-x-[20deg] -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-              <span className="relative">Пишете ни</span>
+              <span className="relative">{t.services.cta}</span>
               <svg viewBox="0 0 24 24" className="relative ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <path d="M5 12h14M13 5l7 7-7 7" />
               </svg>
@@ -263,11 +264,24 @@ export default function Services() {
                          transition-all duration-200 hover:border-white/[0.15] hover:bg-white/[0.06] hover:text-slate-100
                          focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
             >
-              Вижте проекти
+              {t.services.cta2}
             </ScrollLink>
           </div>
-          <p className="mt-4 text-[12px] font-medium text-slate-500 uppercase tracking-wider">
-            Отговаряме бързо · Няма спам
+          <p className="balance mx-auto mt-4 max-w-[30ch] text-[12px] font-medium uppercase tracking-wider text-slate-400 sm:max-w-none">
+            {t.services.micro.replace(/ · /g, "\u00A0· ")}
+          </p>
+
+          {/* Обещанието вместо ценоразпис — плюс изход към статията с пазарния ориентир. */}
+          <p className="balance mx-auto mt-5 max-w-[52ch] text-[13px] leading-relaxed text-slate-400">
+            {t.services.pricePromise}{" "}
+            {pricingPost && (
+              <RouterLink
+                to={href(postPath(pricingPost, lang))}
+                className="whitespace-nowrap font-semibold text-slate-200 underline decoration-slate-600 underline-offset-2 transition-colors hover:text-white hover:decoration-cyan-400"
+              >
+                {t.services.priceLink} →
+              </RouterLink>
+            )}
           </p>
         </motion.div>
 

@@ -1,262 +1,244 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { useLang } from "../i18n";
+import type { CountryCode, WorkTag } from "../i18n/types";
 
-type Tag = "Сайт" | "E-магазин" | "Дигитално меню";
-type Country = "BG" | "NO" | "DE" | "ES" | "GB" | "BE";
+type Tag = WorkTag;
+type Country = CountryCode;
 
 type Project = {
   id: string;
   tag: Tag;
   title: string;
-  desc: string;
   img: string;
   href?: string;
   country?: Country;
 };
 
-const COUNTRY: Record<Country, { name: string }> = {
-  BG: { name: "България" },
-  NO: { name: "Норвегия" },
-  DE: { name: "Германия" },
-  ES: { name: "Испания" },
-  GB: { name: "Великобритания" },
-  BE: { name: "Белгия" },
-};
-
-const PROJECTS: Project[] = [
+export const PROJECTS: Project[] = [
   {
     id: "chef-resat-site",
-    tag: "Сайт",
+    tag: "site",
     title: "Chef Resat",
-    desc: "Официален сайт на ресторант Chef Resat с акцент върху атмосферата, кухнята и ключова информация за посетители.",
     img: "/rft.jpg",
     href: "https://www.chefresatsofya.com/",
     country: "BG",
   },
   {
     id: "vulcho",
-    tag: "E-магазин",
+    tag: "shop",
     title: "Vulcho.bg",
-    desc: "Онлайн магазин за месарски продукти с лоялна програма, промо кодове, ваучери и AI рецепти, с пълно управление на поръчки и наличности.",
     img: "/valchoph.jpg",
     href: "https://valcho.vercel.app/",
     country: "BG",
   },
   {
     id: "zirve1",
-    tag: "E-магазин",
+    tag: "shop",
     title: "Zirve1",
-    desc: "Официален електронен магазин за металдетектори Zirve1 с онлайн поръчка и доставка до държави в Европа.",
     img: "/ztest.jpg",
     href: "https://www.zirve1.bg/",
     country: "BG",
   },
   {
     id: "emis-cleaning",
-    tag: "Сайт",
+    tag: "site",
     title: "Emis Cleaning",
-    desc: "Сайт за почистващи услуги в Лондон с бърза онлайн резервация и ясна информация за услугите.",
     img: "/london.jpg",
     href: "https://www.emiscleaning.co.uk/",
     country: "GB",
   },
   {
     id: "santander",
-    tag: "Сайт",
+    tag: "site",
     title: "Alp Taxi Santander",
-    desc: "Сайт за такси услуги в Сантандер, Испания, с бърза форма за резервация и изпращане на заявка.",
     img: "/sndr.jpg",
     href: "https://taxisantander.online/",
     country: "ES",
   },
   {
     id: "beca",
-    tag: "Сайт",
+    tag: "site",
     title: "BECA Umzugsservice",
-    desc: "Корпоративен сайт за услуги по преместване и почистване в Мюнхен, Германия.",
     img: "/becca.jpg",
     href: "https://becaumzug.de/",
     country: "DE",
   },
   {
     id: "amalfi-menu",
-    tag: "Дигитално меню",
+    tag: "menu",
     title: "Amalfi",
-    desc: "Дигитално меню за ресторант Amalfi (Елверум, Норвегия) на норвежки и английски език. ",
     img: "/corected-amalfi.jpg",
     href: "https://www.amalfirestaurant.no/",
     country: "NO",
   },
   {
     id: "chef-resat-menu",
-    tag: "Дигитално меню",
+    tag: "menu",
     title: "Chef Resat",
-    desc: "Дигитално меню за ресторант Chef Resat на три езика – български, турски и английски.",
     img: "/chefresatcorected.jpg",
     href: "https://www.chefresatsofya.com/menu",
     country: "BG",
   },
   {
     id: "pancetita-menu",
-    tag: "Дигитално меню",
+    tag: "menu",
     title: "Pizza Pancetita",
-    desc: "Дигитално меню за ресторант Pizza Pancetita (Осло, Норвегия) на норвежки и английски език.",
     img: "/corectedpancetita.jpg",
     href: "https://pancetta.vercel.app/",
     country: "NO",
   },
   {
     id: "abi-studio",
-    tag: "Сайт",
+    tag: "site",
     title: "Abi Studio",
-    desc: "Сайт за козметично студио във Варна с детайлни процедури, апаратури и цени.",
     img: "/abistudio1.jpg",
     href: "https://www.abistudiovarna.com/",
     country: "BG",
   },
   {
     id: "metesso",
-    tag: "Сайт",
+    tag: "site",
     title: "Metesso",
-    desc: "Сайт за мебелен шоурум в Пловдив с каталог от колекции и решения за всяко пространство.",
     img: "/metesso1.jpg",
     href: "https://www.metesso.com/",
     country: "BG",
   },
   {
     id: "opaka-fits",
-    tag: "Сайт",
+    tag: "site",
     title: "Комплекс Фъц",
-    desc: "Сайт за комплекс с басейн, ресторант и стаи за нощувка, с дигитално меню и заявка за резервация.",
     img: "/opakafits.jpg",
     href: "https://opakafits.com/",
     country: "BG",
   },
   {
     id: "taupe",
-    tag: "Сайт",
+    tag: "site",
     title: "Taupe",
-    desc: "Сайт за имоти в Горубляне, София, с представяне на проекта и форма за запитване.",
     img: "/taupe1.jpg",
     href: "https://www.taupe.bg/",
     country: "BG",
   },
   {
     id: "azteca-site",
-    tag: "E-магазин",
+    tag: "shop",
     title: "Azteca",
-    desc: "Електронен магазин за премиум пури и запалки с онлайн поръчка и доставка.",
     img: "/aztecanew.jpg",
     href: "https://azteca-premium.com/",
     country: "BG",
   },
   {
     id: "dudo-group",
-    tag: "Сайт",
+    tag: "site",
     title: "Dudo Group",
-    desc: "Сайт за строителен хипермаркет с каталог от материали за строителство и ремонт.",
     img: "/dudohip2.jpg",
     href: "https://d-group.bg/dudo-stroitelen/index.php",
     country: "BG",
   },
   {
+    id: "mig-group",
+    tag: "site",
+    title: "МИГ Инженеринг Груп",
+    img: "/geodezi1.jpg",
+    href: "https://migbulgaria.com/",
+    country: "BG",
+  },
+  {
     id: "het-pitta-loft",
-    tag: "Сайт",
+    tag: "site",
     title: "Het Pitta Loft",
-    desc: "Сайт за ресторант в Антверпен, Белгия, с вградена резервационна система, имейл известявания и управление на резервации.",
     img: "/hetpittaloft.jpg",
     href: "https://hetpittaloft.be/",
     country: "BE",
   },
   {
     id: "pet-zvezdi",
-    tag: "Сайт",
+    tag: "site",
     title: "Пет Звезди",
-    desc: "Сайт за внос на автомобили от Канада, Европа и Южна Корея с каталог от налични модели и форма за поръчка на автомобил.",
     img: "/petzvezdi.jpg",
     href: "https://www.petzvezdiexotics.com",
     country: "BG",
   },
   {
     id: "hh-edelstahl",
-    tag: "Сайт",
+    tag: "site",
     title: "H&H Edelstahl",
-    desc: "Сайт за изработка на неръждаема стомана и вентилационни системи в Берлин, Германия — маси, мивки, лазерно и водоструйно рязане по поръчка.",
     img: "/edel3.jpg",
     href: "https://www.edelstahl-gastro.de",
     country: "DE",
   },
   {
     id: "primasell",
-    tag: "Сайт",
+    tag: "site",
     title: "PrimaSell",
-    desc: "Сайт за печат, брандиране и персонализирани подаръци със система за запитвания.",
     img: "/primasell.jpg",
     href: "https://primasell.bg/",
     country: "BG",
   },
   {
     id: "szo",
-    tag: "E-магазин",
+    tag: "shop",
     title: "Security Systems",
-    desc: "Онлайн магазин за системи за сигурност — камери, алармени системи и рекордери, с поръчка онлайн и запитване за монтаж.",
     img: "/szof1.jpg",
     href: "https://www.szo.bg/",
     country: "BG",
   },
   {
     id: "24tours",
-    tag: "E-магазин",
+    tag: "shop",
     title: "24Tours",
-    desc: "Платформа за турове с онлайн резервации и плащания, включително подаръчни ваучери, промокодове и отстъпки.",
     img: "/mototours.jpg",
     href: "https://www.24tours.bg/",
     country: "BG",
   },
   {
     id: "hustle-clothing",
-    tag: "E-магазин",
+    tag: "shop",
     title: "Hustle Clothing",
-    desc: "Онлайн магазин за дрехи с админ панел за самостоятелно управление на продукти, промо кодове и разпродажби.",
     img: "/hustle2.jpg",
     href: "https://hustleclothing.shop/",
     country: "BG",
   },
   {
     id: "shop4home",
-    tag: "E-магазин",
+    tag: "shop",
     title: "Shop4Home",
-    desc: "Онлайн магазин за дома с широк асортимент от продукти, удобна поръчка и лесно администриране на поръчки, продукти и категории.",
     img: "/shop111.jpg",
     href: "https://shop4home.bg/",
     country: "BG",
   },
   {
     id: "korn-metal",
-    tag: "Сайт",
+    tag: "site",
     title: "Korn Metal",
-    desc: "Корпоративен сайт за търговия с метали, термопанели и изработка на метални конструкции, с продуктов каталог, портфолио и система за запитвания.",
     img: "/korn.jpg",
     href: "https://www.korn-metal.com/",
     country: "BG",
   },
   {
     id: "hotel-fenix",
-    tag: "Сайт",
+    tag: "site",
     title: "Хотел Феникс",
-    desc: "Сайт за семеен хотел в Чепеларе с представяне на стаите, ресторанта и пакетите, галерия и система за резервационни запитвания.",
     img: "/chepelare.jpg",
     href: "https://hotelfenix.vercel.app/",
     country: "BG",
   },
   {
     id: "slapfight",
-    tag: "E-магазин",
+    tag: "shop",
     title: "SlapFight Bulgaria",
-    desc: "Онлайн платформа за продажба на билети за събития с бърза покупка и ясна информация за събитията.",
     img: "/slapfight2.jpg",
     href: "https://slap-fight-bulgaria-nine.vercel.app/",
     country: "BG",
+  },
+  {
+    id: "innenausbau-ahmedov",
+    tag: "site",
+    title: "Innenausbau Ahmedov",
+    img: "/innenausbau.jpg",
+    href: "https://innenausbau-ahmedov.vercel.app/",
+    country: "DE",
   },
 ];
 
@@ -265,12 +247,12 @@ const fade = {
   show: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.45, delay: 0.05 * i, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.45, delay: 0.05 * Math.min(i, 5), ease: [0.22, 1, 0.36, 1] },
   }),
 };
 
 function TagIcon({ tag }: { tag: Tag }) {
-  if (tag === "E-магазин")
+  if (tag === "shop")
     return (
       <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
         <path d="M6 7h15l-2 9H7L6 7Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
@@ -278,7 +260,7 @@ function TagIcon({ tag }: { tag: Tag }) {
         <path d="M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM17 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor" />
       </svg>
     );
-  if (tag === "Дигитално меню")
+  if (tag === "menu")
     return (
       <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
         <path d="M7 4h10a2 2 0 0 1 2 2v14H5V6a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -295,15 +277,16 @@ function TagIcon({ tag }: { tag: Tag }) {
 }
 
 const TAG_THEME: Record<Tag, { accent: string; glow: string }> = {
-  "Сайт":           { accent: "#22D3EE", glow: "rgba(34,211,238,.18)" },
-  "E-магазин":      { accent: "#34D399", glow: "rgba(52,211,153,.18)" },
-  "Дигитално меню": { accent: "#A78BFA", glow: "rgba(167,139,250,.18)" },
+  site: { accent: "#22D3EE", glow: "rgba(34,211,238,.18)" },
+  shop: { accent: "#34D399", glow: "rgba(52,211,153,.18)" },
+  menu: { accent: "#A78BFA", glow: "rgba(167,139,250,.18)" },
 };
 
-const CATEGORY_ORDER: Tag[] = ["Сайт", "E-магазин", "Дигитално меню"];
+const CATEGORY_ORDER: Tag[] = ["site", "shop", "menu"];
 
 // ── Category section divider ─────────────────────────────────────────────────
 function CategoryHeader({ tag }: { tag: Tag }) {
+  const { t } = useLang();
   const theme = TAG_THEME[tag];
   return (
     <div className="mb-6 flex items-center gap-3">
@@ -313,7 +296,7 @@ function CategoryHeader({ tag }: { tag: Tag }) {
       >
         <TagIcon tag={tag} />
       </span>
-      <span className="text-[14px] font-bold tracking-wide text-slate-300">{tag}</span>
+      <span className="text-[14px] font-bold tracking-wide text-slate-300">{t.work.tags[tag]}</span>
       <div
         className="h-px flex-1"
         style={{ background: `linear-gradient(90deg,color-mix(in srgb,${theme.accent} 40%,transparent),transparent)` }}
@@ -323,7 +306,8 @@ function CategoryHeader({ tag }: { tag: Tag }) {
 }
 
 // ── Cards grid ───────────────────────────────────────────────────────────────
-function CardsGrid({ projects }: { projects: Project[] }) {
+export function CardsGrid({ projects }: { projects: Project[] }) {
+  const { t } = useLang();
   return (
     <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
       {projects.map((p, i) => {
@@ -350,11 +334,11 @@ function CardsGrid({ projects }: { projects: Project[] }) {
                 style={{ background: "radial-gradient(closest-side, var(--glow), transparent 70%)" }}
               />
 
-              <div className={p.tag === "Дигитално меню" ? "overflow-hidden bg-[#0a0f1d]" : "aspect-[16/11] overflow-hidden"}>
+              <div className={p.tag === "menu" ? "aspect-[2/3] overflow-hidden bg-[#0a0f1d]" : "aspect-[16/11] overflow-hidden"}>
                 <img
                   src={p.img}
-                  alt={p.title}
-                  className={`w-full transition-transform duration-700 group-hover:scale-[1.02] ${p.tag === "Дигитално меню" ? "object-contain" : "h-full object-cover group-hover:scale-[1.05]"}`}
+                  alt={t.work.titles?.[p.id] ?? p.title}
+                  className={`w-full transition-transform duration-700 group-hover:scale-[1.02] ${p.tag === "menu" ? "object-contain" : "h-full object-cover group-hover:scale-[1.05]"}`}
                   loading="lazy"
                   decoding="async"
                 />
@@ -375,10 +359,10 @@ function CardsGrid({ projects }: { projects: Project[] }) {
                     </span>
                     <div className="min-w-0">
                       <div className="truncate text-[12.5px] font-extrabold" style={{ color: "var(--accent)" }}>
-                        {p.tag}
+                        {t.work.tags[p.tag]}
                       </div>
                       {p.country && (
-                        <div className="truncate text-[12.5px] text-slate-300/70">{COUNTRY[p.country].name}</div>
+                        <div className="truncate text-[12.5px] text-slate-300/70">{t.countries[p.country]}</div>
                       )}
                     </div>
                   </div>
@@ -391,15 +375,15 @@ function CardsGrid({ projects }: { projects: Project[] }) {
                       color: "color-mix(in srgb, var(--accent) 92%, white)",
                     }}
                   >
-                    {p.tag === "Дигитално меню" ? "Виж менюто" : "Виж сайта"}
+                    {p.tag === "menu" ? t.work.viewMenu : t.work.viewSite}
                     <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" aria-hidden fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                       <path d="M14 3h7v7M21 3l-9 9M10 5H6a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-4" />
                     </svg>
                   </span>
                 </div>
 
-                <h3 className="mt-4 text-[1.08rem] font-extrabold tracking-tight text-slate-100">{p.title}</h3>
-                <p className="mt-2 text-[13.5px] leading-relaxed text-slate-300/90">{p.desc}</p>
+                <h3 className="mt-4 text-[1.08rem] font-extrabold tracking-tight text-slate-100">{t.work.titles?.[p.id] ?? p.title}</h3>
+                <p className="mt-2 text-[13.5px] leading-relaxed text-slate-300/90">{t.work.projects[p.id]}</p>
 
                 <div
                   aria-hidden
@@ -420,7 +404,8 @@ function CardsGrid({ projects }: { projects: Project[] }) {
 
 // ── Main component ───────────────────────────────────────────────────────────
 export default function SectionWorkGalleryMinimal() {
-  const [filter, setFilter] = useState<Tag | "Всички">("Всички");
+  const { t } = useLang();
+  const [filter, setFilter] = useState<Tag | "all">("all");
   const tabsRef = useRef<HTMLDivElement | null>(null);
   const didMount = useRef(false);
 
@@ -464,16 +449,16 @@ export default function SectionWorkGalleryMinimal() {
         {/* Header */}
         <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
-            проекти
+            {t.work.eyebrow}
           </span>
           <h2 className="mx-auto mt-5 max-w-[26ch] text-[clamp(1.75rem,5.5vw,2.8rem)] font-extrabold leading-[1.06] tracking-[-0.02em] text-slate-100" style={{ textWrap: "balance" } as React.CSSProperties}>
-            Проекти, с които{" "}
-            <span style={{ background: "linear-gradient(110deg,#22d3ee 0%,#a78bfa 60%,#34d399 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              се гордеем.
+            {t.work.h2a}{" "}
+            <span className="gradient-text">
+              {t.work.h2b}
             </span>
           </h2>
           <p className="mx-auto mt-4 max-w-[46ch] text-[15.5px] leading-relaxed text-slate-400" style={{ textWrap: "balance" } as React.CSSProperties}>
-            Всеки проект е истински, работещ сайт на наш клиент — натиснете „Виж сайта" и го разгледайте на живо.
+            {t.work.sub}
           </p>
         </motion.div>
 
@@ -483,15 +468,15 @@ export default function SectionWorkGalleryMinimal() {
             <div className="relative -my-2 w-full sm:w-auto">
               <div ref={tabsRef} className="no-scrollbar flex overflow-x-auto py-4 sm:overflow-visible">
                 <div className="mx-auto flex w-max items-center gap-2 px-4 sm:px-0">
-                {(["Всички", "Сайт", "E-магазин", "Дигитално меню"] as const).map((t) => {
-                  const active = filter === t;
-                  const accent = t === "Сайт" ? "#22D3EE" : t === "E-магазин" ? "#34D399" : t === "Дигитално меню" ? "#A78BFA" : null;
+                {(["all", ...CATEGORY_ORDER] as const).map((tab) => {
+                  const active = filter === tab;
+                  const accent = tab === "all" ? null : TAG_THEME[tab].accent;
                   return (
                     <button
-                      key={t}
+                      key={tab}
                       type="button"
                       data-active={active ? "true" : "false"}
-                      onClick={() => setFilter(t)}
+                      onClick={() => setFilter(tab)}
                       className="relative isolate flex-none whitespace-nowrap h-10 rounded-full px-4 text-[13px] font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
                       style={
                         active
@@ -507,7 +492,7 @@ export default function SectionWorkGalleryMinimal() {
                         ? <span aria-hidden className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full align-middle transition-opacity" style={{ background: accent, opacity: active ? 1 : 0.4 }} />
                         : <span aria-hidden className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full align-middle" style={{ background: "linear-gradient(135deg,#22D3EE,#34D399,#A78BFA)", opacity: active ? 1 : 0.5 }} />
                       }
-                      {t}
+                      {tab === "all" ? t.work.all : t.work.tags[tab]}
                     </button>
                   );
                 })}
@@ -519,7 +504,7 @@ export default function SectionWorkGalleryMinimal() {
 
         {/* Projects */}
         <AnimatePresence mode="wait">
-          {filter === "Всички" ? (
+          {filter === "all" ? (
             <motion.div
               key="all"
               initial={{ opacity: 0 }}

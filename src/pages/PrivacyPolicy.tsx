@@ -2,14 +2,11 @@ import { Link } from "react-router-dom";
 import LegalLayout, { Section, List, Card, A } from "../components/LegalLayout";
 import { BUSINESS, ROUTES } from "../constants/business";
 import { useSeo } from "../hooks/useSeo";
+import { useLang } from "../i18n";
 
 export default function PrivacyPolicy() {
-  useSeo({
-    title: "Политика за поверителност | Rafetov.com",
-    description:
-      "Как Джан Рафетов (БУЛСТАТ 181648949) обработва лични данни, изпратени през контактната форма на rafetov.com — цели, основания, срокове, доставчици и права по GDPR.",
-    canonicalPath: ROUTES.privacy,
-  });
+  const { t, href } = useLang();
+  useSeo({ title: t.meta.privacyTitle, description: t.meta.privacyDescription, path: ROUTES.privacy });
 
   return (
     <LegalLayout
@@ -327,7 +324,7 @@ export default function PrivacyPolicy() {
         <p className="pt-2">
           Вижте също{" "}
           <Link
-            to={ROUTES.legal}
+            to={href(ROUTES.legal)}
             className="font-semibold text-slate-200 underline decoration-slate-700 underline-offset-4 transition-colors hover:text-white hover:decoration-[#22D3EE]"
           >
             Правна информация

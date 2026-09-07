@@ -2,126 +2,37 @@
 <html lang="bg">
   <head>
     <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="shortcut icon" href="/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <link rel="manifest" href="/site.webmanifest" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#07090f" />
     <meta name="description" content="Разработка на уебсайтове, онлайн магазини и дигитално меню за ресторанти и бизнеси. Безплатен хостинг, поддръжка след пускане и фиксирана цена. Поискай безплатна консултация." />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://rafetov.com/" />
+    <meta property="og:site_name" content="Rafetov.com" />
+    <meta property="og:url" content="https://www.rafetov.com/" />
     <meta property="og:title" content="Разработка на уебсайт, онлайн магазин и дигитално меню | Rafetov.com" />
     <meta property="og:description" content="Правим сайтове, онлайн магазини и дигитални менюта за ресторанти и бизнеси. Бърз дизайн, мобилна версия, SEO и поддръжка." />
-    <meta property="og:image" content="https://rafetov.com/zzzz.jpg" />
+    <meta property="og:image" content="https://www.rafetov.com/zzzz.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="bg_BG" />
+    <meta property="og:locale:alternate" content="en_GB" />
+    <meta property="og:locale:alternate" content="de_DE" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Разработка на уебсайт, онлайн магазин и дигитално меню | Rafetov.com" />
     <meta name="twitter:description" content="Правим сайтове, онлайн магазини и дигитални менюта за ресторанти и бизнеси. Бърз дизайн, мобилна версия, SEO и поддръжка." />
-    <meta name="twitter:image" content="https://rafetov.com/zzzz.jpg" />
+    <meta name="twitter:image" content="https://www.rafetov.com/zzzz.jpg" />
 
-
-<title>Разработка на уебсайт, онлайн магазин и дигитално меню | Rafetov.com </title>
-  <style>
-    /* Скрива всичко свързано с Google Translate UI */
-    .goog-te-banner-frame,
-    .goog-te-gadget,
-    .goog-te-gadget-icon,
-    .goog-logo-link,
-    #goog-gt-tt,
-    #goog-gt-,
-    .goog-tooltip,
-    .goog-tooltip:hover,
-    .goog-te-balloon-frame,
-    .goog-te-ftab-float,
-    .goog-te-menu-frame,
-    iframe.goog-te-menu-frame,
-    .VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
-    .VIpgJd-ZVi9od-aZ2wEe,
-    .VIpgJd-yAWNEb-L7lbkb,
-    .skiptranslate { display: none !important; visibility: hidden !important; }
-    body { top: 0 !important; position: static !important; }
-    .goog-text-highlight,
-    .goog-text-highlight * { background: none !important; background-color: transparent !important; box-shadow: none !important; border: none !important; outline: none !important; }
-    font { background-color: transparent !important; box-shadow: none !important; }
-    font[style] { background-color: transparent !important; }
-  </style>
-  <script>
-    (function() {
-      var past = 'expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      var host = location.hostname;
-
-      function deleteAllGTCookies() {
-        document.cookie = 'googtrans=;path=/;expires=' + past;
-        document.cookie = 'googtrans=;path=/;domain=' + host + ';expires=' + past;
-        document.cookie = 'googtrans=;path=/;domain=.' + host + ';expires=' + past;
-        document.cookie = 'googtrans=;path=/;domain=www.' + host + ';expires=' + past;
-        var hc = 'googtrans_' + host;
-        document.cookie = hc + '=;path=/;expires=' + past;
-        document.cookie = hc + '=;path=/;domain=' + host + ';expires=' + past;
-        document.cookie = hc + '=;path=/;domain=.' + host + ';expires=' + past;
-        try { localStorage.removeItem('googtrans'); sessionStorage.removeItem('googtrans'); } catch(e) {}
-      }
-
-      // Ако потребителят е избрал БГ — изчистваме ВСИЧКО и НЕ зареждаме GT
-      if (sessionStorage.getItem('noTranslate')) {
-        sessionStorage.removeItem('noTranslate');
-        deleteAllGTCookies();
-        return; // НЕ зареждаме GT скрипта — страницата остава на оригинален български
-      }
-
-      // Проверяваме дали има googtrans cookie (т.е. потребителят е избрал друг език)
-      var match = document.cookie.match(/googtrans=\/bg\/([a-z]+)/);
-      if (!match) return; // Няма cookie → НЕ зареждаме GT → страницата е на български
-
-      // Само ако трябва превод — дефинираме callback-а и зареждаме GT динамично
-      window.googleTranslateElementInit = function() {
-        new google.translate.TranslateElement({ pageLanguage: 'bg', autoDisplay: false }, 'google_translate_element');
-      };
-      var s = document.createElement('script');
-      s.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-      document.head.appendChild(s);
-    })();
-  </script>
-  <script>
-    function removeTextHighlight() {
-      document.querySelectorAll('.goog-text-highlight').forEach(function(el) {
-        el.classList.remove('goog-text-highlight');
-        el.style.background = 'none';
-        el.style.boxShadow = 'none';
-      });
-      document.querySelectorAll('font').forEach(function(el) {
-        el.style.backgroundColor = 'transparent';
-        el.style.boxShadow = 'none';
-      });
-    }
-    function removeGoogleBar() {
-      var selectors = [
-        '.goog-te-banner-frame', '#goog-gt-tt', '.goog-te-balloon-frame',
-        '.VIpgJd-ZVi9od-aZ2wEe-wOHMyf', '.VIpgJd-yAWNEb-L7lbkb'
-      ];
-      selectors.forEach(function(s) {
-        var el = document.querySelector(s);
-        if (el) el.remove();
-      });
-      document.body.style.top = '0';
-    }
-    window.addEventListener('load', function() {
-      removeGoogleBar();
-      removeTextHighlight();
-      setInterval(function() { removeGoogleBar(); removeTextHighlight(); }, 300);
-    });
-  </script>
+    <title>Разработка на уебсайт, онлайн магазин и дигитално меню | Rafetov.com</title>
   </head>
   <body>
-  <div id="google_translate_element" style="display:none;position:absolute;"></div>
-
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

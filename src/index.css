@@ -3,6 +3,19 @@
 @tailwind utilities;
 /* src/index.css */
 
+/* Gradient text: background-clip:text paints only inside the element box, so with a
+   tight line-height descenders (д, з, у, р) fall outside and vanish. Padding extends
+   the painted area; the negative margin keeps layout unchanged. */
+.gradient-text {
+  display: inline-block;
+  padding: 0.12em 0.06em 0.22em;
+  margin: -0.12em -0.06em -0.22em;
+  background: linear-gradient(110deg, #22d3ee 0%, #a78bfa 60%, #34d399 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* .hero-background {
   background-image: radial-gradient(circle, #ffffff, #000);
 } */

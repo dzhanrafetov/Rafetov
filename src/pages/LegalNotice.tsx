@@ -2,14 +2,11 @@ import { Link } from "react-router-dom";
 import LegalLayout, { Section, List, Card, A } from "../components/LegalLayout";
 import { BUSINESS, ROUTES } from "../constants/business";
 import { useSeo } from "../hooks/useSeo";
+import { useLang } from "../i18n";
 
 export default function LegalNotice() {
-  useSeo({
-    title: "Правна информация | Rafetov.com",
-    description:
-      "Правна информация за rafetov.com — Джан Рафетов, БУЛСТАТ 181648949, контакти, предназначение на сайта и условия за ползване на съдържанието.",
-    canonicalPath: ROUTES.legal,
-  });
+  const { t, href } = useLang();
+  useSeo({ title: t.meta.legalTitle, description: t.meta.legalDescription, path: ROUTES.legal });
 
   return (
     <LegalLayout
@@ -108,7 +105,7 @@ export default function LegalNotice() {
           Обработването на лични данни, изпратени през контактната форма, както и техническите данни
           при посещение на сайта, са описани подробно в{" "}
           <Link
-            to={ROUTES.privacy}
+            to={href(ROUTES.privacy)}
             className="font-semibold text-slate-200 underline decoration-slate-700 underline-offset-4 transition-colors hover:text-white hover:decoration-[#22D3EE]"
           >
             Политиката за поверителност

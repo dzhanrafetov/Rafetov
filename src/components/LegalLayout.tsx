@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode } from "react";
+import { useLang } from "../i18n";
 
 /**
  * Обща обвивка за правните страници — същият тъмен фон, hairline и типография
@@ -17,6 +18,7 @@ export default function LegalLayout({
   updated?: string;
   children: ReactNode;
 }) {
+  const { t } = useLang();
   return (
     <main
       className="relative isolate min-h-screen overflow-hidden text-slate-300"
@@ -53,14 +55,20 @@ export default function LegalLayout({
 
         {updated && (
           <p className="mt-5 text-[12px] uppercase tracking-[0.14em] text-slate-600">
-            Последна актуализация: <span className="text-slate-500">{updated}</span>
+            {t.legal.updated}: <span className="text-slate-500">{updated}</span>
           </p>
+        )}
+
+        {t.legal.bulgarianOnly && (
+          <div className="mt-8 rounded-2xl border border-white/[0.07] bg-white/[0.025] px-5 py-4 text-[14px] leading-relaxed text-slate-300">
+            {t.legal.bulgarianOnly}
+          </div>
         )}
 
         <div aria-hidden className="mt-10 h-px" style={{ backgroundColor: "var(--hairline)" }} />
 
         {/* ── Body ── */}
-        <div className="mt-10 space-y-10">{children}</div>
+        <div className="mt-10 space-y-10" lang="bg">{children}</div>
       </div>
     </main>
   );
