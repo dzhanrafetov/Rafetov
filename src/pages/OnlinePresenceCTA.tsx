@@ -237,7 +237,7 @@ export const PROJECTS: Project[] = [
     tag: "site",
     title: "Innenausbau Ahmedov",
     img: "/work/innenausbau.webp",
-    href: "https://innenausbau-ahmedov.vercel.app/",
+    href: "https://www.innenausbau-ahmedov.de/",
     country: "DE",
   },
 ];
