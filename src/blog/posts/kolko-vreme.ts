@@ -13,7 +13,7 @@ const post: Post = {
       title: "Колко време отнема изработка на сайт и къде реално се губи времето",
       excerpt:
         "Сайт за 1–3 седмици, магазин за 2–4. Но половината проекти закъсняват, и почти никога заради програмирането. Ето реалния график и трите неща, които го бавят.",
-      imageAlt: "Лаптоп, отворена тетрадка с бележки и телефон на дървено бюро",
+      imageAlt: "Таблет с отворен календар и стилус на тъмна дървена маса",
       body: [
         {
           type: "p",
@@ -70,7 +70,7 @@ const post: Post = {
       title: "How long does it take to build a website, and where the time really goes",
       excerpt:
         "A website in 1–3 weeks, a store in 2–4. Yet half of all projects run late, and almost never because of the coding. The real timeline and the three things that slow it down.",
-      imageAlt: "Laptop, an open notebook with notes and a phone on a wooden desk",
+      imageAlt: "Tablet with an open calendar and a stylus on a dark wooden table",
       body: [
         {
           type: "p",
@@ -127,7 +127,7 @@ const post: Post = {
       title: "Wie lange dauert die Erstellung einer Webseite, und wo die Zeit wirklich verloren geht",
       excerpt:
         "Eine Webseite in 1–3 Wochen, ein Shop in 2–4. Trotzdem verzögert sich die Hälfte aller Projekte, und fast nie wegen der Programmierung. Der echte Zeitplan und die drei Dinge, die ihn bremsen.",
-      imageAlt: "Laptop, aufgeschlagenes Notizbuch mit Notizen und ein Handy auf einem Holzschreibtisch",
+      imageAlt: "Tablet mit geöffnetem Kalender und Stift auf einem dunklen Holztisch",
       body: [
         {
           type: "p",

@@ -13,7 +13,7 @@ const post: Post = {
       title: "Колко струва изработка на сайт през 2026: какво определя цената и защо офертите се различават толкова",
       excerpt:
         "Две оферти за „сайт“ могат да се различават няколко пъти. Ето кое реално определя цената, какво трябва да включва една сериозна оферта и как да сравнявате предложения, без да плащате за нещо, което не ви трябва.",
-      imageAlt: "Лаптоп с отворен уебсайт и бележник на дървено бюро",
+      imageAlt: "Лаптоп, телефон и слушалки на тъмно бюро, гледани отгоре",
       body: [
         {
           type: "p",
@@ -75,7 +75,7 @@ const post: Post = {
       title: "How much does a website cost in 2026: what decides the price and why quotes differ so much",
       excerpt:
         "Two quotes for “a website” can differ several times over. Here is what actually decides the price, what a serious quote has to include, and how to compare offers without paying for things you do not need.",
-      imageAlt: "Laptop with an open website next to a notebook on a wooden desk",
+      imageAlt: "Laptop, phone and headphones on a dark desk, seen from above",
       body: [
         {
           type: "p",
@@ -137,7 +137,7 @@ const post: Post = {
       title: "Was kostet eine Webseite 2026: was den Preis bestimmt und warum Angebote so unterschiedlich sind",
       excerpt:
         "Zwei Angebote für „eine Webseite“ können sich um ein Mehrfaches unterscheiden. Hier lesen Sie, was den Preis wirklich bestimmt, was ein seriöses Angebot enthalten muss und wie Sie Angebote vergleichen, ohne für Dinge zu zahlen, die Sie nicht brauchen.",
-      imageAlt: "Laptop mit geöffneter Webseite neben einem Notizbuch auf einem Holzschreibtisch",
+      imageAlt: "Laptop, Smartphone und Kopfhörer auf einem dunklen Schreibtisch von oben",
       body: [
         {
           type: "p",

@@ -13,7 +13,7 @@ const post: Post = {
       title: "Какво е хостинг, какво е домейн и защо при нас хостингът е безплатен",
       excerpt:
         "Двете думи, които объркват всеки нов собственик на сайт, обяснени без технически термини. Плюс защо не таксуваме месечно за хостинг и къде е уловката (няма).",
-      imageAlt: "Компютърни устройства, клавиатура и таблет, подредени на тъмна повърхност",
+      imageAlt: "Сини мрежови кабели, включени в сървърна стойка",
       body: [
         {
           type: "p",
@@ -68,7 +68,7 @@ const post: Post = {
       title: "What is hosting, what is a domain, and why hosting is free with us",
       excerpt:
         "The two words that confuse every new website owner, explained without technical terms. Plus why we do not charge a monthly hosting fee and where the catch is (there is none).",
-      imageAlt: "Computer devices, keyboard and tablet arranged on a dark surface",
+      imageAlt: "Blue network cables plugged into a server rack",
       body: [
         {
           type: "p",
@@ -123,7 +123,7 @@ const post: Post = {
       title: "Was ist Hosting, was ist eine Domain, und warum das Hosting bei uns kostenlos ist",
       excerpt:
         "Die zwei Wörter, die jeden neuen Webseitenbesitzer verwirren, erklärt ohne Fachbegriffe. Und warum wir keine monatliche Hosting-Gebühr berechnen und wo der Haken ist (es gibt keinen).",
-      imageAlt: "Computergeräte, Tastatur und Tablet auf einer dunklen Oberfläche",
+      imageAlt: "Blaue Netzwerkkabel in einem Serverschrank",
       body: [
         {
           type: "p",

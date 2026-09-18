@@ -175,7 +175,7 @@ export default function ContactUs() {
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24">
 
         {/* ── Header ── */}
-        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center">
+        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} className="text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
             {t.contact.eyebrow}
           </span>
@@ -198,7 +198,7 @@ export default function ContactUs() {
 
             {/* Status pill */}
             <motion.div
-              variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} custom={1}
+              variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={1}
               className="flex items-center gap-3 rounded-2xl border border-white/[0.07] bg-white/[0.025] px-5 py-4"
             >
               <span className="relative flex h-2.5 w-2.5 shrink-0">
@@ -221,7 +221,7 @@ export default function ContactUs() {
               const inner = (
                 <motion.div
                   key={item.k}
-                  variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} custom={i + 2}
+                  variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={i + 2}
                   className="group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4 transition-all duration-300 hover:-translate-y-0.5"
                 >
                   {/* Hover glow */}
@@ -277,7 +277,7 @@ export default function ContactUs() {
 
           {/* ── RIGHT: Form ── */}
           <motion.div
-            variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} custom={2}
+            variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={2}
             className="order-1 lg:order-none lg:col-span-7"
           >
             <div className="group/form relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025]">

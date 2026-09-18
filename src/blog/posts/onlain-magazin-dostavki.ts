@@ -13,7 +13,7 @@ const post: Post = {
       title: "Онлайн магазин в България: доставки с Еконт и Спиди, плащания и какво трябва да решите преди старта",
       excerpt:
         "Наложен платеж или карта, Еконт или Спиди, кой плаща доставката. Практичните решения, които определят дали магазинът ще продава, взети преди да е написан и ред код.",
-      imageAlt: "Подредени продукти и аксесоари на равна повърхност",
+      imageAlt: "Ръце опаковат пратка в хартия преди изпращане",
       body: [
         {
           type: "p",
@@ -74,7 +74,7 @@ const post: Post = {
       title: "Launching an online store: shipping, payments and the decisions to make before the first line of code",
       excerpt:
         "Cash on delivery or card, which couriers, who pays for shipping. The practical decisions that determine whether a store will sell, made before development starts.",
-      imageAlt: "Neatly arranged products and accessories on a flat surface",
+      imageAlt: "Hands wrapping a parcel in paper before shipping",
       body: [
         {
           type: "p",
@@ -135,7 +135,7 @@ const post: Post = {
       title: "Onlineshop starten: Versand, Zahlungen und die Entscheidungen vor der ersten Zeile Code",
       excerpt:
         "Nachnahme oder Karte, welche Paketdienste, wer zahlt den Versand. Die praktischen Entscheidungen, die bestimmen, ob ein Shop verkauft, getroffen bevor die Entwicklung beginnt.",
-      imageAlt: "Ordentlich angeordnete Produkte und Accessoires auf einer flachen Oberfläche",
+      imageAlt: "Hände verpacken ein Paket in Papier vor dem Versand",
       body: [
         {
           type: "p",

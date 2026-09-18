@@ -1,246 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import { useLang } from "../i18n";
-import type { CountryCode, WorkTag } from "../i18n/types";
+import type { WorkTag } from "../i18n/types";
+import { PROJECTS, type Project } from "../constants/projects";
 
 type Tag = WorkTag;
-type Country = CountryCode;
-
-type Project = {
-  id: string;
-  tag: Tag;
-  title: string;
-  img: string;
-  href?: string;
-  country?: Country;
-};
-
-export const PROJECTS: Project[] = [
-  {
-    id: "chef-resat-site",
-    tag: "site",
-    title: "Chef Resat",
-    img: "/work/rft.webp",
-    href: "https://www.chefresatsofya.com/",
-    country: "BG",
-  },
-  {
-    id: "vulcho",
-    tag: "shop",
-    title: "Vulcho.bg",
-    img: "/work/valchoph.webp",
-    href: "https://valcho.vercel.app/",
-    country: "BG",
-  },
-  {
-    id: "zirve1",
-    tag: "shop",
-    title: "Zirve1",
-    img: "/work/ztest.webp",
-    href: "https://www.zirve1.bg/",
-    country: "BG",
-  },
-  {
-    id: "emis-cleaning",
-    tag: "site",
-    title: "Emis Cleaning",
-    img: "/work/london.webp",
-    href: "https://www.emiscleaning.co.uk/",
-    country: "GB",
-  },
-  {
-    id: "santander",
-    tag: "site",
-    title: "Alp Taxi Santander",
-    img: "/work/sndr.webp",
-    href: "https://taxisantander.online/",
-    country: "ES",
-  },
-  {
-    id: "beca",
-    tag: "site",
-    title: "BECA Umzugsservice",
-    img: "/work/becca.webp",
-    href: "https://becaumzug.de/",
-    country: "DE",
-  },
-  {
-    id: "amalfi-menu",
-    tag: "menu",
-    title: "Amalfi",
-    img: "/work/corected-amalfi.webp",
-    href: "https://www.amalfirestaurant.no/",
-    country: "NO",
-  },
-  {
-    id: "chef-resat-menu",
-    tag: "menu",
-    title: "Chef Resat",
-    img: "/work/chefresatcorected.webp",
-    href: "https://www.chefresatsofya.com/menu",
-    country: "BG",
-  },
-  {
-    id: "pancetita-menu",
-    tag: "menu",
-    title: "Pizza Pancetita",
-    img: "/work/corectedpancetita.webp",
-    href: "https://pancetta.vercel.app/",
-    country: "NO",
-  },
-  {
-    id: "abi-studio",
-    tag: "site",
-    title: "Abi Studio",
-    img: "/work/abistudio1.webp",
-    href: "https://www.abistudiovarna.com/",
-    country: "BG",
-  },
-  {
-    id: "metesso",
-    tag: "site",
-    title: "Metesso",
-    img: "/work/metesso1.webp",
-    href: "https://www.metesso.com/",
-    country: "BG",
-  },
-  {
-    id: "opaka-fits",
-    tag: "site",
-    title: "Комплекс Фъц",
-    img: "/work/opakafits.webp",
-    href: "https://opakafits.com/",
-    country: "BG",
-  },
-  {
-    id: "taupe",
-    tag: "site",
-    title: "Taupe",
-    img: "/work/taupe1.webp",
-    href: "https://www.taupe.bg/",
-    country: "BG",
-  },
-  {
-    id: "azteca-site",
-    tag: "shop",
-    title: "Azteca",
-    img: "/work/aztecanew.webp",
-    href: "https://azteca-premium.com/",
-    country: "BG",
-  },
-  {
-    id: "dudo-group",
-    tag: "site",
-    title: "Dudo Group",
-    img: "/work/dudohip2.webp",
-    href: "https://d-group.bg/dudo-stroitelen/index.php",
-    country: "BG",
-  },
-  {
-    id: "mig-group",
-    tag: "site",
-    title: "МИГ Инженеринг Груп",
-    img: "/work/geodezi1.webp",
-    href: "https://migbulgaria.com/",
-    country: "BG",
-  },
-  {
-    id: "het-pitta-loft",
-    tag: "site",
-    title: "Het Pitta Loft",
-    img: "/work/hetpittaloft.webp",
-    href: "https://hetpittaloft.be/",
-    country: "BE",
-  },
-  {
-    id: "pet-zvezdi",
-    tag: "site",
-    title: "Пет Звезди",
-    img: "/work/petzvezdi.webp",
-    href: "https://www.petzvezdiexotics.com",
-    country: "BG",
-  },
-  {
-    id: "hh-edelstahl",
-    tag: "site",
-    title: "H&H Edelstahl",
-    img: "/work/edel3.webp",
-    href: "https://www.edelstahl-gastro.de",
-    country: "DE",
-  },
-  {
-    id: "primasell",
-    tag: "site",
-    title: "PrimaSell",
-    img: "/work/primasell.webp",
-    href: "https://primasell.bg/",
-    country: "BG",
-  },
-  {
-    id: "szo",
-    tag: "shop",
-    title: "Security Systems",
-    img: "/work/szof1.webp",
-    href: "https://www.szo.bg/",
-    country: "BG",
-  },
-  {
-    id: "24tours",
-    tag: "shop",
-    title: "24Tours",
-    img: "/work/mototours.webp",
-    href: "https://www.24tours.bg/",
-    country: "BG",
-  },
-  {
-    id: "hustle-clothing",
-    tag: "shop",
-    title: "Hustle Clothing",
-    img: "/work/hustle2.webp",
-    href: "https://hustleclothing.shop/",
-    country: "BG",
-  },
-  {
-    id: "shop4home",
-    tag: "shop",
-    title: "Shop4Home",
-    img: "/work/shop111.webp",
-    href: "https://shop4home.bg/",
-    country: "BG",
-  },
-  {
-    id: "korn-metal",
-    tag: "site",
-    title: "Korn Metal",
-    img: "/work/korn.webp",
-    href: "https://www.korn-metal.com/",
-    country: "BG",
-  },
-  {
-    id: "hotel-fenix",
-    tag: "site",
-    title: "Хотел Феникс",
-    img: "/work/chepelare.webp",
-    href: "https://hotelfenix.vercel.app/",
-    country: "BG",
-  },
-  {
-    id: "slapfight",
-    tag: "shop",
-    title: "SlapFight Bulgaria",
-    img: "/work/slapfight2.webp",
-    href: "https://slap-fight-bulgaria-nine.vercel.app/",
-    country: "BG",
-  },
-  {
-    id: "innenausbau-ahmedov",
-    tag: "site",
-    title: "Innenausbau Ahmedov",
-    img: "/work/innenausbau.webp",
-    href: "https://www.innenausbau-ahmedov.de/",
-    country: "DE",
-  },
-];
 
 const fade = {
   hidden: { opacity: 0, y: 12 },
@@ -450,7 +214,7 @@ export default function SectionWorkGalleryMinimal() {
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24">
 
         {/* Header */}
-        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center">
+        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} className="text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
             {t.work.eyebrow}
           </span>
@@ -467,7 +231,7 @@ export default function SectionWorkGalleryMinimal() {
 
         {/* Filter tabs */}
         <LayoutGroup id="workFilters">
-          <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} custom={1} className="mt-8 flex justify-center">
+          <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={1} className="mt-8 flex justify-center">
             <div className="relative -my-2 w-full sm:w-auto">
               <div ref={tabsRef} className="no-scrollbar flex overflow-x-auto py-4 sm:overflow-visible">
                 <div className="mx-auto flex w-max items-center gap-2 px-4 sm:px-0">

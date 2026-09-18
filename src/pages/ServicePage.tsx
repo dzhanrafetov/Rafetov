@@ -6,7 +6,8 @@ import { SITE_ORIGIN } from "../seo/head";
 import { SERVICES, findService, findServiceAnyLang, serviceAlternates, servicePath, type Service } from "../services";
 import { Icon } from "../services/icons";
 import ServiceIllustration from "../services/ServiceArt";
-import { PROJECTS, CardsGrid } from "./OnlinePresenceCTA";
+import { CardsGrid } from "./OnlinePresenceCTA";
+import { PROJECTS } from "../constants/projects";
 import { POSTS } from "../blog";
 import BlogCard from "../blog/BlogCard";
 import NotFound from "./NotFound";
@@ -204,7 +205,7 @@ function ServiceView({ service }: { service: Service }) {
             {c.includes.map((item, i) => (
               <motion.div
                 key={item}
-                variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} custom={i}
+                variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={i}
                 className="group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.14]"
               >
                 <div aria-hidden className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
@@ -232,7 +233,7 @@ function ServiceView({ service }: { service: Service }) {
             {c.forWhom.map((item, i) => (
               <motion.div
                 key={item}
-                variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} custom={i}
+                variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={i}
                 className="group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-gradient-to-b from-white/[0.04] to-white/[0.015] p-6 text-center transition-all duration-300 hover:-translate-y-1"
               >
                 <div aria-hidden className="absolute inset-x-0 top-0 h-[2px] opacity-60"
@@ -269,7 +270,7 @@ function ServiceView({ service }: { service: Service }) {
                 return (
                   <motion.div
                     key={s.title}
-                    variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} custom={i}
+                    variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={i}
                     className="group flex flex-col items-center text-center"
                   >
                     <div className="relative z-10 flex h-[52px] w-[52px] items-center justify-center rounded-full border-2 text-[15px] font-black transition-transform duration-300 group-hover:scale-110"
@@ -319,7 +320,7 @@ function ServiceView({ service }: { service: Service }) {
             {c.faq.map((f, i) => (
               <motion.div
                 key={f.q}
-                variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} custom={i}
+                variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={i}
                 className="relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025] p-6"
               >
                 <div aria-hidden className="absolute inset-x-0 top-0 h-[2px]" style={{ background: `linear-gradient(90deg,${accent},transparent)`, opacity: 0.6 }} />

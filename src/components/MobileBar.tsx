@@ -5,14 +5,13 @@ import { track } from "@vercel/analytics";
 import { stripLang, useLang } from "../i18n";
 
 const SHOW_AFTER = 500; // px скрол, преди лентата изобщо да се появи
-const DELTA = 8; // минимално движение, за да се брои за смяна на посоката
 
 /**
  * Лепкава долна лента на телефон: бутон към формата за запитване и WhatsApp.
  * „Обади се“ е махнато — почти никой не звъни от сайта, докато формата и WhatsApp носят запитвания.
  * UX правила:
  *  - появява се чак след като hero секцията е подмината;
- *  - скрива се при скрол надолу (четене), показва се при скрол нагоре (търсене);
+ *  - остава видима и при скрол надолу — иначе изчезва точно докато човек разглежда проектите;
  *  - скрива се, когато контактната секция или footer-ът са на екрана — там вече е самата форма.
  */
 export default function MobileBar() {
@@ -20,7 +19,6 @@ export default function MobileBar() {
   const { t, href } = useLang();
   const { pathname } = useLocation();
   const isHome = stripLang(pathname) === "/";
-  const lastY = useRef(0);
   const ticking = useRef(false);
 
   useEffect(() => {
@@ -37,17 +35,7 @@ export default function MobileBar() {
 
     const update = () => {
       ticking.current = false;
-      const y = window.scrollY;
-      const scrollingUp = y < lastY.current - DELTA;
-      const scrollingDown = y > lastY.current + DELTA;
-      if (scrollingUp || scrollingDown) lastY.current = y;
-
-      if (y < SHOW_AFTER || overlapsContact()) {
-        setVisible(false);
-        return;
-      }
-      if (scrollingDown) setVisible(false);
-      else if (scrollingUp) setVisible(true);
+      setVisible(window.scrollY >= SHOW_AFTER && !overlapsContact());
     };
 
     const onScroll = () => {
@@ -56,7 +44,6 @@ export default function MobileBar() {
       requestAnimationFrame(update);
     };
 
-    lastY.current = window.scrollY;
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);

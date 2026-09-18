@@ -13,7 +13,7 @@ const post: Post = {
       title: "Сайт или Facebook страница: кое носи повече клиенти на малкия бизнес",
       excerpt:
         "Facebook е безплатен и бърз, сайтът струва пари. Защо въпреки това бизнесите с най-много запитвания имат и двете, и в какъв ред да ги направите.",
-      imageAlt: "Работно бюро с дизайнерски материали, клавиатура и тетрадка",
+      imageAlt: "Телефон с отворена папка „Social Media“ с иконите на Facebook и Instagram",
       body: [
         {
           type: "p",
@@ -73,7 +73,7 @@ const post: Post = {
       title: "Website or Facebook page: which one brings small businesses more clients",
       excerpt:
         "Facebook is free and quick, a website costs money. Why the businesses with the most enquiries have both anyway, and in which order to build them.",
-      imageAlt: "Desk with design materials, a keyboard and a notebook",
+      imageAlt: "Phone with an open “Social Media” folder showing the Facebook and Instagram icons",
       body: [
         {
           type: "p",
@@ -133,7 +133,7 @@ const post: Post = {
       title: "Webseite oder Facebook-Seite: was kleinen Unternehmen mehr Kunden bringt",
       excerpt:
         "Facebook ist kostenlos und schnell, eine Webseite kostet Geld. Warum die Unternehmen mit den meisten Anfragen trotzdem beides haben, und in welcher Reihenfolge Sie es aufbauen sollten.",
-      imageAlt: "Schreibtisch mit Designmaterialien, Tastatur und Notizbuch",
+      imageAlt: "Smartphone mit geöffnetem Ordner „Social Media“ und den Symbolen von Facebook und Instagram",
       body: [
         {
           type: "p",

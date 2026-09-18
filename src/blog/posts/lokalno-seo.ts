@@ -13,7 +13,7 @@ const post: Post = {
       title: "Локално SEO: как да излезете в Google при търсене „близо до мен“",
       excerpt:
         "Повечето клиенти на малкия бизнес търсят „услуга + град“ или „близо до мен“. Какво гледа Google, за да покаже точно вас, и петте неща, които решават класирането.",
-      imageAlt: "Градски сгради и кула, гледани отдолу",
+      imageAlt: "Човек търси нещо на телефона си над осветен град по здрач",
       body: [
         {
           type: "p",
@@ -78,7 +78,7 @@ const post: Post = {
       title: "Local SEO: how to show up on Google for “near me” searches",
       excerpt:
         "Most small business customers search for “service + town” or “near me”. What Google looks at to show exactly you, and the five things that decide the ranking.",
-      imageAlt: "City buildings and a tower seen from below",
+      imageAlt: "A person searching on their phone above a lit-up city at dusk",
       body: [
         {
           type: "p",
@@ -143,7 +143,7 @@ const post: Post = {
       title: "Lokales SEO: wie Sie bei Google für „in der Nähe“-Suchen erscheinen",
       excerpt:
         "Die meisten Kunden kleiner Unternehmen suchen „Leistung + Stadt“ oder „in der Nähe“. Worauf Google achtet, um genau Sie zu zeigen, und die fünf Dinge, die über das Ranking entscheiden.",
-      imageAlt: "Stadtgebäude und ein Turm von unten gesehen",
+      imageAlt: "Eine Person sucht auf dem Handy über einer beleuchteten Stadt in der Dämmerung",
       body: [
         {
           type: "p",

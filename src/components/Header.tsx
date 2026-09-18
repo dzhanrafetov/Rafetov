@@ -5,6 +5,7 @@ import { Link } from 'react-scroll';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { LANGS, LANG_META, setLangCookie, stripLang, useLang, withLang, type Lang } from '../i18n';
 import { BLOG_BASE } from '../blog';
+import Flag from './Flag';
 
 type MenuItem = { key: 'hero' | 'services' | 'work' | 'process' | 'blog' | 'contact'; section?: string; route?: string };
 const MENU_ITEMS: MenuItem[] = [
@@ -141,7 +142,7 @@ const Header = () => {
                   aria-haspopup="listbox"
                   aria-expanded={langOpen}
                 >
-                  <span className="text-lg md:text-xl leading-none">{LANG_META[lang].flag}</span>
+                  <Flag code={LANG_META[lang].flag} className="h-[14px] w-[21px] rounded-[3px] md:h-4 md:w-6" />
                   <span className="hidden md:inline text-sm font-semibold">{LANG_META[lang].label}</span>
                   <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 shrink-0 opacity-70" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M6 9l6 6 6-6" />
@@ -159,7 +160,7 @@ const Header = () => {
                         onClick={() => switchLang(code)}
                         className={`w-full flex items-center gap-2.5 px-4 py-2 text-[13px] whitespace-nowrap transition-colors duration-150 hover:bg-white/10 ${lang === code ? 'text-white font-semibold' : 'text-white/60'}`}
                       >
-                        <span className="text-lg leading-none">{LANG_META[code].flag}</span>
+                        <Flag code={LANG_META[code].flag} className="h-[14px] w-[21px] rounded-[3px]" />
                         <span>{LANG_META[code].name}</span>
                       </button>
                     ))}

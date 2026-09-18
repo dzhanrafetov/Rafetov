@@ -235,7 +235,7 @@ function LaunchArt({ accent }: { accent: string }) {
       {/* growth bars */}
       {[0, 1, 2, 3].map((i) => (
         <motion.rect key={i} x={40 + i * 22} width="14" rx="4" fill={i === 3 ? accent : `${accent}66`}
-          initial={{ y: 108, height: 0 }} whileInView={{ y: 108 - (18 + i * 14), height: 18 + i * 14 }} viewport={{ once: true }}
+          initial={{ y: 108, height: 0 }} whileInView={{ y: 108 - (18 + i * 14), height: 18 + i * 14 }} viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }}
           transition={{ duration: 0.8, delay: 0.15 * i, ease: [0.22, 1, 0.36, 1] }} />
       ))}
       <path d="M36 108H132" stroke="rgba(255,255,255,0.14)" />

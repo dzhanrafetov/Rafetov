@@ -13,7 +13,7 @@ const post: Post = {
       title: "7 грешки на сайтовете на малкия бизнес, които гонят клиентите (и как да ги оправите за ден)",
       excerpt:
         "Не са технически и не струват пари. Седемте най-чести причини посетителят да затвори сайта ви за пет секунди, събрани от десетки сайтове, които сме поправяли.",
-      imageAlt: "Отворен лаптоп до чаша кафе и тетрадка на дървена маса",
+      imageAlt: "Код на уебсайт върху тъмен екран, гледан отблизо",
       body: [
         {
           type: "p",
@@ -80,7 +80,7 @@ const post: Post = {
       title: "7 small business website mistakes that drive customers away (and how to fix them in a day)",
       excerpt:
         "They are not technical and they cost nothing to fix. The seven most common reasons a visitor closes your website within five seconds, collected from dozens of sites we have rebuilt.",
-      imageAlt: "Open laptop next to a cup of coffee and a notebook on a wooden table",
+      imageAlt: "Website code on a dark screen, seen up close",
       body: [
         {
           type: "p",
@@ -147,7 +147,7 @@ const post: Post = {
       title: "7 Fehler auf Webseiten kleiner Unternehmen, die Kunden vertreiben (und wie Sie sie an einem Tag beheben)",
       excerpt:
         "Sie sind nicht technisch und kosten nichts. Die sieben häufigsten Gründe, warum ein Besucher Ihre Webseite nach fünf Sekunden schließt, gesammelt aus Dutzenden Seiten, die wir überarbeitet haben.",
-      imageAlt: "Aufgeklappter Laptop neben einer Tasse Kaffee und einem Notizbuch auf einem Holztisch",
+      imageAlt: "Website-Code auf einem dunklen Bildschirm in Nahaufnahme",
       body: [
         {
           type: "p",

@@ -59,7 +59,7 @@ const FAQ_ACCENTS = ["#22D3EE", "#34D399", "#A78BFA", "#FBBF24", "#22D3EE", "#34
 
 export default function SectionProcessSimple() {
   const { t } = useLang();
-  const [open, setOpen] = useState<number | null>(null);
+  const [open, setOpen] = useState<number | null>(0);
 
   return (
     <section
@@ -83,7 +83,7 @@ export default function SectionProcessSimple() {
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24">
 
         {/* Header */}
-        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center">
+        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} className="text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
             {t.process.eyebrow}
           </span>
@@ -113,7 +113,7 @@ export default function SectionProcessSimple() {
                 variants={fade}
                 initial="hidden"
                 whileInView="show"
-                viewport={{ once: true, amount: 0.2 }}
+                viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }}
                 custom={i + 1}
                 className="group flex flex-col"
               >
@@ -196,7 +196,7 @@ export default function SectionProcessSimple() {
         </div>
 
         {/* FAQ */}
-        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center mb-8">
+        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} className="text-center mb-8">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
             {t.process.faqEyebrow}
           </span>
@@ -212,7 +212,7 @@ export default function SectionProcessSimple() {
                 variants={fade}
                 initial="hidden"
                 whileInView="show"
-                viewport={{ once: true, amount: 0.1 }}
+                viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }}
                 custom={i + 1}
               >
                 <button
@@ -285,7 +285,7 @@ export default function SectionProcessSimple() {
         </div>
 
         {/* CTA */}
-        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} custom={5} className="mt-14 text-center">
+        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={5} className="mt-14 text-center">
           <div className="mx-auto flex w-full max-w-sm flex-col items-stretch gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:items-center sm:justify-center">
             <ScrollLink
               to="contact" smooth duration={220} offset={-70}

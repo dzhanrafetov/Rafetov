@@ -13,7 +13,7 @@ const post: Post = {
       title: "Google Business профил за ресторант: настройка за 20 минути, която носи гости всеки ден",
       excerpt:
         "Безплатният профил в Google Maps е най-силният инструмент на всяко заведение и повечето го оставят наполовина попълнен. Стъпка по стъпка какво да направите днес.",
-      imageAlt: "Дървени маси и столове в светло кафене с изглед към улицата",
+      imageAlt: "Модерен ресторант с топло осветление, дървени детайли и голяма витрина към градина",
       body: [
         {
           type: "p",
@@ -77,7 +77,7 @@ const post: Post = {
       title: "Google Business Profile for restaurants: a 20-minute setup that brings guests every day",
       excerpt:
         "The free Google Maps profile is the strongest tool any restaurant has, and most leave it half-filled. Step by step, what to do today.",
-      imageAlt: "Wooden tables and chairs in a bright café with a view of the street",
+      imageAlt: "Modern restaurant with warm lighting, wooden details and a large window onto a garden",
       body: [
         {
           type: "p",
@@ -141,7 +141,7 @@ const post: Post = {
       title: "Google-Unternehmensprofil für Restaurants: 20 Minuten Einrichtung, die jeden Tag Gäste bringt",
       excerpt:
         "Das kostenlose Profil in Google Maps ist das stärkste Werkzeug jedes Lokals, und die meisten lassen es halb ausgefüllt. Schritt für Schritt, was Sie heute tun sollten.",
-      imageAlt: "Holztische und Stühle in einem hellen Café mit Blick auf die Straße",
+      imageAlt: "Modernes Restaurant mit warmer Beleuchtung, Holzdetails und großer Fensterfront zum Garten",
       body: [
         {
           type: "p",

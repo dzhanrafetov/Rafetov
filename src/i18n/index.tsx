@@ -4,6 +4,7 @@ import type { Dict, Lang } from "./types";
 import bg from "./bg";
 import en from "./en";
 import de from "./de";
+import type { FlagCode } from "../components/Flag";
 
 export type { Lang, Dict } from "./types";
 
@@ -12,10 +13,10 @@ export const LANGS: Lang[] = ["bg", "en", "de"];
 /** Езици, които се показват като URL-префикс (българският е на корена). */
 export const PREFIXED_LANGS: Lang[] = ["en", "de"];
 
-export const LANG_META: Record<Lang, { label: string; name: string; flag: string; locale: string }> = {
-  bg: { label: "БГ", name: "Български", flag: "🇧🇬", locale: "bg_BG" },
-  en: { label: "EN", name: "English", flag: "🇬🇧", locale: "en_GB" },
-  de: { label: "DE", name: "Deutsch", flag: "🇩🇪", locale: "de_DE" },
+export const LANG_META: Record<Lang, { label: string; name: string; flag: FlagCode; locale: string }> = {
+  bg: { label: "БГ", name: "Български", flag: "BG", locale: "bg_BG" },
+  en: { label: "EN", name: "English", flag: "GB", locale: "en_GB" },
+  de: { label: "DE", name: "Deutsch", flag: "DE", locale: "de_DE" },
 };
 
 export const DICTS: Record<Lang, Dict> = { bg, en, de };

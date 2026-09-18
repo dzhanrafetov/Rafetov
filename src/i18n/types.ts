@@ -6,6 +6,11 @@ export type ServiceKey = "site" | "shop" | "ads" | "menu";
 export type CareKey = "hosting" | "support" | "training" | "price";
 export type WorkTag = "site" | "shop" | "menu";
 
+/** Езикът, на който е написан отзивът в Google. */
+export type ReviewLang = "bg" | "de" | "tr" | "es" | "no" | "nl" | "en";
+/** Кратък етикет с аргумента за продажба, който отзивът доказва. */
+export type ReviewTag = "repeat" | "twoSites" | "rescue" | "hands" | "deadline" | "shop";
+
 export type Dict = {
   meta: {
     title: string;
@@ -84,6 +89,28 @@ export type Dict = {
     projects: Record<string, string>;
     /** Латинизирани имена за проекти с кирилски бранд (по избор). */
     titles?: Partial<Record<string, string>>;
+  };
+  reviews: {
+    eyebrow: string;
+    h2a: string;
+    h2b: string;
+    sub: string;
+    /** „{n} отзива в Google“ — {n} се заменя с броя. */
+    count: string;
+    viewAll: string;
+    /** Етикет „Оригинал на …“ за отзиви на друг език. */
+    original: string;
+    langs: Record<ReviewLang, string>;
+    tags: Record<ReviewTag, string>;
+    prev: string;
+    next: string;
+    /** Разгъва/свива съкратения текст на отзива. */
+    more: string;
+    less: string;
+    /** „Покажи още {n} отзива“ — {n} се заменя с броя скрити. */
+    showMore: string;
+    ctaTitle: string;
+    cta: string;
   };
   process: {
     eyebrow: string;

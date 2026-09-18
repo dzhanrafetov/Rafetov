@@ -4,6 +4,9 @@ import { Link as ScrollLink } from "react-scroll";
 import createGlobe from "cobe";
 import { useLang } from "../i18n";
 import type { CountryCode } from "../i18n/types";
+import Flag from "../components/Flag";
+import { GoogleG, Stars } from "../components/GoogleRating";
+import { GOOGLE_REVIEWS } from "../constants/business";
 
 const fade = {
   hidden: { opacity: 0, y: 20 },
@@ -41,18 +44,22 @@ const CHIPS = [
   },
 ];
 
-const COUNTRIES: { code: CountryCode; flag: string; accent: string; lat: number; lng: number }[] = [
-  { code: "BG", flag: "🇧🇬", accent: "#22D3EE", lat: 42.7339, lng: 25.4858 },
-  { code: "DE", flag: "🇩🇪", accent: "#FBBF24", lat: 51.1657, lng: 10.4515 },
-  { code: "BE", flag: "🇧🇪", accent: "#34D399", lat: 50.5039, lng:  4.4699 },
-  { code: "GB", flag: "🇬🇧", accent: "#A78BFA", lat: 55.3781, lng: -3.4360 },
-  { code: "ES", flag: "🇪🇸", accent: "#f87171", lat: 40.4637, lng: -3.7492 },
-  { code: "NO", flag: "🇳🇴", accent: "#38bdf8", lat: 60.4720, lng:  8.4689 },
+const COUNTRIES: { code: CountryCode; accent: string; lat: number; lng: number }[] = [
+  { code: "BG", accent: "#22D3EE", lat: 42.7339, lng: 25.4858 },
+  { code: "DE", accent: "#FBBF24", lat: 51.1657, lng: 10.4515 },
+  { code: "BE", accent: "#34D399", lat: 50.5039, lng:  4.4699 },
+  { code: "GB", accent: "#A78BFA", lat: 55.3781, lng: -3.4360 },
+  { code: "ES", accent: "#f87171", lat: 40.4637, lng: -3.7492 },
+  { code: "NO", accent: "#38bdf8", lat: 60.4720, lng:  8.4689 },
 ];
 
-// phi that centres Europe on the globe face
-const GLOBE_PHI   = 0.22;
-const GLOBE_THETA = 0.22;
+// Точката от картата, която гледа към зрителя. В cobe центърът на изгледа е на
+// дължина −90° − phi и ширина theta, затова phi/theta се смятат от нея, а не на око.
+const FOCUS       = { lat: 38, lng: 12 };
+const DEG         = Math.PI / 180;
+const GLOBE_PHI   = -Math.PI / 2 - FOCUS.lng * DEG;
+const GLOBE_THETA = FOCUS.lat * DEG;
+const GLOBE_R     = 0.8; // радиус на сферата спрямо половината canvas (константа в cobe)
 const BADGE       = 28; // px diameter
 
 function spreadPoints(pts: { x: number; y: number }[], minDist: number) {
@@ -113,21 +120,22 @@ function Globe({ activeCountry }: { activeCountry: number }) {
     tick();
 
     // Project lat/lng onto 2D canvas overlay
-    const W  = wrap.offsetWidth;
-    const cx = W / 2;
-    const cy = W / 2;
-    const r  = W * 0.44;
+    // Същата проекция като маркерите в cobe (lat/lng → 3D → екран), за да съвпадат с картата.
+    const W    = wrap.offsetWidth;
+    const cosP = Math.cos(GLOBE_PHI);
+    const sinP = Math.sin(GLOBE_PHI);
     const cosT = Math.cos(GLOBE_THETA);
     const sinT = Math.sin(GLOBE_THETA);
 
     const raw = COUNTRIES.map((c) => {
-      const latR = (c.lat * Math.PI) / 180;
-      const lngR = (c.lng * Math.PI) / 180;
-      const x0   = Math.cos(latR) * Math.sin(lngR - GLOBE_PHI);
-      const y0   = Math.sin(latR);
-      const z0   = Math.cos(latR) * Math.cos(lngR - GLOBE_PHI);
-      const y1   = y0 * cosT - z0 * sinT;
-      return { x: cx + x0 * r, y: cy - y1 * r };
+      const lat = c.lat * DEG;
+      const lng = c.lng * DEG - Math.PI;
+      const x = -Math.cos(lat) * Math.cos(lng);
+      const y = Math.sin(lat);
+      const z = Math.cos(lat) * Math.sin(lng);
+      const sx = cosP * x + sinP * z;
+      const sy = sinP * sinT * x + cosT * y - cosP * sinT * z;
+      return { x: ((sx * GLOBE_R + 1) / 2) * W, y: ((-sy * GLOBE_R + 1) / 2) * W };
     });
 
     setFlagPos(spreadPoints(raw, BADGE + 5));
@@ -185,13 +193,11 @@ function Globe({ activeCountry }: { activeCountry: number }) {
               boxShadow:  isActive
                 ? `0 0 22px -2px ${c.accent}bb, 0 0 6px 0 ${c.accent}66`
                 : `0 0 10px -2px ${c.accent}55`,
-              fontSize:   15,
-              lineHeight: 1,
               transition: "all 0.35s ease",
               zIndex:     isActive ? 10 : 1,
             }}
           >
-            {c.flag}
+            <Flag code={c.code} className="h-[10px] w-[15px] rounded-[2px]" />
           </div>
         );
       })}
@@ -200,8 +206,9 @@ function Globe({ activeCountry }: { activeCountry: number }) {
 }
 
 export default function Hero() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const ref = useRef<HTMLDivElement | null>(null);
+  const rating = GOOGLE_REVIEWS.rating.toLocaleString(lang, { minimumFractionDigits: 1 });
   const [activeCountry, setActiveCountry] = useState(0);
 
   useEffect(() => {
@@ -233,7 +240,7 @@ export default function Hero() {
           transition: "border-color 0.3s, background 0.3s, box-shadow 0.3s",
         }}
       >
-        <span className="text-xl leading-none">{c.flag}</span>
+        <Flag code={c.code} className="h-[14px] w-[21px] rounded-[3px]" />
         <span className="text-[13px] font-semibold" style={{ color: active ? c.accent : "#94a3b8", transition: "color 0.3s" }}>
           {t.countries[c.code]}
         </span>
@@ -351,7 +358,26 @@ export default function Hero() {
           </ScrollLink>
         </motion.div>
 
-
+        {/* Доказателство веднага под бутоните: рейтинг в Google и какво получава клиентът */}
+        <motion.div
+          variants={fade} initial="hidden" animate="show" custom={3}
+          className="mx-auto mt-6 flex flex-col items-center gap-2.5"
+        >
+          <a
+            href={GOOGLE_REVIEWS.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-[13.5px]
+                       transition-colors duration-200 hover:border-white/[0.16] hover:bg-white/[0.07]
+                       focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
+          >
+            <GoogleG className="h-4 w-4" />
+            <Stars className="h-3.5 w-3.5" />
+            <span className="font-bold text-slate-100">{rating}</span>
+            <span className="text-slate-400">· {t.reviews.count.replace("{n}", String(GOOGLE_REVIEWS.count))}</span>
+          </a>
+          <p className="text-[12.5px] text-slate-500">{t.hero.micro.replace(/ · /g, "\u00A0· ")}</p>
+        </motion.div>
 
         {/* ── Globe Section ── */}
         <motion.div

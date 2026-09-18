@@ -13,7 +13,7 @@ const post: Post = {
       title: "Как да изберете фирма за изработка на сайт: 7 въпроса, които спестяват пари",
       excerpt:
         "Не портфолиото и не цената решават дали ще сте доволни след година. Седем въпроса, които да зададете на всеки изпълнител, преди да платите.",
-      imageAlt: "Човек си води бележки в тетрадка до лаптоп на бюро",
+      imageAlt: "Двама души разговарят на маса с отворен лаптоп",
       body: [
         {
           type: "p",
@@ -80,7 +80,7 @@ const post: Post = {
       title: "How to choose a web agency: 7 questions that save you money",
       excerpt:
         "Neither the portfolio nor the price decides whether you will be happy a year later. Seven questions to ask every provider before you pay.",
-      imageAlt: "Person taking notes in a notebook next to a laptop on a desk",
+      imageAlt: "Two people talking at a table with an open laptop",
       body: [
         {
           type: "p",
@@ -147,7 +147,7 @@ const post: Post = {
       title: "Wie Sie eine Webagentur auswählen: 7 Fragen, die Geld sparen",
       excerpt:
         "Weder das Portfolio noch der Preis entscheiden, ob Sie ein Jahr später zufrieden sind. Sieben Fragen, die Sie jedem Anbieter stellen sollten, bevor Sie zahlen.",
-      imageAlt: "Person macht Notizen in einem Notizbuch neben einem Laptop",
+      imageAlt: "Zwei Personen unterhalten sich an einem Tisch mit aufgeklapptem Laptop",
       body: [
         {
           type: "p",

@@ -16,3 +16,10 @@ export const ROUTES = {
   privacy: "/privacy",
   legal: "/legal",
 } as const;
+
+/** Google Business профилът. Рейтингът и броят се обновяват ръчно при нови отзиви. */
+export const GOOGLE_REVIEWS = {
+  rating: 5,
+  count: 17,
+  url: "https://share.google/Cbpb3vNKzqoyr6A5F",
+} as const;

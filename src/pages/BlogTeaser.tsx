@@ -33,7 +33,7 @@ export default function BlogTeaser() {
       <div aria-hidden className="absolute inset-x-0 top-0 h-px" style={{ backgroundColor: "var(--hairline)" }} />
 
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24">
-        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} className="text-center">
+        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} className="text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
             {t.blog.eyebrow}
           </span>
@@ -47,7 +47,7 @@ export default function BlogTeaser() {
         </motion.div>
 
         <motion.div
-          variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1 }} custom={1}
+          variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={1}
           className="mt-12 grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3"
         >
           {latest.map((p) => (
@@ -55,7 +55,7 @@ export default function BlogTeaser() {
           ))}
         </motion.div>
 
-        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true }} custom={2} className="mt-12 text-center">
+        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={2} className="mt-12 text-center">
           <RouterLink
             to={href(BLOG_BASE)}
             className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/[0.09] bg-white/[0.03] px-7 text-[14px] font-semibold text-slate-300 transition-all duration-200 hover:border-white/[0.15] hover:bg-white/[0.06] hover:text-slate-100"

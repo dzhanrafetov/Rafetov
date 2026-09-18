@@ -17,6 +17,7 @@ export type Pages = {
   Guarantees: ComponentType;
   Market: ComponentType;
   Portfolio: ComponentType;
+  Reviews: ComponentType;
   BlogTeaser: ComponentType;
   Contact: ComponentType;
   PrivacyPolicy: ComponentType;
@@ -70,11 +71,13 @@ function Home({ pages }: { pages: Pages }) {
       },
     ],
   });
-  const { Hero, Services, Guarantees, Market, Portfolio, BlogTeaser, Contact } = pages;
+  const { Hero, Services, Guarantees, Market, Portfolio, Reviews, BlogTeaser, Contact } = pages;
   return (
     <>
       <Hero />
       <Suspense fallback={<Loader small />}><Services /></Suspense>
+      {/* Отзивите веднага след услугите — доказателството трябва да е преди дългите секции, не след тях. */}
+      <Suspense fallback={<Loader small />}><Reviews /></Suspense>
       <Suspense fallback={<Loader small />}><Guarantees /></Suspense>
       <Suspense fallback={<Loader small />}><Market /></Suspense>
       <Suspense fallback={<Loader small />}><Portfolio /></Suspense>

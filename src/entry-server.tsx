@@ -11,6 +11,7 @@ import Services from "./pages/Services";
 import Guarantees from "./pages/Guarantees";
 import Market from "./pages/OnlinePresenceCTA";
 import Portfolio from "./pages/Portfolio";
+import Reviews from "./pages/Reviews";
 import BlogTeaser from "./pages/BlogTeaser";
 import Contact from "./pages/ContactUs";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -26,7 +27,7 @@ import { SERVICES, serviceAlternates, servicePath } from "./services";
 import { BUSINESS } from "./constants/business";
 
 const pages: Pages = {
-  Hero, Services, Guarantees, Market, Portfolio, BlogTeaser, Contact,
+  Hero, Services, Guarantees, Market, Portfolio, Reviews, BlogTeaser, Contact,
   PrivacyPolicy, LegalNotice, BlogIndex, BlogPost, ServicePage, NotFound,
 };
 

@@ -13,7 +13,7 @@ const post: Post = {
       title: "Дигитално меню срещу хартиено: какво печели ресторантът с QR код на масата",
       excerpt:
         "Колко струва да препечатате менюто при всяка промяна на цените, какво губите, когато чужденец не разбира нищо, и какво реално дава QR менюто.",
-      imageAlt: "Чаша кафе и сметка на дървена маса в заведение",
+      imageAlt: "Ръка държи телефон над маса в ресторант с чаша вино и цветя",
       body: [
         {
           type: "p",
@@ -72,7 +72,7 @@ const post: Post = {
       title: "Digital menu vs paper menu: what a restaurant gains from a QR code on the table",
       excerpt:
         "What reprinting the menu at every price change costs you, what you lose when a tourist cannot read it, and what a QR menu actually delivers.",
-      imageAlt: "Cup of coffee and a bill on a wooden restaurant table",
+      imageAlt: "A hand holding a phone over a restaurant table with a glass of wine and flowers",
       body: [
         {
           type: "p",
@@ -131,7 +131,7 @@ const post: Post = {
       title: "Digitale Speisekarte oder Papier: was ein Restaurant mit dem QR-Code auf dem Tisch gewinnt",
       excerpt:
         "Was der Neudruck der Karte bei jeder Preisänderung kostet, was Sie verlieren, wenn ein Tourist nichts versteht, und was eine QR-Speisekarte wirklich bringt.",
-      imageAlt: "Tasse Kaffee und Rechnung auf einem Holztisch im Restaurant",
+      imageAlt: "Eine Hand hält ein Smartphone über einen Restauranttisch mit Weinglas und Blumen",
       body: [
         {
           type: "p",

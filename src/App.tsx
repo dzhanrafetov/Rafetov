@@ -10,6 +10,7 @@ const pages: Pages = {
   Guarantees: React.lazy(() => import("./pages/Guarantees")),
   Market: React.lazy(() => import("./pages/OnlinePresenceCTA")),
   Portfolio: React.lazy(() => import("./pages/Portfolio")),
+  Reviews: React.lazy(() => import("./pages/Reviews")),
   BlogTeaser: React.lazy(() => import("./pages/BlogTeaser")),
   Contact: React.lazy(() => import("./pages/ContactUs")),
   PrivacyPolicy: React.lazy(() => import("./pages/PrivacyPolicy")),
