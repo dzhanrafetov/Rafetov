@@ -242,4 +242,12 @@ export const PROJECTS: Project[] = [
     href: "https://www.innenausbau-ahmedov.de/",
     country: "DE",
   },
+  {
+    id: "alpha-reiniging",
+    tag: "site",
+    title: "Alpha Reiniging",
+    img: "/work/alphareining.webp",
+    href: "https://www.alphareiniging.be/",
+    country: "BE",
+  },
 ];

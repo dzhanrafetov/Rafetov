@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link as ScrollLink } from "react-scroll";
 import { useLang } from "../i18n";
@@ -70,6 +71,7 @@ const SERVICES: { k: ServiceKey; accent: string; glow: string; icon: JSX.Element
 
 export default function Services() {
   const { t, lang, href } = useLang();
+  const [active, setActive] = useState(0);
   return (
     <section
       id="services"
@@ -114,119 +116,149 @@ export default function Services() {
           </p>
         </motion.div>
 
-        {/* Cards */}
-        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {SERVICES.map((c) => (
-            <motion.article
-              key={c.k}
-              className="svc-card group relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5 transition-all duration-300
-                         hover:-translate-y-1"
-              style={{
-                ["--card-accent" as any]: c.accent,
-                ["--card-glow" as any]: c.glow,
-              }}
-            >
-              {/* Hover glow */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 rounded-2xl"
-                style={{ background: `radial-gradient(ellipse at 50% 0%, ${c.glow}, transparent 70%)` }}
-              />
-              {/* Top border glow */}
-              <div
-                aria-hidden
-                className="absolute inset-x-0 top-0 h-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                style={{ background: `linear-gradient(90deg, transparent, ${c.accent}, transparent)` }}
-              />
-
-              {/* Illustration */}
-              <div
-                className="relative -mx-5 -mt-5 mb-5 overflow-hidden rounded-t-2xl border-b border-white/[0.06]"
-                style={{ background: `radial-gradient(ellipse at 50% 100%, color-mix(in srgb, ${c.accent} 10%, transparent), transparent 70%)` }}
-              >
-                <div className="px-3 pt-3">
-                  <ServiceIllustration id={c.k} accent={c.accent} />
-                </div>
-              </div>
-
-              {/* Icon */}
-              <div
-                className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl"
-                style={{
-                  background: `color-mix(in srgb, ${c.accent} 12%, transparent)`,
-                  border: `1px solid color-mix(in srgb, ${c.accent} 22%, transparent)`,
-                  color: c.accent,
-                }}
-              >
-                {c.icon}
-              </div>
-
-              {/* Label */}
-              <div
-                className="mb-2 text-[11px] font-bold uppercase tracking-[0.18em]"
-                style={{ color: c.accent }}
-              >
-                {t.services.items[c.k].label}
-              </div>
-
-              {/* Title */}
-              <h3 className="text-[1.15rem] font-extrabold leading-[1.15] tracking-tight text-slate-100">
-                {t.services.items[c.k].title}
-              </h3>
-
-              {/* Divider */}
-              <div
-                aria-hidden
-                className="mt-3 h-px w-10 rounded-full transition-all duration-300 group-hover:w-16"
-                style={{ background: `linear-gradient(90deg, ${c.accent}, transparent)` }}
-              />
-
-              <p className="mt-3 text-[14px] leading-relaxed text-slate-400">
-                {t.services.items[c.k].text}
-              </p>
-
-              <ul className="mb-5 mt-4 space-y-2">
-                {t.services.items[c.k].points.map((p) => (
-                  <li key={p} className="flex items-start gap-2.5 text-[13px] text-slate-300">
-                    <span
-                      className="mt-[3px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full"
+        {/* Витрина: списък с услугите вляво, избраната — на голямо вдясно. Всички панели са в HTML-а (за Google и за телефон без JS). */}
+        <motion.div
+          variants={fade}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }}
+          custom={2}
+          className="mt-12 grid gap-4 lg:grid-cols-[minmax(0,4.6fr)_minmax(0,7.4fr)] lg:gap-6"
+        >
+          <div role="tablist" aria-orientation="vertical" className="grid grid-cols-2 gap-2 lg:flex lg:flex-col lg:gap-2.5 lg:[&>button]:flex-1">
+            {SERVICES.map((c, i) => {
+              const on = i === active;
+              return (
+                <button
+                  key={c.k}
+                  type="button"
+                  role="tab"
+                  id={`svc-tab-${c.k}`}
+                  aria-selected={on}
+                  aria-controls={`svc-panel-${c.k}`}
+                  onClick={() => setActive(i)}
+                  onFocus={() => setActive(i)}
+                  className="relative flex items-center gap-3 overflow-hidden rounded-2xl border border-white/[0.06] px-3 py-3 text-left transition-colors duration-200
+                             hover:border-white/[0.12] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/25 lg:gap-4 lg:px-5 lg:py-4"
+                >
+                  {on && (
+                    <motion.span
+                      aria-hidden
+                      layoutId="svc-active"
+                      transition={{ type: "spring", stiffness: 420, damping: 36 }}
+                      className="absolute inset-0 rounded-2xl"
                       style={{
-                        background: `color-mix(in srgb, ${c.accent} 15%, transparent)`,
-                        color: c.accent,
+                        background: `linear-gradient(100deg, color-mix(in srgb, ${c.accent} 16%, transparent), color-mix(in srgb, ${c.accent} 4%, transparent))`,
+                        boxShadow: `inset 0 0 0 1px color-mix(in srgb, ${c.accent} 38%, transparent)`,
                       }}
-                    >
-                      <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
-                        <path d="M20 6L9 17l-5-5" />
-                      </svg>
+                    />
+                  )}
+                  <span
+                    className="relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors duration-200 lg:h-11 lg:w-11"
+                    style={{
+                      background: `color-mix(in srgb, ${c.accent} ${on ? 20 : 10}%, transparent)`,
+                      border: `1px solid color-mix(in srgb, ${c.accent} ${on ? 40 : 20}%, transparent)`,
+                      color: c.accent,
+                    }}
+                  >
+                    {c.icon}
+                  </span>
+                  <span className="relative min-w-0">
+                    <span className="block whitespace-nowrap text-[10.5px] font-bold uppercase tracking-[0.12em] sm:tracking-[0.18em]" style={{ color: on ? c.accent : "#64748b" }}>
+                      <span className="hidden lg:inline">{String(i + 1).padStart(2, "0")} · </span>
+                      {t.services.items[c.k].label.replace("-", "\u2011")}
                     </span>
-                    {p}
-                  </li>
-                ))}
-              </ul>
+                    <span className={`mt-0.5 hidden text-[1.02rem] font-extrabold leading-tight tracking-tight transition-colors duration-200 lg:block ${on ? "text-slate-50" : "text-slate-300"}`}>
+                      {t.services.items[c.k].title}
+                    </span>
+                  </span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden
+                    className={`relative ml-auto hidden h-4 w-4 shrink-0 transition-all duration-300 lg:block ${on ? "translate-x-0 opacity-100" : "-translate-x-1 opacity-0"}`}
+                    fill="none" stroke={c.accent} strokeWidth="2.4" strokeLinecap="round"
+                  >
+                    <path d="M5 12h14M13 5l7 7-7 7" />
+                  </svg>
+                </button>
+              );
+            })}
+          </div>
 
-              {/* Цена — ориентир, не оферта. Твърдо число само там, където не зависи от обем и пазар. */}
-              <div className="mt-auto border-t border-white/[0.07] pt-4">
-                <div className="text-[1.05rem] font-extrabold leading-none tracking-tight text-slate-100">
-                  {t.services.items[c.k].price}
-                </div>
-                <div className="mt-1.5 text-[11.5px] leading-snug text-slate-400">
-                  {t.services.items[c.k].priceNote}
-                </div>
-              </div>
+          <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02]">
+            {SERVICES.map((c, i) => {
+              const on = i === active;
+              const it = t.services.items[c.k];
+              return (
+                <article
+                  key={c.k}
+                  role="tabpanel"
+                  id={`svc-panel-${c.k}`}
+                  aria-labelledby={`svc-tab-${c.k}`}
+                  hidden={!on}
+                  className={on ? "svc-in grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]" : "hidden"}
+                  style={{ ["--card-accent" as any]: c.accent }}
+                >
+                  {/* Илюстрация — на телефон отгоре, на широко вдясно */}
+                  <div
+                    className="relative order-first flex items-center justify-center overflow-hidden border-b border-white/[0.06] px-5 py-3 md:order-last md:border-b-0 md:border-l md:p-5"
+                    style={{ background: `radial-gradient(ellipse at 50% 100%, color-mix(in srgb, ${c.accent} 16%, transparent), transparent 72%)` }}
+                  >
+                    <div className="w-full max-w-[190px] md:max-w-[420px]">
+                      <ServiceIllustration id={c.k} accent={c.accent} />
+                    </div>
+                  </div>
 
-              <RouterLink
-                to={href(servicePath(serviceById(c.k), lang))}
-                className="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold transition-all hover:gap-2.5"
-                style={{ color: c.accent }}
-              >
-                {t.services.more}
-                <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <path d="M5 12h14M13 5l7 7-7 7" />
-                </svg>
-              </RouterLink>
-            </motion.article>
-          ))}
-        </div>
+                  <div className="flex flex-col p-5 sm:p-8">
+                    <h3 className="text-[1.45rem] font-extrabold leading-[1.15] tracking-tight text-slate-50 [text-wrap:balance] sm:text-[1.7rem]">
+                      {it.title}
+                    </h3>
+                    <div
+                      aria-hidden
+                      className="mt-4 h-[3px] w-12 rounded-full"
+                      style={{ background: `linear-gradient(90deg, ${c.accent}, transparent)` }}
+                    />
+                    <p className="mt-4 text-[15px] leading-relaxed text-slate-400 [text-wrap:pretty]">{it.text}</p>
+
+                    <ul className="mb-6 mt-5 space-y-2.5">
+                      {it.points.map((p) => (
+                        <li key={p} className="flex items-start gap-3 text-[14px] leading-snug text-slate-300">
+                          <span
+                            className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
+                            style={{ background: `color-mix(in srgb, ${c.accent} 16%, transparent)`, color: c.accent }}
+                          >
+                            <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+                              <path d="M20 6L9 17l-5-5" />
+                            </svg>
+                          </span>
+                          <span className="[text-wrap:pretty]">{p}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Срокът и обещанието за цена са веднъж, под витрината. Тук остава само специфичното (напр. рекламният бюджет). */}
+                    <div className="mt-auto flex flex-col gap-3 border-t border-white/[0.07] pt-5">
+                      {it.priceNote !== t.services.items.site.priceNote && (
+                        <p className="text-[12.5px] leading-snug text-slate-400 [text-wrap:pretty]"><span className="font-semibold text-slate-300">{it.price}</span> — {it.priceNote}</p>
+                      )}
+                      <RouterLink
+                        to={href(servicePath(serviceById(c.k), lang))}
+                        className="group/link inline-flex items-center gap-2 self-start text-[14.5px] font-bold transition-colors duration-200
+                                   focus:outline-none focus-visible:underline"
+                        style={{ color: c.accent }}
+                      >
+                        {t.services.more}
+                        <svg viewBox="0 0 24 24" className="h-4 w-4 transition-transform duration-200 group-hover/link:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                          <path d="M5 12h14M13 5l7 7-7 7" />
+                        </svg>
+                      </RouterLink>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </motion.div>
 
         {/* CTA */}
         <motion.div
@@ -267,12 +299,8 @@ export default function Services() {
               {t.services.cta2}
             </ScrollLink>
           </div>
-          <p className="balance mx-auto mt-4 max-w-[30ch] text-[12px] font-medium uppercase tracking-wider text-slate-400 sm:max-w-none">
-            {t.services.micro.replace(/ · /g, "\u00A0· ")}
-          </p>
-
           {/* Обещанието вместо ценоразпис — плюс изход към статията с пазарния ориентир. */}
-          <p className="balance mx-auto mt-5 max-w-[52ch] text-[13px] leading-relaxed text-slate-400">
+          <p className="balance mx-auto mt-6 max-w-[52ch] text-[13px] leading-relaxed text-slate-400">
             {t.services.pricePromise}{" "}
             {pricingPost && (
               <RouterLink
@@ -291,6 +319,9 @@ export default function Services() {
 
       <style>{`
         .balance { text-wrap: balance; }
+        .svc-in { animation: svcIn .4s cubic-bezier(.22,1,.36,1); }
+        @keyframes svcIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+        @media (prefers-reduced-motion: reduce) { .svc-in { animation: none; } }
       `}</style>
     </section>
   );

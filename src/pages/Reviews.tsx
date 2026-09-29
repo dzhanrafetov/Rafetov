@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Link as ScrollLink } from "react-scroll";
 import { useLang } from "../i18n";
 import type { ReviewLang, ReviewTag } from "../i18n/types";
 import { GOOGLE_REVIEWS } from "../constants/business";
 import { GoogleG, Stars } from "../components/GoogleRating";
+import { REVIEW_TRANSLATIONS } from "./reviewTranslations";
 
 const fade = {
   hidden: { opacity: 0, y: 18 },
@@ -45,6 +46,18 @@ const REVIEWS: Review[] = [
     lang: "en",
     highlight: "the process was professional, smooth, and well organised",
     text: "I had a great experience working with Rafetov on the development of my website. From start to finish, the process was professional, smooth, and well organised.\n\nThey took the time to understand what I wanted and turned my ideas into a professional, modern, and user friendly website. Communication was excellent throughout, and they were always responsive to my questions and requests.\n\nI’m very happy with the final result and would definitely recommend their services to anyone looking for someone reliable and professional to build their website.",
+  },
+  {
+    name: "Alpha Reiniging",
+    lang: "nl",
+    highlight: "De website ziet er modern, professioneel en overzichtelijk uit",
+    text: "Zeer tevreden over de website die Dzhan van Rafetov voor ons bedrijf Alpha Reiniging heeft gemaakt! Vanaf het begin heeft hij goed geluisterd naar onze wensen en alles zeer professioneel uitgewerkt.\n\nDe website ziet er modern, professioneel en overzichtelijk uit en past perfect bij ons bedrijf. Ook de mogelijkheid voor klanten om gemakkelijk een offerte aan te vragen is zeer goed uitgewerkt. Alles werkt vlot en ziet er verzorgd uit.\n\nDzhan heeft echt goed werk geleverd en veel aandacht besteed aan de details. We zijn zeer tevreden met het eindresultaat en de samenwerking.\n\nGoed zo Dzhan, doe zo voort! Zeker een aanrader voor iedereen die een professionele website wil laten maken. 💪🏼",
+  },
+  {
+    name: "Aptula Cholak",
+    lang: "de",
+    highlight: "Die Zusammenarbeit war angenehm, zuverlässig und professionell",
+    text: "Ich brauchte für meine Firma eine professionelle Internetseite und bin dabei auf Herrn Rafetov aufmerksam geworden. Nachdem wir uns kennengelernt hatten, habe ich mir einige seiner bisherigen Arbeiten angesehen und war direkt überzeugt.\n\nDeshalb habe ich mich entschieden, meine Firmenwebsite von ihm erstellen zu lassen – und mit dem Ergebnis bin ich sehr zufrieden. Die Zusammenarbeit war angenehm, zuverlässig und professionell.\n\nIch kann Herrn Rafetov mit gutem Gewissen weiterempfehlen. Vielen Dank für die tolle Arbeit!",
   },
   {
     name: "Osman Toko",
@@ -144,30 +157,53 @@ const INITIAL = 6;
 
 const ACCENTS = ["#22D3EE", "#34D399", "#A78BFA", "#FBBF24"];
 
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+/** Последната дума се слепва с предходната, за да не остава самотна на нов ред. */
+const glue = (s: string) => s.replace(/[ \t]+(\S+)$/gm, "\u00A0$1");
+
 type CardVariant = "grid" | "rail";
 
 const CARD_CLS: Record<CardVariant, string> = {
-  grid: "border-white/[0.08] bg-white/[0.03] p-6",
-  rail: "w-[86%] max-w-[420px] shrink-0 snap-center border-white/[0.07] bg-white/[0.025] p-5",
+  grid: "mb-5 break-inside-avoid p-7",
+  rail: "w-[86%] max-w-[420px] shrink-0 snap-center p-5",
 };
+
+function QuoteMark({ color, className }: { color: string; className?: string }) {
+  return (
+    <svg aria-hidden viewBox="0 0 48 36" className={className} fill={color}>
+      <path d="M0 36V21.6C0 9.2 6.4 2 19.2 0v6.6C13.4 8 10.8 11.6 10.4 16.8H19V36H0Zm27.6 0V21.6C27.6 9.2 34 2 46.8 0v6.6c-5.8 1.4-8.4 5-8.8 10.2h8.6V36H27.6Z" />
+    </svg>
+  );
+}
 
 function ReviewCard({ r, i, variant }: { r: Review; i: number; variant: CardVariant }) {
   const { t, lang } = useLang();
   const accent = ACCENTS[i % ACCENTS.length];
+  const [showTr, setShowTr] = useState(false);
   const body = useRef<HTMLQuoteElement>(null);
   const [open, setOpen] = useState(false);
-  // Бутонът „Прочети целия“ се показва само ако съкратеният текст наистина е отрязан.
+  // „Прочети целия“ се показва само ако съкратеният текст наистина е отрязан.
   const [clamped, setClamped] = useState(false);
 
-  useEffect(() => {
+  // Превод на езика на сайта — само ако отзивът е на друг език.
+  const tr = r.lang !== lang ? REVIEW_TRANSLATIONS[r.name]?.[lang] : undefined;
+  const translated = showTr && tr;
+  const highlight = translated ? tr.highlight ?? r.highlight : r.highlight;
+  const text = translated ? tr.text : r.text;
+  const shownLang = translated ? lang : r.lang;
+
+  // Мери се синхронно след всяка смяна на текста (без мигане на бутона), после при преоразмеряване и след зареждане на шрифта.
+  useIsoLayoutEffect(() => {
     const el = body.current;
     if (!el || open) return;
     const check = () => setClamped(el.scrollHeight > el.clientHeight + 1);
     check();
     const ro = new ResizeObserver(check);
     ro.observe(el);
+    document.fonts?.ready.then(check);
     return () => ro.disconnect();
-  }, [open]);
+  }, [open, showTr, lang]);
 
   // В лентата не анимираме всяка карта: изместените надолу (y) карти извън екрана правят лентата по-висока
   // и тя започва да се скролва вертикално. Там се появява цялата лента наведнъж.
@@ -175,7 +211,7 @@ function ReviewCard({ r, i, variant }: { r: Review; i: number; variant: CardVari
     variants: fade,
     initial: "hidden",
     whileInView: "show",
-    viewport: { once: true, amount: 0.15 },
+    viewport: { once: true, amount: 0.1 },
     custom: (i % 3) + 1,
   };
 
@@ -183,15 +219,24 @@ function ReviewCard({ r, i, variant }: { r: Review; i: number; variant: CardVari
     <motion.figure
       data-review={variant === "rail" || undefined}
       {...reveal}
-      className={`relative flex flex-col overflow-hidden rounded-2xl border ${CARD_CLS[variant]}`}
+      whileHover={variant === "grid" ? { y: -4 } : undefined}
+      transition={{ type: "spring", stiffness: 300, damping: 26 }}
+      className={`group relative flex flex-col overflow-hidden rounded-3xl border border-white/[0.07] ${CARD_CLS[variant]}`}
+      style={{
+        background: `radial-gradient(120% 70% at 0% 0%, color-mix(in srgb, ${accent} 8%, transparent), transparent 60%), rgba(255,255,255,0.025)`,
+      }}
     >
       <div
         aria-hidden
-        className="absolute inset-x-0 top-0 h-px"
+        className="absolute inset-x-0 top-0 h-px opacity-70 transition-opacity duration-300 group-hover:opacity-100"
         style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }}
       />
+      <QuoteMark
+        color={accent}
+        className="pointer-events-none absolute -right-2 -top-1 h-24 w-24 rotate-6 opacity-[0.06] transition-opacity duration-500 group-hover:opacity-[0.11]"
+      />
 
-      <div className="flex h-6 items-center justify-between gap-3">
+      <div className="relative flex h-6 items-center justify-between gap-3">
         <Stars />
         {r.tag ? (
           <span
@@ -209,40 +254,74 @@ function ReviewCard({ r, i, variant }: { r: Review; i: number; variant: CardVari
         )}
       </div>
 
-      {/* Най-силният откъс като заглавие — за да се разбере отзивът и без да се чете целият. */}
-      {r.highlight && (
-        <p lang={r.lang} className="mt-4 text-[16px] font-bold leading-snug text-slate-50">
-          „{r.highlight}“
-        </p>
-      )}
-
-      <blockquote
-        ref={body}
-        lang={r.lang}
-        className={`whitespace-pre-line text-[14px] leading-relaxed text-slate-400 ${r.highlight ? "mt-2" : "mt-4"} ${open ? "" : "line-clamp-4"}`}
-      >
-        {r.text}
-      </blockquote>
-
-      {(clamped || open) && (
-        <button
-          type="button"
-          onClick={() => setOpen((o) => !o)}
-          aria-expanded={open}
-          className="mt-2 self-start text-[13px] font-semibold text-cyan-300 hover:text-cyan-200 focus:outline-none focus-visible:underline"
+        <motion.div
+          key={translated ? "tr" : "orig"}
+          initial={showTr ? { opacity: 0 } : false}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.25 }}
+          className="relative"
         >
-          {open ? t.reviews.less : t.reviews.more}
-        </button>
+          {/* Най-силният откъс като заглавие — за да се разбере отзивът и без да се чете целият. */}
+          {highlight && (
+            <p
+              lang={shownLang}
+              className="mt-5 text-[1.2rem] font-extrabold leading-[1.25] tracking-[-0.01em] text-slate-50 [text-wrap:balance]"
+            >
+              <span style={{ color: accent }}>„</span>
+              {glue(highlight)}
+              <span style={{ color: accent }}>“</span>
+            </p>
+          )}
+
+          <blockquote
+            ref={body}
+            lang={shownLang}
+            className={`whitespace-pre-line text-[14.5px] leading-[1.7] text-slate-400 [text-wrap:pretty] ${highlight ? "mt-3" : "mt-5"} ${open ? "" : "line-clamp-5"}`}
+          >
+            {glue(text)}
+          </blockquote>
+        </motion.div>
+
+
+      {(clamped || open || tr) && (
+        <div className="relative mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+          {(clamped || open) && (
+            <button
+              type="button"
+              onClick={() => setOpen((o) => !o)}
+              aria-expanded={open}
+              className="text-[13px] font-semibold text-cyan-300 hover:text-cyan-200 focus:outline-none focus-visible:underline"
+            >
+              {open ? t.reviews.less : t.reviews.more}
+            </button>
+          )}
+          {tr && (
+            <button
+              type="button"
+              onClick={() => setShowTr((v) => !v)}
+              aria-pressed={!!translated}
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.09] bg-white/[0.03] px-3 py-1.5 text-[12.5px] font-semibold text-slate-300
+                         transition-colors duration-200 hover:border-white/[0.18] hover:bg-white/[0.07] hover:text-white
+                         focus:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
+            >
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z" />
+              </svg>
+              {translated ? t.reviews.showOriginal : t.reviews.showTranslation}
+            </button>
+          )}
+        </div>
       )}
 
       <div aria-hidden className="grow" />
-      <figcaption className="mt-4 flex items-center gap-3 border-t border-white/[0.06] pt-4">
+      <figcaption className="relative mt-5 flex items-center gap-3 border-t border-white/[0.06] pt-4">
         <span
           aria-hidden
-          className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[14px] font-bold uppercase"
+          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[15px] font-bold uppercase"
           style={{
-            background: `color-mix(in srgb, ${accent} 14%, transparent)`,
-            border: `1px solid color-mix(in srgb, ${accent} 26%, transparent)`,
+            background: `linear-gradient(135deg, color-mix(in srgb, ${accent} 24%, transparent), color-mix(in srgb, ${accent} 8%, transparent))`,
+            border: `1px solid color-mix(in srgb, ${accent} 30%, transparent)`,
             color: accent,
           }}
         >
@@ -251,7 +330,12 @@ function ReviewCard({ r, i, variant }: { r: Review; i: number; variant: CardVari
         <span className="min-w-0">
           <span className="block truncate text-[14px] font-bold text-slate-100">{r.name}</span>
           <span className="block truncate text-[12px] text-slate-500">
-            {[r.company, r.lang !== lang && `${t.reviews.original} ${t.reviews.langs[r.lang]}`].filter(Boolean).join(" · ")}
+            {[
+              r.company,
+              translated
+                ? `${t.reviews.translated} · ${t.reviews.original} ${t.reviews.langs[r.lang]}`
+                : r.lang !== lang && `${t.reviews.original} ${t.reviews.langs[r.lang]}`,
+            ].filter(Boolean).join(" · ")}
           </span>
         </span>
       </figcaption>
@@ -377,7 +461,7 @@ export default function Reviews() {
 
         {/* Таблет и десктоп: мрежа с най-силните отзиви, останалите — с бутон. */}
         <div className="mt-12 hidden md:block">
-          <div className="grid grid-cols-2 items-stretch gap-5 lg:grid-cols-3">
+          <div className="columns-2 gap-5 lg:columns-3">
             {(showAll ? REVIEWS : REVIEWS.slice(0, INITIAL)).map((r, i) => (
               <ReviewCard key={r.name} r={r} i={i} variant="grid" />
             ))}

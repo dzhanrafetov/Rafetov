@@ -152,6 +152,7 @@ const de: Dict = {
       "mig-group": "Webseite für Vermessungsleistungen in Sofia — Kataster, Absteckung, Drohnenvermessung und 3D-Laserscanning.",
       "innenausbau-ahmedov": "Webseite für Innenausbau in Hanau, Deutschland, mit Projektreferenzen und Anfrageformular.",
       "nn-bau": "Webseite für Abdichtung, Sanierung, Trockenbau und Abbrucharbeiten in Duisburg, Deutschland, mit klarer Leistungsübersicht und Anfrageformular.",
+      "alpha-reiniging": "Webseite für ein Reinigungsunternehmen in Gent, Belgien – Fenster, Dächer, Fassaden und Solaranlagen – mit Leistungsübersicht und Angebotsanfrage.",
     },
   },
   reviews: {
@@ -168,6 +169,9 @@ const de: Dict = {
     next: "Nächste Bewertung",
     more: "Ganz lesen",
     less: "Weniger",
+    showTranslation: "Übersetzung anzeigen",
+    showOriginal: "Original anzeigen",
+    translated: "Übersetzung",
     showMore: "{n} weitere Bewertungen anzeigen",
     ctaTitle: "Die nächste Bewertung könnte Ihre sein.",
     cta: "Angebot anfordern",

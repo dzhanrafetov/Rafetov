@@ -20,6 +20,6 @@ export const ROUTES = {
 /** Google Business профилът. Рейтингът и броят се обновяват ръчно при нови отзиви. */
 export const GOOGLE_REVIEWS = {
   rating: 5,
-  count: 17,
+  count: 20,
   url: "https://share.google/Cbpb3vNKzqoyr6A5F",
 } as const;

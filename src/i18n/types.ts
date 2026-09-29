@@ -107,6 +107,11 @@ export type Dict = {
     /** Разгъва/свива съкратения текст на отзива. */
     more: string;
     less: string;
+    /** Превключвател оригинал ↔ превод на езика на сайта. */
+    showTranslation: string;
+    showOriginal: string;
+    /** Малък етикет върху показания превод. */
+    translated: string;
     /** „Покажи още {n} отзива“ — {n} се заменя с броя скрити. */
     showMore: string;
     ctaTitle: string;
