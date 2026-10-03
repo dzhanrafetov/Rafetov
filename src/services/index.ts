@@ -1,3 +1,4 @@
+import { dutchServices } from "./nl";
 import type { Lang, WorkTag } from "../i18n/types";
 import type { IconKey } from "./icons";
 
@@ -31,7 +32,7 @@ export type Service = {
 };
 
 /** Базов път на страниците за услуги за всеки език (без езиков префикс). */
-export const SERVICE_BASE: Record<Lang, string> = { bg: "/uslugi", en: "/services", de: "/leistungen" };
+export const SERVICE_BASE: Record<Lang, string> = { bg: "/uslugi", en: "/services", de: "/leistungen", nl: "/diensten" };
 
 export const SERVICES: Service[] = [
   {
@@ -42,22 +43,23 @@ export const SERVICES: Service[] = [
     includeIcons: ["palette", "phone", "search", "form", "globe", "server"],
     forWhomIcons: ["tools", "utensils", "globe", "refresh"],
     content: {
+      nl: dutchServices.site,
       bg: {
         slug: "izrabotka-na-sait",
         metaTitle: "Изработка на сайт за бизнеса | Фиксирана цена | Rafetov.com",
         metaDescription:
-          "Изработка на уебсайт за вашия бизнес: бърз, удобен на телефон, готов за Google. Фиксирана цена, безплатен хостинг, поддръжка след пускане.",
+          "Изработка на уебсайт за вашия бизнес: бърз, удобен на телефон, готов за Google. Фиксирана цена, хостинг по договорени условия, поддръжка след пускане.",
         title: "Изработка на сайт, който носи запитвания",
         intro:
-          "Сайт, който с едно изречение казва кой сте и как помагате, зарежда бързо на телефон и излиза в Google за услугата и града ви. Без шаблони, които сте виждали при конкурентите, и без месечни такси за хостинг.",
-        priceLine: "Индивидуална оферта според обема и функциите. Фиксирана цена след 15-минутен разговор.",
+          "Сайт, който с едно изречение казва кой сте и как помагате, зарежда бързо на телефон и излиза в Google за услугата и града ви. Без шаблони, които сте виждали при конкурентите, с ясни условия за хостинг.",
+        priceLine: "Фирмен сайт: 580–2 300 € според обхвата. Фиксирана оферта след безплатен разговор по телефон или Google Meet.",
         includes: [
           "Дизайн, направен за вашия бизнес, не шаблон",
           "Мобилна версия, тествана на реални телефони",
           "Основна SEO настройка: заглавия, описания, скорост, структурирани данни",
           "Форма за запитване, телефон с един клик, карта",
           "Многоезичност при нужда (BG / EN / DE …)",
-          "Безплатен хостинг, HTTPS и обучение как сами да променяте съдържанието",
+          "Хостинг по договорени условия, HTTPS и обучение как сами да променяте съдържанието",
         ],
         forWhom: [
           "Майстори, сервизи и услуги, които искат обаждания от Google",
@@ -84,18 +86,18 @@ export const SERVICES: Service[] = [
         slug: "website-development",
         metaTitle: "Website development for businesses | Fixed price | Rafetov.com",
         metaDescription:
-          "A website for your business: fast, mobile-friendly, ready for Google. Fixed price, free hosting, support after launch.",
+          "A website for your business: fast, mobile-friendly, ready for Google. Fixed price, hosting under agreed terms, support after launch.",
         title: "A website that brings in enquiries",
         intro:
-          "A website that says in one sentence who you are and how you help, loads fast on phones and shows up on Google for your service and your town. No templates you have seen at your competitors, and no monthly hosting fees.",
-        priceLine: "An individual quote based on scope and features. Fixed price after a 15-minute call.",
+          "A website that says in one sentence who you are and how you help, loads fast on phones and shows up on Google for your service and your town. No templates you have seen at your competitors, with clear hosting terms.",
+        priceLine: "Business website: €580–2,300 depending on scope. Fixed quote after a free phone or Google Meet call.",
         includes: [
           "A design made for your business, not a template",
           "Mobile version tested on real phones",
           "Basic SEO setup: titles, descriptions, speed, structured data",
           "Enquiry form, one-tap phone number, map",
           "Several languages when needed (EN / DE / BG …)",
-          "Free hosting, HTTPS and training on how to change the content yourself",
+          "Hosting under agreed terms, HTTPS and training on how to change the content yourself",
         ],
         forWhom: [
           "Tradesmen, workshops and services that want calls from Google",
@@ -122,18 +124,18 @@ export const SERVICES: Service[] = [
         slug: "webseite-erstellen",
         metaTitle: "Webseite erstellen lassen für Unternehmen | Festpreis | Rafetov.com",
         metaDescription:
-          "Eine Webseite für Ihr Unternehmen: schnell, mobilfreundlich, bereit für Google. Festpreis, kostenloses Hosting, Betreuung nach dem Start.",
+          "Eine Webseite für Ihr Unternehmen: schnell, mobilfreundlich, bereit für Google. Festpreis, Hosting zu vereinbarten Konditionen, Betreuung nach dem Start.",
         title: "Eine Webseite, die Anfragen bringt",
         intro:
-          "Eine Webseite, die in einem Satz sagt, wer Sie sind und wie Sie helfen, auf dem Handy schnell lädt und bei Google für Ihre Leistung und Ihre Stadt erscheint. Keine Vorlagen, die Sie bei der Konkurrenz gesehen haben, und keine monatlichen Hosting-Gebühren.",
-        priceLine: "Individuelles Angebot je nach Umfang und Funktionen. Festpreis nach einem 15-minütigen Gespräch.",
+          "Eine Webseite, die in einem Satz sagt, wer Sie sind und wie Sie helfen, auf dem Handy schnell lädt und bei Google für Ihre Leistung und Ihre Stadt erscheint. Keine Vorlagen, die Sie bei der Konkurrenz gesehen haben, mit klaren Hosting-Konditionen.",
+        priceLine: "Unternehmenswebsite: 580–2.300 € je nach Umfang. Festpreisangebot nach kostenlosem Telefon- oder Google-Meet-Gespräch.",
         includes: [
           "Ein Design für Ihr Unternehmen, keine Vorlage",
           "Mobile Version, auf echten Handys getestet",
           "SEO-Grundeinrichtung: Titel, Beschreibungen, Geschwindigkeit, strukturierte Daten",
           "Anfrageformular, Telefonnummer mit einem Tipp, Karte",
           "Mehrere Sprachen bei Bedarf (DE / EN / BG …)",
-          "Kostenloses Hosting, HTTPS und Einweisung, wie Sie Inhalte selbst ändern",
+          "Hosting zu vereinbarten Konditionen, HTTPS und Einweisung, wie Sie Inhalte selbst ändern",
         ],
         forWhom: [
           "Handwerker, Werkstätten und Dienstleister, die Anrufe über Google wollen",
@@ -166,22 +168,23 @@ export const SERVICES: Service[] = [
     includeIcons: ["box", "card", "truck", "tag", "dashboard", "shield"],
     forWhomIcons: ["store", "briefcase", "refresh", "ticket"],
     content: {
+      nl: dutchServices.shop,
       bg: {
         slug: "onlain-magazin",
         metaTitle: "Изработка на онлайн магазин с Еконт, Спиди и плащания с карта | Rafetov.com",
         metaDescription:
-          "Онлайн магазин, който продава от телефон и компютър: продукти, кошница, плащания с карта и наложен платеж, интеграция с Еконт и Спиди, промокодове, админ панел. Фиксирана цена, безплатен хостинг.",
+          "Онлайн магазин, който продава от телефон и компютър: продукти, кошница, плащания с карта и наложен платеж, интеграция с Еконт и Спиди, промокодове, админ панел. Фиксирана цена, хостинг по договорени условия.",
         title: "Онлайн магазин, който продава лесно",
         intro:
           "Магазин с продукти, кошница, плащания и доставки, който клиентите ползват без обяснения, а вие управлявате сами: поръчки, наличности, промоции. Свързан с Еконт и Спиди, за да не преписвате адреси.",
-        priceLine: "Цена по оферта според броя продукти, куриерите и плащанията. Фиксирана, след 15-минутен разговор.",
+        priceLine: "Онлайн магазин: от 700 € според каталога и интеграциите. Сложни проекти — индивидуална оферта след разговор.",
         includes: [
           "Продукти с варианти, категории и търсене",
           "Плащане с карта и наложен платеж",
           "Интеграция с Еконт и Спиди: офиси, автомати, адреси, товарителници",
           "Промокодове, отстъпки, безплатна доставка над сума",
           "Админ панел за поръчки, наличности и продукти",
-          "Общи условия, поверителност, мобилна версия, безплатен хостинг",
+          "Общи условия, поверителност, мобилна версия, хостинг по договорени условия",
         ],
         forWhom: [
           "Физически магазини, които искат да продават и онлайн",
@@ -208,18 +211,18 @@ export const SERVICES: Service[] = [
         slug: "online-store",
         metaTitle: "Online store development with shipping and card payments | Rafetov.com",
         metaDescription:
-          "An online store that sells from phone and desktop: products, cart, card and cash-on-delivery payments, courier integrations, promo codes, admin panel. Fixed price, free hosting.",
+          "An online store that sells from phone and desktop: products, cart, card and cash-on-delivery payments, courier integrations, promo codes, admin panel. Fixed price, hosting under agreed terms.",
         title: "An online store that sells easily",
         intro:
           "A store with products, cart, payments and shipping that customers use without explanations, and that you manage yourself: orders, stock, promotions. Connected to your couriers so you never copy addresses by hand.",
-        priceLine: "Quoted according to the number of products, couriers and payment methods. Fixed, after a 15-minute call.",
+        priceLine: "Online store: from €700 depending on catalogue and integrations. Complex projects quoted individually after a call.",
         includes: [
           "Products with variants, categories and search",
           "Card payments and cash on delivery",
           "Courier integrations: pickup points, lockers, addresses, shipping labels",
           "Promo codes, discounts, free shipping above a threshold",
           "Admin panel for orders, stock and products",
-          "Terms, privacy policy, mobile version, free hosting",
+          "Terms, privacy policy, mobile version, hosting under agreed terms",
         ],
         forWhom: [
           "Physical shops that want to sell online too",
@@ -246,18 +249,18 @@ export const SERVICES: Service[] = [
         slug: "onlineshop",
         metaTitle: "Onlineshop erstellen lassen mit Versand und Kartenzahlung | Rafetov.com",
         metaDescription:
-          "Ein Onlineshop, der auf Handy und Computer verkauft: Produkte, Warenkorb, Karten- und Nachnahmezahlung, Paketdienst-Anbindung, Gutscheincodes, Admin-Bereich. Festpreis, kostenloses Hosting.",
+          "Ein Onlineshop, der auf Handy und Computer verkauft: Produkte, Warenkorb, Karten- und Nachnahmezahlung, Paketdienst-Anbindung, Gutscheincodes, Admin-Bereich. Festpreis, Hosting zu vereinbarten Konditionen.",
         title: "Ein Onlineshop, der einfach verkauft",
         intro:
           "Ein Shop mit Produkten, Warenkorb, Zahlungen und Versand, den Kunden ohne Erklärung nutzen und den Sie selbst verwalten: Bestellungen, Bestände, Aktionen. An Ihre Paketdienste angebunden, damit Sie keine Adressen abtippen.",
-        priceLine: "Angebot je nach Anzahl der Produkte, Paketdiensten und Zahlungsarten. Festpreis nach einem 15-minütigen Gespräch.",
+        priceLine: "Onlineshop: ab 700 € je nach Katalog und Integrationen. Komplexe Projekte nach individuellem Angebot.",
         includes: [
           "Produkte mit Varianten, Kategorien und Suche",
           "Kartenzahlung und Nachnahme",
           "Paketdienst-Anbindung: Abholstellen, Paketstationen, Adressen, Versandetiketten",
           "Gutscheincodes, Rabatte, kostenloser Versand ab Bestellwert",
           "Admin-Bereich für Bestellungen, Bestände und Produkte",
-          "AGB, Datenschutz, mobile Version, kostenloses Hosting",
+          "AGB, Datenschutz, mobile Version, Hosting zu vereinbarten Konditionen",
         ],
         forWhom: [
           "Ladengeschäfte, die auch online verkaufen wollen",
@@ -290,6 +293,7 @@ export const SERVICES: Service[] = [
     includeIcons: ["list", "globe", "qr", "edit", "palette", "link"],
     forWhomIcons: ["utensils", "clock", "hotel", "image"],
     content: {
+      nl: dutchServices.menu,
       bg: {
         slug: "digitalno-menu",
         metaTitle: "Дигитално меню за ресторант с QR код | Rafetov.com",
@@ -414,6 +418,7 @@ export const SERVICES: Service[] = [
     includeIcons: ["search", "image", "layout", "bell", "sliders", "chart"],
     forWhomIcons: ["rocket", "megaphone", "target", "cart"],
     content: {
+      nl: dutchServices.ads,
       bg: {
         slug: "reklama-google-facebook",
         metaTitle: "Реклама в Google и Facebook за малък бизнес | Rafetov.com",
@@ -422,7 +427,7 @@ export const SERVICES: Service[] = [
         title: "Реклама в Google и Facebook, която води до запитвания",
         intro:
           "Показваме ви на хората, които търсят точно вашата услуга, в момента, в който я търсят. Не „харесвания“ и „обхват“, а обаждания, съобщения и поръчки, които можете да преброите.",
-        priceLine: "Месечна такса за управление плюс рекламен бюджет, който сами определяте. Конкретна оферта след разговор.",
+        priceLine: "Meta реклами: настройка 70 € еднократно; управление 100–200 €/месец за договорен обхват. Рекламният бюджет е отделно. Google Ads — индивидуална оферта.",
         includes: [
           "Google Ads: търсене по услуга и град, ремаркетинг",
           "Facebook и Instagram кампании с реални снимки от бизнеса",
@@ -460,7 +465,7 @@ export const SERVICES: Service[] = [
         title: "Google and Facebook ads that lead to enquiries",
         intro:
           "We put you in front of people who are searching for exactly your service, at the moment they search for it. Not “likes” and “reach”, but calls, messages and orders you can count.",
-        priceLine: "A monthly management fee plus an ad budget you set yourself. A concrete quote after a call.",
+        priceLine: "Meta ads: €70 one-off setup; €100–200/month management for agreed scope. Ad spend is separate. Google Ads quoted individually.",
         includes: [
           "Google Ads: search by service and town, remarketing",
           "Facebook and Instagram campaigns with real photos from your business",
@@ -498,7 +503,7 @@ export const SERVICES: Service[] = [
         title: "Google- und Facebook-Werbung, die zu Anfragen führt",
         intro:
           "Wir zeigen Sie den Menschen, die genau Ihre Leistung suchen, in dem Moment, in dem sie suchen. Keine „Likes“ und „Reichweite“, sondern Anrufe, Nachrichten und Bestellungen, die Sie zählen können.",
-        priceLine: "Monatliche Betreuungsgebühr plus ein Werbebudget, das Sie selbst festlegen. Konkretes Angebot nach einem Gespräch.",
+        priceLine: "Meta Ads: Einrichtung einmalig 70 €; Betreuung 100–200 €/Monat für vereinbarten Umfang. Werbebudget separat. Google Ads nach individuellem Angebot.",
         includes: [
           "Google Ads: Suche nach Leistung und Stadt, Remarketing",
           "Facebook- und Instagram-Kampagnen mit echten Fotos aus Ihrem Betrieb",
@@ -537,7 +542,7 @@ export function servicePath(s: Service, lang: Lang): string {
 }
 
 export function serviceAlternates(s: Service): Record<Lang, string> {
-  return { bg: servicePath(s, "bg"), en: servicePath(s, "en"), de: servicePath(s, "de") };
+  return { bg: servicePath(s, "bg"), en: servicePath(s, "en"), de: servicePath(s, "de"), nl: servicePath(s, "nl") };
 }
 
 export function findService(lang: Lang, base: string, slug: string): Service | undefined {
@@ -547,7 +552,7 @@ export function findService(lang: Lang, base: string, slug: string): Service | u
 
 /** Slug от друг език → услугата и езикът ѝ (за redirect към правилния адрес). */
 export function findServiceAnyLang(base: string, slug: string): { service: Service; lang: Lang } | undefined {
-  for (const lang of ["bg", "en", "de"] as Lang[]) {
+  for (const lang of ["bg", "en", "de", "nl"] as Lang[]) {
     const s = findService(lang, base, slug);
     if (s) return { service: s, lang };
   }

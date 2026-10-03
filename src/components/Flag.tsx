@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-export type FlagCode = "BG" | "DE" | "BE" | "GB" | "ES" | "NO";
+export type FlagCode = "NL" | "BG" | "DE" | "BE" | "GB" | "ES" | "NO";
 
 /**
  * SVG знамена вместо емоджи — Windows не рисува емоджи знамена и показва само буквите („BG“, „DE“).
@@ -13,6 +13,9 @@ export default function Flag({ code, className = "" }: { code: FlagCode; classNa
   let body: JSX.Element;
   let viewBox = "0 0 3 2";
   switch (code) {
+    case "NL":
+      body = <><rect width="3" height="0.667" fill="#AE1C28" /><rect y="0.667" width="3" height="0.667" fill="#fff" /><rect y="1.333" width="3" height="0.667" fill="#21468B" /></>;
+      break;
     case "BG":
       body = (
         <>

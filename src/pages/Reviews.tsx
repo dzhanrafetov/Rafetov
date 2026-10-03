@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Link as ScrollLink } from "react-scroll";
 import { useLang } from "../i18n";
 import type { ReviewLang, ReviewTag } from "../i18n/types";
-import { GOOGLE_REVIEWS } from "../constants/business";
+import { GOOGLE_REVIEWS, googleReviewsUrl } from "../constants/business";
 import { GoogleG, Stars } from "../components/GoogleRating";
 import { REVIEW_TRANSLATIONS } from "./reviewTranslations";
 
@@ -153,7 +153,7 @@ const REVIEWS: Review[] = [
 ];
 
 /** Толкова отзива се виждат в мрежата (таблет/десктоп), преди „Покажи още“. */
-const INITIAL = 6;
+const INITIAL = 3;
 
 const ACCENTS = ["#22D3EE", "#34D399", "#A78BFA", "#FBBF24"];
 
@@ -347,6 +347,13 @@ export default function Reviews() {
   const { t, lang } = useLang();
   const scroller = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const reviews = [...REVIEWS].sort((a, b) => {
+    const priority = (r: Review) => lang === 'de'
+      ? r.name === 'Alpha Reiniging' ? 0 : r.lang === 'de' ? 1 : r.lang === 'nl' ? 2 : 3
+      : lang === 'nl' ? r.name === 'Alpha Reiniging' ? 0 : r.lang === 'nl' ? 1 : r.lang === 'de' ? 2 : 3 : 0;
+    return priority(a) - priority(b);
+  });
+  useEffect(() => { setActive(0); setShowAll(false); if (scroller.current) scroller.current.scrollLeft = 0; }, [lang]);
   const rating = GOOGLE_REVIEWS.rating.toLocaleString(lang, { minimumFractionDigits: 1 });
 
   const cards = () => Array.from(scroller.current?.querySelectorAll<HTMLElement>("[data-review]") ?? []);
@@ -364,13 +371,13 @@ export default function Reviews() {
 
   const go = useCallback((i: number) => {
     const el = scroller.current;
-    const card = cards()[Math.max(0, Math.min(REVIEWS.length - 1, i))];
+    const card = cards()[Math.max(0, Math.min(reviews.length - 1, i))];
     if (!el || !card) return;
     el.scrollTo({ left: card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2, behavior: "smooth" });
-  }, []);
+  }, [reviews.length]);
 
   const [showAll, setShowAll] = useState(false);
-  const hidden = REVIEWS.length - INITIAL;
+  const hidden = reviews.length - INITIAL;
 
   const arrowCls = `inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.09] bg-white/[0.03] text-slate-300
     transition-colors duration-200 hover:bg-white/[0.07] disabled:opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20`;
@@ -413,7 +420,7 @@ export default function Reviews() {
 
           {/* Rating badge */}
           <a
-            href={GOOGLE_REVIEWS.url}
+            href={googleReviewsUrl(lang)}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-7 inline-flex items-center gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.03] px-5 py-3 transition-colors duration-200 hover:border-white/[0.15] hover:bg-white/[0.06]
@@ -441,7 +448,7 @@ export default function Reviews() {
           className="relative -mx-5 mt-10 flex snap-x snap-mandatory items-start gap-3 overflow-x-auto overflow-y-hidden overscroll-x-contain px-5 pb-2 sm:-mx-6 sm:px-6
                      [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:hidden"
         >
-          {REVIEWS.map((r, i) => (
+          {reviews.map((r, i) => (
             <ReviewCard key={r.name} r={r} i={i} variant="rail" />
           ))}
         </motion.div>
@@ -452,9 +459,9 @@ export default function Reviews() {
             <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M15 18l-6-6 6-6" /></svg>
           </button>
           <span className="min-w-[4.5rem] text-center text-[13px] font-semibold tabular-nums text-slate-400" aria-live="polite">
-            {active + 1} / {REVIEWS.length}
+            {active + 1} / {reviews.length}
           </span>
-          <button type="button" aria-label={t.reviews.next} onClick={() => go(active + 1)} disabled={active === REVIEWS.length - 1} className={arrowCls}>
+          <button type="button" aria-label={t.reviews.next} onClick={() => go(active + 1)} disabled={active === reviews.length - 1} className={arrowCls}>
             <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M9 6l6 6-6 6" /></svg>
           </button>
         </div>
@@ -462,7 +469,7 @@ export default function Reviews() {
         {/* Таблет и десктоп: мрежа с най-силните отзиви, останалите — с бутон. */}
         <div className="mt-12 hidden md:block">
           <div className="columns-2 gap-5 lg:columns-3">
-            {(showAll ? REVIEWS : REVIEWS.slice(0, INITIAL)).map((r, i) => (
+            {(showAll ? reviews : reviews.slice(0, INITIAL)).map((r, i) => (
               <ReviewCard key={r.name} r={r} i={i} variant="grid" />
             ))}
           </div>
@@ -509,7 +516,7 @@ export default function Reviews() {
               </svg>
             </ScrollLink>
             <a
-              href={GOOGLE_REVIEWS.url}
+              href={googleReviewsUrl(lang)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/[0.09] bg-white/[0.03] px-6 text-[14px] font-semibold text-slate-300

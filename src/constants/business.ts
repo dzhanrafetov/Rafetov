@@ -1,3 +1,5 @@
+import type { Lang } from "../i18n/types";
+
 /** Едно място за юридическите данни, за да не се разминават между страниците и footer-а. */
 export const BUSINESS = {
   brand: "Rafetov",
@@ -21,5 +23,10 @@ export const ROUTES = {
 export const GOOGLE_REVIEWS = {
   rating: 5,
   count: 20,
-  url: "https://share.google/Cbpb3vNKzqoyr6A5F",
+  url: "https://www.google.com/search?kgmid=%2Fg%2F11zymcpw1b&q=Rafetov",
 } as const;
+
+/** Direct profile URL: the old share link overrides hl with its saved Bulgarian locale. */
+export function googleReviewsUrl(lang: Lang): string {
+  return `${GOOGLE_REVIEWS.url}&hl=${lang}`;
+}

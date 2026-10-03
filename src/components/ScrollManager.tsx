@@ -12,7 +12,7 @@ const HEADER_OFFSET = 70;
  * Смяната само на езика (напр. "/" → "/en") НЕ скролва — посетителят остава където е.
  */
 export default function ScrollManager() {
-  const { pathname, hash } = useLocation();
+  const { pathname, hash, search } = useLocation();
   const prevPage = useRef<string | null>(null);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function ScrollManager() {
       stop();
       userEvents.forEach((ev) => window.removeEventListener(ev, stop));
     };
-  }, [pathname, hash]);
+  }, [pathname, hash, search]);
 
   return null;
 }

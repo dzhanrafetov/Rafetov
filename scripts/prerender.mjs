@@ -51,7 +51,8 @@ const esc = (s) => s.replace(/&/g, "&amp;");
 const withLang = (p, lang) => (lang === "bg" ? p : p === "/" ? `/${lang}` : `/${lang}${p}`);
 
 const urls = routes.map((r) => {
-  const alts = ["bg", "en", "de"]
+  const alts = ["bg", "en", "de", "nl"]
+    .filter((l) => r.alternates[l])
     .map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${esc(abs(withLang(r.alternates[l], l)))}" />`)
     .join("\n");
   const xdef = `    <xhtml:link rel="alternate" hreflang="x-default" href="${esc(abs(r.alternates.bg))}" />`;

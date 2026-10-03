@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { offers } from "../i18n/offers";
 import { useLang } from "../i18n";
 import type { WorkTag } from "../i18n/types";
 import { PROJECTS, type Project } from "../constants/projects";
@@ -171,7 +172,9 @@ export function CardsGrid({ projects }: { projects: Project[] }) {
 
 // ── Main component ───────────────────────────────────────────────────────────
 export default function SectionWorkGalleryMinimal() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const [expanded, setExpanded] = useState(false);
+  const featured = PROJECTS.filter(p => ['nn-bau', 'alpha-reiniging', 'het-pitta-loft'].includes(p.id));
   const [filter, setFilter] = useState<Tag | "all">("all");
   const tabsRef = useRef<HTMLDivElement | null>(null);
   const didMount = useRef(false);
@@ -280,7 +283,7 @@ export default function SectionWorkGalleryMinimal() {
               transition={{ duration: 0.2 }}
               className="mt-10 space-y-12"
             >
-              {CATEGORY_ORDER.map((cat) => {
+              {!expanded ? <CardsGrid projects={featured} /> : CATEGORY_ORDER.map((cat) => {
                 const items = PROJECTS.filter((p) => p.tag === cat);
                 if (!items.length) return null;
                 return (
@@ -305,6 +308,7 @@ export default function SectionWorkGalleryMinimal() {
             </motion.div>
           )}
         </AnimatePresence>
+        {filter === 'all' && <div className="mt-8 text-center"><button type="button" onClick={() => setExpanded(v => !v)} aria-expanded={expanded} className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-slate-200">{expanded ? offers[lang].less : offers[lang].more}</button></div>}
 
       </div>
 

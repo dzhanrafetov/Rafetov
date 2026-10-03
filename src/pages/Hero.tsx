@@ -6,7 +6,7 @@ import { useLang } from "../i18n";
 import type { CountryCode } from "../i18n/types";
 import Flag from "../components/Flag";
 import { GoogleG, Stars } from "../components/GoogleRating";
-import { GOOGLE_REVIEWS } from "../constants/business";
+import { GOOGLE_REVIEWS, googleReviewsUrl } from "../constants/business";
 
 const fade = {
   hidden: { opacity: 0, y: 20 },
@@ -364,7 +364,7 @@ export default function Hero() {
           className="mx-auto mt-6 flex flex-col items-center gap-2.5"
         >
           <a
-            href={GOOGLE_REVIEWS.url}
+            href={googleReviewsUrl(lang)}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-[13.5px]

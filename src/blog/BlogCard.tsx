@@ -1,5 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
-import { useLang } from "../i18n";
+import { useLang, withLang } from "../i18n";
 import { formatDate, postPath, postReadingMinutes, type Post } from "./index";
 
 export const TAG_ACCENT: Record<Post["tag"], string> = {
@@ -11,12 +11,12 @@ export const TAG_ACCENT: Record<Post["tag"], string> = {
 
 export default function BlogCard({ post, eager = false }: { post: Post; eager?: boolean }) {
   const { lang, t, href } = useLang();
-  const c = post.content[lang];
+  const c = post.content[lang === "nl" ? "en" : lang];
   const accent = TAG_ACCENT[post.tag];
 
   return (
     <RouterLink
-      to={href(postPath(post, lang))}
+      to={lang === "nl" ? withLang(postPath(post, "en"), "en") : href(postPath(post, lang))}
       style={{ "--accent": accent } as React.CSSProperties}
       className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.045] to-white/[0.02] shadow-[0_18px_80px_-46px_rgba(0,0,0,0.9)] transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/60"
     >
@@ -44,9 +44,9 @@ export default function BlogCard({ post, eager = false }: { post: Post; eager?: 
         </div>
 
         <h3 className="mt-3 text-[1.02rem] font-semibold leading-[1.4] tracking-normal text-slate-100 transition-colors group-hover:text-white">
-          {c.title}
+          <span lang={lang === "nl" ? "en" : lang}>{c.title}</span>
         </h3>
-        <p className="mt-2 flex-1 text-[13.5px] leading-relaxed text-slate-400">{c.excerpt}</p>
+        <p className="mt-2 flex-1 text-[13.5px] leading-relaxed text-slate-400"><span lang={lang === "nl" ? "en" : lang}>{c.excerpt}</span></p>
 
         <div className="mt-4 flex items-center justify-between text-[12.5px]">
           <span className="text-slate-500">

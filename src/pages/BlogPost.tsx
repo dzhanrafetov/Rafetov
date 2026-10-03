@@ -19,12 +19,13 @@ export default function BlogPost() {
     return <NotFound />;
   }
 
+  if (lang === "nl") return <Navigate to={withLang(postPath(post, "en"), "en")} replace />;
   return <PostView post={post} />;
 }
 
 function PostView({ post }: { post: (typeof POSTS)[number] }) {
   const { lang, t, href } = useLang();
-  const c = post.content[lang];
+  const c = post.content[lang === "nl" ? "en" : lang];
   const accent = TAG_ACCENT[post.tag];
   const path = postPath(post, lang);
   const url = `${SITE_ORIGIN}${withLang(path, lang)}`;

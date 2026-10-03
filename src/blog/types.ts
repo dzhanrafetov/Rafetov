@@ -31,5 +31,5 @@ export type Post = {
   imageSmall: string;
   /** Автор/източник на снимката — Unsplash лиценз, без задължение за посочване. */
   imageCredit: string;
-  content: Record<Lang, PostContent>;
+  content: Record<Exclude<Lang, "nl">, PostContent>;
 };

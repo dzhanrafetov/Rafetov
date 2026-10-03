@@ -32,11 +32,11 @@ export const BLOG_BASE = "/blog";
 
 /** Път БЕЗ езиков префикс: "/blog/<slug за езика>". */
 export function postPath(post: Post, lang: Lang): string {
-  return `${BLOG_BASE}/${post.content[lang].slug}`;
+  return `${BLOG_BASE}/${post.content[lang === "nl" ? "en" : lang].slug}`;
 }
 
 /** Алтернативни пътища (без префикс) за всички езици — за hreflang и превключвателя. */
-export function postAlternates(post: Post): Record<Lang, string> {
+export function postAlternates(post: Post): Partial<Record<Lang, string>> {
   return { bg: postPath(post, "bg"), en: postPath(post, "en"), de: postPath(post, "de") };
 }
 
@@ -48,7 +48,7 @@ export function findPost(lang: Lang, slug: string): Post | undefined {
 export function findPostAnyLang(slug: string): { post: Post; lang: Lang } | undefined {
   for (const post of POSTS) {
     for (const lang of ["bg", "en", "de"] as Lang[]) {
-      if (post.content[lang].slug === slug) return { post, lang };
+      if (post.content[lang === "nl" ? "en" : lang].slug === slug) return { post, lang };
     }
   }
   return undefined;
@@ -66,6 +66,6 @@ export function postReadingMinutes(content: PostContent): number {
 }
 
 export function formatDate(iso: string, lang: Lang): string {
-  const locale = lang === "bg" ? "bg-BG" : lang === "de" ? "de-DE" : "en-GB";
+  const locale = lang === "bg" ? "bg-BG" : lang === "de" ? "de-DE" : lang === "nl" ? "nl-NL" : "en-GB";
   return new Date(`${iso}T12:00:00Z`).toLocaleDateString(locale, { year: "numeric", month: "long", day: "numeric" });
 }

@@ -1,4 +1,4 @@
-export type Lang = "bg" | "en" | "de";
+export type Lang = "bg" | "en" | "de" | "nl";
 
 export type CountryCode = "BG" | "DE" | "BE" | "GB" | "ES" | "NO";
 

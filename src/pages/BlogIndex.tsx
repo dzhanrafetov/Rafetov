@@ -20,9 +20,9 @@ export default function BlogIndex() {
       publisher: { "@id": `${SITE_ORIGIN}/#organization` },
       blogPost: POSTS.map((p) => ({
         "@type": "BlogPosting",
-        headline: p.content[lang].title,
+        headline: p.content[lang === "nl" ? "en" : lang].title,
         datePublished: p.date,
-        url: `${SITE_ORIGIN}${lang === "bg" ? "" : `/${lang}`}${postPath(p, lang)}`,
+        url: `${SITE_ORIGIN}${lang === "bg" ? "" : lang === "nl" ? "/en" : `/${lang}`}${postPath(p, lang)}`,
       })),
     },
   });

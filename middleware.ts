@@ -12,9 +12,9 @@
  */
 import { geolocation, next } from "@vercel/functions";
 
-type Lang = "bg" | "en" | "de";
+type Lang = "bg" | "en" | "de" | "nl";
 
-const SUPPORTED: Lang[] = ["bg", "en", "de"];
+const SUPPORTED: Lang[] = ["bg", "en", "de", "nl"];
 const GERMAN_COUNTRIES = new Set(["DE", "AT", "CH", "LI"]);
 
 const BOT_RE =
@@ -31,6 +31,7 @@ function readCookie(header: string | null, name: string): string | null {
 
 function langForCountry(country: string | undefined | null): Lang | null {
   if (!country) return null;
+  if (country === "NL") return "nl";
   if (country === "BG") return "bg";
   if (GERMAN_COUNTRIES.has(country)) return "de";
   return "en";
@@ -38,6 +39,7 @@ function langForCountry(country: string | undefined | null): Lang | null {
 
 function langForAcceptLanguage(header: string | null): Lang {
   const primary = (header || "").toLowerCase().split(",")[0].trim();
+  if (primary.startsWith("nl")) return "nl";
   if (primary.startsWith("bg")) return "bg";
   if (primary.startsWith("de")) return "de";
   return "en";

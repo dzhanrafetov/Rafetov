@@ -39,7 +39,7 @@ const Header = () => {
     setLangCookie(next);
     // Същата страница, само с друг езиков префикс; запазваме hash-а (секцията).
     // Страници със свой адрес на всеки език (статии) подават алтернативния път; иначе същият път с друг префикс.
-    const target = alternates[next] ?? stripLang(pathname);
+    const target = alternates[next] ?? (next === "nl" && stripLang(pathname).startsWith("/blog/") ? "/blog" : stripLang(pathname));
     navigate(withLang(target, next) + hash, { replace: false });
   };
 

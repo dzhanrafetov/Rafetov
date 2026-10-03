@@ -1,5 +1,6 @@
 import React, { Suspense, type ComponentType } from "react";
 import { Routes, Route } from "react-router-dom";
+import VideoReview from "./pages/VideoReview";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import FloatingContact from "./components/FloatingContact";
@@ -71,18 +72,16 @@ function Home({ pages }: { pages: Pages }) {
       },
     ],
   });
-  const { Hero, Services, Guarantees, Market, Portfolio, Reviews, BlogTeaser, Contact } = pages;
+  const { Hero, Services, Market, Portfolio, Reviews, Contact } = pages;
   return (
     <>
       <Hero />
-      <Suspense fallback={<Loader small />}><Services /></Suspense>
-      {/* Отзивите веднага след услугите — доказателството трябва да е преди дългите секции, не след тях. */}
-      <Suspense fallback={<Loader small />}><Reviews /></Suspense>
-      <Suspense fallback={<Loader small />}><Guarantees /></Suspense>
       <Suspense fallback={<Loader small />}><Market /></Suspense>
+      <Suspense fallback={<Loader small />}><Reviews /></Suspense>
+      <Suspense fallback={<Loader small />}><Services /></Suspense>
+      <VideoReview />
       <Suspense fallback={<Loader small />}><Portfolio /></Suspense>
       <Suspense fallback={<Loader small />}><Contact /></Suspense>
-      <Suspense fallback={<Loader small />}><BlogTeaser /></Suspense>
     </>
   );
 }

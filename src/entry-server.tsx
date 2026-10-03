@@ -38,7 +38,7 @@ export type RouteEntry = {
   /** Път без префикс */
   path: string;
   /** Пътища без префикс за всички езици (за hreflang в sitemap) */
-  alternates: Record<Lang, string>;
+  alternates: Partial<Record<Lang, string>>;
   lastmod: string;
   changefreq: "weekly" | "monthly" | "yearly";
   priority: number;
@@ -49,7 +49,7 @@ const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
 /** Всички адреси, които се пререндерират и влизат в sitemap.xml. */
 export function getRoutes(): RouteEntry[] {
-  const same = (p: string) => ({ bg: p, en: p, de: p });
+  const same = (p: string) => ({ bg: p, en: p, de: p, nl: p });
   const out: RouteEntry[] = [];
   for (const lang of LANGS) {
     const home = lang === "bg" ? 1.0 : 0.9;
@@ -59,7 +59,7 @@ export function getRoutes(): RouteEntry[] {
       out.push({ url: withLang(path, lang), lang, path, alternates: serviceAlternates(s), lastmod: BUILD_DATE, changefreq: "monthly", priority: 0.9 });
     }
     out.push({ url: withLang(BLOG_BASE, lang), lang, path: BLOG_BASE, alternates: same(BLOG_BASE), lastmod: POSTS[0]?.date ?? BUILD_DATE, changefreq: "weekly", priority: 0.8 });
-    for (const post of POSTS) {
+    for (const post of lang === "nl" ? [] : POSTS) {
       const path = postPath(post, lang);
       out.push({ url: withLang(path, lang), lang, path, alternates: postAlternates(post), lastmod: post.date, changefreq: "monthly", priority: 0.7 });
     }

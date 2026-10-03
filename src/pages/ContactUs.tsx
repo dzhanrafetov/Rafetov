@@ -1,6 +1,7 @@
-import { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { offers } from "../i18n/offers";
 import sendEmail from "../service/emailService";
 import { track } from "@vercel/analytics";
 import { BUSINESS, ROUTES } from "../constants/business";
@@ -87,7 +88,19 @@ function sanitizePhone(value: string) {
 const plain = (label: string) => label.replace(/\s*[({\[].*$/, "").trim();
 
 export default function ContactUs() {
-  const { t, href } = useLang();
+  const { t, href, lang } = useLang();
+  const c = offers[lang];
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
+  const [mode, setMode] = useState(params.get('intent') === 'audit' ? 'audit' : 'phone');
+  const [website, setWebsite] = useState('');
+  const requestedPackage = params.get('package');
+  const selectedPackage = requestedPackage !== null && /^[0-2]$/.test(requestedPackage) ? c.packages[Number(requestedPackage)] : undefined;
+  useEffect(() => {
+    setMode(new URLSearchParams(search).get('intent') === 'audit' ? 'audit' : 'phone');
+    setSent(false);
+    setFailed(false);
+  }, [search]);
   const [formData, setFormData] = useState({
     name: "", email: "", phone: "", service: "", message: "",
   });
@@ -114,12 +127,18 @@ export default function ContactUs() {
   }, []);
 
   /** Каналите за спасяване на запитването: същите данни, друг път до нас. */
+  const requestDetails = [
+    `${c.mode}: ${mode === 'audit' ? c.audit : mode === 'meet' ? c.meet : c.phone}`,
+    mode !== 'audit' && selectedPackage && `Package: ${selectedPackage.name}`,
+    mode === 'audit' && `${c.website}: ${website}`,
+    formData.message,
+  ].filter(Boolean).join('\n');
   const fallbackBody = [
     `${plain(t.contact.name)}: ${formData.name}`,
     `${plain(t.contact.phone)}: ${formData.phone}`,
     formData.email && `${plain(t.contact.email)}: ${formData.email}`,
     formData.service && `${plain(t.contact.service)}: ${formData.service}`,
-    formData.message && `${plain(t.contact.message)}: ${formData.message}`,
+    requestDetails,
   ].filter(Boolean).join("\n");
 
   const mailtoHref =
@@ -134,8 +153,11 @@ export default function ContactUs() {
     setIsSending(true);
     setFailed(false);
     try {
-      await sendEmail(formData);
-      track("contact_form_sent", { service: formData.service || "—" });
+      await sendEmail({ ...formData,
+        service: mode === 'audit' ? c.audit : selectedPackage?.name || formData.service,
+        message: requestDetails,
+      });
+      track("contact_form_sent", { service: selectedPackage?.name || formData.service || "—", intent: mode });
       setSent(true);
       setFormData({ name: "", email: "", phone: "", service: "", message: "" });
     } catch (err) {
@@ -316,7 +338,7 @@ export default function ContactUs() {
                     </div>
                     <div>
                       <div className="text-xl font-extrabold tracking-tight text-slate-100">{t.contact.successTitle}</div>
-                      <div className="mt-2 text-[14px] text-slate-400">{t.contact.successSub}</div>
+                      <div className="mt-2 text-[14px] text-slate-400">{c.received}</div>
                       <div className="mt-2 text-[13px] text-slate-500">
                         {t.contact.hurry}{" "}
                         <a href="tel:+359897758062" className="font-semibold text-slate-300 transition-colors hover:text-white">
@@ -342,35 +364,46 @@ export default function ContactUs() {
                   >
                     <div className="mb-6">
                       <div className="text-[16px] font-extrabold tracking-tight text-slate-100">{t.contact.formTitle}</div>
-                      <div className="mt-1 text-[13.5px] text-slate-400">{t.contact.formSub}</div>
+                      <div className="mt-1 text-[13.5px] text-slate-400">{mode === 'audit' ? c.auditText : c.booking}</div>
                     </div>
 
-                    {/* Name + Email row */}
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div className="mb-5">
+                      <FormField label={c.mode}>
+                        <select className={selectCls} value={mode} onChange={e => setMode(e.target.value)}>
+                          <option value="phone">{c.phone}</option><option value="meet">{c.meet}</option><option value="audit">{c.audit}</option>
+                        </select>
+                      </FormField>
+                      {selectedPackage && mode !== 'audit' && <p className="mt-3 text-sm text-cyan-300">{selectedPackage.name} · {c.from} {selectedPackage.price} €</p>}
+                    </div>
+                    {mode === 'audit' && <div className="mb-4"><FormField label={c.website}>
+                      <input type="url" required value={website} onChange={e => setWebsite(e.target.value)} placeholder="https://example.com" autoComplete="url" className={inputCls} />
+                    </FormField></div>}
+                    {/* Name + Phone row */}
+                    {mode !== 'audit' && <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <FormField label={t.contact.name}>
                         <input type="text" name="name" value={formData.name}
                           onChange={handleChange} required autoComplete="name"
                           placeholder={t.contact.namePlaceholder}
                           className={inputCls} />
                       </FormField>
-                      <FormField label={t.contact.phone}>
+                      <FormField label={mode === 'phone' ? t.contact.phone : c.optionalPhone}>
                         <input type="tel" name="phone" value={formData.phone}
-                          onChange={handleChange} required
+                          onChange={handleChange} required={mode === 'phone'}
                           inputMode="tel" autoComplete="tel" maxLength={20}
                           pattern={PHONE_PATTERN} title={t.contact.phoneInvalid}
                           placeholder={t.contact.phonePlaceholder}
                           className={inputCls} />
                       </FormField>
-                    </div>
+                    </div>}
 
                     <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <FormField label={t.contact.email}>
+                      <FormField label={mode === 'phone' ? t.contact.email : c.email}>
                         <input type="email" name="email" value={formData.email}
-                          onChange={handleChange} autoComplete="email"
+                          onChange={handleChange} required={mode !== 'phone'} autoComplete="email"
                           placeholder={t.contact.emailPlaceholder}
                           className={inputCls} />
                       </FormField>
-                      <FormField label={t.contact.service}>
+                      {mode !== 'audit' && !selectedPackage && <FormField label={t.contact.service}>
                         <select name="service" value={formData.service}
                           onChange={handleChange}
                           className={`${selectCls} ${formData.service ? "text-slate-100" : "text-slate-400"}`}>
@@ -381,7 +414,7 @@ export default function ContactUs() {
                             </option>
                           ))}
                         </select>
-                      </FormField>
+                      </FormField>}
                     </div>
 
                     <div className="mt-4">

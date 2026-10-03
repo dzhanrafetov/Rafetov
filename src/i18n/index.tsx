@@ -4,22 +4,24 @@ import type { Dict, Lang } from "./types";
 import bg from "./bg";
 import en from "./en";
 import de from "./de";
+import nl from "./nl";
 import type { FlagCode } from "../components/Flag";
 
 export type { Lang, Dict } from "./types";
 
 export const DEFAULT_LANG: Lang = "bg";
-export const LANGS: Lang[] = ["bg", "en", "de"];
+export const LANGS: Lang[] = ["bg", "en", "de", "nl"];
 /** Езици, които се показват като URL-префикс (българският е на корена). */
-export const PREFIXED_LANGS: Lang[] = ["en", "de"];
+export const PREFIXED_LANGS: Lang[] = ["en", "de", "nl"];
 
 export const LANG_META: Record<Lang, { label: string; name: string; flag: FlagCode; locale: string }> = {
   bg: { label: "БГ", name: "Български", flag: "BG", locale: "bg_BG" },
   en: { label: "EN", name: "English", flag: "GB", locale: "en_GB" },
+  nl: { label: "NL", name: "Nederlands", flag: "NL", locale: "nl_NL" },
   de: { label: "DE", name: "Deutsch", flag: "DE", locale: "de_DE" },
 };
 
-export const DICTS: Record<Lang, Dict> = { bg, en, de };
+export const DICTS: Record<Lang, Dict> = { bg, en, de, nl };
 
 /** Cookie, което middleware-ът чете, за да уважи ръчния избор на език. */
 export const LANG_COOKIE = "lang";

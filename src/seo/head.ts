@@ -52,7 +52,7 @@ export function buildHead(input: SeoInput): HeadData {
   ];
 
   const links: HeadData["links"] = [{ rel: "canonical", href: url }];
-  for (const l of LANGS) links.push({ rel: "alternate", hreflang: l, href: abs(withLang(pathFor(l), l)) });
+  for (const l of LANGS.filter(l => !input.alternates || input.alternates[l])) links.push({ rel: "alternate", hreflang: l, href: abs(withLang(pathFor(l), l)) });
   links.push({ rel: "alternate", hreflang: "x-default", href: abs(withLang(pathFor(DEFAULT_LANG), DEFAULT_LANG)) });
 
   const jsonLd = input.jsonLd ? (Array.isArray(input.jsonLd) ? input.jsonLd : [input.jsonLd]) : [];
@@ -90,8 +90,8 @@ export function organizationJsonLd(lang: Lang) {
     telephone: "+359897758062",
     email: "business@rafetov.com",
     priceRange: "€€",
-    areaServed: ["BG", "DE", "AT", "CH", "GB", "BE", "NO", "ES"],
-    availableLanguage: ["bg", "en", "de"],
+    areaServed: ["BG", "DE", "AT", "CH", "GB", "BE", "NL", "NO", "ES"],
+    availableLanguage: ["bg", "en", "de", "nl"],
     address: { "@type": "PostalAddress", addressCountry: "BG" },
     sameAs: ["https://www.instagram.com/rafetov.com_/", "https://www.facebook.com/profile.php?id=61565660383482"],
     inLanguage: lang,
