@@ -33,3 +33,5 @@ dist-ssr
 # Design source files (Photoshop / Illustrator) — never in the repo
 *.psd
 *.ai
+.vercel
+.env*
