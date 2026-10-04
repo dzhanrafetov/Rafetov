@@ -21,7 +21,7 @@ const de: Dict = {
     links: { hero: "Start", services: "Leistungen", work: "Projekte", process: "Ablauf", blog: "Blog", contact: "Kontakt" },
   },
   hero: {
-    badge: "Websites · SEO · Werbung",
+    badge: "Offen für Projekte",
     h1a: "Eine Webseite, die",
     h1b: "Kunden bringt.",
     sub1: "Websites, SEO und Werbung für Ihr Unternehmen —",
@@ -244,7 +244,7 @@ const de: Dict = {
     h2a: "Sprechen wir über",
     h2b: "Ihr Unternehmen.",
     sub: "Was möchten Sie verbessern? Wir empfehlen eine passende Lösung und erklären, wofür Sie bezahlen.",
-    statusTitle: "Wir nehmen neue Projekte an",
+    statusTitle: "Webstudio",
     statusSub: "Antwort innerhalb von 24 Stunden, meist deutlich schneller",
     items: {
       phone: { label: "Telefon", sub: "Rufen Sie uns direkt an" },
@@ -289,7 +289,7 @@ const de: Dict = {
   },
   footer: {
     tagline: "Webseiten und Onlineshops, die Kunden bringen.",
-    accepting: "Wir nehmen neue Projekte an",
+    accepting: "Webstudio",
     navTitle: "Navigation",
     contactTitle: "Kontakt",
     privacy: "Datenschutzerklärung",
@@ -299,7 +299,7 @@ const de: Dict = {
     design2: "funktioniert",
   },
   mobileBar: {
-    cta: "Kostenloses Gespräch anfragen",
+    cta: "Gratis Gespräch",
     aria: "Zum Anfrageformular",
   },
   whatsapp: {

@@ -58,7 +58,7 @@ export default function MobileBar() {
 
   // Същият език като hero CTA-то: циан градиент, тъмен текст (по-висок контраст от бяло върху синьо), стрелка.
   const btnClass =
-    `group relative flex h-[52px] flex-1 items-center justify-center gap-2 overflow-hidden rounded-full text-[15px] font-bold tracking-[0.005em] text-[#03060d]
+    `group relative flex h-[52px] min-w-0 flex-1 items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-full px-4 text-[15px] font-bold tracking-[0.005em] text-[#03060d]
      transition-transform duration-150 active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70`;
   const btnStyle = {
     background: "linear-gradient(135deg,#34d9f0 0%,#0ea5e9 55%,#0284c7 100%)",
@@ -74,8 +74,8 @@ export default function MobileBar() {
           visible ? "mobilebar-shine" : "-translate-x-full"
         }`}
       />
-      <span className="relative">{t.mobileBar.cta}</span>
-      <svg viewBox="0 0 24 24" className="relative h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <span className="relative truncate">{t.mobileBar.cta}</span>
+      <svg viewBox="0 0 24 24" className="relative h-4 w-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
         <path d="M5 12h14M13 5l7 7-7 7" />
       </svg>
     </>
@@ -86,12 +86,14 @@ export default function MobileBar() {
       className={`fixed inset-x-0 bottom-0 z-40 lg:hidden transition-[transform,opacity] duration-300 ease-out will-change-transform ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-[130%] opacity-0"
       }`}
-      style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
+      // max(), не сбор: на iPhone safe-area (~34px) + 0.75rem оставяха голяма празнина под лентата.
+      style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom, 0px))" }}
     >
-      {/* Мек градиент под капсулата, за да се отделя от съдържанието без плътен черен блок */}
+      {/* Мек градиент над капсулата и плътен фон под нея — продължава под ръба, за да не прозира съдържание
+          през празнината, която iOS Safari оставя под fixed елементите при свиване на лентата си. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 -bottom-10 top-0 bg-gradient-to-t from-[#060a11] via-[#060a11]/85 to-transparent"
+        className="pointer-events-none absolute inset-x-0 -bottom-24 -top-4 bg-gradient-to-t from-[#060a11] from-55% via-[#060a11]/85 to-transparent"
       />
 
       <div
@@ -130,7 +132,7 @@ export default function MobileBar() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={t.whatsapp.aria}
-          className="inline-flex h-[52px] flex-1 items-center justify-center gap-2 rounded-full border border-emerald-300/25 text-[15px] font-bold tracking-[0.005em] text-emerald-50
+          className="inline-flex h-[52px] shrink-0 items-center justify-center gap-2 rounded-full border border-emerald-300/25 pl-2.5 pr-5 text-[15px] font-bold tracking-[0.005em] text-emerald-50
                      transition-[transform,background-color] duration-150 active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/70"
           style={{
             background: "linear-gradient(135deg,rgba(37,211,102,0.22) 0%,rgba(37,211,102,0.10) 100%)",

@@ -558,7 +558,7 @@ const inputCls = `
 
 /** Без text-slate-*: цветът се подава условно (сив, докато не е избрана услуга). */
 const selectCls = `
-  h-11 w-full rounded-xl bg-white/[0.04] px-4 text-[14px]
+  select-chevron h-11 w-full appearance-none rounded-xl bg-white/[0.04] pl-4 pr-11 text-[14px]
   ring-1 ring-inset ring-white/[0.08]
   transition-all duration-150
   focus:outline-none focus:ring-2 focus:ring-[#22d3ee]/35

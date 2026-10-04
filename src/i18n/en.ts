@@ -21,7 +21,7 @@ const en: Dict = {
     links: { hero: "Home", services: "Services", work: "Projects", process: "Process", blog: "Blog", contact: "Contact" },
   },
   hero: {
-    badge: "Websites · SEO · Advertising",
+    badge: "Open for projects",
     h1a: "A website that",
     h1b: "brings in clients.",
     sub1: "Websites, SEO and advertising for your business —",
@@ -299,7 +299,7 @@ const en: Dict = {
     design2: "works",
   },
   mobileBar: {
-    cta: "Request a free call",
+    cta: "Free call",
     aria: "Go to the enquiry form",
   },
   whatsapp: {
