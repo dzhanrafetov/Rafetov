@@ -90,7 +90,7 @@ function ServiceView({ service }: { service: Service }) {
     ],
   });
 
-  const projects = service.tag ? PROJECTS.filter((p) => p.tag === service.tag).slice(0, 3) : [];
+  const projects = service.tag ? PROJECTS.filter((p) => p.tag === service.tag) : [];
   const related = service.relatedPosts.map((id) => POSTS.find((p) => p.id === id)).filter(Boolean) as typeof POSTS;
   const others = SERVICES.filter((s) => s.id !== service.id);
 
@@ -292,15 +292,7 @@ function ServiceView({ service }: { service: Service }) {
         {/* ── Projects ── */}
         {projects.length > 0 && (
           <section className="mt-20">
-            <SectionTitle
-              right={
-                <RouterLink to={`${href("/")}#work`} className="text-[13px] font-semibold text-slate-400 transition-colors hover:text-slate-100">
-                  {t.service.allProjects} →
-                </RouterLink>
-              }
-            >
-              {t.service.projects}
-            </SectionTitle>
+            <SectionTitle>{t.service.projects}</SectionTitle>
             <CardsGrid projects={projects} />
           </section>
         )}
