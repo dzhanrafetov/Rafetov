@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
-import { offers } from "../i18n/offers";
 import { useLang } from "../i18n";
 import type { WorkTag } from "../i18n/types";
-import { PROJECTS, type Project } from "../constants/projects";
+import { projectsFor, type Project } from "../constants/projects";
 
 type Tag = WorkTag;
 
@@ -173,8 +172,7 @@ export function CardsGrid({ projects }: { projects: Project[] }) {
 // ── Main component ───────────────────────────────────────────────────────────
 export default function SectionWorkGalleryMinimal() {
   const { t, lang } = useLang();
-  const [expanded, setExpanded] = useState(false);
-  const featured = PROJECTS.filter(p => ['nn-bau', 'alpha-reiniging', 'het-pitta-loft'].includes(p.id));
+  const projects = projectsFor(lang);
   const [filter, setFilter] = useState<Tag | "all">("all");
   const tabsRef = useRef<HTMLDivElement | null>(null);
   const didMount = useRef(false);
@@ -238,7 +236,7 @@ export default function SectionWorkGalleryMinimal() {
             <div className="relative -my-2 w-full sm:w-auto">
               <div ref={tabsRef} className="no-scrollbar flex overflow-x-auto py-4 sm:overflow-visible">
                 <div className="mx-auto flex w-max items-center gap-2 px-4 sm:px-0">
-                {(["all", ...CATEGORY_ORDER] as const).map((tab) => {
+                {(["all", ...CATEGORY_ORDER.filter((c) => projects.some((p) => p.tag === c))] as const).map((tab) => {
                   const active = filter === tab;
                   const accent = tab === "all" ? null : TAG_THEME[tab].accent;
                   return (
@@ -283,8 +281,8 @@ export default function SectionWorkGalleryMinimal() {
               transition={{ duration: 0.2 }}
               className="mt-10 space-y-12"
             >
-              {!expanded ? <CardsGrid projects={featured} /> : CATEGORY_ORDER.map((cat) => {
-                const items = PROJECTS.filter((p) => p.tag === cat);
+              {CATEGORY_ORDER.map((cat) => {
+                const items = projects.filter((p) => p.tag === cat);
                 if (!items.length) return null;
                 return (
                   <div key={cat}>
@@ -304,11 +302,10 @@ export default function SectionWorkGalleryMinimal() {
               className="mt-10"
             >
               <CategoryHeader tag={filter as Tag} />
-              <CardsGrid projects={PROJECTS.filter((p) => p.tag === filter)} />
+              <CardsGrid projects={projects.filter((p) => p.tag === filter)} />
             </motion.div>
           )}
         </AnimatePresence>
-        {filter === 'all' && <div className="mt-8 text-center"><button type="button" onClick={() => setExpanded(v => !v)} aria-expanded={expanded} className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-slate-200">{expanded ? offers[lang].less : offers[lang].more}</button></div>}
 
       </div>
 

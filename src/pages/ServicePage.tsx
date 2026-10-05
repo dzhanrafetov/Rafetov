@@ -7,7 +7,7 @@ import { SERVICES, findService, findServiceAnyLang, serviceAlternates, servicePa
 import { Icon } from "../services/icons";
 import ServiceIllustration from "../services/ServiceArt";
 import { CardsGrid } from "./OnlinePresenceCTA";
-import { PROJECTS } from "../constants/projects";
+import { projectsFor } from "../constants/projects";
 import { POSTS } from "../blog";
 import BlogCard from "../blog/BlogCard";
 import NotFound from "./NotFound";
@@ -90,7 +90,7 @@ function ServiceView({ service }: { service: Service }) {
     ],
   });
 
-  const projects = service.tag ? PROJECTS.filter((p) => p.tag === service.tag) : [];
+  const projects = service.tag ? projectsFor(lang).filter((p) => p.tag === service.tag) : [];
   const related = service.relatedPosts.map((id) => POSTS.find((p) => p.id === id)).filter(Boolean) as typeof POSTS;
   const others = SERVICES.filter((s) => s.id !== service.id);
 

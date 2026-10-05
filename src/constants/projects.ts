@@ -1,4 +1,4 @@
-import type { CountryCode, WorkTag } from "../i18n/types";
+import type { CountryCode, Lang, WorkTag } from "../i18n/types";
 
 export type Project = {
   id: string;
@@ -251,3 +251,17 @@ export const PROJECTS: Project[] = [
     country: "BE",
   },
 ];
+
+/** Нидерландската версия е за Белгия: първо проекти от Белгия и Германия, после подбрани други. */
+const NL_PROJECT_IDS = [
+  "alpha-reiniging", "het-pitta-loft",
+  "nn-bau", "beca", "hh-edelstahl", "innenausbau-ahmedov",
+  "emis-cleaning", "santander",
+  "vulcho", "zirve1", "chef-resat-site",
+  "chef-resat-menu", "amalfi-menu", "pancetita-menu",
+];
+
+export function projectsFor(lang: Lang): Project[] {
+  if (lang !== "nl") return PROJECTS;
+  return NL_PROJECT_IDS.map((id) => PROJECTS.find((p) => p.id === id)).filter(Boolean) as Project[];
+}

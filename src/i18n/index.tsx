@@ -17,7 +17,7 @@ export const PREFIXED_LANGS: Lang[] = ["en", "de", "nl"];
 export const LANG_META: Record<Lang, { label: string; name: string; flag: FlagCode; locale: string }> = {
   bg: { label: "БГ", name: "Български", flag: "BG", locale: "bg_BG" },
   en: { label: "EN", name: "English", flag: "GB", locale: "en_GB" },
-  nl: { label: "NL", name: "Nederlands", flag: "NL", locale: "nl_NL" },
+  nl: { label: "NL", name: "Nederlands", flag: "BE", locale: "nl_BE" },
   de: { label: "DE", name: "Deutsch", flag: "DE", locale: "de_DE" },
 };
 
