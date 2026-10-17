@@ -121,7 +121,7 @@ const en: Dict = {
     tags: { site: "Website", shop: "Online store", menu: "Digital menu" },
     viewSite: "View site",
     viewMenu: "View menu",
-    titles: { "opaka-fits": "Opaka Fits Complex", "pet-zvezdi": "5 Zvezdi Exotics", "hotel-fenix": "Hotel Fenix", "mig-group": "MIG Engineering Group" },
+    titles: { "opaka-fits": "Opaka Fits Complex", "pet-zvezdi": "5 Zvezdi Exotics", "hotel-fenix": "Hotel Fenix", "mig-group": "MIG Engineering Group", "pachka-stil": "Pachka Stil" },
     projects: {
       "chef-resat-site": "Official website of restaurant Chef Resat, focused on the atmosphere, the cuisine and key visitor information.",
       vulcho: "Online butcher shop with a loyalty programme, promo codes, vouchers and AI recipes, with full order and stock management.",
@@ -153,6 +153,12 @@ const en: Dict = {
       "innenausbau-ahmedov": "Website for an interior finishing business in Hanau, Germany, with a project portfolio and quote request form.",
       "nn-bau": "Website for waterproofing, renovation, drywall and demolition services in Duisburg, Germany, with a clear service overview and a quote request form.",
       "alpha-reiniging": "Website for a cleaning company in Ghent, Belgium — windows, roofs, facades and solar panels — with a service overview and a quote request.",
+      "active-solar": "Bilingual website for a solar installer serving homes and companies, with a catalogue of panels, inverters and batteries, a solar calculator and a client account for warranties and service.",
+      "creative-homes": "Website for an interior design, renovation and custom furniture studio in Sofia, with a project portfolio, before/after comparisons, a blog and a quote form based on area and budget.",
+      "jitara": "Bilingual website for a flour mill and bakery in Vratsa, with a catalogue of bread, flour, snacks and sweets and a dedicated page for its EU co-funded projects.",
+      "pachka-stil": "Website for a construction and renovation company in north-eastern Bulgaria, with services, before/after project photos, an inspection and quote request form and WhatsApp contact.",
+      "kapisel": "Online store for professional hair care with 14 brands, filters by brand and hair concern, ordering without registration, cash on delivery and courier shipping.",
+      "aloeway": "Online store for LR health and beauty products with monthly subscription packages, ordering without registration and a separate page for the business partnership.",
     },
   },
   reviews: {

@@ -121,7 +121,7 @@ const de: Dict = {
     tags: { site: "Webseite", shop: "Onlineshop", menu: "Digitale Speisekarte" },
     viewSite: "Seite ansehen",
     viewMenu: "Karte ansehen",
-    titles: { "opaka-fits": "Komplex Opaka Fits", "pet-zvezdi": "5 Zvezdi Exotics", "hotel-fenix": "Hotel Fenix", "mig-group": "MIG Engineering Group" },
+    titles: { "opaka-fits": "Komplex Opaka Fits", "pet-zvezdi": "5 Zvezdi Exotics", "hotel-fenix": "Hotel Fenix", "mig-group": "MIG Engineering Group", "pachka-stil": "Pachka Stil" },
     projects: {
       "chef-resat-site": "Offizielle Webseite des Restaurants Chef Resat mit Fokus auf Atmosphäre, Küche und die wichtigsten Informationen für Gäste.",
       vulcho: "Onlineshop für Fleisch- und Wurstwaren mit Treueprogramm, Gutscheincodes, Wertgutscheinen und KI-Rezepten, inklusive vollständiger Bestell- und Lagerverwaltung.",
@@ -153,6 +153,12 @@ const de: Dict = {
       "innenausbau-ahmedov": "Webseite für Innenausbau in Hanau, Deutschland, mit Projektreferenzen und Anfrageformular.",
       "nn-bau": "Webseite für Abdichtung, Sanierung, Trockenbau und Abbrucharbeiten in Duisburg, Deutschland, mit klarer Leistungsübersicht und Anfrageformular.",
       "alpha-reiniging": "Webseite für ein Reinigungsunternehmen in Gent, Belgien – Fenster, Dächer, Fassaden und Solaranlagen – mit Leistungsübersicht und Angebotsanfrage.",
+      "active-solar": "Zweisprachige Webseite für einen Photovoltaik-Installateur für Haushalte und Unternehmen, mit Katalog für Module, Wechselrichter und Speicher, Solarrechner und Kundenkonto für Garantie und Service.",
+      "creative-homes": "Webseite für ein Studio für Innenarchitektur, Renovierung und Möbel nach Maß in Sofia, mit Projektportfolio, Vorher-nachher-Vergleichen, Blog und Angebotsformular nach Fläche und Budget.",
+      "jitara": "Zweisprachige Webseite für eine Mühle und Großbäckerei in Wraza, mit Katalog für Brot, Mehl, Snacks und Süßwaren sowie einer eigenen Seite zu den EU-kofinanzierten Projekten.",
+      "pachka-stil": "Webseite für ein Bau- und Renovierungsunternehmen im Nordosten Bulgariens, mit Leistungen, Vorher-nachher-Projektfotos, Formular für Besichtigung und Angebot sowie WhatsApp-Kontakt.",
+      "kapisel": "Onlineshop für professionelle Haarpflege mit 14 Marken, Filtern nach Marke und Haarproblem, Bestellung ohne Registrierung, Zahlung per Nachnahme und Versand per Kurier.",
+      "aloeway": "Onlineshop für LR-Gesundheits- und Beautyprodukte mit Abo-Paketen und monatlicher Lieferung, Bestellung ohne Registrierung und einer eigenen Seite zur Geschäftspartnerschaft.",
     },
   },
   reviews: {

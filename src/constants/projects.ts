@@ -5,6 +5,8 @@ export type Project = {
   tag: WorkTag;
   title: string;
   img: string;
+  /** Снимка на българската версия на сайта — показва се само на bg. */
+  imgBg?: string;
   href?: string;
   country?: CountryCode;
 };
@@ -250,6 +252,56 @@ export const PROJECTS: Project[] = [
     href: "https://www.alphareiniging.be/",
     country: "BE",
   },
+  {
+    id: "active-solar",
+    tag: "site",
+    title: "Active Solar Energy",
+    img: "/work/activesolar-en.webp",
+    imgBg: "/work/activesolar-bg.webp",
+    href: "https://activesolar-energy.com/",
+    country: "BG",
+  },
+  {
+    id: "creative-homes",
+    tag: "site",
+    title: "CreativeHomes",
+    img: "/work/creativehomes.webp",
+    href: "https://creativehomes.bg/",
+    country: "BG",
+  },
+  {
+    id: "jitara",
+    tag: "site",
+    title: "Jitara",
+    img: "/work/jitara-en.webp",
+    imgBg: "/work/jitara-bg.webp",
+    href: "https://jitara.eu/",
+    country: "BG",
+  },
+  {
+    id: "pachka-stil",
+    tag: "site",
+    title: "Пачка Стил",
+    img: "/work/pachkastil.webp",
+    href: "https://pachkastil.com/",
+    country: "BG",
+  },
+  {
+    id: "kapisel",
+    tag: "shop",
+    title: "Kapisel",
+    img: "/work/kapisel.webp",
+    href: "https://kapisel.com/",
+    country: "BG",
+  },
+  {
+    id: "aloeway",
+    tag: "shop",
+    title: "AloeWay",
+    img: "/work/aloeway.webp",
+    href: "https://aloeway.eu/",
+    country: "BG",
+  },
 ];
 
 /** Нидерландската версия е за Белгия: първо проекти от Белгия и Германия, после подбрани други. */
@@ -259,9 +311,13 @@ const NL_PROJECT_IDS = [
   "emis-cleaning", "santander",
   "vulcho", "zirve1", "chef-resat-site",
   "chef-resat-menu", "amalfi-menu", "pancetita-menu",
+  "active-solar", "creative-homes",
 ];
 
 export function projectsFor(lang: Lang): Project[] {
-  if (lang !== "nl") return PROJECTS;
-  return NL_PROJECT_IDS.map((id) => PROJECTS.find((p) => p.id === id)).filter(Boolean) as Project[];
+  const list =
+    lang === "nl"
+      ? (NL_PROJECT_IDS.map((id) => PROJECTS.find((p) => p.id === id)).filter(Boolean) as Project[])
+      : PROJECTS;
+  return lang === "bg" ? list.map((p) => (p.imgBg ? { ...p, img: p.imgBg } : p)) : list;
 }
