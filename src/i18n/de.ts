@@ -118,10 +118,11 @@ const de: Dict = {
     h2b: "Konkrete Lösungen.",
     sub: "Sehen Sie, wie unsere Projekte Leistungen präsentieren, Buchungen erleichtern und Anfragen ermöglichen. Jede Website ist live verfügbar.",
     all: "Alle",
-    tags: { site: "Webseite", shop: "Onlineshop", menu: "Digitale Speisekarte" },
+    tags: { site: "Webseite", shop: "Onlineshop", platform: "Plattform", menu: "Digitale Speisekarte" },
     viewSite: "Seite ansehen",
     viewMenu: "Karte ansehen",
-    titles: { "opaka-fits": "Komplex Opaka Fits", "pet-zvezdi": "5 Zvezdi Exotics", "hotel-fenix": "Hotel Fenix", "mig-group": "MIG Engineering Group", "pachka-stil": "Pachka Stil" },
+    viewPlatform: "Plattform ansehen",
+    titles: { "opaka-fits": "Komplex Opaka Fits", "pet-zvezdi": "5 Zvezdi Exotics", "hotel-fenix": "Hotel Fenix", "mig-group": "MIG Engineering Group", "pachka-stil": "Pachka Stil", czpo: "CZPO" },
     projects: {
       "chef-resat-site": "Offizielle Webseite des Restaurants Chef Resat mit Fokus auf Atmosphäre, Küche und die wichtigsten Informationen für Gäste.",
       vulcho: "Onlineshop für Fleisch- und Wurstwaren mit Treueprogramm, Gutscheincodes, Wertgutscheinen und KI-Rezepten, inklusive vollständiger Bestell- und Lagerverwaltung.",
@@ -159,6 +160,7 @@ const de: Dict = {
       "pachka-stil": "Webseite für ein Bau- und Renovierungsunternehmen im Nordosten Bulgariens, mit Leistungen, Vorher-nachher-Projektfotos, Formular für Besichtigung und Angebot sowie WhatsApp-Kontakt.",
       "kapisel": "Onlineshop für professionelle Haarpflege mit 14 Marken, Filtern nach Marke und Haarproblem, Bestellung ohne Registrierung, Zahlung per Nachnahme und Versand per Kurier.",
       "aloeway": "Onlineshop für LR-Gesundheits- und Beautyprodukte mit Abo-Paketen und monatlicher Lieferung, Bestellung ohne Registrierung und einer eigenen Seite zur Geschäftspartnerschaft.",
+      czpo: "Komplette Schulungsplattform für ein lizenziertes Berufsbildungszentrum in Warna, mit eigenen Bereichen für Administratoren, Lehrkräfte, Teilnehmende und Prüfer der Arbeitsagentur. Online-Bewerbung, Kursgruppen und Stundenpläne, Live-Unterricht mit Anwesenheitsberichten, Lernmaterialien und Tests mit automatischer Auswertung.",
     },
   },
   reviews: {

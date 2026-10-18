@@ -4,7 +4,7 @@ export type CountryCode = "BG" | "DE" | "BE" | "GB" | "ES" | "NO";
 
 export type ServiceKey = "site" | "shop" | "ads" | "menu";
 export type CareKey = "hosting" | "support" | "training" | "price";
-export type WorkTag = "site" | "shop" | "menu";
+export type WorkTag = "site" | "shop" | "platform" | "menu";
 
 /** Езикът, на който е написан отзивът в Google. */
 export type ReviewLang = "bg" | "de" | "tr" | "es" | "no" | "nl" | "en";
@@ -86,6 +86,7 @@ export type Dict = {
     tags: Record<WorkTag, string>;
     viewSite: string;
     viewMenu: string;
+    viewPlatform: string;
     projects: Record<string, string>;
     /** Латинизирани имена за проекти с кирилски бранд (по избор). */
     titles?: Partial<Record<string, string>>;

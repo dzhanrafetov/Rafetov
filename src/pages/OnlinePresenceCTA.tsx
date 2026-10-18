@@ -24,6 +24,13 @@ function TagIcon({ tag }: { tag: Tag }) {
         <path d="M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM17 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor" />
       </svg>
     );
+  if (tag === "platform")
+    return (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
+        <path d="m12 3 9 5-9 5-9-5 9-5Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+        <path d="m3 13 9 5 9-5M3 17.5l9 5 9-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+      </svg>
+    );
   if (tag === "menu")
     return (
       <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
@@ -43,10 +50,11 @@ function TagIcon({ tag }: { tag: Tag }) {
 const TAG_THEME: Record<Tag, { accent: string; glow: string }> = {
   site: { accent: "#22D3EE", glow: "rgba(34,211,238,.18)" },
   shop: { accent: "#34D399", glow: "rgba(52,211,153,.18)" },
+  platform: { accent: "#FBBF24", glow: "rgba(251,191,36,.18)" },
   menu: { accent: "#A78BFA", glow: "rgba(167,139,250,.18)" },
 };
 
-const CATEGORY_ORDER: Tag[] = ["site", "shop", "menu"];
+const CATEGORY_ORDER: Tag[] = ["site", "shop", "platform", "menu"];
 
 // ── Category section divider ─────────────────────────────────────────────────
 function CategoryHeader({ tag }: { tag: Tag }) {
@@ -142,7 +150,7 @@ export function CardsGrid({ projects }: { projects: Project[] }) {
                       color: "color-mix(in srgb, var(--accent) 92%, white)",
                     }}
                   >
-                    {p.tag === "menu" ? t.work.viewMenu : t.work.viewSite}
+                    {p.tag === "menu" ? t.work.viewMenu : p.tag === "platform" ? t.work.viewPlatform : t.work.viewSite}
                     <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" aria-hidden fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                       <path d="M14 3h7v7M21 3l-9 9M10 5H6a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-4" />
                     </svg>

@@ -301,6 +301,13 @@ export const PROJECTS: Project[] = [
     img: "/work/aloeway.webp",
     href: "https://aloeway.eu/",
     country: "BG",
+  },  {
+    id: "czpo",
+    tag: "platform",
+    title: "ЦЗПО",
+    img: "/work/czpo.webp",
+    href: "https://czpo.bg/",
+    country: "BG",
   },
 ];
 

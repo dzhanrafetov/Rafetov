@@ -118,10 +118,11 @@ const en: Dict = {
     h2b: "Practical solutions.",
     sub: "See how our projects present services, simplify bookings and collect enquiries. Explore each live website.",
     all: "All",
-    tags: { site: "Website", shop: "Online store", menu: "Digital menu" },
+    tags: { site: "Website", shop: "Online store", platform: "Platform", menu: "Digital menu" },
     viewSite: "View site",
     viewMenu: "View menu",
-    titles: { "opaka-fits": "Opaka Fits Complex", "pet-zvezdi": "5 Zvezdi Exotics", "hotel-fenix": "Hotel Fenix", "mig-group": "MIG Engineering Group", "pachka-stil": "Pachka Stil" },
+    viewPlatform: "View platform",
+    titles: { "opaka-fits": "Opaka Fits Complex", "pet-zvezdi": "5 Zvezdi Exotics", "hotel-fenix": "Hotel Fenix", "mig-group": "MIG Engineering Group", "pachka-stil": "Pachka Stil", czpo: "CZPO" },
     projects: {
       "chef-resat-site": "Official website of restaurant Chef Resat, focused on the atmosphere, the cuisine and key visitor information.",
       vulcho: "Online butcher shop with a loyalty programme, promo codes, vouchers and AI recipes, with full order and stock management.",
@@ -159,6 +160,7 @@ const en: Dict = {
       "pachka-stil": "Website for a construction and renovation company in north-eastern Bulgaria, with services, before/after project photos, an inspection and quote request form and WhatsApp contact.",
       "kapisel": "Online store for professional hair care with 14 brands, filters by brand and hair concern, ordering without registration, cash on delivery and courier shipping.",
       "aloeway": "Online store for LR health and beauty products with monthly subscription packages, ordering without registration and a separate page for the business partnership.",
+      czpo: "Complete training platform for a licensed vocational training centre in Varna, with separate accounts for admins, teachers, students and Employment Agency inspectors. Online applications, training groups and schedules, live online lessons with attendance reports, course materials and tests with automatic scoring.",
     },
   },
   reviews: {
