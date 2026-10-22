@@ -26,7 +26,21 @@ export const GOOGLE_REVIEWS = {
   url: "https://www.google.com/search?kgmid=%2Fg%2F11zymcpw1b&q=Rafetov",
 } as const;
 
-/** Direct profile URL: the old share link overrides hl with its saved Bulgarian locale. */
+/** Viber бизнес профилът — отваря чат в приложението; на десктоп води към viber.me. */
+export const VIBER_HREF = "https://viber.me/359897758062";
+
+/** Социални профили. TikTok се показва само когато адресът е попълнен. */
+export const SOCIALS = {
+  instagram: "https://www.instagram.com/rafetov.com_/",
+  facebook: "https://www.facebook.com/profile.php?id=61565660383482",
+  tiktok: "https://www.tiktok.com/@rafetov.com",
+} as const;
+
+/** Линк към WhatsApp с предварително написано съобщение. */
+export function whatsappHref(text: string): string {
+  return `https://wa.me/359897758062?text=${encodeURIComponent(text)}`;
+}
+
 export function googleReviewsUrl(lang: Lang): string {
   return `${GOOGLE_REVIEWS.url}&hl=${lang}`;
 }

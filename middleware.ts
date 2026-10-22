@@ -5,9 +5,11 @@
  *  1. Ботове (Google, Bing, Facebook…) никога не се пренасочват — индексират "/" на български,
  *     а другите езици намират през hreflang.
  *  2. Ако има cookie "lang" (ръчен избор от менюто) — то е с предимство.
- *  3. Иначе по държава от IP: BG → български (без redirect), DE/AT/CH/LI → /de, NL/BE → /nl
+ *  3. Телефон/браузър на български → български, в която и държава да е. Повечето хора от видеата
+ *     са българи в Германия и Белгия — пишат rafetov.com и трябва да видят сайта на български.
+ *  4. Иначе по държава от IP: BG → български (без redirect), DE/AT/CH/LI → /de, NL/BE → /nl
  *     (френскоговорящи в Белгия → /en), всички останали → /en.
- *  4. Ако държавата не е известна — по Accept-Language на браузъра.
+ *  5. Ако държавата не е известна — по Accept-Language на браузъра.
  *
  * Пренасочването е 302 (временно), за да не „запечата“ Google един език за корена.
  */
@@ -39,6 +41,11 @@ function langForCountry(country: string | undefined | null, acceptLanguage: stri
   return "en";
 }
 
+/** Основният език на браузъра е български. */
+function prefersBulgarian(header: string | null): boolean {
+  return (header || "").toLowerCase().split(",")[0].trim().startsWith("bg");
+}
+
 function langForAcceptLanguage(header: string | null): Lang {
   const primary = (header || "").toLowerCase().split(",")[0].trim();
   if (primary.startsWith("nl")) return "nl";
@@ -56,6 +63,8 @@ export default function middleware(request: Request) {
 
   if (cookieLang && (SUPPORTED as string[]).includes(cookieLang)) {
     lang = cookieLang as Lang;
+  } else if (prefersBulgarian(request.headers.get("accept-language"))) {
+    lang = "bg";
   } else {
     const country = geolocation(request).country ?? request.headers.get("x-vercel-ip-country");
     const acceptLanguage = request.headers.get("accept-language");

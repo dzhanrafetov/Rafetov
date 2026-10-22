@@ -58,7 +58,7 @@ export default function MobileBar() {
 
   // Същият език като hero CTA-то: циан градиент, тъмен текст (по-висок контраст от бяло върху синьо), стрелка.
   const btnClass =
-    `group relative flex h-[52px] min-w-0 flex-1 items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-full px-4 text-[15px] font-bold tracking-[0.005em] text-[#03060d]
+    `group relative flex h-[52px] min-w-0 flex-1 items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-full px-3 text-[14px] font-bold tracking-[0.005em] text-[#03060d] sm:px-4 sm:text-[15px]
      transition-transform duration-150 active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70`;
   const btnStyle = {
     background: "linear-gradient(135deg,#34d9f0 0%,#0ea5e9 55%,#0284c7 100%)",
@@ -132,7 +132,7 @@ export default function MobileBar() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={t.whatsapp.aria}
-          className="inline-flex h-[52px] shrink-0 items-center justify-center gap-2 rounded-full border border-emerald-300/25 pl-2.5 pr-5 text-[15px] font-bold tracking-[0.005em] text-emerald-50
+          className="inline-flex h-[52px] shrink-0 items-center justify-center gap-2 rounded-full border border-emerald-300/25 pl-2.5 pr-4 text-[14px] sm:pr-5 sm:text-[15px] font-bold tracking-[0.005em] text-emerald-50
                      transition-[transform,background-color] duration-150 active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/70"
           style={{
             background: "linear-gradient(135deg,rgba(37,211,102,0.22) 0%,rgba(37,211,102,0.10) 100%)",

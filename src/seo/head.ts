@@ -1,6 +1,7 @@
 import { createContext, type MutableRefObject } from "react";
 import { LANGS, LANG_META, DEFAULT_LANG, withLang, type Alternates } from "../i18n";
 import type { Lang } from "../i18n/types";
+import { SOCIALS } from "../constants/business";
 
 export const SITE_ORIGIN = "https://www.rafetov.com";
 export const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/zzzz.jpg`;
@@ -93,7 +94,7 @@ export function organizationJsonLd(lang: Lang) {
     areaServed: ["BG", "DE", "AT", "CH", "GB", "BE", "NL", "NO", "ES"],
     availableLanguage: ["bg", "en", "de", "nl"],
     address: { "@type": "PostalAddress", addressCountry: "BG" },
-    sameAs: ["https://www.instagram.com/rafetov.com_/", "https://www.facebook.com/profile.php?id=61565660383482"],
+    sameAs: [SOCIALS.instagram, SOCIALS.facebook, SOCIALS.tiktok].filter(Boolean),
     inLanguage: lang,
   };
 }

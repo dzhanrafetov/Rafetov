@@ -9,6 +9,27 @@ export type Project = {
   imgBg?: string;
   href?: string;
   country?: CountryCode;
+  /** Езици на самия сайт (кодове), когато са повече от един или не са очевидни. */
+  siteLangs?: string[];
+  /** Името на автора на отзива в Google за този проект (от constants/reviews.ts), ако има такъв. */
+  review?: string;
+};
+
+/** Базов път на страниците на проектите за всеки език (без езиков префикс). */
+export const PROJECT_BASE: Record<Lang, string> = { bg: "/proekti", en: "/projects", de: "/projekte", nl: "/projecten" };
+
+/** Път на страницата „За нас“ за всеки език. */
+export const ABOUT_BASE: Record<Lang, string> = { bg: "/za-nas", en: "/about", de: "/ueber-uns", nl: "/over-ons" };
+
+/**
+ * Избраните проекти на началната страница: по един от нишите, които най-често питат
+ * (строителство, магазин, ресторант, соларни, платформа, чужбина). Останалите се разгъват с бутон.
+ */
+export const FEATURED: Record<Lang, string[]> = {
+  bg: ["chef-resat-site", "vulcho", "alpha-reiniging", "creative-homes", "nn-bau", "emis-cleaning", "jitara", "zirve1", "czpo"],
+  en: ["emis-cleaning", "chef-resat-site", "vulcho", "alpha-reiniging", "creative-homes", "nn-bau", "jitara", "zirve1", "czpo"],
+  de: ["nn-bau", "chef-resat-site", "vulcho", "alpha-reiniging", "creative-homes", "emis-cleaning", "jitara", "zirve1", "czpo"],
+  nl: ["alpha-reiniging", "het-pitta-loft", "chef-resat-site", "vulcho", "creative-homes", "nn-bau", "emis-cleaning", "zirve1", "beca"],
 };
 
 export const PROJECTS: Project[] = [
@@ -46,6 +67,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "santander",
+    review: "Taxi Alper",
     tag: "site",
     title: "Alp Taxi Santander",
     img: "/work/sndr.webp",
@@ -62,30 +84,34 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "amalfi-menu",
+    siteLangs: ["no", "en"],
     tag: "menu",
     title: "Amalfi",
-    img: "/work/corected-amalfi.webp",
+    img: "/work/menu-amalfi.webp",
     href: "https://www.amalfirestaurant.no/",
     country: "NO",
   },
   {
     id: "chef-resat-menu",
+    siteLangs: ["bg", "tr", "en"],
     tag: "menu",
     title: "Chef Resat",
-    img: "/work/chefresatcorected.webp",
+    img: "/work/menu-resat.webp",
     href: "https://www.chefresatsofya.com/menu",
     country: "BG",
   },
   {
     id: "pancetita-menu",
+    siteLangs: ["no", "en"],
     tag: "menu",
     title: "Pizza Pancetita",
-    img: "/work/corectedpancetita.webp",
+    img: "/work/menu-pancetta.webp",
     href: "https://pancetta.vercel.app/",
     country: "NO",
   },
   {
     id: "abi-studio",
+    review: "Abibe Izetova",
     tag: "site",
     title: "Abi Studio",
     img: "/work/abistudio1.webp",
@@ -102,6 +128,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "metesso",
+    review: "Ersin Metesoy",
     tag: "site",
     title: "Metesso",
     img: "/work/metesso1.webp",
@@ -126,6 +153,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "azteca-site",
+    review: "Plamen Chalakov",
     tag: "shop",
     title: "Azteca",
     img: "/work/aztecanew.webp",
@@ -246,6 +274,8 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "alpha-reiniging",
+    review: "Alpha Reiniging",
+    siteLangs: ["nl"],
     tag: "site",
     title: "Alpha Reiniging",
     img: "/work/alphareining.webp",
@@ -254,6 +284,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "active-solar",
+    siteLangs: ["bg", "en"],
     tag: "site",
     title: "Active Solar Energy",
     img: "/work/activesolar-en.webp",
@@ -271,6 +302,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "jitara",
+    siteLangs: ["bg", "en"],
     tag: "site",
     title: "Jitara",
     img: "/work/jitara-en.webp",
@@ -327,4 +359,22 @@ export function projectsFor(lang: Lang): Project[] {
       ? (NL_PROJECT_IDS.map((id) => PROJECTS.find((p) => p.id === id)).filter(Boolean) as Project[])
       : PROJECTS;
   return lang === "bg" ? list.map((p) => (p.imgBg ? { ...p, img: p.imgBg } : p)) : list;
+}
+
+export function projectPath(p: Project, lang: Lang): string {
+  return `${PROJECT_BASE[lang]}/${p.id}`;
+}
+
+export function projectAlternates(p: Project): Record<Lang, string> {
+  return { bg: projectPath(p, "bg"), en: projectPath(p, "en"), de: projectPath(p, "de"), nl: projectPath(p, "nl") };
+}
+
+export function findProject(lang: Lang, slug: string): Project | undefined {
+  return projectsFor(lang).find((p) => p.id === slug);
+}
+
+/** Избраните проекти за езика, в реда от FEATURED; липсващи id-та се пропускат. */
+export function featuredFor(lang: Lang): Project[] {
+  const all = projectsFor(lang);
+  return FEATURED[lang].map((id) => all.find((p) => p.id === id)).filter((p): p is Project => !!p);
 }

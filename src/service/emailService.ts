@@ -8,8 +8,15 @@ interface FormData {
   message: string;
 }
 
+/**
+ * Шаблонът в EmailJS не чете `name` — във всички досегашни имейли „Name:“ и темата „New Contact
+ * Request from“ идват празни. Пращаме името и под имената, които шаблоните на EmailJS ползват.
+ */
 const convertToRecord = (data: FormData): Record<string, unknown> => ({
   name: data.name,
+  from_name: data.name,
+  user_name: data.name,
+  reply_to: data.email,
   email: data.email,
   phone: data.phone,
   service: data.service,

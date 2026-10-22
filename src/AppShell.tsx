@@ -1,6 +1,5 @@
 import React, { Suspense, type ComponentType } from "react";
 import { Routes, Route } from "react-router-dom";
-import VideoReview from "./pages/VideoReview";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import FloatingContact from "./components/FloatingContact";
@@ -10,10 +9,13 @@ import { LanguageProvider, PREFIXED_LANGS, useLang, withLang, type Lang } from "
 import { useSeo } from "./hooks/useSeo";
 import { organizationJsonLd, SITE_ORIGIN } from "./seo/head";
 import { SERVICES, servicePath } from "./services";
+import { ABOUT_BASE, PROJECT_BASE } from "./constants/projects";
+import TrustedBy from "./components/TrustedBy";
 import { BLOG_BASE } from "./blog";
 
 export type Pages = {
   Hero: ComponentType;
+  About: ComponentType;
   Services: ComponentType;
   Guarantees: ComponentType;
   Market: ComponentType;
@@ -26,6 +28,9 @@ export type Pages = {
   BlogIndex: ComponentType;
   BlogPost: ComponentType;
   ServicePage: ComponentType;
+  ProjectPage: ComponentType;
+  ProjectsIndex: ComponentType;
+  AboutPage: ComponentType;
   NotFound: ComponentType;
 };
 
@@ -73,14 +78,16 @@ function Home({ pages }: { pages: Pages }) {
     ],
   });
   const { Hero, Services, Market, Portfolio, Reviews, Contact } = pages;
+  // Редът: кой стои зад сайта → проекти → отзиви → пакети → процес и въпроси → контакт. Видео анализът е опция във формата.
   return (
     <>
       <Hero />
+      <TrustedBy />
       <Suspense fallback={<Loader small />}><Market /></Suspense>
       <Suspense fallback={<Loader small />}><Reviews /></Suspense>
       <Suspense fallback={<Loader small />}><Services /></Suspense>
-      <VideoReview />
       <Suspense fallback={<Loader small />}><Portfolio /></Suspense>
+      {/* „За нас“ е скрита от началната страница засега; остава на отделната страница. */}
       <Suspense fallback={<Loader small />}><Contact /></Suspense>
     </>
   );
@@ -103,7 +110,7 @@ export default function AppShell({
   /** Само за браузъра (Analytics и др.). */
   children?: React.ReactNode;
 }) {
-  const { PrivacyPolicy, LegalNotice, BlogIndex, BlogPost, ServicePage, NotFound } = pages;
+  const { PrivacyPolicy, LegalNotice, BlogIndex, BlogPost, ServicePage, ProjectPage, ProjectsIndex, AboutPage, NotFound } = pages;
   return (
     <LanguageProvider initialLang={initialLang}>
       <ScrollManager />
@@ -117,6 +124,9 @@ export default function AppShell({
               <Route path={`${p}/legal`} element={<LegalNotice />} />
               <Route path={`${p}${BLOG_BASE}`} element={<BlogIndex />} />
               <Route path={`${p}${BLOG_BASE}/:slug`} element={<BlogPost />} />
+              <Route path={`${p}${PROJECT_BASE[(p ? p.slice(1) : "bg") as Lang]}`} element={<ProjectsIndex />} />
+              <Route path={`${p}${PROJECT_BASE[(p ? p.slice(1) : "bg") as Lang]}/:slug`} element={<ProjectPage />} />
+              <Route path={`${p}${ABOUT_BASE[(p ? p.slice(1) : "bg") as Lang]}`} element={<AboutPage />} />
               <Route path={`${p}/:base/:slug`} element={<ServicePage />} />
             </React.Fragment>
           ))}

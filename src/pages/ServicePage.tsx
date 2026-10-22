@@ -158,19 +158,7 @@ function ServiceView({ service }: { service: Service }) {
               <a href="tel:+359897758062" className={`${ctaSecondary} py-3.5`}>+359 897 758 062</a>
             </motion.div>
 
-            {/* Price chip */}
-            <motion.div variants={fade} initial="hidden" animate="show" custom={4}
-              className="mt-7 flex items-start gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4 pr-5 sm:max-w-[520px]">
-              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
-                style={{ background: `color-mix(in srgb,${accent} 14%,transparent)`, border: `1px solid color-mix(in srgb,${accent} 25%,transparent)`, color: accent }}>
-                <Icon name="tag" className="h-5 w-5" />
-              </span>
-              <div>
-                <div className="text-[11px] font-bold uppercase tracking-[0.18em]" style={{ color: accent }}>{t.care.items.price.title}</div>
-                <p className="mt-1 text-[14px] leading-relaxed text-slate-200">{c.priceLine}</p>
-                <p className="mt-1 text-[12px] text-slate-500">{t.hero.micro}</p>
-              </div>
-            </motion.div>
+            {/* Ценовото поле е скрито засега: офертата се дава след разговор. */}
           </div>
 
           {/* Illustration */}

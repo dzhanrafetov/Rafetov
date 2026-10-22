@@ -27,7 +27,8 @@
   display: inline-block;
   padding: 0.12em 0.06em 0.22em;
   margin: -0.12em -0.06em -0.22em;
-  background: linear-gradient(110deg, #22d3ee 0%, #a78bfa 60%, #34d399 100%);
+  /* Един акцент: циан. Преди беше циан → виолетово → зелено, което правеше всяко заглавие в три цвята. */
+  background: linear-gradient(110deg, #67e8f9 0%, #22d3ee 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

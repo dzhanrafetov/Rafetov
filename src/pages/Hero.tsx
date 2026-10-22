@@ -45,12 +45,13 @@ const CHIPS = [
 ];
 
 const COUNTRIES: { code: CountryCode; accent: string; lat: number; lng: number }[] = [
+  // Един акцент за всички държави: знамето носи разликата, не цветът на пилчето.
   { code: "BG", accent: "#22D3EE", lat: 42.7339, lng: 25.4858 },
-  { code: "DE", accent: "#FBBF24", lat: 51.1657, lng: 10.4515 },
-  { code: "BE", accent: "#34D399", lat: 50.5039, lng:  4.4699 },
-  { code: "GB", accent: "#A78BFA", lat: 55.3781, lng: -3.4360 },
-  { code: "ES", accent: "#f87171", lat: 40.4637, lng: -3.7492 },
-  { code: "NO", accent: "#38bdf8", lat: 60.4720, lng:  8.4689 },
+  { code: "DE", accent: "#22D3EE", lat: 51.1657, lng: 10.4515 },
+  { code: "BE", accent: "#22D3EE", lat: 50.5039, lng:  4.4699 },
+  { code: "GB", accent: "#22D3EE", lat: 55.3781, lng: -3.4360 },
+  { code: "ES", accent: "#22D3EE", lat: 40.4637, lng: -3.7492 },
+  { code: "NO", accent: "#22D3EE", lat: 60.4720, lng:  8.4689 },
 ];
 
 // Точката от картата, която гледа към зрителя. В cobe центърът на изгледа е на
@@ -275,8 +276,6 @@ export default function Hero() {
         <div className="hero-spot absolute inset-0" />
         <div className="absolute -right-64 -top-64 h-[700px] w-[700px] rounded-full"
           style={{ background: "radial-gradient(circle,rgba(34,211,238,.12) 0%,transparent 65%)" }} />
-        <div className="absolute -bottom-52 -left-52 h-[580px] w-[580px] rounded-full"
-          style={{ background: "radial-gradient(circle,rgba(129,140,248,.08) 0%,transparent 65%)" }} />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#060a11] to-transparent" />
       </div>
 
@@ -432,7 +431,7 @@ export default function Hero() {
           .hero-spot { background: radial-gradient(380px 380px at 65% 30%, rgba(34,211,238,.08) 0%, transparent 65%); }
         }
         .hero-text-gradient {
-          background: linear-gradient(110deg,#22d3ee 0%,#67e8f9 40%,#a78bfa 100%);
+          background: linear-gradient(110deg,#67e8f9 0%,#22d3ee 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;

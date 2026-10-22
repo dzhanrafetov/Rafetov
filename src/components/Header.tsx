@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
-import { FaInstagram, FaFacebook, FaEnvelope } from 'react-icons/fa';
+import { FaInstagram, FaFacebook, FaEnvelope, FaTiktok } from 'react-icons/fa';
 import { Link } from 'react-scroll';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { LANGS, LANG_META, setLangCookie, stripLang, useLang, withLang, type Lang } from '../i18n';
 import { BLOG_BASE } from '../blog';
+import { SOCIALS } from '../constants/business';
 import Flag from './Flag';
+import LogoMark from './LogoMark';
 
-type MenuItem = { key: 'hero' | 'services' | 'work' | 'process' | 'blog' | 'contact'; section?: string; route?: string };
+type MenuItem = { key: 'hero' | 'services' | 'about' | 'work' | 'process' | 'blog' | 'contact'; section?: string; route?: string | ((lang: Lang) => string) };
 const MENU_ITEMS: MenuItem[] = [
   { key: 'hero',     section: 'hero'     },
   { key: 'services', section: 'services' },
@@ -90,9 +92,11 @@ const Header = () => {
               to={href('/')}
               onClick={goHome}
               aria-label={t.header.links.hero}
-              className="text-sm md:text-2xl font-bold text-white tracking-widest transition-opacity hover:opacity-80"
+              className="flex items-center gap-2 text-white transition-opacity hover:opacity-80 md:gap-2.5"
             >
-              RAFETOV.COM
+              {/* Знакът „R“ от логото + името: знакът дава разпознаваемост, името е адресът от видеата */}
+              <LogoMark className="h-[18px] w-auto md:h-6" />
+              <span className="text-[13px] font-bold tracking-[0.18em] md:text-xl md:tracking-widest">RAFETOV<span className="hidden sm:inline">.COM</span></span>
             </RouterLink>
           )}
 
@@ -101,7 +105,7 @@ const Header = () => {
             <nav className="hidden lg:flex items-center gap-7 mx-auto text-[14px] font-semibold text-white/75">
               {MENU_ITEMS.filter((m) => m.key !== 'hero' && m.key !== 'contact').map(({ key, section, route }) =>
                 route ? (
-                  <RouterLink key={key} to={href(route)} className="transition-colors hover:text-white">
+                  <RouterLink key={key} to={href(typeof route === 'function' ? route(lang) : route)} className="transition-colors hover:text-white">
                     {t.header.links[key]}
                   </RouterLink>
                 ) : isHome ? (
@@ -240,7 +244,7 @@ const Header = () => {
           {/* На началната страница скролваме плавно; извън нея навигираме към "/#секция". */}
           {MENU_ITEMS.map(({ key, section, route }) =>
             route ? (
-              <RouterLink key={key} to={href(route)} onClick={toggleMenu} className={MENU_LINK_CLASS}>
+              <RouterLink key={key} to={href(typeof route === 'function' ? route(lang) : route)} onClick={toggleMenu} className={MENU_LINK_CLASS}>
                 {t.header.links[key]}
               </RouterLink>
             ) : isHome ? (
@@ -264,16 +268,20 @@ const Header = () => {
         </nav>
 
         {/* Social Media Icons */}
-        <div className="flex justify-between items-center space-x-6 mt-4 px-4">
-          <a href="https://www.instagram.com/rafetov.com_/" target="_blank" rel="noopener noreferrer" className="p-2" aria-label="Instagram">
-            <FaInstagram className="w-8 h-8 md:w-10 md:h-10 text-black hover:text-gray-600 transition-all duration-300" />
+        <div className="flex items-center justify-center gap-2 mt-4">
+          <a href={SOCIALS.instagram} target="_blank" rel="noopener noreferrer" className="p-2" aria-label="Instagram">
+            <FaInstagram className="w-7 h-7 text-black hover:text-gray-600 transition-all duration-300" />
           </a>
-          <a href="https://www.facebook.com/profile.php?id=61565660383482" target="_blank" rel="noopener noreferrer" className="p-2" aria-label="Facebook">
-            <FaFacebook className="w-8 h-8 md:w-10 md:h-10 text-black hover:text-gray-600 transition-all duration-300" />
+          {SOCIALS.tiktok && (
+            <a href={SOCIALS.tiktok} target="_blank" rel="noopener noreferrer" className="p-2" aria-label="TikTok">
+              <FaTiktok className="w-6 h-6 text-black hover:text-gray-600 transition-all duration-300" />
+            </a>
+          )}
+          <a href={SOCIALS.facebook} target="_blank" rel="noopener noreferrer" className="p-2" aria-label="Facebook">
+            <FaFacebook className="w-7 h-7 text-black hover:text-gray-600 transition-all duration-300" />
           </a>
-
           <a href="mailto:business@rafetov.com" className="p-2" aria-label="Email">
-            <FaEnvelope className="w-8 h-8 md:w-10 md:h-10 text-black hover:text-gray-600 transition-all duration-300" />
+            <FaEnvelope className="w-7 h-7 text-black hover:text-gray-600 transition-all duration-300" />
           </a>
         </div>
       </div>

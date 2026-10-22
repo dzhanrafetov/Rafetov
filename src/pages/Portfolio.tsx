@@ -2,7 +2,8 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link as ScrollLink } from "react-scroll";
 import { useLang } from "../i18n";
-import { StepArt } from "../services/HomeArt";
+import { whatsappHref } from "../constants/business";
+import WhatsAppIcon from "../components/WhatsAppIcon";
 
 const fade = {
   hidden: { opacity: 0, y: 18 },
@@ -12,313 +13,155 @@ const fade = {
   }),
 };
 
-const STEPS = [
-  {
-    n: "01",
-    accent: "#22D3EE",
-    glow: "rgba(34,211,238,.18)",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-      </svg>
-    ),
-  },
-  {
-    n: "02",
-    accent: "#34D399",
-    glow: "rgba(52,211,153,.18)",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
-      </svg>
-    ),
-  },
-  {
-    n: "03",
-    accent: "#A78BFA",
-    glow: "rgba(167,139,250,.18)",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
-      </svg>
-    ),
-  },
-  {
-    n: "04",
-    accent: "#FBBF24",
-    glow: "rgba(251,191,36,.15)",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22 2L11 13" /><path d="M22 2L15 22l-4-9-9-4 20-7z" />
-      </svg>
-    ),
-  },
-];
+const view = { once: true, amount: 0.05, margin: "0px 0px 200px 0px" } as const;
 
-const FAQ_ACCENTS = ["#22D3EE", "#34D399", "#A78BFA", "#FBBF24", "#22D3EE", "#34D399"];
-
+/**
+ * Процесът в четири стъпки и най-честите въпроси. Стъпките са кратък текст в карти,
+ * който се чете за десет секунди, и един бутон в края.
+ */
 export default function SectionProcessSimple() {
   const { t } = useLang();
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section
-      id="process"
-      className="relative isolate overflow-hidden text-slate-200"
-      style={{ backgroundColor: "#07090f", ["--hairline" as any]: "#1a2234" }}
-    >
-      {/* Background */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 opacity-[0.03]
-          [background-image:linear-gradient(rgba(148,163,184,.15)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,.15)_1px,transparent_1px)]
-          [background-size:28px_28px]" />
-        <div className="absolute -right-60 top-24 h-[500px] w-[500px] rounded-full opacity-[0.05]"
-          style={{ background: "radial-gradient(circle,#22D3EE 0%,transparent 65%)" }} />
-        <div className="absolute -left-60 bottom-24 h-[420px] w-[420px] rounded-full opacity-[0.04]"
-          style={{ background: "radial-gradient(circle,#A78BFA 0%,transparent 65%)" }} />
-      </div>
-
-      <div aria-hidden className="absolute inset-x-0 top-0 h-px" style={{ backgroundColor: "var(--hairline)" }} />
+    <section id="process" className="relative text-slate-200" style={{ backgroundColor: "#07090f" }}>
+      <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-[#1a2234]" />
 
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24">
-
-        {/* Header */}
-        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} className="text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
-            {t.process.eyebrow}
-          </span>
-          <h2 className="balance mx-auto mt-5 max-w-[26ch] text-[clamp(1.75rem,5.5vw,2.8rem)] font-extrabold leading-[1.06] tracking-[-0.02em] text-slate-100">
-            {t.process.h2a}{" "}
-            <span className="gradient-text">
-              {t.process.h2b}
-            </span>
+        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={view} className="text-center">
+          <h2 className="balance mx-auto max-w-[26ch] text-[clamp(1.75rem,5.5vw,2.8rem)] font-extrabold leading-[1.06] tracking-[-0.02em] text-slate-100">
+            {t.process.h2a} <span className="text-cyan-300">{t.process.h2b}</span>
           </h2>
           <p className="balance mx-auto mt-4 max-w-[50ch] text-[15.5px] leading-relaxed text-slate-400">
             {t.process.sub}
           </p>
         </motion.div>
 
-        {/* Timeline */}
-        <div className="mt-16 relative">
-          {/* Connector line — desktop */}
-          <div aria-hidden className="hidden lg:block absolute top-[52px] left-[calc(12.5%-1px)] right-[calc(12.5%-1px)] h-px"
-            style={{ background: "linear-gradient(90deg,#22D3EE,#34D399,#A78BFA,#FBBF24)", opacity: 0.25 }} />
+        {/* Стъпки: на телефон вертикална линия с номерата, на десктоп четири карти в ред, свързани с линия */}
+        <ol className="relative mx-auto mt-12 grid max-w-6xl gap-3 sm:mt-14 lg:grid-cols-4 lg:gap-5">
+          <div aria-hidden className="absolute left-[12.5%] right-[12.5%] top-5 hidden h-px lg:block" style={{ background: "linear-gradient(90deg,rgba(103,232,249,.45),rgba(103,232,249,.15) 50%,rgba(103,232,249,.45))" }} />
+          {t.process.steps.map((step, i) => (
+            <motion.li
+              key={step.title}
+              variants={fade} initial="hidden" whileInView="show" viewport={view} custom={i + 1}
+              className="relative grid grid-cols-[2.5rem_1fr] gap-x-4 lg:flex lg:flex-col lg:gap-x-0"
+            >
+              <div className="relative flex justify-center lg:mb-5">
+                {i < t.process.steps.length - 1 && (
+                  <span aria-hidden className="absolute bottom-[-0.75rem] left-1/2 top-10 w-px -translate-x-1/2 bg-white/[0.09] lg:hidden" />
+                )}
+                <span className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-cyan-300/35 text-[14px] font-extrabold tabular-nums text-cyan-200 shadow-[0_0_0_6px_#07090f]" style={{ backgroundColor: "#0b1a22" }}>
+                  {i + 1}
+                </span>
+              </div>
+              <div className="min-w-0 rounded-2xl border border-white/[0.08] p-5 transition-colors duration-300 hover:border-white/[0.14] sm:p-6 lg:flex-1" style={{ backgroundColor: "#0c111b" }}>
+                <span className="inline-flex rounded-full bg-cyan-300/[0.08] px-2.5 py-1 text-[11.5px] font-bold text-cyan-200/90">{step.time}</span>
+                <h3 className="mt-3 text-[1.1rem] font-extrabold leading-snug tracking-tight text-slate-50 sm:text-[1.15rem]">{step.title}</h3>
+                <p className="mt-2 text-[14.5px] leading-relaxed text-slate-400">{step.text}</p>
+                <ul className="mt-4 space-y-1.5 border-t border-white/[0.06] pt-4">
+                  {step.bullets.map((b) => (
+                    <li key={b} className="flex items-start gap-2 text-[13.5px] leading-snug text-slate-300">
+                      <svg viewBox="0 0 24 24" className="mt-[3px] h-3.5 w-3.5 shrink-0 text-cyan-300" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                        <path d="M20 6L9 17l-5-5" />
+                      </svg>
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.li>
+          ))}
+        </ol>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {STEPS.map((s, i) => {
-              const step = t.process.steps[i];
+        {/* Въпроси: всеки въпрос е отделна карта, за да не се слива с фона; отляво заглавие и изход към WhatsApp */}
+        <div className="mx-auto mt-20 grid max-w-6xl gap-8 sm:mt-24 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-14">
+          <motion.div variants={fade} initial="hidden" whileInView="show" viewport={view} className="text-center lg:sticky lg:top-28 lg:self-start lg:text-left">
+            <h3 className="balance text-[clamp(1.5rem,4.2vw,2.1rem)] font-extrabold leading-[1.1] tracking-[-0.02em] text-slate-100">{t.process.faqEyebrow}</h3>
+            <p className="mt-3 text-[15px] text-slate-400">{t.process.faqMore}</p>
+            <a
+              href={whatsappHref(t.whatsapp.text)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-flex h-11 items-center gap-2.5 rounded-full border border-white/[0.10] bg-white/[0.04] pl-2 pr-5 text-[14px] font-bold text-slate-100
+                         transition-colors duration-200 hover:border-white/[0.18] hover:bg-white/[0.08] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
+            >
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#25D366] text-white">
+                <WhatsAppIcon className="h-4 w-4" />
+              </span>
+              {t.process.faqMoreCta}
+            </a>
+          </motion.div>
+
+          <div className="space-y-3">
+            {t.process.faq.map((f, i) => {
+              const expanded = open === i;
               return (
-              <motion.div
-                key={s.n}
-                variants={fade}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }}
-                custom={i + 1}
-                className="group flex flex-col"
-              >
-                {/* Circle node */}
-                <div className="relative z-10 mx-auto mb-6 flex h-[52px] w-[52px] items-center justify-center rounded-full border-2 transition-transform duration-300 group-hover:scale-110"
-                  style={{
-                    borderColor: s.accent,
-                    background: `color-mix(in srgb,${s.accent} 14%,#07090f)`,
-                    boxShadow: `0 0 24px -6px ${s.accent}`,
-                    color: s.accent,
-                  }}>
-                  {s.icon}
-                </div>
-
-                {/* Card */}
-                <div className="relative flex flex-1 flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5 transition-all duration-300 hover:-translate-y-1">
-                  {/* hover glow */}
-                  <div aria-hidden className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 rounded-2xl"
-                    style={{ background: `radial-gradient(ellipse at 50% 0%,${s.glow},transparent 70%)` }} />
-                  {/* top accent */}
-                  <div aria-hidden className="absolute inset-x-0 top-0 h-[2px] rounded-t-2xl"
-                    style={{ background: `linear-gradient(90deg,transparent,${s.accent} 40%,transparent)`, opacity: 0.55 }} />
-
-                  {/* mini scene */}
-                  <div className="-mx-5 -mt-5 mb-4 overflow-hidden rounded-t-2xl border-b border-white/[0.06] bg-white/[0.015] px-2 pt-2">
-                    <StepArt index={i} accent={s.accent} />
-                  </div>
-
-                  <div className="flex items-start justify-between gap-2 mb-3">
-                    <span className="text-[11px] font-bold uppercase tracking-[0.18em]" style={{ color: s.accent }}>
-                      {t.process.stepLabel} {s.n}
+                <div
+                  key={f.q}
+                  className={`rounded-2xl border transition-colors duration-300 ${expanded ? "border-cyan-300/25" : "border-white/[0.08] hover:border-white/[0.14]"}`}
+                  style={{ backgroundColor: expanded ? "#0d1520" : "#0c111b" }}
+                >
+                  <button
+                    type="button"
+                    aria-expanded={expanded}
+                    onClick={() => setOpen(expanded ? null : i)}
+                    className="group flex w-full items-center justify-between gap-4 rounded-2xl px-5 py-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white/25 sm:px-6 sm:py-5"
+                  >
+                    <span className={`text-[15px] font-semibold leading-snug transition-colors sm:text-[16px] ${expanded ? "text-slate-50" : "text-slate-200 group-hover:text-white"}`}>
+                      {f.q}
                     </span>
-                    <span className="shrink-0 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold"
-                      style={{
-                        borderColor: `color-mix(in srgb,${s.accent} 30%,transparent)`,
-                        color: s.accent,
-                        background: `color-mix(in srgb,${s.accent} 8%,transparent)`,
-                      }}>
-                      {step.time}
+                    <span
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
+                        expanded ? "rotate-45 bg-cyan-300 text-[#03060d]" : "bg-white/[0.06] text-slate-300 group-hover:bg-white/[0.1]"
+                      }`}
+                    >
+                      <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" aria-hidden>
+                        <path d="M12 5v14M5 12h14" />
+                      </svg>
                     </span>
-                  </div>
-
-                  <h3 className="text-[1.1rem] font-extrabold tracking-tight text-slate-100 mb-2">{step.title}</h3>
-
-                  <div aria-hidden className="mb-3 h-px w-8 rounded-full transition-all duration-300 group-hover:w-14"
-                    style={{ background: `linear-gradient(90deg,${s.accent},transparent)` }} />
-
-                  <p className="text-[13.5px] leading-relaxed text-slate-400 mb-3">{step.text}</p>
-
-                  <ul className="mt-auto space-y-1.5">
-                    {step.bullets.map((b) => (
-                      <li key={b} className="flex items-center gap-2 text-[13px] text-slate-300">
-                        <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full"
-                          style={{ background: `color-mix(in srgb,${s.accent} 15%,transparent)`, color: s.accent }}>
-                          <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
-                            <path d="M20 6L9 17l-5-5" />
-                          </svg>
-                        </span>
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <span aria-hidden className="absolute -bottom-3 -right-1 select-none text-[5rem] font-black leading-none tabular-nums opacity-[0.04] group-hover:opacity-[0.07] transition-opacity"
-                    style={{ color: s.accent }}>{s.n}</span>
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {expanded && (
+                      <motion.div
+                        key="ans"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <p className="max-w-[62ch] px-5 pb-5 text-[14.5px] leading-relaxed text-slate-400 sm:px-6 sm:pb-6">{f.a}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-              </motion.div>
               );
             })}
           </div>
         </div>
 
-        {/* Divider */}
-        <div aria-hidden className="my-16 flex items-center gap-4">
-          <div className="h-px flex-1" style={{ background: "linear-gradient(90deg,transparent,#1a2234)" }} />
-          <div className="h-1.5 w-1.5 rounded-full bg-slate-700" />
-          <div className="h-1.5 w-1.5 rounded-full bg-slate-600" />
-          <div className="h-1.5 w-1.5 rounded-full bg-slate-700" />
-          <div className="h-px flex-1" style={{ background: "linear-gradient(90deg,#1a2234,transparent)" }} />
-        </div>
-
-        {/* FAQ */}
-        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} className="text-center mb-8">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
-            {t.process.faqEyebrow}
-          </span>
-        </motion.div>
-
-        <div className="mx-auto max-w-3xl space-y-3">
-          {t.process.faq.map((item, i) => {
-            const f = { ...item, accent: FAQ_ACCENTS[i % FAQ_ACCENTS.length] };
-            const expanded = open === i;
-            return (
-              <motion.div
-                key={f.q}
-                variants={fade}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }}
-                custom={i + 1}
-              >
-                <button
-                  type="button"
-                  aria-expanded={expanded}
-                  onClick={() => setOpen(expanded ? null : i)}
-                  className="group w-full overflow-hidden rounded-2xl border text-left transition-all duration-200"
-                  style={{
-                    borderColor: expanded
-                      ? `color-mix(in srgb,${f.accent} 35%,transparent)`
-                      : "rgba(255,255,255,0.07)",
-                    background: expanded
-                      ? `color-mix(in srgb,${f.accent} 5%,rgba(255,255,255,0.025))`
-                      : "rgba(255,255,255,0.025)",
-                  }}
-                >
-                  <div aria-hidden className="h-[2px] w-full transition-opacity duration-300"
-                    style={{ background: `linear-gradient(90deg,${f.accent},transparent)`, opacity: expanded ? 0.7 : 0 }} />
-
-                  <div className="px-5 py-4">
-                    <div className="flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-3 min-w-0">
-                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-[11px] font-black transition-colors"
-                          style={{
-                            background: expanded ? `color-mix(in srgb,${f.accent} 20%,transparent)` : "rgba(255,255,255,0.05)",
-                            color: expanded ? f.accent : "#64748b",
-                            border: `1px solid ${expanded ? `color-mix(in srgb,${f.accent} 30%,transparent)` : "rgba(255,255,255,0.08)"}`,
-                          }}>
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        <span className="text-[15px] font-semibold text-slate-100 group-hover:text-white transition-colors">
-                          {f.q}
-                        </span>
-                      </div>
-                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-all duration-300"
-                        style={{
-                          borderColor: expanded ? `color-mix(in srgb,${f.accent} 40%,transparent)` : "rgba(255,255,255,0.1)",
-                          background: expanded ? `color-mix(in srgb,${f.accent} 15%,transparent)` : "rgba(255,255,255,0.04)",
-                          transform: expanded ? "rotate(45deg)" : "rotate(0deg)",
-                          color: expanded ? f.accent : "#94a3b8",
-                        }}>
-                        <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
-                          <path d="M12 5v14M5 12h14" />
-                        </svg>
-                      </span>
-                    </div>
-
-                    <AnimatePresence initial={false}>
-                      {expanded && (
-                        <motion.div
-                          key="ans"
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                          className="overflow-hidden"
-                        >
-                          <p className="mt-4 pl-9 text-[13.5px] leading-relaxed text-slate-400 border-t pt-4"
-                            style={{ borderColor: `color-mix(in srgb,${f.accent} 15%,rgba(255,255,255,0.05))` }}>
-                            {f.a}
-                          </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </button>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* CTA */}
-        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={5} className="mt-14 text-center">
-          <div className="mx-auto flex w-full max-w-sm flex-col items-stretch gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:items-center sm:justify-center">
-            <ScrollLink
-              to="contact" smooth duration={220} offset={-70}
-              className="group relative inline-flex h-12 cursor-pointer items-center justify-center overflow-hidden rounded-full px-7 text-[14px] font-bold text-[#03060d]
-                         shadow-[0_0_28px_-8px_rgba(34,211,238,0.5)] transition-all duration-300 hover:shadow-[0_0_40px_-8px_rgba(34,211,238,0.75)]"
-              style={{ background: "linear-gradient(135deg,#34d9f0 0%,#0ea5e9 55%,#0284c7 100%)" }}
-            >
-              <span aria-hidden className="absolute inset-0 -skew-x-[20deg] -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-              <span className="relative">{t.process.cta}</span>
-              <svg viewBox="0 0 24 24" className="relative ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <path d="M5 12h14M13 5l7 7-7 7" />
-              </svg>
-            </ScrollLink>
-            <ScrollLink
-              to="work" smooth duration={220} offset={-70}
-              className="inline-flex h-12 cursor-pointer items-center justify-center rounded-full border border-white/[0.09] bg-white/[0.03] px-7 text-[14px] font-semibold text-slate-300
-                         transition-all duration-200 hover:border-white/[0.15] hover:bg-white/[0.06] hover:text-slate-100"
-            >
-              {t.process.cta2}
-            </ScrollLink>
-          </div>
-          <p className="balance mx-auto mt-4 max-w-[30ch] text-[12px] font-medium uppercase tracking-wider text-slate-500 sm:max-w-none">
-            {t.process.micro.replace(/ · /g, "\u00A0· ")}
+        {/* Един бутон */}
+        <motion.div variants={fade} initial="hidden" whileInView="show" viewport={view} custom={2} className="mt-16 text-center sm:mt-20">
+          <ScrollLink
+            to="contact" smooth duration={220} offset={-70}
+            className="inline-flex h-12 cursor-pointer items-center justify-center rounded-full px-8 text-[14.5px] font-bold text-[#03060d]
+                       shadow-[0_12px_40px_-14px_rgba(34,211,238,0.9)] transition-shadow duration-300 hover:shadow-[0_16px_50px_-14px_rgba(34,211,238,1)]
+                       focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50"
+            style={{ background: "linear-gradient(135deg,#34d9f0 0%,#0ea5e9 55%,#0284c7 100%)" }}
+          >
+            {t.process.cta}
+            <svg viewBox="0 0 24 24" className="ml-2 h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden>
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </ScrollLink>
+          <p className="balance mx-auto mt-4 max-w-[34ch] text-[12.5px] text-slate-500 sm:max-w-none">
+            {t.process.micro.replace(/ · /g, " · ")}
           </p>
         </motion.div>
-
       </div>
 
-      <div aria-hidden className="absolute inset-x-0 bottom-0 h-px" style={{ backgroundColor: "var(--hairline)" }} />
-
-      <style>{`
-        .balance { text-wrap: balance; }
-      `}</style>
+      <div aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-[#1a2234]" />
+      <style>{`.balance { text-wrap: balance; }`}</style>
     </section>
   );
 }

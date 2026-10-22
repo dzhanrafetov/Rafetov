@@ -7,6 +7,7 @@ import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import AppShell, { type Pages } from "./AppShell";
 import Hero from "./pages/Hero";
+import About from "./pages/About";
 import Services from "./pages/Services";
 import Guarantees from "./pages/Guarantees";
 import Market from "./pages/OnlinePresenceCTA";
@@ -19,16 +20,20 @@ import LegalNotice from "./pages/LegalNotice";
 import BlogIndex from "./pages/BlogIndex";
 import BlogPost from "./pages/BlogPost";
 import ServicePage from "./pages/ServicePage";
+import ProjectPage from "./pages/ProjectPage";
+import ProjectsIndex from "./pages/ProjectsIndex";
+import AboutPage from "./pages/AboutPage";
 import NotFound from "./pages/NotFound";
 import { SeoCollectorContext, headToHtml, type HeadData } from "./seo/head";
 import { LANGS, langFromPath, withLang, type Lang } from "./i18n";
 import { BLOG_BASE, POSTS, postAlternates, postPath } from "./blog";
 import { SERVICES, serviceAlternates, servicePath } from "./services";
 import { BUSINESS } from "./constants/business";
+import { PROJECT_BASE, projectAlternates, projectPath, projectsFor } from "./constants/projects";
 
 const pages: Pages = {
-  Hero, Services, Guarantees, Market, Portfolio, Reviews, BlogTeaser, Contact,
-  PrivacyPolicy, LegalNotice, BlogIndex, BlogPost, ServicePage, NotFound,
+  Hero, About, Services, Guarantees, Market, Portfolio, Reviews, BlogTeaser, Contact,
+  PrivacyPolicy, LegalNotice, BlogIndex, BlogPost, ServicePage, ProjectPage, ProjectsIndex, AboutPage, NotFound,
 };
 
 export type RouteEntry = {
@@ -62,6 +67,11 @@ export function getRoutes(): RouteEntry[] {
     for (const post of lang === "nl" ? [] : POSTS) {
       const path = postPath(post, lang);
       out.push({ url: withLang(path, lang), lang, path, alternates: postAlternates(post), lastmod: post.date, changefreq: "monthly", priority: 0.7 });
+    }
+    out.push({ url: withLang(PROJECT_BASE[lang], lang), lang, path: PROJECT_BASE[lang], alternates: { ...PROJECT_BASE }, lastmod: BUILD_DATE, changefreq: "monthly", priority: 0.8 });
+    for (const p of projectsFor(lang)) {
+      const path = projectPath(p, lang);
+      out.push({ url: withLang(path, lang), lang, path, alternates: projectAlternates(p), lastmod: BUILD_DATE, changefreq: "monthly", priority: 0.6 });
     }
     out.push({ url: withLang("/privacy", lang), lang, path: "/privacy", alternates: same("/privacy"), lastmod: LEGAL_LASTMOD, changefreq: "yearly", priority: 0.3 });
     out.push({ url: withLang("/legal", lang), lang, path: "/legal", alternates: same("/legal"), lastmod: LEGAL_LASTMOD, changefreq: "yearly", priority: 0.3 });

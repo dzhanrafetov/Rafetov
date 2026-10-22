@@ -4,8 +4,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { offers } from "../i18n/offers";
 import sendEmail from "../service/emailService";
 import { track } from "@vercel/analytics";
-import { BUSINESS, ROUTES } from "../constants/business";
+import { BUSINESS, ROUTES, VIBER_HREF } from "../constants/business";
+import ViberIcon from "../components/ViberIcon";
+import WhatsAppIcon from "../components/WhatsAppIcon";
 import { useLang } from "../i18n";
+import type { SourceKey } from "../i18n/types";
+import { attributionLine, sourceKeysFor } from "../service/attribution";
+import { FormField, PHONE_PATTERN, chipCls, inputCls, sanitizePhone } from "../components/FormField";
 
 const fade = {
   hidden: { opacity: 0, y: 22 },
@@ -15,58 +20,64 @@ const fade = {
   }),
 };
 
+/** WhatsApp първи: така пишат повечето хора от видеата. Цветът е само в иконата. */
 const CONTACT_ITEMS = [
   {
-    accent: "#22D3EE",
-    glow: "rgba(34,211,238,.15)",
+    k: "whatsapp" as const,
+    href: "https://wa.me/359897758062",
+    external: true,
+    tint: "#25D366",
+    icon: <WhatsAppIcon className="h-5 w-5" />,
+  },
+  {
+    k: "viber" as const,
+    href: VIBER_HREF,
+    external: true,
+    tint: "#7360F2",
+    icon: <ViberIcon className="h-5 w-5" />,
+  },
+  {
     k: "phone" as const,
     href: "tel:+359897758062",
+    tint: "",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 16.9v2a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 5.2 2 2 0 0 1 4.1 3h2a2 2 0 0 1 2 1.7c.1.8.3 1.6.6 2.3a2 2 0 0 1-.5 2.1L7.4 10a16 16 0 0 0 6.6 6.6l.9-.8a2 2 0 0 1 2.1-.5c.7.3 1.5.5 2.3.6A2 2 0 0 1 22 16.9Z" />
       </svg>
     ),
   },
   {
-    accent: "#34D399",
-    glow: "rgba(52,211,153,.15)",
-    k: "whatsapp" as const,
-    href: "https://wa.me/359897758062",
-    external: true,
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
-        <path d="M12 2a9 9 0 0 0-7.8 13.5L3 22l6.7-1.8A9 9 0 1 0 12 2Z" />
-        <path d="M9.2 8.9c.2-.5.4-.5.7-.5h.6c.2 0 .4.1.5.4l.7 1.7c.1.2.1.4-.1.6l-.4.5c-.1.1-.2.3-.1.5.2.6 1.1 1.8 2.5 2.5.2.1.4 0 .5-.1l.6-.7c.2-.2.4-.2.6-.1l1.6.7c.3.1.4.3.4.5 0 .9-.5 1.6-1.3 1.8-.6.2-1.4.2-2.4-.2-2.7-1.1-4.8-3.8-5.3-5.3-.2-.6-.2-1.2 0-1.7Z" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-  },
-  {
-    accent: "#A78BFA",
-    glow: "rgba(167,139,250,.15)",
     k: "email" as const,
     href: "mailto:business@rafetov.com",
+    tint: "",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M4 6h16v12H4V6Z" />
         <path d="M4 7l8 6 8-6" />
-      </svg>
-    ),
-  },
-  {
-    accent: "#FBBF24",
-    glow: "rgba(251,191,36,.13)",
-    k: "location" as const,
-    href: undefined,
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 21s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z" />
-        <circle cx="12" cy="10" r="2.5" />
       </svg>
     ),
   },
 ];
 
 /** Стойностите остават на български — така пристигат в имейла към собственика. */
+type ReplyKey = "whatsapp" | "viber" | "call" | "email";
+const REPLY_OPTIONS: ReplyKey[] = ["whatsapp", "viber", "call", "email"];
+
+const REPLY_ICON: Record<ReplyKey, React.ReactNode> = {
+  whatsapp: <WhatsAppIcon className="h-4 w-4 shrink-0 text-[#25D366]" />,
+  viber: <ViberIcon className="h-4 w-4 shrink-0 text-[#8b7cf6]" />,
+  call: (
+    <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M22 16.9v2a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 5.2 2 2 0 0 1 4.1 3h2a2 2 0 0 1 2 1.7c.1.8.3 1.6.6 2.3a2 2 0 0 1-.5 2.1L7.4 10a16 16 0 0 0 6.6 6.6l.9-.8a2 2 0 0 1 2.1-.5c.7.3 1.5.5 2.3.6A2 2 0 0 1 22 16.9Z" />
+    </svg>
+  ),
+  email: (
+    <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M4 6h16v12H4V6Z" /><path d="M4 7l8 6 8-6" />
+    </svg>
+  ),
+};
+
 const SERVICE_OPTIONS = [
   { value: "уебсайт",            k: "site"  as const },
   { value: "електронен магазин", k: "shop"  as const },
@@ -74,15 +85,6 @@ const SERVICE_OPTIONS = [
   { value: "реклами",            k: "ads"   as const },
   { value: "друго",              k: "other" as const },
 ];
-
-/** Позволени са само цифри, интервали и +()- ; „+“ само в началото. */
-const PHONE_PATTERN = "\\+?[0-9][0-9 \\(\\)\\-]{5,18}";
-
-function sanitizePhone(value: string) {
-  const cleaned = value.replace(/[^\d+\s()-]/g, "");
-  // „+“ има смисъл единствено като първи символ.
-  return cleaned.charAt(0) + cleaned.slice(1).replace(/\+/g, "");
-}
 
 /** Маха „(по желание)“ от етикета — в тялото на имейла стои по-добре без него. */
 const plain = (label: string) => label.replace(/\s*[({\[].*$/, "").trim();
@@ -92,18 +94,25 @@ export default function ContactUs() {
   const c = offers[lang];
   const { search } = useLocation();
   const params = new URLSearchParams(search);
-  const [mode, setMode] = useState(params.get('intent') === 'audit' ? 'audit' : 'phone');
+  // Видео анализът се отваря само по линк (?intent=audit); обикновената форма не пита „как да започнем“.
+  const [audit, setAudit] = useState(params.get('intent') === 'audit');
+  // Как да отговорим: повечето хора от видеата искат да пишат, не да говорят — затова по подразбиране е WhatsApp.
+  const [reply, setReply] = useState<ReplyKey>("whatsapp");
   const [website, setWebsite] = useState('');
   const requestedPackage = params.get('package');
   const selectedPackage = requestedPackage !== null && /^[0-2]$/.test(requestedPackage) ? c.packages[Number(requestedPackage)] : undefined;
   useEffect(() => {
-    setMode(new URLSearchParams(search).get('intent') === 'audit' ? 'audit' : 'phone');
+    setAudit(new URLSearchParams(search).get('intent') === 'audit');
     setSent(false);
     setFailed(false);
   }, [search]);
   const [formData, setFormData] = useState({
     name: "", email: "", phone: "", service: "", message: "",
   });
+  const [source, setSource] = useState<SourceKey | "">("");
+  // Капан за ботове: поле, което човек не вижда. Попълнено ли е — запитването не се праща.
+  const [trap, setTrap] = useState("");
+  const [openedAt] = useState(() => Date.now());
   const [isSending, setIsSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -128,9 +137,9 @@ export default function ContactUs() {
 
   /** Каналите за спасяване на запитването: същите данни, друг път до нас. */
   const requestDetails = [
-    `${c.mode}: ${mode === 'audit' ? c.audit : mode === 'meet' ? c.meet : c.phone}`,
-    mode !== 'audit' && selectedPackage && `Package: ${selectedPackage.name}`,
-    mode === 'audit' && `${c.website}: ${website}`,
+    `${c.mode}: ${audit ? c.audit : c.reply[reply]}`,
+    !audit && selectedPackage && `Package: ${selectedPackage.name}`,
+    audit && `${c.website}: ${website}`,
     formData.message,
   ].filter(Boolean).join('\n');
   const fallbackBody = [
@@ -150,22 +159,43 @@ export default function ContactUs() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const secs = Math.round((Date.now() - openedAt) / 1000);
+    // Ботът вижда „изпратено“ и спира да опитва; на нас не идва нищо.
+    if (trap) {
+      track("contact_form_bot", { secs });
+      setSent(true);
+      return;
+    }
     setIsSending(true);
     setFailed(false);
     try {
       await sendEmail({ ...formData,
-        service: mode === 'audit' ? c.audit : selectedPackage?.name || formData.service,
-        message: requestDetails,
+        service: audit ? c.audit : selectedPackage?.name || formData.service,
+        // Името и тук — дори шаблонът в EmailJS да не го показва, стига до нас.
+        message: `${[formData.name && `${plain(t.contact.name)}: ${formData.name}`, requestDetails].filter(Boolean).join("\n")}\n\n${attributionLine()}`,
       });
-      track("contact_form_sent", { service: selectedPackage?.name || formData.service || "—", intent: mode });
+      track("contact_form_sent", { service: selectedPackage?.name || formData.service || "—", intent: audit ? "audit" : reply });
       setSent(true);
       setFormData({ name: "", email: "", phone: "", service: "", message: "" });
+      setSource("");
     } catch (err) {
       // Запазваме въведеното — потребителят не бива да пише всичко наново.
       setFailed(true);
       // Без това провалените запитвания са напълно невидими.
+      // EmailJS отхвърля с { status, text }, не с Error — иначе всяка причина излиза „unknown“.
+      // status 0 = заявката изобщо не е стигнала (блокер на реклами, мрежа).
+      const ejs = err as { status?: number; text?: string };
       track("contact_form_failed", {
-        reason: err instanceof Error ? err.message.slice(0, 80) : "unknown",
+        reason: (err instanceof Error
+          ? err.message
+          : typeof ejs?.status === "number"
+            ? `${ejs.status} ${ejs.text || ""}`.trim()
+            : String(err)
+        ).slice(0, 80),
+        // Различава истински хора от автоматизирани браузъри (ботове, скенери).
+        webdriver: navigator.webdriver ? "yes" : "no",
+        filled: [formData.name && "name", formData.phone && "phone", formData.email && "email", formData.message && "msg"].filter(Boolean).join(",") || "none",
+        secs,
       });
       console.error(err);
     } finally {
@@ -179,29 +209,13 @@ export default function ContactUs() {
       className="relative isolate overflow-hidden text-slate-200"
       style={{ backgroundColor: "#07090f", ["--hairline" as any]: "#1a2234" }}
     >
-      {/* ── Background ── */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 opacity-[0.03]
-          [background-image:linear-gradient(rgba(148,163,184,.15)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,.15)_1px,transparent_1px)]
-          [background-size:28px_28px]" />
-        <div className="absolute -left-72 top-32 h-[600px] w-[600px] rounded-full opacity-[0.05]"
-          style={{ background: "radial-gradient(circle,#22D3EE 0%,transparent 65%)" }} />
-        <div className="absolute -right-72 top-1/2 h-[500px] w-[500px] rounded-full opacity-[0.04]"
-          style={{ background: "radial-gradient(circle,#A78BFA 0%,transparent 65%)" }} />
-        <div className="absolute left-1/3 bottom-0 h-[400px] w-[400px] rounded-full opacity-[0.03]"
-          style={{ background: "radial-gradient(circle,#34D399 0%,transparent 65%)" }} />
-      </div>
-
       <div aria-hidden className="absolute inset-x-0 top-0 h-px" style={{ backgroundColor: "var(--hairline)" }} />
 
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-24">
 
         {/* ── Header ── */}
         <motion.div variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} className="text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
-            {t.contact.eyebrow}
-          </span>
-          <h2 className="balance mx-auto mt-5 max-w-[26ch] text-[clamp(1.75rem,5.5vw,2.8rem)] font-extrabold leading-[1.06] tracking-[-0.02em] text-slate-100">
+          <h2 className="balance mx-auto max-w-[26ch] text-[clamp(1.75rem,5.5vw,2.8rem)] font-extrabold leading-[1.06] tracking-[-0.02em] text-slate-100">
             {t.contact.h2a}{" "}
             <span className="gradient-text">
               {t.contact.h2b}
@@ -213,102 +227,60 @@ export default function ContactUs() {
         </motion.div>
 
         {/* ── Two-column ── */}
-        <div className="mt-14 grid grid-cols-1 gap-5 lg:grid-cols-12">
+        <div className="mt-12 grid grid-cols-1 gap-8 sm:mt-14 lg:grid-cols-12 lg:gap-6">
 
-          {/* ── LEFT: contact cards (на телефон идват след формата) ── */}
-          <div className="order-2 flex flex-col gap-4 lg:order-none lg:col-span-5">
-
-            {/* Status pill */}
-            <motion.div
-              variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={1}
-              className="flex items-center gap-3 rounded-2xl border border-white/[0.07] bg-white/[0.025] px-5 py-4"
-            >
-              <span className="relative flex h-2.5 w-2.5 shrink-0">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#34D399] opacity-60" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#34D399]" />
-              </span>
-              <div>
-                <div className="text-[13.5px] font-semibold text-slate-100">{t.contact.statusTitle}</div>
-                <div className="text-[12px] text-slate-500">{t.contact.statusSub}</div>
-              </div>
-            </motion.div>
-
-            {/* Cards */}
-            {CONTACT_ITEMS.map((item, i) => {
-              const txt = t.contact.items[item.k];
-              const value =
-                "value" in txt ? txt.value
-                : item.k === "phone" ? "+359 897 758 062"
-                : "business@rafetov.com";
-              const inner = (
-                <motion.div
-                  key={item.k}
-                  variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={i + 2}
-                  className="group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4 transition-all duration-300 hover:-translate-y-0.5"
-                >
-                  {/* Hover glow */}
-                  <div aria-hidden className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 rounded-2xl"
-                    style={{ background: `radial-gradient(ellipse at 0% 50%,${item.glow},transparent 70%)` }} />
-                  {/* Top accent bar */}
-                  <div aria-hidden className="absolute inset-x-0 top-0 h-[2px] rounded-t-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    style={{ background: `linear-gradient(90deg,${item.accent},transparent)` }} />
-
-                  {/* Icon */}
-                  <div
-                    className="relative shrink-0 flex h-11 w-11 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110"
-                    style={{
-                      background: `color-mix(in srgb,${item.accent} 12%,transparent)`,
-                      border: `1px solid color-mix(in srgb,${item.accent} 22%,transparent)`,
-                      color: item.accent,
-                    }}
+          {/* ── LEFT: директни канали. На телефон са над формата като 2×2 плочки — който не иска да пише във форма, пише веднага. ── */}
+          <div className="lg:col-span-5">
+            <div className="mb-3 text-center text-[13px] font-semibold text-slate-400 lg:text-left">{t.contact.direct}</div>
+            <div className="grid grid-cols-2 gap-3 lg:grid-cols-1">
+              {CONTACT_ITEMS.map((item, i) => {
+                const txt = t.contact.items[item.k];
+                const value =
+                  "value" in txt ? txt.value
+                  : item.k === "phone" ? BUSINESS.phone
+                  : BUSINESS.email;
+                return (
+                  <motion.a
+                    key={item.k}
+                    href={item.href}
+                    target={item.external ? "_blank" : undefined}
+                    rel={item.external ? "noopener noreferrer" : undefined}
+                    onClick={() => track("contact_direct", { channel: item.k })}
+                    variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={i + 1}
+                    className="group flex min-w-0 flex-col items-center gap-2.5 rounded-2xl border border-white/[0.08] p-4 text-center transition-[border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-white/[0.16]
+                               focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60 lg:flex-row lg:gap-4 lg:text-left"
+                    style={{ backgroundColor: "#0c111b" }}
                   >
-                    {item.icon}
-                  </div>
-
-                  <div className="relative min-w-0 flex-1">
-                    <div className="text-[11px] font-bold uppercase tracking-[0.18em]" style={{ color: item.accent }}>
-                      {txt.label}
-                    </div>
-                    <div className="mt-0.5 truncate text-[14.5px] font-semibold text-slate-100 transition-colors group-hover:text-white">
-                      {value}
-                    </div>
-                    <div className="text-[12px] text-slate-500">{txt.sub}</div>
-                  </div>
-
-                  {item.href && (
-                    <svg viewBox="0 0 24 24" className="relative h-4 w-4 shrink-0 text-slate-600 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-slate-400"
-                      fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <span
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-slate-100"
+                      style={item.tint ? { backgroundColor: item.tint, color: "#fff" } : { backgroundColor: "rgba(255,255,255,.06)" }}
+                    >
+                      {item.icon}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[14.5px] font-bold text-slate-100 lg:hidden">{txt.label}</span>
+                      <span className="hidden truncate text-[15px] font-bold text-slate-100 lg:block">{value}</span>
+                      <span className="mt-0.5 block text-[12px] leading-snug text-slate-500">{txt.sub}</span>
+                    </span>
+                    <svg viewBox="0 0 24 24" className="hidden h-4 w-4 shrink-0 text-slate-600 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-slate-300 lg:block"
+                      fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                       <path d="M9 18l6-6-6-6" />
                     </svg>
-                  )}
-                </motion.div>
-              );
-
-              return item.href ? (
-                <a key={item.k} href={item.href}
-                  target={item.external ? "_blank" : undefined}
-                  rel={item.external ? "noopener noreferrer" : undefined}
-                  className="block">
-                  {inner}
-                </a>
-              ) : (
-                <div key={item.k}>{inner}</div>
-              );
-            })}
+                  </motion.a>
+                );
+              })}
+            </div>
           </div>
 
           {/* ── RIGHT: Form ── */}
           <motion.div
             variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={2}
-            className="order-1 lg:order-none lg:col-span-7"
+            className="lg:col-span-7"
           >
-            <div className="group/form relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025]">
+            <div className="group/form relative overflow-hidden rounded-3xl border border-white/[0.09] shadow-[0_30px_80px_-40px_rgba(0,0,0,.9)]" style={{ backgroundColor: "#0c111b" }}>
               {/* Top accent bar */}
               <div aria-hidden className="absolute inset-x-0 top-0 h-[2px]"
-                style={{ background: "linear-gradient(90deg,#22d3ee,#a78bfa,#34d399)", opacity: 0.5 }} />
-              {/* Inner glow */}
-              <div aria-hidden className="pointer-events-none absolute -top-28 -right-28 h-56 w-56 rounded-full opacity-[0.06] blur-3xl"
-                style={{ background: "radial-gradient(circle,#22d3ee,transparent)" }} />
+                style={{ background: "linear-gradient(90deg,transparent,#22d3ee,transparent)", opacity: 0.6 }} />
 
               <AnimatePresence mode="wait">
                 {sent ? (
@@ -341,13 +313,38 @@ export default function ContactUs() {
                       <div className="mt-2 text-[14px] text-slate-400">{c.received}</div>
                       <div className="mt-2 text-[13px] text-slate-500">
                         {t.contact.hurry}{" "}
-                        <a href="tel:+359897758062" className="font-semibold text-slate-300 transition-colors hover:text-white">
+                        <a href="tel:+359897758062" className="whitespace-nowrap font-semibold text-slate-300 transition-colors hover:text-white">
                           +359 897 758 062
                         </a>
                       </div>
                     </div>
+                    {/* Питаме след изпращането: във формата е още едно поле преди бутона, тук не пречи на никого. */}
+                    <div className="w-full max-w-md border-t border-white/[0.07] pt-5">
+                      <div className="text-[13px] font-semibold text-slate-300">{t.contact.source}</div>
+                      <div className="mt-3 flex flex-wrap justify-center gap-2">
+                        {sourceKeysFor(lang).map((k) => (
+                          <button
+                            key={k}
+                            type="button"
+                            aria-pressed={source === k}
+                            disabled={!!source && source !== k}
+                            onClick={() => {
+                              if (source) return;
+                              setSource(k);
+                              track("contact_source", { source: k });
+                            }}
+                            className={`${chipCls(source === k)} min-h-[38px] px-3.5 text-[13px] disabled:cursor-default disabled:opacity-40`}
+                          >
+                            {source === k && (
+                              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M20 6L9 17l-5-5" /></svg>
+                            )}
+                            {t.contact.sources[k]}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                     <button
-                      onClick={() => setSent(false)}
+                      onClick={() => { setSent(false); setSource(""); }}
                       className="mt-2 rounded-full border border-white/[0.09] bg-white/[0.03] px-6 py-2.5 text-[13px] font-semibold text-slate-300 transition-all hover:border-white/[0.15] hover:bg-white/[0.06]"
                     >
                       {t.contact.newInquiry}
@@ -360,35 +357,29 @@ export default function ContactUs() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     onSubmit={handleSubmit}
-                    className="relative p-6 sm:p-8"
+                    className="relative p-5 sm:p-8"
                   >
                     <div className="mb-6">
-                      <div className="text-[16px] font-extrabold tracking-tight text-slate-100">{t.contact.formTitle}</div>
-                      <div className="mt-1 text-[13.5px] text-slate-400">{mode === 'audit' ? c.auditText : c.booking}</div>
+                      <div className="text-[18px] font-extrabold tracking-tight text-slate-50">{audit ? c.audit : t.contact.formTitle}</div>
+                      <div className="mt-1 text-[14px] leading-relaxed text-slate-400">{audit ? c.auditText : c.booking}</div>
+                      {selectedPackage && !audit && <p className="mt-3 inline-flex rounded-full bg-cyan-300/10 px-3 py-1 text-[13px] font-semibold text-cyan-200">{selectedPackage.name}</p>}
                     </div>
 
-                    <div className="mb-5">
-                      <FormField label={c.mode}>
-                        <select className={selectCls} value={mode} onChange={e => setMode(e.target.value)}>
-                          <option value="phone">{c.phone}</option><option value="meet">{c.meet}</option><option value="audit">{c.audit}</option>
-                        </select>
-                      </FormField>
-                      {selectedPackage && mode !== 'audit' && <p className="mt-3 text-sm text-cyan-300">{selectedPackage.name} · {c.from} {selectedPackage.price} €</p>}
-                    </div>
-                    {mode === 'audit' && <div className="mb-4"><FormField label={c.website}>
+                    {audit && <div className="mb-4"><FormField label={c.website}>
                       <input type="url" required value={website} onChange={e => setWebsite(e.target.value)} placeholder="https://example.com" autoComplete="url" className={inputCls} />
                     </FormField></div>}
-                    {/* Name + Phone row */}
-                    {mode !== 'audit' && <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+                    {/* Име + телефон: единствените задължителни полета */}
+                    {!audit && <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <FormField label={t.contact.name}>
                         <input type="text" name="name" value={formData.name}
                           onChange={handleChange} required autoComplete="name"
                           placeholder={t.contact.namePlaceholder}
                           className={inputCls} />
                       </FormField>
-                      <FormField label={mode === 'phone' ? t.contact.phone : c.optionalPhone}>
+                      <FormField label={reply === 'email' ? c.optionalPhone : t.contact.phone} error={t.contact.phoneInvalid}>
                         <input type="tel" name="phone" value={formData.phone}
-                          onChange={handleChange} required={mode === 'phone'}
+                          onChange={handleChange} required={reply !== 'email'}
                           inputMode="tel" autoComplete="tel" maxLength={20}
                           pattern={PHONE_PATTERN} title={t.contact.phoneInvalid}
                           placeholder={t.contact.phonePlaceholder}
@@ -396,33 +387,66 @@ export default function ContactUs() {
                       </FormField>
                     </div>}
 
-                    <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <FormField label={mode === 'phone' ? t.contact.email : c.email}>
-                        <input type="email" name="email" value={formData.email}
-                          onChange={handleChange} required={mode !== 'phone'} autoComplete="email"
-                          placeholder={t.contact.emailPlaceholder}
-                          className={inputCls} />
-                      </FormField>
-                      {mode !== 'audit' && !selectedPackage && <FormField label={t.contact.service}>
-                        <select name="service" value={formData.service}
-                          onChange={handleChange}
-                          className={`${selectCls} ${formData.service ? "text-slate-100" : "text-slate-400"}`}>
-                          <option value="">{t.contact.servicePlaceholder}</option>
-                          {SERVICE_OPTIONS.map((o) => (
-                            <option key={o.value} value={o.value}>
-                              {t.contact.options[o.k]}
-                            </option>
-                          ))}
-                        </select>
-                      </FormField>}
-                    </div>
+                    {/* Как да отговорим: с един тап, без падащо меню. Писането е равностойно на разговора. */}
+                    {!audit && (
+                      <fieldset className="mt-5">
+                        <legend className="mb-1.5 block text-[13px] font-semibold text-slate-300">{c.mode}</legend>
+                        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                          {REPLY_OPTIONS.map((v) => {
+                            const checked = reply === v;
+                            return (
+                              <label key={v} className={`${chipCls(checked)} px-3 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-cyan-300/70`}>
+                                <input type="radio" name="reply" value={v} checked={checked} onChange={() => setReply(v)} className="sr-only" />
+                                {REPLY_ICON[v]}
+                                {c.reply[v]}
+                              </label>
+                            );
+                          })}
+                        </div>
+                        <p className="mt-2 text-[12.5px] text-slate-500">{c.replyHint}</p>
+                      </fieldset>
+                    )}
+
+                    {(audit || reply === 'email') && (
+                      <div className="mt-4">
+                        <FormField label={c.email}>
+                          <input type="email" name="email" value={formData.email}
+                            onChange={handleChange} required autoComplete="email"
+                            placeholder={t.contact.emailPlaceholder}
+                            className={inputCls} />
+                        </FormField>
+                      </div>
+                    )}
+
+                    {!audit && !selectedPackage && (
+                      <fieldset className="mt-5">
+                        <legend className="mb-1.5 block text-[13px] font-semibold text-slate-300">{t.contact.service}</legend>
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                          {SERVICE_OPTIONS.map((o) => {
+                            const checked = formData.service === o.value;
+                            return (
+                              <button
+                                key={o.value}
+                                type="button"
+                                aria-pressed={checked}
+                                // Втори тап маха избора — полето е по желание.
+                                onClick={() => setFormData((v) => ({ ...v, service: checked ? "" : o.value }))}
+                                className={`${chipCls(checked)} min-h-[40px] px-3 text-[13px] sm:px-3.5 sm:text-[13.5px] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70`}
+                              >
+                                {t.contact.options[o.k]}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </fieldset>
+                    )}
 
                     <div className="mt-4">
                       <FormField label={t.contact.message}>
                         <textarea name="message" value={formData.message}
-                          onChange={handleChange} rows={4}
+                          onChange={handleChange} rows={3}
                           placeholder={t.contact.messagePlaceholder}
-                          className={`${inputCls} h-auto resize-none py-3`} />
+                          className={`${inputCls} h-auto resize-none py-3 sm:h-auto`} />
                       </FormField>
                     </div>
 
@@ -476,6 +500,11 @@ export default function ContactUs() {
                         </div>
                       </div>
                     )}
+
+                    {/* Капан за ботове: извън екрана и извън Tab реда, човек не го попълва. */}
+                    <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
+                      <input type="text" name="company_website" tabIndex={-1} autoComplete="off" value={trap} onChange={(e) => setTrap(e.target.value)} />
+                    </div>
 
                     {/* Submit */}
                     <div className="mt-6">
@@ -536,31 +565,3 @@ export default function ContactUs() {
     </section>
   );
 }
-
-/** <label> обгръща полето, за да е тапваем и етикетът (иначе ~40% мъртва зона на телефон). */
-function FormField({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <label className="block">
-      <span className="mb-1.5 block text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">
-        {label}
-      </span>
-      {children}
-    </label>
-  );
-}
-
-const inputCls = `
-  h-11 w-full rounded-xl bg-white/[0.04] px-4 text-[14px] text-slate-100
-  ring-1 ring-inset ring-white/[0.08] placeholder:text-slate-400
-  transition-all duration-150
-  focus:outline-none focus:bg-white/[0.06] focus:ring-2 focus:ring-[#22d3ee]/35
-`;
-
-/** Без text-slate-*: цветът се подава условно (сив, докато не е избрана услуга). */
-const selectCls = `
-  select-chevron h-11 w-full appearance-none rounded-xl bg-white/[0.04] pl-4 pr-11 text-[14px]
-  ring-1 ring-inset ring-white/[0.08]
-  transition-all duration-150
-  focus:outline-none focus:ring-2 focus:ring-[#22d3ee]/35
-  [&>option]:bg-[#07090f]
-`;
