@@ -63,7 +63,7 @@ export const PROCESS: Record<Lang, ProcessCopy> = {
       price: "Цена",
       priceValue: "фиксирана, без изненади",
     },
-    build: { badge: "Преглед преди пускане", site: "vulcho.bg", shot: "/work/live/vulcho.webp?v=3" },
+    build: { badge: "Преглед преди пускане", site: "valcho-zeta.vercel.app", shot: "/work/live/vulcho.webp?v=3" },
     live: { badge: "Сайтът е онлайн", google: "Google", title: "Вълчо", caption: "онлайн магазин за месо · България" },
     faq: {
       label: "Въпроси",

@@ -17,7 +17,7 @@ type ClientLogo = {
   /** Увеличение за логота, които изглеждат дребни в плочката (кръгли значки и др.). */
   scale?: number;
   /** Име до знака, когато логото е само символ. */
-  wordmark?: { title: string; sub?: string };
+  wordmark?: { title: string; sub?: string; color?: string };
 };
 
 export const CLIENT_LOGOS: ClientLogo[] = [
@@ -28,7 +28,7 @@ export const CLIENT_LOGOS: ClientLogo[] = [
   { id: "chef-resat-site", name: "Chef Resat", logo: "/logos/chef-resat-site.png", tile: "dark" },
   { id: "abi-studio", name: "Abi Studio", logo: "/logos/abi-studio-light.png", tile: "dark" },
   { id: "metesso", name: "Metesso", logo: "/logos/metesso.png", tile: "dark" },
-  { id: "dudo-group", name: "Дудо", logo: "/logos/dudo-yellow.png", tile: "dark" },
+  { id: "dudo-group", name: "Дудо", logo: "/logos/dudo-mark-light.png", tile: "dark", wordmark: { title: "Дудо", sub: "Строй ЕООД", color: "#f9b000" } },
   { id: "szo", name: "Системи за охрана", logo: "/logos/szo.png", tile: "dark" },
   { id: "korn-metal", name: "Korn Metal", logo: "/logos/korn-metal.png", tile: "dark" },
   { id: "nn-bau", name: "N&N Bau", logo: "/logos/nn-bau.png", tile: "dark" },
@@ -91,7 +91,7 @@ export default function TrustedBy() {
                       />
                       {c.wordmark && (
                         <span className={`flex flex-col leading-none ${c.tile === "light" ? "text-slate-900" : "text-white"}`}>
-                          <span className="text-[15px] font-extrabold uppercase tracking-[0.14em] sm:text-[17px]">{c.wordmark.title}</span>
+                          <span className="text-[15px] font-extrabold uppercase tracking-[0.14em] sm:text-[17px]" style={c.wordmark.color ? { color: c.wordmark.color } : undefined}>{c.wordmark.title}</span>
                           {c.wordmark.sub && <span className="mt-1 text-[8px] font-semibold uppercase tracking-[0.2em] opacity-60 sm:text-[9px]">{c.wordmark.sub}</span>}
                         </span>
                       )}

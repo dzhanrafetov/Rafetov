@@ -61,8 +61,8 @@ const STEP_MS = 5500;
 
 /**
  * Стъпките се сменят сами на всеки ~5,5 s (тънка циан лента показва напредъка на активната).
- * Клик/тап върху стъпка я показва и рестартира таймера. Паузира при hover/фокус и когато
- * секцията не е на екрана; при prefers-reduced-motion няма автоматична смяна.
+ * Клик/тап върху стъпка я показва и рестартира таймера. Паузира при фокус от клавиатура и когато
+ * секцията не е на екрана (без пауза при hover — изглеждаше като забиване); при prefers-reduced-motion няма автоматична смяна.
  */
 function ProcessChapter() {
   const { lang, t } = useLang();
@@ -125,8 +125,6 @@ function ProcessChapter() {
         {/* Телефон: визуализация отгоре, компактни редове отдолу. Десктоп: списък отляво, визуализация отдясно. */}
         <div
           ref={ref}
-          onPointerEnter={(e) => e.pointerType === "mouse" && setHold(true)}
-          onPointerLeave={(e) => e.pointerType === "mouse" && setHold(false)}
           onFocus={(e) => { try { if (e.target.matches(":focus-visible")) setHold(true); } catch { /* стар браузър */ } }}
           onBlur={() => setHold(false)}
           className="mt-8 grid items-center gap-7 sm:mt-10 lg:mt-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16"
@@ -263,17 +261,24 @@ function OfferVisual({ c }: { c: ProcessCopy }) {
   );
 }
 
-function BrowserBar({ site, live }: { site: string; live?: boolean }) {
+function BrowserBar({ site, live, badge }: { site: string; live?: boolean; badge?: string }) {
   return (
     <div className="flex items-center gap-1.5 border-b border-white/[0.08] px-3.5 py-2.5">
       <i aria-hidden className="h-2.5 w-2.5 rounded-full bg-white/15" />
       <i aria-hidden className="h-2.5 w-2.5 rounded-full bg-white/15" />
       <i aria-hidden className="h-2.5 w-2.5 rounded-full bg-white/15" />
-      <span className="mx-auto flex h-6 w-[62%] items-center justify-center gap-1.5 rounded-md bg-ink text-[11px] text-slate-400">
-        {live && <i aria-hidden className="live-dot h-1.5 w-1.5 rounded-full bg-accent" />}
-        {site}
+      <span className={`mx-auto flex h-6 min-w-0 items-center justify-center gap-1.5 rounded-md bg-ink px-2 text-[11px] text-slate-400 ${badge ? "ml-1.5 mr-1.5 flex-1" : "w-[62%]"}`}>
+        {live && <i aria-hidden className="live-dot h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />}
+        <span className="truncate">{site}</span>
       </span>
-      <span aria-hidden className="w-[2.1rem]" />
+      {badge ? (
+        <span className="flex shrink-0 items-center gap-1.5 rounded-full border border-accent/30 px-2 py-0.5 text-[10.5px] font-semibold text-white">
+          <i aria-hidden className="live-dot h-1.5 w-1.5 rounded-full bg-accent" />
+          {badge}
+        </span>
+      ) : (
+        <span aria-hidden className="w-[2.1rem]" />
+      )}
     </div>
   );
 }
@@ -320,13 +325,9 @@ function LiveVisual({ c }: { c: ProcessCopy }) {
   return (
     <div className="relative w-full pb-12">
       <div className="vis-card overflow-hidden">
-        <BrowserBar site={c.build.site} live />
+        <BrowserBar site={c.build.site} badge={l.badge} />
         <div className="relative aspect-[900/520] overflow-hidden bg-ink">
           <img src={c.build.shot} width={SHOT.w} height={SHOT.h} alt={l.title} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover object-top" />
-          <span className="absolute left-3 top-3 flex items-center gap-2 rounded-full border border-accent/30 bg-ink/85 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur">
-            <i aria-hidden className="live-dot h-1.5 w-1.5 rounded-full bg-accent" />
-            {l.badge}
-          </span>
         </div>
       </div>
       {/* резултат в Google — заглавието е реално, описанието е схематично */}
