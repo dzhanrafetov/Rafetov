@@ -1,454 +1,236 @@
+/**
+ * Първият екран: вляво обещанието и WhatsApp, вдясно примерен чат, в който едно съобщение
+ * става реален клиентски сайт. От дъното на чата тръгва циан „пътят“ към следващата глава.
+ *
+ * Чатът е изцяло в SSR HTML-а (видим без JS). Единственият авторски момент на страницата:
+ * след хидратация, когато панелът влезе в екрана, чатът се „изиграва“ веднъж — балончетата се
+ * появяват едно след друго, с индикатор за писане преди нашия отговор, накрая картата на проекта.
+ * При prefers-reduced-motion нищо не се анимира.
+ */
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { Link as ScrollLink } from "react-scroll";
-import createGlobe from "cobe";
+import { track } from "@vercel/analytics";
+import { CheckCheck, Star } from "lucide-react";
 import { useLang } from "../i18n";
-import type { CountryCode } from "../i18n/types";
+import HERO from "../i18n/sections/hero";
 import Flag from "../components/Flag";
-import { GoogleG, Stars } from "../components/GoogleRating";
-import { GOOGLE_REVIEWS, googleReviewsUrl } from "../constants/business";
-
-const fade = {
-  hidden: { opacity: 0, y: 20 },
-  show: (i = 0) => ({
-    opacity: 1, y: 0,
-    transition: { duration: 0.6, delay: 0.1 * i, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
-
-const CHIPS = [
-  {
-    k: "site" as const,
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-        <rect x="2" y="4" width="20" height="16" rx="2" /><path d="M2 9h20M7 6h.01M10 6h.01" />
-      </svg>
-    ),
-  },
-  {
-    k: "shop" as const,
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-        <path d="M6 7h15l-2 9H7L6 7Z" /><path d="M6 7 5 4H2" />
-        <circle cx="9" cy="20" r="1" fill="currentColor" stroke="none" /><circle cx="17" cy="20" r="1" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-  },
-  {
-    k: "ads" as const,
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-        <path d="M3 17l4-8 4 4 4-6 4 4" /><path d="M21 21H3" />
-      </svg>
-    ),
-  },
-];
-
-const COUNTRIES: { code: CountryCode; accent: string; lat: number; lng: number }[] = [
-  // Един акцент за всички държави: знамето носи разликата, не цветът на пилчето.
-  { code: "BG", accent: "#22D3EE", lat: 42.7339, lng: 25.4858 },
-  { code: "DE", accent: "#22D3EE", lat: 51.1657, lng: 10.4515 },
-  { code: "BE", accent: "#22D3EE", lat: 50.5039, lng:  4.4699 },
-  { code: "GB", accent: "#22D3EE", lat: 55.3781, lng: -3.4360 },
-  { code: "ES", accent: "#22D3EE", lat: 40.4637, lng: -3.7492 },
-  { code: "NO", accent: "#22D3EE", lat: 60.4720, lng:  8.4689 },
-];
-
-// Точката от картата, която гледа към зрителя. В cobe центърът на изгледа е на
-// дължина −90° − phi и ширина theta, затова phi/theta се смятат от нея, а не на око.
-const FOCUS       = { lat: 38, lng: 12 };
-const DEG         = Math.PI / 180;
-const GLOBE_PHI   = -Math.PI / 2 - FOCUS.lng * DEG;
-const GLOBE_THETA = FOCUS.lat * DEG;
-const GLOBE_R     = 0.8; // радиус на сферата спрямо половината canvas (константа в cobe)
-const BADGE       = 28; // px diameter
-
-function spreadPoints(pts: { x: number; y: number }[], minDist: number) {
-  const out = pts.map((p) => ({ ...p }));
-  for (let iter = 0; iter < 80; iter++) {
-    for (let i = 0; i < out.length; i++) {
-      for (let j = i + 1; j < out.length; j++) {
-        const dx = out[j].x - out[i].x;
-        const dy = out[j].y - out[i].y;
-        const d  = Math.sqrt(dx * dx + dy * dy);
-        if (d < minDist && d > 0.001) {
-          const push = (minDist - d) / 2;
-          out[i].x -= (dx / d) * push * 0.55;
-          out[i].y -= (dy / d) * push * 0.55;
-          out[j].x += (dx / d) * push * 0.55;
-          out[j].y += (dy / d) * push * 0.55;
-        }
-      }
-    }
-  }
-  return out;
-}
-
-// ── Static Globe ──
-function Globe({ activeCountry }: { activeCountry: number }) {
-  const { t } = useLang();
-  const wrapRef   = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [flagPos, setFlagPos] = useState<{ x: number; y: number }[]>([]);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const wrap   = wrapRef.current;
-    if (!canvas || !wrap) return;
-
-    const globe = createGlobe(canvas, {
-      devicePixelRatio: 2,
-      width:  760,
-      height: 760,
-      phi:    GLOBE_PHI,
-      theta:  GLOBE_THETA,
-      dark: 1,
-      diffuse: 1.1,
-      mapSamples: 20000,
-      mapBrightness: 5.8,
-      baseColor:   [0.08, 0.13, 0.22],
-      markerColor: [0.08, 0.13, 0.22], // hidden — we use flag badges
-      glowColor:   [0.07, 0.12, 0.22],
-      markers: [],
-    });
-
-    // Keep rendering loop alive (cobe needs RAF to draw)
-    let rafId = 0;
-    const tick = () => {
-      globe.update({ phi: GLOBE_PHI });
-      rafId = requestAnimationFrame(tick);
-    };
-    tick();
-
-    // Project lat/lng onto 2D canvas overlay
-    // Същата проекция като маркерите в cobe (lat/lng → 3D → екран), за да съвпадат с картата.
-    const W    = wrap.offsetWidth;
-    const cosP = Math.cos(GLOBE_PHI);
-    const sinP = Math.sin(GLOBE_PHI);
-    const cosT = Math.cos(GLOBE_THETA);
-    const sinT = Math.sin(GLOBE_THETA);
-
-    const raw = COUNTRIES.map((c) => {
-      const lat = c.lat * DEG;
-      const lng = c.lng * DEG - Math.PI;
-      const x = -Math.cos(lat) * Math.cos(lng);
-      const y = Math.sin(lat);
-      const z = Math.cos(lat) * Math.sin(lng);
-      const sx = cosP * x + sinP * z;
-      const sy = sinP * sinT * x + cosT * y - cosP * sinT * z;
-      return { x: ((sx * GLOBE_R + 1) / 2) * W, y: ((-sy * GLOBE_R + 1) / 2) * W };
-    });
-
-    setFlagPos(spreadPoints(raw, BADGE + 5));
-
-    return () => { cancelAnimationFrame(rafId); globe.destroy(); };
-  }, []);
-
-  return (
-    <div
-      ref={wrapRef}
-      className="relative mx-auto select-none"
-      style={{ width: "100%", maxWidth: 380, aspectRatio: "1" }}
-    >
-      {/* Glow backdrop */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-full"
-        style={{ background: "radial-gradient(circle, rgba(34,211,238,0.13) 0%, transparent 70%)" }}
-      />
-      {/* Pulsing rings */}
-      <div aria-hidden className="globe-ring pointer-events-none absolute rounded-full border border-cyan-400/[0.18]" style={{ inset: "-10px" }} />
-      <div aria-hidden className="globe-ring-2 pointer-events-none absolute rounded-full border border-cyan-400/[0.08]" style={{ inset: "-24px" }} />
-
-      <canvas
-        ref={canvasRef}
-        width={760}
-        height={760}
-        style={{
-          width: "100%", height: "100%",
-          contain: "layout paint size",
-          borderRadius: "50%",
-          display: "block",
-        }}
-      />
-
-      {/* Flag badges */}
-      {flagPos.map((pos, i) => {
-        const isActive = activeCountry === i;
-        const c = COUNTRIES[i];
-        return (
-          <div
-            key={c.code}
-            aria-label={t.countries[c.code]}
-            className="pointer-events-none absolute flex items-center justify-center rounded-full"
-            style={{
-              width:      isActive ? BADGE + 4 : BADGE,
-              height:     isActive ? BADGE + 4 : BADGE,
-              left:       pos.x,
-              top:        pos.y,
-              transform:  "translate(-50%, -50%)",
-              border:     `${isActive ? 2 : 1}px solid ${c.accent}${isActive ? "cc" : "55"}`,
-              background: isActive
-                ? `color-mix(in srgb,${c.accent} 32%,rgba(4,8,16,0.75))`
-                : `color-mix(in srgb,${c.accent} 18%,rgba(4,8,16,0.82))`,
-              boxShadow:  isActive
-                ? `0 0 22px -2px ${c.accent}bb, 0 0 6px 0 ${c.accent}66`
-                : `0 0 10px -2px ${c.accent}55`,
-              transition: "all 0.35s ease",
-              zIndex:     isActive ? 10 : 1,
-            }}
-          >
-            <Flag code={c.code} className="h-[10px] w-[15px] rounded-[2px]" />
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+import WhatsAppIcon from "../components/WhatsAppIcon";
+import { GoogleG } from "../components/GoogleRating";
+import { GOOGLE_REVIEWS, googleReviewsUrl, whatsappHref } from "../constants/business";
+import { PROJECTS, projectPath, liveShot } from "../constants/projects";
 
 export default function Hero() {
-  const { t, lang } = useLang();
-  const ref = useRef<HTMLDivElement | null>(null);
+  const { t, lang, href } = useLang();
+  const c = HERO[lang];
+  const project = PROJECTS.find((p) => p.id === c.chat.projectId) ?? PROJECTS[0];
   const rating = GOOGLE_REVIEWS.rating.toLocaleString(lang, { minimumFractionDigits: 1 });
-  const [activeCountry, setActiveCountry] = useState(0);
+
+  const chatRef = useRef<HTMLElement>(null);
+  const [play, setPlay] = useState(false);
 
   useEffect(() => {
-    const id = setInterval(() => setActiveCountry((i) => (i + 1) % COUNTRIES.length), 2400);
-    return () => clearInterval(id);
+    const el = chatRef.current;
+    if (!el) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    if (typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        setPlay(true);
+        io.disconnect();
+      },
+      { threshold: 0.35 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
-  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-    el.style.setProperty("--my", `${e.clientY - r.top}px`);
-  };
-
-  // Пилче за държава. `shift` е хоризонталното отместване при активна държава (0 на телефон, ±6 в страничните колони на desktop).
-  const renderCountryPill = (c: (typeof COUNTRIES)[number], idx: number, shift: number) => {
-    const active = activeCountry === idx;
-    return (
-      <motion.div
-        key={c.code}
-        animate={active ? { scale: 1.05, x: shift } : { scale: 1, x: 0 }}
-        transition={{ duration: 0.35, ease: "easeOut" }}
-        className="flex cursor-default items-center gap-2.5 whitespace-nowrap rounded-full px-3.5 py-2"
-        style={{
-          border: `1px solid ${active ? c.accent + "50" : "rgba(255,255,255,0.06)"}`,
-          background: active ? `color-mix(in srgb,${c.accent} 10%,transparent)` : "rgba(255,255,255,0.02)",
-          boxShadow: active ? `0 0 20px -4px ${c.accent}44` : "none",
-          transition: "border-color 0.3s, background 0.3s, box-shadow 0.3s",
-        }}
-      >
-        <Flag code={c.code} className="h-[14px] w-[21px] rounded-[3px]" />
-        <span className="text-[13px] font-semibold" style={{ color: active ? c.accent : "#94a3b8", transition: "color 0.3s" }}>
-          {t.countries[c.code]}
-        </span>
-        {active && (
-          <span className="relative flex h-[6px] w-[6px] shrink-0">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" style={{ backgroundColor: c.accent }} />
-            <span className="relative inline-flex h-[6px] w-[6px] rounded-full" style={{ backgroundColor: c.accent }} />
-          </span>
-        )}
-      </motion.div>
-    );
-  };
+  // „{r} в Google от {n} отзива“ → текст преди и след рейтинга, за да стои той в по-тежко начертание.
+  const proofGoogle = c.proofGoogle.replace("{n}", String(GOOGLE_REVIEWS.count)).split("{r}");
 
   return (
-    <section
-      id="hero"
-      ref={ref}
-      onMouseMove={onMove}
-      className="relative isolate overflow-hidden text-slate-200"
-      style={{
-        backgroundColor: "#060a11",
-        ["--hairline" as any]: "#1a2234",
-        ["--mx" as any]: "50%",
-        ["--my" as any]: "38%",
-      }}
-    >
-      {/* Background */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 opacity-[0.035]
-          [background-image:linear-gradient(rgba(148,163,184,.15)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,.15)_1px,transparent_1px)]
-          [background-size:28px_28px]" />
-        <div className="hero-spot absolute inset-0" />
-        <div className="absolute -right-64 -top-64 h-[700px] w-[700px] rounded-full"
-          style={{ background: "radial-gradient(circle,rgba(34,211,238,.12) 0%,transparent 65%)" }} />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#060a11] to-transparent" />
-      </div>
+    <section id="hero" className="relative bg-ink text-slate-200">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-5 pt-24 sm:px-8 sm:pt-32 lg:grid-cols-[minmax(0,1.15fr)_minmax(400px,520px)] lg:items-center lg:gap-16 lg:pt-28 xl:px-12">
+        {/* ── Копие ── */}
+        <div className="text-center lg:text-left">
+          <h1 className="hero-balance mx-auto max-w-[14ch] text-[clamp(2.35rem,9.2vw,4.5rem)] font-extrabold leading-[1.02] tracking-[-0.034em] text-white lg:mx-0 lg:max-w-[640px]">
+            {c.h1[0]}
+            <span className="text-accent-text">{c.h1[1]}</span>
+            {c.h1[2]}
+          </h1>
 
-      <div aria-hidden className="absolute inset-x-0 top-0 h-px" style={{ backgroundColor: "var(--hairline)" }} />
+          <p className="mx-auto mt-6 max-w-[52ch] text-[17px] leading-[1.55] text-slate-400 sm:text-lg lg:mx-0">{c.sub}</p>
 
-      <div className="relative mx-auto max-w-5xl px-5 pt-24 pb-16 text-center sm:px-8 sm:pt-32 sm:pb-28">
-
-        {/* Badge */}
-        <motion.div variants={fade} initial="hidden" animate="show" className="mx-auto mb-8 w-fit">
-          <span className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-[7px] text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">
-            <span className="relative flex h-[7px] w-[7px] shrink-0">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
-              <span className="relative inline-flex h-[7px] w-[7px] rounded-full bg-emerald-400" />
-            </span>
-            {t.hero.badge}
-          </span>
-        </motion.div>
-
-        {/* Headline */}
-        <motion.h1
-          variants={fade} initial="hidden" animate="show" custom={1}
-          className="balance mx-auto text-[clamp(2.2rem,9vw,5.2rem)] font-extrabold leading-[1.04] tracking-[-0.03em]"
-        >
-          {t.hero.h1a}{" "}
-          <span className="hero-text-gradient">{t.hero.h1b}</span>
-        </motion.h1>
-
-        {/* One-liner */}
-        <motion.p
-          variants={fade} initial="hidden" animate="show" custom={1.6}
-          className="mx-auto mt-6 max-w-[36ch] text-[clamp(1rem,2.5vw,1.2rem)] leading-relaxed text-slate-400"
-        >
-          {t.hero.sub1}{" "}
-          <span className="text-slate-200 font-medium">{t.hero.sub2}</span>
-        </motion.p>
-
-        {/* Service chips */}
-        <motion.div
-          variants={fade} initial="hidden" animate="show" custom={2}
-          className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-2.5"
-        >
-          {CHIPS.map((c) => (
-            <span
-              key={c.k}
-              className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-[12.5px] font-semibold text-slate-300 sm:gap-2 sm:px-4 sm:py-2 sm:text-[13px]"
+          <div className="mt-9 flex flex-col items-center gap-5 sm:flex-row sm:justify-center sm:gap-7 lg:justify-start">
+            <a
+              href={whatsappHref(t.whatsapp.text)}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => track("hero_cta", { channel: "whatsapp" })}
+              className="inline-flex h-14 w-full max-w-sm items-center justify-center gap-3 rounded-[14px] bg-accent pl-5 pr-7 text-[16px] font-semibold text-ink
+                         shadow-[0_8px_24px_-10px_rgba(34,211,238,0.6)] transition-[transform,box-shadow,background-color] duration-300 ease-out
+                         hover:bg-[#4fdcf2] hover:shadow-[0_12px_30px_-10px_rgba(34,211,238,0.75)] active:translate-y-px
+                         focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-text focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:w-auto"
             >
-              <span className="text-cyan-400">{c.icon}</span>
-              {t.hero.chips[c.k]}
-            </span>
-          ))}
-        </motion.div>
-
-        {/* CTA buttons */}
-        <motion.div
-          variants={fade} initial="hidden" animate="show" custom={2.5}
-          className="mx-auto mt-10 flex w-full max-w-sm flex-col gap-3 sm:max-w-none sm:flex-row sm:items-center sm:justify-center"
-        >
-          <ScrollLink
-            to="contact" smooth duration={220} offset={-70}
-            className="group relative inline-flex h-14 cursor-pointer items-center justify-center overflow-hidden rounded-full px-9 text-[16px] font-bold text-[#03060d]
-                       shadow-[0_0_36px_-8px_rgba(34,211,238,0.6)] transition-all duration-300 hover:shadow-[0_0_52px_-8px_rgba(34,211,238,0.8)]
-                       focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50"
-            style={{ background: "linear-gradient(135deg,#34d9f0 0%,#0ea5e9 55%,#0284c7 100%)" }}
-          >
-            <span aria-hidden className="absolute inset-0 -skew-x-[20deg] -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-            <span className="relative">{t.hero.cta}</span>
-            <svg viewBox="0 0 24 24" className="relative ml-2.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <path d="M5 12h14M13 5l7 7-7 7" />
-            </svg>
-          </ScrollLink>
-
-          <ScrollLink
-            to="work" smooth duration={220} offset={-70}
-            className="inline-flex h-14 cursor-pointer items-center justify-center rounded-full border border-white/[0.09] bg-white/[0.03] px-9 text-[15px] font-semibold text-slate-300
-                       transition-all duration-200 hover:border-white/[0.16] hover:bg-white/[0.07] hover:text-slate-100
-                       focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
-          >
-            {t.hero.cta2}
-          </ScrollLink>
-        </motion.div>
-
-        {/* Доказателство веднага под бутоните: рейтинг в Google и какво получава клиентът */}
-        <motion.div
-          variants={fade} initial="hidden" animate="show" custom={3}
-          className="mx-auto mt-6 flex flex-col items-center gap-2.5"
-        >
-          <a
-            href={googleReviewsUrl(lang)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-[13.5px]
-                       transition-colors duration-200 hover:border-white/[0.16] hover:bg-white/[0.07]
-                       focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
-          >
-            <GoogleG className="h-4 w-4" />
-            <Stars className="h-3.5 w-3.5" />
-            <span className="font-bold text-slate-100">{rating}</span>
-            <span className="text-slate-400">· {t.reviews.count.replace("{n}", String(GOOGLE_REVIEWS.count))}</span>
-          </a>
-          <p className="text-[12.5px] text-slate-500">{t.hero.micro.replace(/ · /g, "\u00A0· ")}</p>
-        </motion.div>
-
-        {/* ── Globe Section ── */}
-        <motion.div
-          variants={fade} initial="hidden" animate="show" custom={3.5}
-          className="mx-auto mt-20 max-w-[860px]"
-        >
-          {/* Label */}
-          <div className="mb-10 flex items-center justify-center gap-3">
-            <div className="h-px flex-1" style={{ background: "linear-gradient(90deg,transparent,rgba(255,255,255,0.07))" }} />
-            <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-slate-500">
-              {t.hero.clientsLabel}
-            </span>
-            <div className="h-px flex-1" style={{ background: "linear-gradient(270deg,transparent,rgba(255,255,255,0.07))" }} />
+              <WhatsAppIcon className="h-[22px] w-[22px]" />
+              {c.cta}
+            </a>
+            <a
+              href="#process"
+              className="border-b border-slate-400/40 pb-px text-[15px] font-medium text-slate-400 transition-colors duration-200 hover:border-slate-200 hover:text-slate-200
+                         focus:outline-none focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-accent-text/60"
+            >
+              {c.quiet}
+            </a>
           </div>
 
-          {/* Globe + side lists */}
-          <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-0">
+          {/* Доказателство: реалният рейтинг в Google и държавите, в които работим */}
+          <p className="mt-10 flex flex-col items-center gap-x-3.5 gap-y-2 text-[14px] text-slate-500 sm:flex-row sm:flex-wrap sm:justify-center lg:mt-14 lg:justify-start">
+            <a
+              href={googleReviewsUrl(lang)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 rounded-sm transition-colors hover:text-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-text/60"
+            >
+              <GoogleG className="h-4 w-4" />
+              <span className="inline-flex gap-[2px] text-accent-text" aria-hidden>
+                {Array.from({ length: 5 }, (_, i) => (
+                  <Star key={i} className="h-[13px] w-[13px]" fill="currentColor" strokeWidth={0} />
+                ))}
+              </span>
+              <span>
+                {proofGoogle[0]}
+                <b className="font-semibold text-slate-200">{rating}</b>
+                {proofGoogle[1]}
+              </span>
+            </a>
+            <span aria-hidden className="hidden h-[3px] w-[3px] rounded-full bg-slate-600 sm:block" />
+            <span>{c.proofCountries}</span>
+          </p>
+        </div>
 
-            {/* Left — first 3 (desktop only) */}
-            <div className="hidden lg:order-1 lg:flex lg:w-[210px] lg:shrink-0 lg:flex-col lg:items-end lg:gap-3">
-              {COUNTRIES.slice(0, 3).map((c, i) => renderCountryPill(c, i, 6))}
+        {/* ── Чатът + началото на пътя ── */}
+        <div className="flex flex-col items-center">
+          <aside
+            ref={chatRef}
+            aria-label={c.chat.aria}
+            className={`hc relative w-full max-w-[520px] rounded-[22px] border border-white/[0.08] bg-ink-panel p-3.5 shadow-[0_40px_90px_-30px_rgba(0,0,0,0.8)] sm:p-[18px] ${play ? "is-play" : ""}`}
+          >
+            <div className="flex items-center gap-3 border-b border-white/[0.08] pb-3.5">
+              <span aria-hidden className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent text-[13px] font-extrabold tracking-[0.04em] text-ink">R</span>
+              <div className="min-w-0">
+                <b className="block text-[14px] font-semibold text-slate-100">{c.chat.name}</b>
+                <small className="flex items-center gap-1.5 text-[12px] text-slate-400">
+                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
+                  {c.chat.status}
+                </small>
+              </div>
+              <span className="ml-auto hidden self-start whitespace-nowrap text-[11px] font-medium uppercase tracking-[0.08em] text-slate-500 sm:block">{c.chat.example}</span>
             </div>
 
-            {/* Globe */}
-            <div className="order-2 w-full max-w-[340px] lg:flex-1 lg:max-w-[420px]">
-              <Globe activeCountry={activeCountry} />
+            <div className="hc-a mx-auto mt-3 w-max text-[11px] uppercase tracking-[0.06em] text-slate-500" style={{ ["--d" as string]: "0s" }}>
+              {c.chat.day1}
             </div>
 
-            {/* Right — last 3 (desktop only) */}
-            <div className="hidden lg:order-3 lg:flex lg:w-[210px] lg:shrink-0 lg:flex-col lg:items-start lg:gap-3">
-              {COUNTRIES.slice(3).map((c, i) => renderCountryPill(c, i + 3, -6))}
+            {/* Входящо: клиентът */}
+            <div className="hc-a mt-2.5 max-w-[88%] rounded-2xl rounded-tl-md border border-white/[0.08] bg-ink-raised px-3.5 py-2.5 text-[14px] leading-[1.5] sm:max-w-[392px] sm:text-[14.5px]" style={{ ["--d" as string]: ".25s" }}>
+              {c.chat.inMsg}
+              <span className="mt-1.5 block text-right text-[11px] tabular-nums text-slate-500">09:14</span>
             </div>
 
-            {/* Mobile / tablet: all 6 in an even 2-column grid under the globe */}
-            <div className="order-3 grid max-w-full grid-cols-[auto_auto] justify-center gap-2.5 lg:hidden">
-              {COUNTRIES.map((c, i) => renderCountryPill(c, i, 0))}
+            {/* Изходящо: ние, с план в три точки. Индикаторът за писане стои върху същото място, за да няма скок на оформлението. */}
+            <div className="relative">
+              <div aria-hidden className="hc-typing absolute right-0 top-2.5 flex h-10 items-center gap-1 rounded-2xl rounded-tr-md border border-accent/[0.22] bg-accent/[0.09] px-4">
+                <span className="hc-dot h-1.5 w-1.5 rounded-full bg-accent-text" />
+                <span className="hc-dot h-1.5 w-1.5 rounded-full bg-accent-text" style={{ animationDelay: ".15s" }} />
+                <span className="hc-dot h-1.5 w-1.5 rounded-full bg-accent-text" style={{ animationDelay: ".3s" }} />
+              </div>
+              <div className="hc-a ml-auto mt-2.5 max-w-[92%] rounded-2xl rounded-tr-md border border-accent/[0.22] bg-accent/[0.09] px-3.5 py-2.5 text-[14px] leading-[1.5] sm:max-w-[392px] sm:text-[14.5px]" style={{ ["--d" as string]: "2.4s" }}>
+                {c.chat.outIntro}
+                <ol className="mb-0.5 mt-2 list-none p-0">
+                  {c.chat.plan.map((step, i) => (
+                    <li key={i} className="flex gap-2.5 border-t border-accent-text/[0.12] py-1">
+                      <span className="mt-[3px] flex-none text-[11px] font-semibold leading-[1.6] tracking-[0.06em] text-accent-text tabular-nums">0{i + 1}</span>
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ol>
+                <span className="mt-1.5 flex items-center justify-end gap-1 text-[11px] tabular-nums text-accent-text/70">
+                  09:31
+                  <CheckCheck className="h-3.5 w-3.5" aria-hidden />
+                </span>
+              </div>
             </div>
 
+            <div className="hc-a mx-auto mt-3 w-max text-[11px] uppercase tracking-[0.06em] text-slate-500" style={{ ["--d" as string]: "3.3s" }}>
+              {c.chat.day2}
+            </div>
+
+            {/* Картата: реален проект със снимка от public/work */}
+            <a
+              href={href(projectPath(project, lang))}
+              aria-label={`${c.chat.openProject}: ${project.title}`}
+              className="hc-a hc-card group ml-auto mt-2.5 block max-w-[440px] rounded-2xl rounded-tr-md border border-accent/[0.28] bg-ink p-2 transition-colors duration-200 hover:border-accent/60
+                         focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-text/60"
+              style={{ ["--d" as string]: "3.6s" }}
+            >
+              <span className="relative block aspect-[16/10] overflow-hidden rounded-[10px] bg-black">
+                <img
+                  src={liveShot(project.id) ?? project.img}
+                  alt={project.title}
+                  width={1600}
+                  height={1000}
+                  loading="eager"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                />
+                <span aria-hidden className="absolute inset-0 rounded-[10px] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]" />
+              </span>
+              {/* „Сайтът е онлайн“ стои под снимката, за да не закрива сайта. */}
+              <span className="flex items-center justify-between gap-3 px-1.5 pb-1 pt-2.5 text-[13px]">
+                <span className="flex min-w-0 items-center gap-2">
+                  <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent shadow-[0_0_0_3px_rgba(34,211,238,0.25)]" />
+                  <b className="truncate font-semibold text-slate-200">{project.title}</b>
+                  <span className="hidden shrink-0 text-[11px] font-semibold uppercase tracking-[0.06em] text-accent-text sm:inline">· {c.chat.live}</span>
+                </span>
+                <span className="inline-flex shrink-0 items-center gap-1.5 text-[12px] text-slate-500">
+                  {c.chat.city}
+                  {project.country && <Flag code={project.country} className="h-[10px] w-[15px] rounded-[2px]" />}
+                </span>
+              </span>
+            </a>
+
+            {/* На телефон надписът „примерен разговор“ не се побира в заглавния ред — стои под картата */}
+            <p className="mt-3 text-center text-[11px] font-medium uppercase tracking-[0.08em] text-slate-500 sm:hidden">{c.chat.example}</p>
+          </aside>
+
+          {/* Пътят тръгва от дъното на чата и излиза от hero към следващата глава */}
+          <div aria-hidden className={`hc-path flex flex-col items-center ${play ? "is-play" : ""}`}>
+            <span className="hc-node -mt-1.5 block h-3 w-3 rounded-full bg-accent" />
+            <span className="hc-line block h-20 w-[2px] sm:h-28" />
           </div>
-        </motion.div>
-
+        </div>
       </div>
-
-      <div aria-hidden className="absolute inset-x-0 bottom-0 h-px" style={{ backgroundColor: "var(--hairline)" }} />
 
       <style>{`
-        .hero-spot {
-          background: radial-gradient(400px 400px at var(--mx) var(--my), rgba(34,211,238,.1) 0%, transparent 65%);
-          transition: background 0.05s;
-        }
-        @media (hover: none) {
-          .hero-spot { background: radial-gradient(380px 380px at 65% 30%, rgba(34,211,238,.08) 0%, transparent 65%); }
-        }
-        .hero-text-gradient {
-          background: linear-gradient(110deg,#67e8f9 0%,#22d3ee 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-        .balance { text-wrap: balance; }
-        .globe-ring {
-          animation: ring-pulse 3.5s ease-in-out infinite;
-        }
-        .globe-ring-2 {
-          animation: ring-pulse 3.5s ease-in-out infinite 1.4s;
-        }
-        @keyframes ring-pulse {
-          0%, 100% { opacity: 0.5; transform: scale(1); }
-          50%       { opacity: 0.12; transform: scale(1.05); }
-        }
+        .hero-balance { text-wrap: balance; }
+        .hc-typing { opacity: 0; }
+        .hc.is-play .hc-a { animation: hc-in .6s cubic-bezier(.16,1,.3,1) var(--d, 0s) both; }
+        .hc.is-play .hc-card { animation-name: hc-card; animation-duration: .8s; }
+        .hc.is-play .hc-typing { animation: hc-typing 1.5s ease 1s both; }
+        .hc.is-play .hc-dot { animation: hc-dot 1s ease-in-out infinite; }
+        .hc-node { box-shadow: 0 0 0 6px rgba(34,211,238,.18), 0 0 24px rgba(34,211,238,.6); }
+        .hc-line { background: linear-gradient(180deg, #22d3ee, rgba(34,211,238,.25)); transform-origin: top; }
+        .hc-path.is-play .hc-node { animation: hc-node .5s cubic-bezier(.16,1,.3,1) 4.2s both; }
+        .hc-path.is-play .hc-line { animation: hc-line .9s cubic-bezier(.16,1,.3,1) 4.4s both; }
+        @keyframes hc-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+        @keyframes hc-card { from { opacity: 0; transform: translateY(18px) scale(.985); } to { opacity: 1; transform: none; } }
+        @keyframes hc-typing { 0% { opacity: 0; } 12% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; } }
+        @keyframes hc-dot { 0%, 100% { transform: translateY(0); opacity: .55; } 50% { transform: translateY(-3px); opacity: 1; } }
+        @keyframes hc-node { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
+        @keyframes hc-line { from { transform: scaleY(0); } to { transform: scaleY(1); } }
         @media (prefers-reduced-motion: reduce) {
-          * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+          .hc .hc-a, .hc .hc-typing, .hc .hc-dot, .hc-path .hc-node, .hc-path .hc-line { animation: none !important; }
+          .hc-typing { opacity: 0; }
         }
       `}</style>
     </section>

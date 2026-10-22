@@ -12,12 +12,12 @@ const post: Post = {
       slug: "kolko-vreme-otnema-izrabotka-na-sait",
       title: "Колко време отнема изработка на сайт и къде реално се губи времето",
       excerpt:
-        "Сайт за 1–3 седмици, магазин за 2–4. Но половината проекти закъсняват, и почти никога заради програмирането. Ето реалния график и трите неща, които го бавят.",
+        "Сайт за 1–2 седмици, магазин за 2–4. Но половината проекти закъсняват, и почти никога заради програмирането. Ето реалния график и трите неща, които го бавят.",
       imageAlt: "Таблет с отворен календар и стилус на тъмна дървена маса",
       body: [
         {
           type: "p",
-          text: "„За колко време ще е готов?“ е вторият въпрос след цената. Честният отговор: сайт-визитка за 1–3 седмици, по-голям сайт за 3–5, онлайн магазин за 2–4 седмици. Но това са срокове при готови материали. В практиката повечето закъснения идват не от нас, а от чакане на текстове, снимки и решения. Ето как изглежда процесът и какво го ускорява.",
+          text: "„За колко време ще е готов?“ е вторият въпрос след цената. Честният отговор: сайт-визитка за 1–2 седмици, по-голям сайт за 3–5, онлайн магазин за 2–4 седмици. Но това са срокове при готови материали. В практиката повечето закъснения идват не от нас, а от чакане на текстове, снимки и решения. Ето как изглежда процесът и какво го ускорява.",
         },
         { type: "h2", text: "Реалният график, стъпка по стъпка" },
         {
@@ -69,12 +69,12 @@ const post: Post = {
       slug: "how-long-does-it-take-to-build-a-website",
       title: "How long does it take to build a website, and where the time really goes",
       excerpt:
-        "A website in 1–3 weeks, a store in 2–4. Yet half of all projects run late, and almost never because of the coding. The real timeline and the three things that slow it down.",
+        "A website in 1–2 weeks, a store in 2–4. Yet half of all projects run late, and almost never because of the coding. The real timeline and the three things that slow it down.",
       imageAlt: "Tablet with an open calendar and a stylus on a dark wooden table",
       body: [
         {
           type: "p",
-          text: "“How long until it is ready?” is the second question after the price. The honest answer: a business card website in 1–3 weeks, a larger site in 3–5, an online store in 2–4 weeks. But those are timelines with materials ready. In practice most delays come not from us but from waiting for texts, photos and decisions. Here is what the process looks like and what speeds it up.",
+          text: "“How long until it is ready?” is the second question after the price. The honest answer: a business card website in 1–2 weeks, a larger site in 3–5, an online store in 2–4 weeks. But those are timelines with materials ready. In practice most delays come not from us but from waiting for texts, photos and decisions. Here is what the process looks like and what speeds it up.",
         },
         { type: "h2", text: "The real timeline, step by step" },
         {
@@ -126,12 +126,12 @@ const post: Post = {
       slug: "wie-lange-dauert-eine-webseite",
       title: "Wie lange dauert die Erstellung einer Webseite, und wo die Zeit wirklich verloren geht",
       excerpt:
-        "Eine Webseite in 1–3 Wochen, ein Shop in 2–4. Trotzdem verzögert sich die Hälfte aller Projekte, und fast nie wegen der Programmierung. Der echte Zeitplan und die drei Dinge, die ihn bremsen.",
+        "Eine Webseite in 1–2 Wochen, ein Shop in 2–4. Trotzdem verzögert sich die Hälfte aller Projekte, und fast nie wegen der Programmierung. Der echte Zeitplan und die drei Dinge, die ihn bremsen.",
       imageAlt: "Tablet mit geöffnetem Kalender und Stift auf einem dunklen Holztisch",
       body: [
         {
           type: "p",
-          text: "„Wie lange dauert es, bis sie fertig ist?“ ist die zweite Frage nach dem Preis. Die ehrliche Antwort: eine Visitenkarten-Webseite in 1–3 Wochen, eine größere Seite in 3–5, ein Onlineshop in 2–4 Wochen. Das sind aber Zeiträume bei fertigen Materialien. In der Praxis kommen die meisten Verzögerungen nicht von uns, sondern vom Warten auf Texte, Fotos und Entscheidungen. So sieht der Ablauf aus und das beschleunigt ihn.",
+          text: "„Wie lange dauert es, bis sie fertig ist?“ ist die zweite Frage nach dem Preis. Die ehrliche Antwort: eine Visitenkarten-Webseite in 1–2 Wochen, eine größere Seite in 3–5, ein Onlineshop in 2–4 Wochen. Das sind aber Zeiträume bei fertigen Materialien. In der Praxis kommen die meisten Verzögerungen nicht von uns, sondern vom Warten auf Texte, Fotos und Entscheidungen. So sieht der Ablauf aus und das beschleunigt ihn.",
         },
         { type: "h2", text: "Der echte Zeitplan, Schritt für Schritt" },
         {

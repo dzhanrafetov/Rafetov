@@ -2,6 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import "@fontsource-variable/onest/wght.css";
 import "./index.css";
 import { stripLang } from "./i18n";
 import { captureFirstTouch, trackContactClicks } from "./service/attribution";

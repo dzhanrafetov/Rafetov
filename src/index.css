@@ -10,7 +10,11 @@
      Типографски са правилни, но част от читателите ги разчитат по-трудно, затова ги изключваме. */
   html {
     font-feature-settings: "locl" 0;
+    font-family: "Onest Variable", ui-sans-serif, system-ui, sans-serif;
   }
+  ::selection { background: rgba(34, 211, 238, 0.28); color: #fff; }
+  :focus-visible { outline: 2px solid #67e8f9; outline-offset: 3px; }
+  html { scrollbar-color: #1f2a3f #07090f; background-color: #07090f; }
 
   h1, h2, h3, h4, h5, h6, dt, summary, figcaption, blockquote {
     text-wrap: balance;
@@ -24,14 +28,8 @@
    tight line-height descenders (д, з, у, р) fall outside and vanish. Padding extends
    the painted area; the negative margin keeps layout unchanged. */
 .gradient-text {
-  display: inline-block;
-  padding: 0.12em 0.06em 0.22em;
-  margin: -0.12em -0.06em -0.22em;
-  /* Един акцент: циан. Преди беше циан → виолетово → зелено, което правеше всяко заглавие в три цвята. */
-  background: linear-gradient(110deg, #67e8f9 0%, #22d3ee 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  /* Един акцент, плътен циан. Преливащият текст отпадна при редизайна (2026-10). */
+  color: #67e8f9;
 }
 
 /* .hero-background {
@@ -41,7 +39,8 @@
 html, body {
   scroll-behavior: smooth;
 
-  overflow-x: hidden; /* Prevent horizontal overflow */
+  /* clip, а не hidden: hidden прави body скрол контейнер и чупи position: sticky (процес, въпроси). */
+  overflow-x: clip;
   margin: 0;
   padding: 0;
 }

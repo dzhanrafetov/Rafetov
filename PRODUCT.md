@@ -12,7 +12,7 @@ React 18 + Vite + Tailwind, prerendered to static HTML (scripts/prerender.mjs), 
 
 ## What it is
 
-rafetov.com — Dzhan Rafetov, a one-person web studio based in Sofia, Bulgaria (registered in Popovo). Builds business websites, online shops, digital menus, and runs Google/Meta ads. Works remotely for clients in Bulgaria, Germany, Belgium, UK, Spain and Norway.
+rafetov.com — a web studio based in Sofia, Bulgaria (registered in Popovo). Builds business websites, online shops, platforms and internal systems, mobile and desktop apps, AI automations (chatbots, inquiry handling, document processing), digital menus, and runs Google/Meta ads. Works remotely for clients in Bulgaria, Germany, Belgium, UK, Spain and Norway.
 
 ## Users and how they arrive
 
@@ -22,17 +22,17 @@ rafetov.com — Dzhan Rafetov, a one-person web studio based in Sofia, Bulgaria 
 
 ## Positioning and proof
 
-- Fixed price told within 24 hours, after a free call (phone or Google Meet). Starting prices (packages from 580 €, shop from 700 €) are shown in every language, including Bulgarian (owner decision, 2026-10-19).
+- Fixed price told within 24 hours, after a free call (phone or Google Meet). No prices anywhere on the site (owner decision, 2026-10-22); packages without prices are not shown either — the site leads to a brief/inquiry instead.
 - Real proof only: 5.0 on Google from 20 reviews, live client sites listed in `src/constants/projects.ts`.
 - Voice: formal „вие“, plural „ние“.
 - One site, one look: every video says "rafetov.com", so all traffic goes to the homepage. The homepage shows six featured projects per language (`FEATURED` in src/constants/projects.ts) and expands to all of them; every project has its own page (`/proekti/<id>`, `/en/projects/<id>`, …) built from src/constants/caseStudies.ts. No separate landing pages with their own visual world.
-- Separate pages for trust: "About" (`ABOUT_BASE` per language) and the projects index (`PROJECT_BASE`). A "trusted by" strip under the hero lists client names from src/components/TrustedBy.tsx; drop real logo files into public/logos/ and set `logo` there to show them instead of names.
+- Separate pages for trust: "About" (`ABOUT_BASE` per language) and the projects index (`PROJECT_BASE`). A "trusted by" strip under the hero shows real client logos in their original colours on tiles (dark logos on white tiles, light logos on navy) from src/components/TrustedBy.tsx and public/logos/.
 - Visual rules (owner, 2026-10-19): one accent colour (cyan), no background grids or colour blobs outside the hero, no eyebrow labels above headings, one call to action per section, no Three.js or generated imagery. Real screenshots and real reviews only.
-- The owner is visible: the homepage has an "about" section (src/pages/About.tsx, photo in public/about/) right after the hero, in first person, because visitors come from his videos and look for the same person. The section does not name him; it speaks for Rafetov as the brand, with him as its founder. Projects keep their order from src/constants/projects.ts.
+- Neutral studio tone (owner, 2026-10-22): no about/face section on the homepage, no first-person copy; „ние“ throughout. Projects keep their order from src/constants/projects.ts.
 
 ## Primary contact
 
-WhatsApp is the main action for builders (+359 897 758 062), then the form, then the phone.
+WhatsApp is the main action for builders (+359 897 758 062), then the form, then the phone. Inquiries should reach the owner instantly in Telegram (bot), with email as backup.
 
 ## Assets
 

@@ -32,6 +32,18 @@ export const FEATURED: Record<Lang, string[]> = {
   nl: ["alpha-reiniging", "het-pitta-loft", "chef-resat-site", "vulcho", "creative-homes", "nn-bau", "emis-cleaning", "zirve1", "beca"],
 };
 
+/**
+ * Проекти с истинска снимка на живия сайт (1600×1000, заснета при 1440×900 @2x) в public/work/live/.
+ * Ползва се вместо мокъпа там, където снимката е голяма — мокъпите са 900×589 и изглеждат размазани.
+ * Metesso и Korn Metal нямат: анимацията и видеото им не се заснемат чисто.
+ */
+const LIVE_SHOTS = new Set(["czpo", "24tours", "abi-studio", "active-solar", "aloeway", "alpha-reiniging", "amalfi-menu", "azteca-site", "beca", "chef-resat-menu", "chef-resat-site", "creative-homes", "dudo-group", "emis-cleaning", "het-pitta-loft", "hh-edelstahl", "hotel-fenix", "hustle-clothing", "innenausbau-ahmedov", "jitara", "kapisel", "mig-group", "nn-bau", "opaka-fits", "pachka-stil", "pancetita-menu", "pet-zvezdi", "primasell", "santander", "shop4home", "slapfight", "szo", "taupe", "vulcho", "zirve1"]);
+export const liveShot = (id: string): string | undefined => (LIVE_SHOTS.has(id) ? `/work/live/${id}.webp?v=3` : undefined);
+
+/** Мобилни снимки (390×844 @2x → 780×1688) в public/work/mobile/ — за мокъпи с телефон. */
+const MOBILE_SHOTS = new Set(["amalfi-menu", "chef-resat-menu", "pancetita-menu", "alpha-reiniging", "beca", "chef-resat-site", "creative-homes", "czpo", "emis-cleaning", "het-pitta-loft", "innenausbau-ahmedov", "jitara", "nn-bau", "shop4home", "vulcho", "zirve1"]);
+export const mobileShot = (id: string): string | undefined => (MOBILE_SHOTS.has(id) ? `/work/mobile/${id}.webp?v=3` : undefined);
+
 export const PROJECTS: Project[] = [
   {
     id: "chef-resat-site",

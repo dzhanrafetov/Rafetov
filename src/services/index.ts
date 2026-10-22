@@ -70,7 +70,7 @@ export const SERVICES: Service[] = [
         faq: [
           {
             q: "Колко време отнема?",
-            a: "Прост сайт: 1–3 седмици от момента, в който имаме текстове и снимки. По-голям сайт: 3–5 седмици. Точния срок вписваме в офертата.",
+            a: "Прост сайт: 1–2 седмици от момента, в който имаме текстове и снимки. По-голям сайт: 3–5 седмици. Точния срок вписваме в офертата.",
           },
           {
             q: "Трябва ли да имам готови текстове и снимки?",
@@ -108,7 +108,7 @@ export const SERVICES: Service[] = [
         faq: [
           {
             q: "How long does it take?",
-            a: "A simple site: 1–3 weeks from the moment we have texts and photos. A larger site: 3–5 weeks. The exact deadline goes into the quote.",
+            a: "A simple site: 1–2 weeks from the moment we have texts and photos. A larger site: 3–5 weeks. The exact deadline goes into the quote.",
           },
           {
             q: "Do I need ready texts and photos?",
@@ -146,7 +146,7 @@ export const SERVICES: Service[] = [
         faq: [
           {
             q: "Wie lange dauert es?",
-            a: "Einfache Seite: 1–3 Wochen, sobald Texte und Fotos vorliegen. Größere Seite: 3–5 Wochen. Den genauen Termin schreiben wir ins Angebot.",
+            a: "Einfache Seite: 1–2 Wochen, sobald Texte und Fotos vorliegen. Größere Seite: 3–5 Wochen. Den genauen Termin schreiben wir ins Angebot.",
           },
           {
             q: "Brauche ich fertige Texte und Fotos?",

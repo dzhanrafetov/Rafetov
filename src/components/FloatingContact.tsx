@@ -19,9 +19,9 @@ export default function FloatingContact() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={t.whatsapp.aria}
-      className={`fixed bottom-5 right-5 z-40 hidden h-14 w-14 lg:flex items-center justify-center rounded-full bg-[#25D366] text-white
-                  shadow-[0_8px_30px_-6px_rgba(37,211,102,0.55)] transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_40px_-4px_rgba(37,211,102,0.7)]
-                  focus:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/60
+      className={`fixed bottom-5 right-5 z-40 hidden h-14 w-14 lg:flex items-center justify-center rounded-full bg-[#22d3ee] text-[#07090f]
+                  shadow-[0_10px_28px_-10px_rgba(0,0,0,0.7)] transition-all duration-300 hover:scale-105 hover:bg-[#67e8f9]
+                  focus:outline-none focus-visible:ring-2 focus-visible:ring-[#67e8f9]/70
                   ${visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"}`}
     >
       <svg viewBox="0 0 24 24" className="h-7 w-7" fill="currentColor" aria-hidden>

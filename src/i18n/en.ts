@@ -266,7 +266,7 @@ const en: Dict = {
       },
       {
         q: "How long does it take?",
-        a: "Website: about 1–3 weeks depending on scope and content. Online store: about 2–4 weeks including shipping and payments. The exact deadline is in the quote.",
+        a: "Website: about 1–2 weeks depending on scope and content. Online store: about 2–4 weeks including shipping and payments. The exact deadline is in the quote.",
       },
       {
         q: "What do you need from me?",
@@ -341,7 +341,7 @@ const en: Dict = {
     error: "Sending failed. Please try again or call us at",
   },
   footer: {
-    tagline: "Websites and online stores that bring in clients.",
+    tagline: "Websites, online stores, apps and AI automations that bring in clients.",
     accepting: "Accepting new projects",
     navTitle: "Navigation",
     contactTitle: "Contact",

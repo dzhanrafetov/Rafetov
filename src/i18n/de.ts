@@ -266,7 +266,7 @@ const de: Dict = {
       },
       {
         q: "Wie lange dauert es?",
-        a: "Webseite: etwa 1–3 Wochen je nach Umfang und Inhalt. Onlineshop: etwa 2–4 Wochen inklusive Versand und Zahlungen. Den genauen Termin nennen wir im Angebot.",
+        a: "Webseite: etwa 1–2 Wochen je nach Umfang und Inhalt. Onlineshop: etwa 2–4 Wochen inklusive Versand und Zahlungen. Den genauen Termin nennen wir im Angebot.",
       },
       {
         q: "Was brauchen Sie von mir?",
@@ -341,7 +341,7 @@ const de: Dict = {
     error: "Senden fehlgeschlagen. Bitte versuchen Sie es erneut oder rufen Sie uns an:",
   },
   footer: {
-    tagline: "Webseiten und Onlineshops, die Kunden bringen.",
+    tagline: "Webseiten, Onlineshops, Apps und KI-Automatisierungen, die Kunden bringen.",
     accepting: "Webstudio",
     navTitle: "Navigation",
     contactTitle: "Kontakt",

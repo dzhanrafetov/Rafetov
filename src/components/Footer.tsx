@@ -6,6 +6,7 @@ import { PROJECT_BASE } from "../constants/projects";
 import { stripLang, useLang } from "../i18n";
 import { BLOG_BASE } from "../blog";
 import { SERVICES, servicePath } from "../services";
+import { servicesCopy } from "../i18n/sections/services";
 import LogoMark from "./LogoMark";
 
 // „За нас“ е скрита засега — страницата съществува, но не се показва в навигацията.
@@ -97,6 +98,18 @@ export default function Footer() {
                     >
                       <span aria-hidden className="h-px w-3 rounded-full bg-slate-700 transition-all duration-200 group-hover:w-4 group-hover:bg-[#22D3EE]" />
                       {t.services.items[s.id].title}
+                    </RouterLink>
+                  </li>
+                ))}
+                {/* Новите услуги още нямат собствени страници — водят към формата с избраната услуга. */}
+                {(["platform", "mobile", "desktop", "ai"] as const).map((k) => (
+                  <li key={k}>
+                    <RouterLink
+                      to={href(`/?service=${k}#contact`)}
+                      className="group flex items-center gap-2 text-[13px] text-slate-400 transition-colors hover:text-slate-100"
+                    >
+                      <span aria-hidden className="h-px w-3 rounded-full bg-slate-700 transition-all duration-200 group-hover:w-4 group-hover:bg-[#22D3EE]" />
+                      {servicesCopy[lang].items[k].name}
                     </RouterLink>
                   </li>
                 ))}

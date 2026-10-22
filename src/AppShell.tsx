@@ -78,16 +78,16 @@ function Home({ pages }: { pages: Pages }) {
     ],
   });
   const { Hero, Services, Market, Portfolio, Reviews, Contact } = pages;
-  // Редът: кой стои зад сайта → проекти → отзиви → пакети → процес и въпроси → контакт. Видео анализът е опция във формата.
+  // Редът е „пътят“ от редизайна (2026-10): hero с чат → лога → 01 услуги → 02 проекти → 03 отзиви →
+  // 04 процес и 05 въпроси → 06 запитване. Всяка глава започва с PathMark.
   return (
     <>
       <Hero />
       <TrustedBy />
+      <Suspense fallback={<Loader small />}><Services /></Suspense>
       <Suspense fallback={<Loader small />}><Market /></Suspense>
       <Suspense fallback={<Loader small />}><Reviews /></Suspense>
-      <Suspense fallback={<Loader small />}><Services /></Suspense>
       <Suspense fallback={<Loader small />}><Portfolio /></Suspense>
-      {/* „За нас“ е скрита от началната страница засега; остава на отделната страница. */}
       <Suspense fallback={<Loader small />}><Contact /></Suspense>
     </>
   );

@@ -5,7 +5,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",   // This should match your React component files
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['"Onest Variable"', "ui-sans-serif", "system-ui", "sans-serif"],
+      },
+      colors: {
+        ink: { DEFAULT: "#07090f", panel: "#0e1626", raised: "#141f33" },
+        accent: { DEFAULT: "#22d3ee", text: "#67e8f9" },
+      },
+    },
   },
   plugins: [],
 }
