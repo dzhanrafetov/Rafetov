@@ -8,7 +8,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import {
-  ArrowRight, ArrowUpRight, Bell, Bot, CalendarCheck, Check, ClipboardList, Code2, CreditCard, DatabaseBackup, FileText, Globe,
+  ArrowRight, ArrowUpRight, Bell, Bot, CalendarCheck, Check, ClipboardList, Code2, CreditCard, FileText, Globe,
   LayoutDashboard, LifeBuoy, Lock, MapPin, Megaphone, MessageCircle, Monitor, QrCode, Search, Send, Server, ShieldCheck, ShoppingBag, Smartphone, Truck,
   type LucideIcon,
 } from "lucide-react";
@@ -21,7 +21,7 @@ import { PROJECTS, type Project, liveShot, mobileShot, projectPath } from "../co
 import { serviceById, servicePath, type ServiceId } from "../services";
 import { GOOGLE_REVIEWS } from "../constants/business";
 
-type Vignette = "booking" | "mobile" | "desktop" | "apps" | "ai" | "ads" | "seo" | "care";
+export type Vignette = "booking" | "mobile" | "desktop" | "apps" | "ai" | "ads" | "seo" | "care";
 
 type Item = {
   key: ServiceKey;
@@ -47,7 +47,7 @@ const GROUPS: Group[] = [
       { key: "sites", icon: Globe, page: "site" },
       { key: "shop", icon: ShoppingBag, page: "shop" },
       { key: "menu", icon: QrCode, page: "menu" },
-      { key: "booking", icon: CalendarCheck },
+      { key: "booking", icon: CalendarCheck, page: "booking" },
     ],
   },
   {
@@ -56,26 +56,26 @@ const GROUPS: Group[] = [
     // Илюстрация на софтуер (сайтът на ЦЗПО изглеждаше като обикновен сайт); реалният проект е линк отдолу.
     proof: { vignette: "apps", real: "czpo" },
     items: [
-      { key: "platform", icon: LayoutDashboard },
-      { key: "mobile", icon: Smartphone },
-      { key: "desktop", icon: Monitor },
+      { key: "platform", icon: LayoutDashboard, page: "platform" },
+      { key: "mobile", icon: Smartphone, page: "mobile" },
+      { key: "desktop", icon: Monitor, page: "desktop" },
     ],
   },
-  { key: "ai", icon: Bot, proof: { vignette: "ai" }, items: [{ key: "ai", icon: Bot }] },
+  { key: "ai", icon: Bot, proof: { vignette: "ai" }, items: [{ key: "ai", icon: Bot, page: "ai" }] },
   {
     key: "growth",
     icon: Megaphone,
     proof: { vignette: "ads" },
     items: [
       { key: "ads", icon: Megaphone, page: "ads" },
-      { key: "seo", icon: MapPin },
-      { key: "care", icon: LifeBuoy },
+      { key: "seo", icon: MapPin, page: "seo" },
+      { key: "care", icon: LifeBuoy, page: "care" },
     ],
   },
 ];
 
 /** Проектът за езика, само ако има и десктоп, и мобилна снимка (иначе мокъпът няма какво да покаже). */
-function proofProject(ids: Record<Lang, string>, lang: Lang): Project | undefined {
+export function proofProject(ids: Record<Lang, string>, lang: Lang): Project | undefined {
   const p = PROJECTS.find((x) => x.id === ids[lang]);
   return p && liveShot(p.id) && mobileShot(p.id) ? p : undefined;
 }
@@ -329,7 +329,7 @@ function Proof({
 
 const SHADOW = "shadow-[0_32px_64px_-28px_rgba(0,0,0,.9),0_14px_28px_-14px_rgba(0,0,0,.6)]";
 
-function DeviceMockup({ project, animate }: { project: Project; animate: boolean }) {
+export function DeviceMockup({ project, animate }: { project: Project; animate: boolean }) {
   const host = project.href ? new URL(project.href).hostname.replace(/^www\./, "") : project.title;
   return (
     <div className="relative w-full max-w-[640px] pb-[9%]">
@@ -392,7 +392,7 @@ const APPS_CSS = `
   @media (prefers-reduced-motion: reduce) { .ap-row, .ap-push, .ap-sync { animation: none; } }
 `;
 
-function AppsVignette({ c, animate }: { c: ServicesCopy; animate: boolean }) {
+export function AppsVignette({ c, animate }: { c: ServicesCopy; animate: boolean }) {
   const { desktop: d, mobile: m, apps: a } = c.v;
   const rows: [string, string, string][] = [a.newRow, ...d.rows];
   const tabIcons = [CalendarCheck, ClipboardList, MessageCircle, LayoutDashboard];
@@ -506,7 +506,7 @@ const FLOW_CSS = [
   `@media (prefers-reduced-motion: reduce){.fl *{animation:none !important}}`,
 ].join("\n");
 
-function FlowVignette({ f }: { f: ServicesCopy["v"]["flow"] }) {
+export function FlowVignette({ f }: { f: ServicesCopy["v"]["flow"] }) {
   const ref = useRef<HTMLDivElement>(null);
 
   // Цикълът спира, когато диаграмата не се вижда.
@@ -635,7 +635,7 @@ function FlowVignette({ f }: { f: ServicesCopy["v"]["flow"] }) {
 
 /* ——— Илюстрации в код за услугите без проект в портфолиото ——— */
 
-function VignetteView({ kind, c, lang }: { kind: Vignette; c: ServicesCopy; lang: Lang }) {
+export function VignetteView({ kind, c, lang }: { kind: Vignette; c: ServicesCopy; lang: Lang }) {
   const v = c.v;
   switch (kind) {
     case "booking":
@@ -795,7 +795,7 @@ function VignetteView({ kind, c, lang }: { kind: Vignette; c: ServicesCopy; lang
     }
 
     case "care": {
-      const icons = [Server, Truck, CreditCard, DatabaseBackup];
+      const icons = [Server, Truck, CreditCard, MessageCircle];
       return (
         <Stage>
           <div className="w-[88%] max-w-[400px]">

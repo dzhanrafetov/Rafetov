@@ -1,8 +1,23 @@
 import { dutchServices } from "./nl";
 import type { Lang, WorkTag } from "../i18n/types";
 import type { IconKey } from "./icons";
+import type { ServiceKey } from "../i18n/sections/services";
+import { aiService } from "./ai";
+import { platformService } from "./platform";
+import { mobileService } from "./mobile";
+import { desktopService } from "./desktop";
+import { bookingService } from "./booking";
+import { seoService } from "./seo";
+import { careService } from "./care";
 
-export type ServiceId = "site" | "shop" | "menu" | "ads";
+/** Първите четири услуги имат и нидерландски текстове в nl.ts; новите държат всичките си езици в собствен файл. */
+export type LegacyServiceId = "site" | "shop" | "menu" | "ads";
+export type ServiceId = LegacyServiceId | "ai" | "platform" | "mobile" | "desktop" | "booking" | "seo" | "care";
+
+/** Картината горе вдясно: реален проект от портфолиото (по един за език) или илюстрация в код. */
+export type ServiceVisual =
+  | { project: Record<Lang, string> }
+  | { vignette: "booking" | "mobile" | "desktop" | "apps" | "ai" | "ads" | "seo" | "care" };
 
 export type ServiceContent = {
   /** Латински slug за езика */
@@ -15,10 +30,21 @@ export type ServiceContent = {
   includes: string[];
   forWhom: string[];
   faq: { q: string; a: string }[];
+  /** Конкретни примери какво правим (карти). Без тях страницата показва `includes` като списък. */
+  cases?: { title: string; text: string }[];
+  /** Стъпките на работа точно за тази услуга. Без тях — общият процес от началната страница. */
+  steps?: { title: string; text: string }[];
 };
 
 export type Service = {
   id: ServiceId;
+  /** Ключът на услугата в главата „Какво правим“ (име в списъци и `?service=` към формата). */
+  key: ServiceKey;
+  visual: ServiceVisual;
+  /** Ръчно подбрани проекти за главата „Реални проекти“ (по ред). Без тях — първите шест с `tag`. */
+  projects?: string[];
+  /** Икони за картите `cases` (по ред), имена от lucide-react — виж ServicePage. */
+  caseIcons?: string[];
   /** Кои проекти от портфолиото се показват (null = няма) */
   tag: WorkTag | null;
   accent: string;
@@ -37,6 +63,9 @@ export const SERVICE_BASE: Record<Lang, string> = { bg: "/uslugi", en: "/service
 export const SERVICES: Service[] = [
   {
     id: "site",
+    key: "sites",
+    projects: ["chef-resat-site", "emis-cleaning", "santander", "creative-homes", "abi-studio", "nn-bau"],
+    visual: { project: { bg: "zirve1", en: "emis-cleaning", de: "nn-bau", nl: "alpha-reiniging" } },
     tag: "site",
     accent: "#22D3EE",
     relatedPosts: ["kolko-struva-sait", "7-greshki", "kolko-vreme"],
@@ -162,6 +191,8 @@ export const SERVICES: Service[] = [
   },
   {
     id: "shop",
+    key: "shop",
+    visual: { project: { bg: "shop4home", en: "shop4home", de: "shop4home", nl: "shop4home" } },
     tag: "shop",
     accent: "#34D399",
     relatedPosts: ["onlain-magazin-dostavki", "kolko-struva-sait"],
@@ -287,6 +318,8 @@ export const SERVICES: Service[] = [
   },
   {
     id: "menu",
+    key: "menu",
+    visual: { project: { bg: "chef-resat-menu", en: "amalfi-menu", de: "amalfi-menu", nl: "amalfi-menu" } },
     tag: "menu",
     accent: "#A78BFA",
     relatedPosts: ["digitalno-menu-restorant", "google-business-restorant"],
@@ -412,6 +445,8 @@ export const SERVICES: Service[] = [
   },
   {
     id: "ads",
+    key: "ads",
+    visual: { vignette: "ads" },
     tag: null,
     accent: "#FBBF24",
     relatedPosts: ["sait-ili-facebook", "lokalno-seo", "google-business-restorant"],
@@ -535,6 +570,13 @@ export const SERVICES: Service[] = [
       },
     },
   },
+  bookingService,
+  platformService,
+  mobileService,
+  desktopService,
+  aiService,
+  seoService,
+  careService,
 ];
 
 export function servicePath(s: Service, lang: Lang): string {

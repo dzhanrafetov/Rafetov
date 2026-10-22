@@ -261,8 +261,8 @@ const de: Dict = {
         a: "Überhaupt nicht. Die meisten unserer Kunden sind keine Techniker. Sie erzählen uns von Ihrem Unternehmen, wir erledigen alles Weitere und erklären es in einfacher Sprache. Am Ende zeigen wir Ihnen, wie Sie die Seite selbst nutzen.",
       },
       {
-        q: "Was passiert, nachdem die Seite fertig ist?",
-        a: "Nach dem Start bleiben wir erreichbar. Fehlerbehebung, enthaltene Betreuung, Hosting und Kosten für zusätzliche Änderungen werden im Angebot festgelegt.",
+        q: "Gibt es eine monatliche Wartungsgebühr?",
+        a: "Nein, es gibt kein monatliches Abo. In den ersten 30 Tagen nach dem Start sind kleine Änderungen kostenlos. Danach erfolgen Änderungen auf Anfrage, und den Preis nennen wir Ihnen vorab.",
       },
       {
         q: "Wie lange dauert es?",

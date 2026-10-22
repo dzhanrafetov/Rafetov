@@ -9,6 +9,7 @@ import { LanguageProvider, PREFIXED_LANGS, useLang, withLang, type Lang } from "
 import { useSeo } from "./hooks/useSeo";
 import { organizationJsonLd, SITE_ORIGIN } from "./seo/head";
 import { SERVICES, servicePath } from "./services";
+import { servicesCopy } from "./i18n/sections/services";
 import { ABOUT_BASE, PROJECT_BASE } from "./constants/projects";
 import TrustedBy from "./components/TrustedBy";
 import { BLOG_BASE } from "./blog";
@@ -68,8 +69,8 @@ function Home({ pages }: { pages: Pages }) {
           position: i + 1,
           item: {
             "@type": "Service",
-            name: t.services.items[s.id].title,
-            description: t.services.items[s.id].text,
+            name: servicesCopy[lang].items[s.key].name,
+            description: s.content[lang].metaDescription,
             url: `${SITE_ORIGIN}${withLang(servicePath(s, lang), lang)}`,
             provider: { "@id": `${SITE_ORIGIN}/#organization` },
           },

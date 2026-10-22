@@ -97,19 +97,7 @@ export default function Footer() {
                       className="group flex items-center gap-2 text-[13px] text-slate-400 transition-colors hover:text-slate-100"
                     >
                       <span aria-hidden className="h-px w-3 rounded-full bg-slate-700 transition-all duration-200 group-hover:w-4 group-hover:bg-[#22D3EE]" />
-                      {t.services.items[s.id].title}
-                    </RouterLink>
-                  </li>
-                ))}
-                {/* Новите услуги още нямат собствени страници — водят към формата с избраната услуга. */}
-                {(["platform", "mobile", "desktop", "ai"] as const).map((k) => (
-                  <li key={k}>
-                    <RouterLink
-                      to={href(`/?service=${k}#contact`)}
-                      className="group flex items-center gap-2 text-[13px] text-slate-400 transition-colors hover:text-slate-100"
-                    >
-                      <span aria-hidden className="h-px w-3 rounded-full bg-slate-700 transition-all duration-200 group-hover:w-4 group-hover:bg-[#22D3EE]" />
-                      {servicesCopy[lang].items[k].name}
+                      {servicesCopy[lang].items[s.key].name}
                     </RouterLink>
                   </li>
                 ))}

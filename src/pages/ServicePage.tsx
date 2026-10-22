@@ -1,26 +1,42 @@
+/**
+ * Страница за отделна услуга (/uslugi/<slug>, /en/services/<slug> …) в езика на началната страница:
+ * един циан акцент, „пътят“ с възлите между главите, без решетки и петна на фона.
+ * Ред: hero с картина → какво правим → за кого → как работим → реални проекти → въпроси с карта за контакт → други услуги.
+ * Всяка услуга идва от src/services; новите (AI, приложения…) имат собствени примери и стъпки.
+ */
+import { useState } from "react";
 import { Link as RouterLink, Navigate, useParams } from "react-router-dom";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+  ArrowRight, ArrowUpRight, Bell, Bot, CalendarCheck, Check, ClipboardList, FileText, LayoutDashboard, LifeBuoy, MapPin,
+  MessageCircle, Monitor, Phone, Printer, ScanText, Smartphone, Star, Users, WifiOff, Workflow,
+  type LucideIcon,
+} from "lucide-react";
 import { useLang, withLang } from "../i18n";
+import type { Lang } from "../i18n/types";
 import { useSeo } from "../hooks/useSeo";
 import { SITE_ORIGIN } from "../seo/head";
 import { SERVICES, findService, findServiceAnyLang, serviceAlternates, servicePath, type Service } from "../services";
-import { Icon } from "../services/icons";
-import ServiceIllustration from "../services/ServiceArt";
+import { servicesCopy } from "../i18n/sections/services";
+import { servicePageCopy } from "../i18n/sections/servicePage";
+import { PROJECT_BASE, PROJECTS, projectPath, projectsFor } from "../constants/projects";
+import { BUSINESS, GOOGLE_REVIEWS, VIBER_HREF, whatsappHref } from "../constants/business";
+import { AppsVignette, DeviceMockup, FlowVignette, VignetteView, proofProject } from "./Services";
 import { CardsGrid } from "./OnlinePresenceCTA";
-import { projectsFor } from "../constants/projects";
-import { POSTS } from "../blog";
-import BlogCard from "../blog/BlogCard";
+import PathMark from "../components/PathMark";
+import { Stars } from "../components/GoogleRating";
+import WhatsAppIcon from "../components/WhatsAppIcon";
+import ViberIcon from "../components/ViberIcon";
 import NotFound from "./NotFound";
 
-const fade = {
-  hidden: { opacity: 0, y: 18 },
-  show: (i = 0) => ({
-    opacity: 1, y: 0,
-    transition: { duration: 0.55, delay: 0.07 * i, ease: [0.22, 1, 0.36, 1] },
-  }),
+/** Иконите на картите „Какво можем да направим“ — по име от `caseIcons` на услугата. */
+const CASE_ICONS: Record<string, LucideIcon> = {
+  MessageCircle, Bot, ClipboardList, FileText, ScanText, Star, Bell, CalendarCheck, LayoutDashboard, LifeBuoy, MapPin,
+  Monitor, Printer, Smartphone, Users, WifiOff, Workflow,
 };
 
-const STEP_ACCENTS = ["#22D3EE", "#34D399", "#A78BFA", "#FBBF24"];
+const BTN =
+  "inline-flex h-14 items-center justify-center gap-2.5 rounded-[14px] bg-accent px-7 text-[15px] font-semibold text-ink shadow-[0_6px_20px_-8px_rgba(34,211,238,.45)] transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_26px_-8px_rgba(34,211,238,.6)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text";
 
 export default function ServicePage() {
   const { base = "", slug = "" } = useParams();
@@ -32,24 +48,17 @@ export default function ServicePage() {
     if (other) return <Navigate to={withLang(servicePath(other.service, other.lang), other.lang)} replace />;
     return <NotFound />;
   }
-  return <ServiceView service={service} />;
-}
-
-function SectionTitle({ children, right }: { children: React.ReactNode; right?: React.ReactNode }) {
-  return (
-    <div className="mb-6 flex items-center justify-between gap-4">
-      <h2 className="text-[13px] font-bold uppercase tracking-[0.2em] text-slate-400">{children}</h2>
-      {right}
-    </div>
-  );
+  return <ServiceView key={service.id} service={service} />;
 }
 
 function ServiceView({ service }: { service: Service }) {
-  const { lang, t, href } = useLang();
+  const { lang, href, t } = useLang();
   const c = service.content[lang];
-  const accent = service.accent;
+  const s = servicePageCopy[lang];
+  const name = servicesCopy[lang].items[service.key].name;
   const path = servicePath(service, lang);
   const url = `${SITE_ORIGIN}${withLang(path, lang)}`;
+  const brief = href(`/?service=${service.key}#contact`);
 
   useSeo({
     title: c.metaTitle,
@@ -63,321 +72,358 @@ function ServiceView({ service }: { service: Service }) {
         "@id": `${url}#service`,
         name: c.title,
         description: c.metaDescription,
-        serviceType: t.services.items[service.id].title,
+        serviceType: name,
         provider: { "@id": `${SITE_ORIGIN}/#organization` },
-        areaServed: ["BG", "DE", "AT", "CH", "GB", "BE", "NO", "ES"],
+        areaServed: ["BG", "DE", "AT", "CH", "GB", "BE", "NL", "NO", "ES"],
         url,
         inLanguage: lang,
       },
       {
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        mainEntity: c.faq.map((f) => ({
-          "@type": "Question",
-          name: f.q,
-          acceptedAnswer: { "@type": "Answer", text: f.a },
-        })),
+        mainEntity: c.faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
       },
       {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Rafetov.com", item: `${SITE_ORIGIN}${withLang("/", lang)}` },
-          { "@type": "ListItem", position: 2, name: t.header.links.services, item: `${SITE_ORIGIN}${withLang("/", lang)}#services` },
-          { "@type": "ListItem", position: 3, name: c.title, item: url },
+          { "@type": "ListItem", position: 2, name: s.services, item: `${SITE_ORIGIN}${withLang("/", lang)}#services` },
+          { "@type": "ListItem", position: 3, name, item: url },
         ],
       },
     ],
   });
 
-  const projects = service.tag ? projectsFor(lang).filter((p) => p.tag === service.tag) : [];
-  const related = service.relatedPosts.map((id) => POSTS.find((p) => p.id === id)).filter(Boolean) as typeof POSTS;
-  const others = SERVICES.filter((s) => s.id !== service.id);
-
-  const ctaPrimary =
-    "group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full px-7 text-[14px] font-bold text-[#03060d] shadow-[0_0_28px_-8px_rgba(34,211,238,0.5)] transition-all duration-300 hover:shadow-[0_0_40px_-8px_rgba(34,211,238,0.75)]";
-  const ctaSecondary =
-    "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/[0.09] bg-white/[0.03] px-7 text-[14px] font-semibold text-slate-300 transition-all hover:border-white/[0.15] hover:bg-white/[0.06] hover:text-slate-100";
+  const available = projectsFor(lang);
+  const projects = service.projects
+    ? service.projects.map((id) => available.find((p) => p.id === id)).filter((p): p is (typeof available)[number] => !!p)
+    : service.tag ? available.filter((p) => p.tag === service.tag).slice(0, 6) : [];
+  // Без собствени стъпки — общият процес от началната страница.
+  const steps = c.steps ?? t.process.steps.map((x) => ({ title: x.title, text: x.text }));
+  // Номерата на главите вървят подред според това кои глави има.
+  let chapter = 0;
+  const next = () => String(++chapter).padStart(2, "0");
 
   return (
-    <main
-      className="relative isolate min-h-screen overflow-hidden text-slate-200"
-      style={{ backgroundColor: "#07090f", ["--hairline" as string]: "#1a2234" } as React.CSSProperties}
-    >
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 opacity-[0.03]
-          [background-image:linear-gradient(rgba(148,163,184,.15)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,.15)_1px,transparent_1px)]
-          [background-size:28px_28px]" />
-        <div className="absolute -left-72 top-24 h-[600px] w-[600px] rounded-full opacity-[0.06]"
-          style={{ background: `radial-gradient(circle,${accent} 0%,transparent 65%)` }} />
-        <div className="absolute -right-40 top-10 h-[700px] w-[700px] rounded-full opacity-[0.07]"
-          style={{ background: `radial-gradient(circle,${accent} 0%,transparent 60%)` }} />
-      </div>
-
-      <div className="relative mx-auto max-w-7xl px-5 pb-16 pt-28 sm:px-6 sm:pt-32">
-        {/* Breadcrumb */}
-        <nav aria-label="breadcrumb" className="flex items-center gap-2 text-[12.5px] text-slate-500">
-          <RouterLink to={href("/")} className="transition-colors hover:text-slate-200">Rafetov.com</RouterLink>
-          <span aria-hidden>/</span>
-          <RouterLink to={`${href("/")}#services`} className="transition-colors hover:text-slate-200">{t.header.links.services}</RouterLink>
-        </nav>
-
-        {/* ── Hero ── */}
-        <header className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center lg:gap-8">
-          <div className="lg:col-span-6">
-            <motion.div variants={fade} initial="hidden" animate="show">
-              <span className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.22em]"
-                style={{ color: accent, borderColor: `color-mix(in srgb,${accent} 30%,transparent)`, background: `color-mix(in srgb,${accent} 8%,transparent)` }}>
-                <span className="relative flex h-[7px] w-[7px]">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-70" style={{ background: accent }} />
-                  <span className="relative inline-flex h-[7px] w-[7px] rounded-full" style={{ background: accent }} />
-                </span>
-                {t.services.items[service.id].label}
-              </span>
-            </motion.div>
-            <motion.h1
-              variants={fade} initial="hidden" animate="show" custom={1}
-              className="mt-5 text-[clamp(1.9rem,5vw,3.1rem)] font-extrabold leading-[1.08] tracking-[-0.02em] text-slate-100"
-              style={{ textWrap: "balance" } as React.CSSProperties}
+    <main className="svc-page bg-ink text-slate-200">
+      {/* ── Hero ── */}
+      <header className="mx-auto grid max-w-7xl gap-12 px-5 pb-16 pt-28 sm:px-6 sm:pt-32 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-center lg:gap-14 lg:pb-24">
+        <div className="text-center lg:text-left">
+          <nav aria-label="breadcrumb" className="flex items-center justify-center gap-2 text-[13px] text-slate-500 lg:justify-start">
+            <RouterLink to={href("/")} className="rounded transition-colors hover:text-slate-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-text">Rafetov.com</RouterLink>
+            <span aria-hidden>/</span>
+            <RouterLink to={href("/#services")} className="rounded transition-colors hover:text-slate-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-text">{s.services}</RouterLink>
+          </nav>
+          <h1 className="balance mt-6 text-[clamp(2.1rem,6.4vw,3.6rem)] font-extrabold leading-[1.03] tracking-[-0.034em] text-white">{c.title}</h1>
+          <p className="balance mx-auto mt-6 max-w-[54ch] text-[16.5px] leading-[1.6] text-slate-400 sm:text-[17px] lg:mx-0">{c.intro}</p>
+          <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
+            <RouterLink to={brief} className={BTN}>
+              {s.cta}
+              <ArrowRight aria-hidden className="h-4 w-4" />
+            </RouterLink>
+            <a
+              href={whatsappHref(s.whatsappText.replace("{service}", name))}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 rounded text-[14.5px] font-medium text-slate-300 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text"
             >
-              {c.title}
-            </motion.h1>
-            <motion.p variants={fade} initial="hidden" animate="show" custom={2} className="mt-5 max-w-[58ch] text-[16.5px] leading-relaxed text-slate-400">
-              {c.intro}
-            </motion.p>
-
-            <motion.div variants={fade} initial="hidden" animate="show" custom={3} className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <RouterLink to={`${href("/")}#contact`} className={`${ctaPrimary} px-8 py-3.5 text-[15px]`}
-                style={{ background: "linear-gradient(135deg,#34d9f0 0%,#0ea5e9 55%,#0284c7 100%)" }}>
-                <span aria-hidden className="absolute inset-0 -skew-x-[20deg] -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                <span className="relative">{t.service.ctaButton}</span>
-                <svg viewBox="0 0 24 24" className="relative ml-2.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <path d="M5 12h14M13 5l7 7-7 7" />
-                </svg>
-              </RouterLink>
-              <a href="tel:+359897758062" className={`${ctaSecondary} py-3.5`}>+359 897 758 062</a>
-            </motion.div>
-
-            {/* Ценовото поле е скрито засега: офертата се дава след разговор. */}
+              <WhatsAppIcon className="h-4 w-4 text-slate-400 group-hover:text-slate-200" />
+              <span className="border-b border-white/20 pb-px group-hover:border-white/50">{s.orWhatsapp}</span>
+            </a>
           </div>
+          <p className="mt-8 inline-flex items-center gap-2.5 text-[13.5px] text-slate-400">
+            <Stars className="h-3.5 w-3.5" />
+            <span>
+              <b className="font-semibold text-slate-200">{GOOGLE_REVIEWS.rating.toFixed(1).replace(".", lang === "en" ? "." : ",")}</b>{" "}
+              {s.rating.replace("{n}", String(GOOGLE_REVIEWS.count))}
+            </span>
+          </p>
+        </div>
+        <HeroVisual service={service} lang={lang} />
+      </header>
 
-          {/* Illustration */}
-          <motion.div
-            initial={{ opacity: 0, y: 24, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-            className="relative lg:col-span-6"
-          >
-            <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-              <div className="absolute left-1/2 top-1/2 h-[80%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.16] blur-3xl"
-                style={{ background: `radial-gradient(circle,${accent},transparent 70%)` }} />
-              <div className="absolute left-1/2 top-1/2 h-[92%] w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-full border"
-                style={{ borderColor: `color-mix(in srgb,${accent} 14%,transparent)` }} />
-              <div className="absolute left-1/2 top-1/2 h-[70%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed"
-                style={{ borderColor: `color-mix(in srgb,${accent} 10%,transparent)` }} />
-            </div>
-            <div className="mx-auto max-w-[560px]">
-              <ServiceIllustration id={service.id} accent={accent} />
-            </div>
-          </motion.div>
-        </header>
+      {/* ── Какво правим ── */}
+      <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-6 sm:pb-28">
+        <PathMark n={next()} label={c.cases ? s.cases : s.includes} />
+        <h2 className="balance mx-auto mt-6 max-w-3xl text-center text-[clamp(1.9rem,5.5vw,3.1rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-white">
+          {c.cases ? s.cases : s.includes}
+        </h2>
+        {c.cases ? (
+          <ul className="mx-auto mt-12 grid max-w-6xl overflow-hidden rounded-[22px] border border-white/[0.08] bg-ink-panel sm:grid-cols-2 lg:grid-cols-3">
+            {c.cases.map((item, i) => {
+              const Icon = CASE_ICONS[service.caseIcons?.[i] ?? ""] ?? Check;
+              return (
+                <li key={item.title} className="svc-case relative p-6 sm:p-8">
+                  <Icon aria-hidden strokeWidth={1.75} className="h-6 w-6 text-accent-text" />
+                  <h3 className="mt-5 text-[18px] font-bold leading-snug tracking-[-0.015em] text-white">{item.title}</h3>
+                  <p className="mt-2 text-[15px] leading-relaxed text-slate-400">{item.text}</p>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <ul className="mx-auto mt-12 grid max-w-5xl gap-x-10 rounded-[22px] border border-white/[0.08] bg-ink-panel px-6 py-3 sm:grid-cols-2 sm:px-10 sm:py-6">
+            {c.includes.map((item) => (
+              <li key={item} className="flex items-start gap-3.5 border-b border-white/[0.07] py-4 text-[15.5px] leading-snug text-slate-200 last:border-b-0 sm:[&:nth-last-child(2):nth-child(odd)]:border-b-0">
+                <Check aria-hidden strokeWidth={2.5} className="mt-0.5 h-4 w-4 shrink-0 text-accent-text" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        )}
 
-        {/* ── Includes ── */}
-        <section className="mt-20">
-          <SectionTitle
-            right={<span className="text-[12.5px] text-slate-500">{String(c.includes.length).padStart(2, "0")}</span>}
-          >
-            {t.service.includes}
-          </SectionTitle>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {c.includes.map((item, i) => (
-              <motion.div
-                key={item}
-                variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={i}
-                className="group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.14]"
-              >
-                <div aria-hidden className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                  style={{ background: `radial-gradient(ellipse at 20% 0%, color-mix(in srgb,${accent} 18%,transparent), transparent 60%)` }} />
-                <div className="relative flex items-start gap-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110"
-                    style={{ background: `color-mix(in srgb,${accent} 12%,transparent)`, border: `1px solid color-mix(in srgb,${accent} 24%,transparent)`, color: accent }}>
-                    <Icon name={service.includeIcons[i] ?? "shield"} className="h-5 w-5" />
-                  </span>
-                  <p className="pt-1.5 text-[14.5px] leading-relaxed text-slate-200">{item}</p>
-                </div>
-                <span aria-hidden className="pointer-events-none absolute -bottom-3 -right-1 select-none text-[4.5rem] font-black leading-none opacity-[0.05] transition-opacity group-hover:opacity-[0.09]"
-                  style={{ color: accent }}>
-                  {String(i + 1).padStart(2, "0")}
+        {/* За кого: кратък ред под примерите, не отделна глава */}
+        <div className="mx-auto mt-14 max-w-5xl">
+          <h3 className="text-center text-[17px] font-bold tracking-[-0.01em] text-white">{s.forWhom}</h3>
+          <ul className="mt-5 flex flex-wrap justify-center gap-2.5">
+            {c.forWhom.map((w) => (
+              <li key={w} className="rounded-full border border-white/[0.09] bg-white/[0.03] px-4 py-2.5 text-[14px] leading-snug text-slate-300">
+                {w}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ── Как работим ── */}
+      {steps && steps.length > 0 && (
+        <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-6 sm:pb-28">
+          <PathMark n={next()} label={s.steps} />
+          <h2 className="balance mx-auto mt-6 max-w-3xl text-center text-[clamp(1.9rem,5.5vw,3.1rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-white">{s.steps}</h2>
+          <ol className="svc-steps relative mx-auto mt-12 max-w-2xl">
+            {steps.map((st, i) => (
+              <li key={st.title} className="relative grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-5 pb-10 last:pb-0 sm:grid-cols-[3rem_minmax(0,1fr)] sm:gap-x-7">
+                <span aria-hidden className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-accent/60 bg-ink text-[13px] font-bold tabular-nums text-accent-text shadow-[0_0_0_5px_rgba(34,211,238,.08)] sm:h-12 sm:w-12 sm:text-[14px]">
+                  {i + 1}
                 </span>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── For whom ── */}
-        <section className="mt-20">
-          <SectionTitle>{t.service.forWhom}</SectionTitle>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {c.forWhom.map((item, i) => (
-              <motion.div
-                key={item}
-                variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={i}
-                className="group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-gradient-to-b from-white/[0.04] to-white/[0.015] p-6 text-center transition-all duration-300 hover:-translate-y-1"
-              >
-                <div aria-hidden className="absolute inset-x-0 top-0 h-[2px] opacity-60"
-                  style={{ background: `linear-gradient(90deg,transparent,${accent},transparent)` }} />
-                <div className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-full"
-                  style={{ background: `conic-gradient(from 180deg, ${accent}, #A78BFA, ${accent})`, padding: 1.5 }}>
-                  <div className="flex h-full w-full items-center justify-center rounded-full bg-[#0b1220]" style={{ color: accent }}>
-                    <Icon name={service.forWhomIcons[i] ?? "briefcase"} className="h-7 w-7" />
-                  </div>
+                <div className="pt-1.5 sm:pt-2.5">
+                  <h3 className="text-[19px] font-bold leading-snug tracking-[-0.015em] text-white sm:text-[21px]">{st.title}</h3>
+                  <p className="mt-2 max-w-[56ch] text-[15.5px] leading-relaxed text-slate-400">{st.text}</p>
                 </div>
-                <p className="mt-5 text-[14.5px] leading-relaxed text-slate-200">{item}</p>
-              </motion.div>
+              </li>
             ))}
-          </div>
+          </ol>
         </section>
+      )}
 
-        {/* ── Process timeline ── */}
-        <section className="mt-20">
-          <SectionTitle
-            right={
-              <RouterLink to={`${href("/")}#process`} className="text-[13px] font-semibold text-slate-400 transition-colors hover:text-slate-100">
-                {t.header.links.process} →
-              </RouterLink>
-            }
-          >
-            {t.service.process}
-          </SectionTitle>
-          <div className="relative">
-            <div aria-hidden className="absolute left-[calc(12.5%-1px)] right-[calc(12.5%-1px)] top-[26px] hidden h-px lg:block"
-              style={{ background: "linear-gradient(90deg,#22D3EE,#34D399,#A78BFA,#FBBF24)", opacity: 0.3 }} />
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {t.process.steps.map((s, i) => {
-                const a = STEP_ACCENTS[i % STEP_ACCENTS.length];
-                return (
-                  <motion.div
-                    key={s.title}
-                    variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={i}
-                    className="group flex flex-col items-center text-center"
-                  >
-                    <div className="relative z-10 flex h-[52px] w-[52px] items-center justify-center rounded-full border-2 text-[15px] font-black transition-transform duration-300 group-hover:scale-110"
-                      style={{ borderColor: a, background: `color-mix(in srgb,${a} 14%,#07090f)`, boxShadow: `0 0 24px -6px ${a}`, color: a }}>
-                      {i + 1}
-                    </div>
-                    <div className="mt-4 w-full rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5">
-                      <div className="text-[11px] font-bold uppercase tracking-[0.16em]" style={{ color: a }}>{s.time}</div>
-                      <h3 className="mt-1.5 text-[15.5px] font-bold text-slate-100">{s.title}</h3>
-                      <p className="mt-2 text-[13.5px] leading-relaxed text-slate-400">{s.text}</p>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* ── Projects ── */}
-        {projects.length > 0 && (
-          <section className="mt-20">
-            <SectionTitle>{t.service.projects}</SectionTitle>
+      {/* ── Реални проекти ── */}
+      {projects.length > 0 && (
+        <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-6 sm:pb-28">
+          <PathMark n={next()} label={s.projects} />
+          <h2 className="balance mx-auto mt-6 max-w-3xl text-center text-[clamp(1.9rem,5.5vw,3.1rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-white">{s.projects}</h2>
+          <div className="mx-auto mt-12 max-w-6xl">
             <CardsGrid projects={projects} />
-          </section>
-        )}
-
-        {/* ── FAQ ── */}
-        <section className="mt-20">
-          <SectionTitle
-            right={
-              <RouterLink to={`${href("/")}#process`} className="text-[13px] font-semibold text-slate-400 transition-colors hover:text-slate-100">
-                {t.process.faqEyebrow} →
-              </RouterLink>
-            }
-          >
-            {t.service.faq}
-          </SectionTitle>
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-            {c.faq.map((f, i) => (
-              <motion.div
-                key={f.q}
-                variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05, margin: "0px 0px 200px 0px" }} custom={i}
-                className="relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025] p-6"
-              >
-                <div aria-hidden className="absolute inset-x-0 top-0 h-[2px]" style={{ background: `linear-gradient(90deg,${accent},transparent)`, opacity: 0.6 }} />
-                <span className="inline-flex h-7 w-7 items-center justify-center rounded-md text-[11px] font-black"
-                  style={{ background: `color-mix(in srgb,${accent} 14%,transparent)`, border: `1px solid color-mix(in srgb,${accent} 25%,transparent)`, color: accent }}>
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-4 text-[15.5px] font-bold leading-snug text-slate-100">{f.q}</h3>
-                <p className="mt-3 text-[14px] leading-relaxed text-slate-400">{f.a}</p>
-              </motion.div>
-            ))}
+          </div>
+          <div className="mt-8 flex justify-center">
+            <RouterLink to={href(PROJECT_BASE[lang])} className="group inline-flex items-center gap-1.5 rounded text-[14.5px] font-semibold text-slate-300 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text">
+              <span className="border-b border-white/25 pb-px group-hover:border-white/60">{s.allProjects}</span>
+              <ArrowRight aria-hidden className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </RouterLink>
           </div>
         </section>
+      )}
 
-        {/* ── CTA ── */}
-        <aside className="mt-20">
-          <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.03] p-7 sm:p-10">
-            <div aria-hidden className="absolute inset-x-0 top-0 h-[2px]" style={{ background: "linear-gradient(90deg,#22d3ee,#a78bfa,#34d399)", opacity: 0.6 }} />
-            <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-[0.1] blur-3xl" style={{ background: `radial-gradient(circle,${accent},transparent)` }} />
-            <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-              <div className="max-w-[60ch]">
-                <h2 className="text-[clamp(1.35rem,3vw,1.8rem)] font-extrabold tracking-tight text-slate-100">{t.service.ctaTitle}</h2>
-                <p className="mt-2 text-[15px] leading-relaxed text-slate-400">{t.service.ctaText}</p>
-              </div>
-              <div className="flex shrink-0 flex-col gap-3 sm:flex-row sm:items-center">
-                <RouterLink to={`${href("/")}#contact`} className={ctaPrimary}
-                  style={{ background: "linear-gradient(135deg,#34d9f0 0%,#0ea5e9 55%,#0284c7 100%)" }}>
-                  <span aria-hidden className="absolute inset-0 -skew-x-[20deg] -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                  <span className="relative">{t.service.ctaButton}</span>
-                  <svg viewBox="0 0 24 24" className="relative ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                    <path d="M5 12h14M13 5l7 7-7 7" />
-                  </svg>
-                </RouterLink>
-                <a href="https://wa.me/359897758062" target="_blank" rel="noopener noreferrer" className={ctaSecondary}>WhatsApp</a>
-              </div>
-            </div>
-          </div>
-        </aside>
+      {/* ── Въпроси + карта за контакт ── */}
+      <Faq service={service} chapter={next()} brief={brief} name={name} />
 
-        {/* ── Related posts ── */}
-        {related.length > 0 && (
-          <section className="mt-20">
-            <SectionTitle>{t.service.related}</SectionTitle>
-            <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
-              {related.slice(0, 3).map((p) => (
-                <BlogCard key={p.id} post={p} />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* ── Other services ── */}
-        <section className="mt-20">
-          <SectionTitle>{t.service.allServices}</SectionTitle>
-          <div className="flex flex-wrap gap-3">
-            {others.map((s) => (
+      {/* ── Други услуги ── */}
+      <nav aria-label={s.others} className="mx-auto max-w-6xl px-5 pb-24 sm:px-6">
+        <h2 className="text-center text-[17px] font-bold tracking-[-0.01em] text-white">{s.others}</h2>
+        <ul className="mt-5 flex flex-wrap justify-center gap-2.5">
+          {SERVICES.filter((x) => x.id !== service.id).map((x) => (
+            <li key={x.id}>
               <RouterLink
-                key={s.id}
-                to={href(servicePath(s, lang))}
-                className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[13.5px] font-semibold transition-all hover:-translate-y-0.5"
-                style={{
-                  borderColor: `color-mix(in srgb,${s.accent} 30%,transparent)`,
-                  background: `color-mix(in srgb,${s.accent} 7%,transparent)`,
-                  color: `color-mix(in srgb,${s.accent} 85%,white)`,
-                }}
+                to={href(servicePath(x, lang))}
+                className="group inline-flex h-11 items-center gap-2 rounded-full border border-white/[0.09] bg-white/[0.03] px-4 text-[14px] font-medium text-slate-300 transition-colors hover:border-white/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
               >
-                {t.services.items[s.id].title}
-                <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <path d="M5 12h14M13 5l7 7-7 7" />
-                </svg>
+                {servicesCopy[lang].items[x.key].name}
+                <ArrowRight aria-hidden className="h-3.5 w-3.5 text-slate-500 transition-transform group-hover:translate-x-0.5 group-hover:text-accent-text" />
               </RouterLink>
-            ))}
-          </div>
-        </section>
-      </div>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
-      <div aria-hidden className="absolute inset-x-0 bottom-0 h-px" style={{ backgroundColor: "var(--hairline)" }} />
+      <style>{`
+        .svc-page .balance { text-wrap: balance; }
+        .svc-page ::selection { background: rgba(34,211,238,.28); color: #fff; }
+        /* Мрежа от тънки линии между примерите, без карти една в друга. */
+        .svc-case { box-shadow: inset 0 -1px 0 rgba(255,255,255,.07); }
+        @media (min-width: 640px) { .svc-case { box-shadow: inset -1px -1px 0 rgba(255,255,255,.07); } }
+        /* Линията на стъпките: от първия до последния възел. */
+        .svc-steps::before { content: ""; position: absolute; left: 1.25rem; top: 1.25rem; bottom: 1.25rem; width: 2px; transform: translateX(-50%); background: linear-gradient(180deg, #22d3ee, rgba(34,211,238,.15)); }
+        @media (min-width: 640px) { .svc-steps::before { left: 1.5rem; top: 1.5rem; bottom: 1.5rem; } }
+        /* Сцената на илюстрацията е без собствен фон тук — рамката вече е панел. */
+        .svc-vig > div { background: transparent; }
+        @media (min-width: 1024px) { .svc-vig > div > * { transform: scale(1.3); } }
+        .faq-plus::before, .faq-plus::after { content: ""; position: absolute; left: 50%; top: 50%; background: currentColor; border-radius: 1px; transition: transform .35s cubic-bezier(.16,1,.3,1); }
+        .faq-plus::before { width: 12px; height: 2px; transform: translate(-50%,-50%); }
+        .faq-plus::after { width: 2px; height: 12px; transform: translate(-50%,-50%); }
+        [aria-expanded="true"] .faq-plus::after { transform: translate(-50%,-50%) scaleY(0); }
+        [aria-expanded="true"] .faq-plus::before { transform: translate(-50%,-50%) rotate(180deg); }
+        @media (prefers-reduced-motion: reduce) { .faq-plus::before, .faq-plus::after { transition: none; } }
+      `}</style>
     </main>
+  );
+}
+
+/* ——— Картината в hero: реален проект в лаптоп и телефон или илюстрация в код ——— */
+
+function HeroVisual({ service, lang }: { service: Service; lang: Lang }) {
+  const { href, t } = useLang();
+  const c = servicesCopy[lang];
+  const s = servicePageCopy[lang];
+  const v = service.visual;
+  const project = "project" in v ? proofProject(v.project, lang) : undefined;
+  const real = project ? PROJECTS.find((p) => p.id === project.id) : undefined;
+
+  return (
+    <figure className="overflow-hidden rounded-[22px] border border-white/[0.08] bg-ink-panel shadow-[0_30px_70px_-30px_rgba(0,0,0,.75)]">
+      <div className="relative flex min-h-[340px] items-center justify-center px-4 pb-6 pt-12 sm:px-8 sm:pb-8 sm:pt-14 lg:min-h-[460px]">
+        {project ? (
+          <DeviceMockup project={project} animate={false} />
+        ) : "vignette" in v && v.vignette === "ai" ? (
+          <FlowVignette f={c.v.flow} />
+        ) : "vignette" in v && v.vignette === "apps" ? (
+          <AppsVignette c={c} animate={false} />
+        ) : (
+          // Илюстрациите-карти се уголемяват на десктоп, за да пълнят рамката; телефонът и таблицата вече са в пълен размер.
+          <div className={`w-full ${"vignette" in v && ["booking", "seo", "care", "ads"].includes(v.vignette) ? "svc-vig" : ""}`}>
+            <VignetteView kind={"vignette" in v ? v.vignette : "ads"} c={c} lang={lang} />
+          </div>
+        )}
+        {project ? (
+          <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-ink px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-white">
+            <i aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
+            {c.live}
+          </span>
+        ) : (
+          <span className="absolute right-3 top-3 rounded-full border border-white/10 bg-ink/70 px-2 py-1 text-[10.5px] font-medium uppercase tracking-[0.08em] text-slate-500">{s.example}</span>
+        )}
+      </div>
+      {real && (
+        <figcaption className="border-t border-white/[0.07] text-[13px]">
+          <RouterLink to={href(projectPath(real, lang))} className="group flex items-center justify-between gap-3 px-5 py-3.5 sm:px-6">
+            <span className="min-w-0 truncate">
+              <span className="font-semibold text-slate-200 underline-offset-4 group-hover:underline">{t.work.titles?.[real.id] ?? real.title}</span>
+              {real.country && <span className="text-slate-500"> · {t.countries[real.country]}</span>}
+            </span>
+            <ArrowUpRight aria-hidden className="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </RouterLink>
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
+/* ——— Въпроси вдясно, карта за контакт вляво (както в главата „Въпроси“ на началната страница) ——— */
+
+function Faq({ service, chapter, brief, name }: { service: Service; chapter: string; brief: string; name: string }) {
+  const { lang } = useLang();
+  const c = service.content[lang];
+  const s = servicePageCopy[lang];
+  const reduced = useReducedMotion();
+  const [open, setOpen] = useState<number | null>(0);
+
+  return (
+    <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-6 sm:pb-28">
+      <PathMark n={chapter} label={s.faq} />
+      <div className="mx-auto mt-6 grid max-w-6xl gap-10 sm:mt-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-16">
+        <div className="contents lg:sticky lg:top-24 lg:block lg:self-start">
+          <div className="order-1 text-center lg:text-left">
+            <h2 className="balance text-[clamp(1.9rem,5.5vw,3.1rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-white">{s.faq}</h2>
+            <p className="balance mx-auto mt-4 max-w-[40ch] text-[16px] leading-relaxed text-slate-400 lg:mx-0">{s.faqSub}</p>
+          </div>
+          <div className="order-3 rounded-3xl border border-white/[0.08] bg-ink-panel p-6 sm:p-7 lg:mt-10">
+            <h3 className="text-[1.2rem] font-extrabold tracking-[-0.02em] text-white">{s.cardTitle}</h3>
+            <p className="mt-2 text-[14.5px] leading-relaxed text-slate-400">{s.cardText}</p>
+            <RouterLink to={brief} className={`${BTN} mt-5 h-12 w-full rounded-xl`}>
+              {s.cta}
+              <ArrowRight aria-hidden className="h-4 w-4" />
+            </RouterLink>
+            <div className="mt-3 grid grid-cols-3 gap-2.5">
+              <a
+                href={whatsappHref(s.whatsappText.replace("{service}", name))}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 items-center justify-center gap-1.5 rounded-xl border border-white/[0.1] text-[13px] font-medium text-slate-200 transition-colors hover:border-white/25 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-text"
+              >
+                <WhatsAppIcon className="h-4 w-4 text-slate-400" />
+                <span className="truncate">WhatsApp</span>
+              </a>
+              <a
+                href={VIBER_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 items-center justify-center gap-1.5 rounded-xl border border-white/[0.1] text-[13px] font-medium text-slate-200 transition-colors hover:border-white/25 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-text"
+              >
+                <ViberIcon className="h-4 w-4 text-slate-400" />
+                {s.viber}
+              </a>
+              <a
+                href={BUSINESS.phoneHref}
+                className="flex h-10 items-center justify-center gap-1.5 rounded-xl border border-white/[0.1] text-[13px] font-medium text-slate-200 transition-colors hover:border-white/25 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-text"
+              >
+                <Phone aria-hidden className="h-4 w-4 text-slate-400" />
+                {s.call}
+              </a>
+            </div>
+            <p className="mt-4 flex items-center gap-2 text-[13px] text-slate-400">
+              <i aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
+              {s.reply}
+            </p>
+          </div>
+        </div>
+
+        <div className="order-2 divide-y divide-white/[0.08] border-y border-white/[0.08]">
+          {c.faq.map((item, i) => {
+            const expanded = open === i;
+            const id = `svc-faq-${i}`;
+            return (
+              <div key={item.q}>
+                <h3>
+                  <button
+                    type="button"
+                    id={`${id}-q`}
+                    aria-expanded={expanded}
+                    aria-controls={`${id}-a`}
+                    onClick={() => setOpen(expanded ? null : i)}
+                    className="group flex w-full items-center justify-between gap-5 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 sm:py-6"
+                  >
+                    <span className={`text-[16px] font-semibold leading-snug tracking-[-0.01em] transition-colors duration-300 sm:text-[17px] ${expanded ? "text-white" : "text-slate-200 group-hover:text-white"}`}>
+                      {item.q}
+                    </span>
+                    <span
+                      aria-hidden
+                      className={`faq-plus relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
+                        expanded ? "border-accent bg-accent text-ink" : "border-white/15 text-slate-300 group-hover:border-white/35"
+                      }`}
+                    />
+                  </button>
+                </h3>
+                <AnimatePresence initial={false}>
+                  {expanded && (
+                    <motion.div
+                      key="a"
+                      id={`${id}-a`}
+                      role="region"
+                      aria-labelledby={`${id}-q`}
+                      initial={reduced ? false : { height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={reduced ? undefined : { height: 0, opacity: 0 }}
+                      transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <p className="max-w-[62ch] pb-6 pr-12 text-[15px] leading-relaxed text-slate-400">{item.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }

@@ -261,8 +261,8 @@ const en: Dict = {
         a: "Not at all. Most of our clients aren't technical people. You tell us about your business, we do everything else and explain it in plain language. At the end we show you how to use the site yourself.",
       },
       {
-        q: "What happens after the site is ready?",
-        a: "We remain available after launch. Issue resolution, included support, hosting and charges for extra changes are specified in your quote.",
+        q: "Is there a monthly maintenance fee?",
+        a: "No, there is no monthly subscription. For the first 30 days after launch, small changes are free. After that, changes are made on request and we tell you the price in advance.",
       },
       {
         q: "How long does it take?",

@@ -1,5 +1,5 @@
-import type { ServiceContent, ServiceId } from './index';
-export const dutchServices: Record<ServiceId, ServiceContent> = {
+import type { LegacyServiceId, ServiceContent } from './index';
+export const dutchServices: Record<LegacyServiceId, ServiceContent> = {
   site: {
     slug:'website-laten-maken',metaTitle:'Bedrijfswebsite laten maken | Rafetov.com',metaDescription:'Een snelle, mobiele bedrijfswebsite met een duidelijk ontwerp en aanvraagformulier. Vaste offerte na gratis advies.',title:'Een website die aanvragen oplevert',intro:'Een website die duidelijk laat zien wie u bent en hoe u helpt, snel laadt op mobiel en voorbereid is op Google. Een ontwerp voor uw bedrijf met heldere afspraken over hosting.',priceLine:'Bedrijfswebsite: € 580–2.300 afhankelijk van de omvang. Vaste offerte na gratis advies via telefoon of Google Meet.',
     includes:['Ontwerp op maat voor uw bedrijf','Geschikt voor telefoon, tablet en computer','Technische SEO-basis en snelle laadtijd','Aanvraagformulier en zichtbare contactknoppen','Meerdere talen mogelijk volgens offerte','Hosting volgens afgesproken voorwaarden'],

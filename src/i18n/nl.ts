@@ -32,7 +32,7 @@ const nl: Dict = {
   ],faqEyebrow:'Veelgestelde vragen',faqMore:'Geen antwoord gevonden?',faqMoreCta:'Vraag het ons via WhatsApp',faq:[
     {q:'Wat kost een website?',a:'De prijs hangt af van de omvang: aantal pagina’s, talen en functies. Na een gesprek bepalen we de omvang en sturen we een vaste offerte. Complexe projecten krijgen een offerte op maat.'},
     {q:'Ik weet niets van websites en techniek — is dat een probleem?',a:'Helemaal niet. U vertelt ons over uw bedrijf, wij regelen de rest en leggen alles uit in gewone taal. We laten u ook zien hoe u de website zelf gebruikt.'},
-    {q:'Wat gebeurt er na de lancering?',a:'We blijven beschikbaar. Ondersteuning, hosting en kosten voor extra wijzigingen worden in uw offerte beschreven.'},
+    {q:'Is er een maandelijks onderhoudsabonnement?',a:'Nee, u betaalt ons geen maandelijks abonnement. De eerste 30 dagen na de lancering zijn kleine aanpassingen gratis. Daarna gebeuren aanpassingen op aanvraag en zeggen we u vooraf de prijs.'},
     {q:'Hoe lang duurt het?',a:'Een website duurt ongeveer 1–2 weken, afhankelijk van de omvang en inhoud. Een webshop ongeveer 2–4 weken. De exacte planning staat in de offerte.'},
     {q:'Wat heeft u van mij nodig?',a:'Een korte beschrijving van uw bedrijf en doelen, een logo en foto’s als u die heeft, en iemand die feedback kan geven. Wij regelen de rest.'},
     {q:'Ik heb al een website — kunt u die vernieuwen?',a:'Ja. We nemen de inhoud over, verbeteren de structuur, snelheid en vindbaarheid in Google.'},
