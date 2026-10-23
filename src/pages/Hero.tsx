@@ -203,7 +203,7 @@ export default function Hero() {
             <p className="mt-3 text-center text-[11px] font-medium uppercase tracking-[0.08em] text-slate-500 sm:hidden">{c.chat.example}</p>
           </aside>
 
-          {/* Пътят тръгва от дъното на чата и излиза от hero към следващата глава */}
+          {/* Пътят тръгва от дъното на чата и се стопява към логата, вместо да свършва рязко */}
           <div aria-hidden className={`hc-path flex flex-col items-center ${play ? "is-play" : ""}`}>
             <span className="hc-node -mt-1.5 block h-3 w-3 rounded-full bg-accent" />
             <span className="hc-line block h-20 w-[2px] sm:h-28" />
@@ -219,7 +219,7 @@ export default function Hero() {
         .hc.is-play .hc-typing { animation: hc-typing 1.5s ease 1s both; }
         .hc.is-play .hc-dot { animation: hc-dot 1s ease-in-out infinite; }
         .hc-node { box-shadow: 0 0 0 6px rgba(34,211,238,.18), 0 0 24px rgba(34,211,238,.6); }
-        .hc-line { background: linear-gradient(180deg, #22d3ee, rgba(34,211,238,.25)); transform-origin: top; }
+        .hc-line { background: linear-gradient(180deg, #22d3ee, rgba(34,211,238,0)); transform-origin: top; }
         .hc-path.is-play .hc-node { animation: hc-node .5s cubic-bezier(.16,1,.3,1) 4.2s both; }
         .hc-path.is-play .hc-line { animation: hc-line .9s cubic-bezier(.16,1,.3,1) 4.4s both; }
         @keyframes hc-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }

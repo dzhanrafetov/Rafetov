@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { motion } from "framer-motion";
 import { Link as ScrollLink } from "react-scroll";
 import { useLang } from "../i18n";
@@ -71,8 +72,8 @@ export default function Guarantees() {
       className="relative isolate overflow-hidden text-slate-200"
       style={{
         backgroundColor: "#07090f",
-        ["--hairline" as any]: "#1a2234",
-      }}
+        "--hairline": "#1a2234",
+      } as CSSProperties}
     >
       {/* Фон */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">

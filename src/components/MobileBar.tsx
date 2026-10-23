@@ -56,24 +56,13 @@ export default function MobileBar() {
   // Без това не се вижда дали лентата изобщо води хора към формата.
   const onClick = () => track("mobilebar_form_cta");
 
-  // Същият език като hero CTA-то: циан градиент, тъмен текст (по-висок контраст от бяло върху синьо), стрелка.
+  // Същият бутон като в hero: плътен циан, тъмен текст, стрелка. Без преливане и блясък (един акцент).
   const btnClass =
-    `group relative flex h-[52px] min-w-0 flex-1 items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-full px-3 text-[14px] font-bold tracking-[0.005em] text-[#03060d] sm:px-4 sm:text-[15px]
-     transition-transform duration-150 active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70`;
-  const btnStyle = {
-    background: "linear-gradient(135deg,#34d9f0 0%,#0ea5e9 55%,#0284c7 100%)",
-    boxShadow: "0 10px 28px -10px rgba(34,211,238,0.75), 0 0 0 1px rgba(255,255,255,0.12) inset, 0 1px 0 rgba(255,255,255,0.35) inset",
-  };
+    `relative flex h-[52px] min-w-0 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-accent px-3 text-[14px] font-bold tracking-[0.005em] text-ink sm:px-4 sm:text-[15px]
+     transition-[transform,background-color] duration-150 hover:bg-accent-text active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70`;
 
   const label = (
     <>
-      {/* блясък, който минава през бутона веднъж при показване — привлича окото без да натрапва */}
-      <span
-        aria-hidden
-        className={`pointer-events-none absolute inset-0 -skew-x-[20deg] bg-gradient-to-r from-transparent via-white/40 to-transparent ${
-          visible ? "mobilebar-shine" : "-translate-x-full"
-        }`}
-      />
       <span className="relative truncate">{t.mobileBar.cta}</span>
       <svg viewBox="0 0 24 24" className="relative h-4 w-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
         <path d="M5 12h14M13 5l7 7-7 7" />
@@ -110,7 +99,6 @@ export default function MobileBar() {
             onClick={onClick}
             aria-label={t.mobileBar.aria}
             className={`${btnClass} cursor-pointer`}
-            style={btnStyle}
           >
             {label}
           </ScrollLink>
@@ -120,7 +108,6 @@ export default function MobileBar() {
             onClick={onClick}
             aria-label={t.mobileBar.aria}
             className={btnClass}
-            style={btnStyle}
           >
             {label}
           </RouterLink>

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { FaFacebook, FaInstagram, FaTiktok } from "react-icons/fa";
@@ -38,7 +39,7 @@ export default function Footer() {
   return (
     <footer
       className="relative isolate overflow-hidden text-slate-400"
-      style={{ backgroundColor: "#07090f", ["--hairline" as any]: "#1a2234" }}
+      style={{ backgroundColor: "#07090f", "--hairline": "#1a2234" } as CSSProperties}
     >
       <div aria-hidden className="absolute inset-x-0 top-0 h-px" style={{ backgroundColor: "var(--hairline)" }} />
 
