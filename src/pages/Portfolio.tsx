@@ -8,6 +8,7 @@ import { BUSINESS, VIBER_HREF, whatsappHref } from "../constants/business";
 import PathMark from "../components/PathMark";
 import WhatsAppIcon from "../components/WhatsAppIcon";
 import ViberIcon from "../components/ViberIcon";
+import AccentTitle from "../components/AccentTitle";
 
 /* Реален проект (различен за всеки език, виж process.ts), който „се строи“ в стъпка 3 и е онлайн в стъпка 4. */
 const SHOT = { w: 1600, h: 1000 };
@@ -117,7 +118,7 @@ function ProcessChapter() {
   return (
     <section id="process" className="relative bg-ink pb-16 text-slate-200 sm:pb-20">
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
-        <PathMark n="04" label={c.label} />
+        <PathMark n="05" label={c.label} />
         <h2 className="balance mx-auto mt-6 max-w-[22ch] text-center text-[clamp(1.9rem,5.5vw,3.1rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-white sm:mt-8">
           {c.h2a} <span className="text-accent-text">{c.h2b}</span>
         </h2>
@@ -361,12 +362,12 @@ function FaqChapter() {
   return (
     <section id="faq" className="relative bg-ink pb-20 text-slate-200 sm:pb-28">
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
-        <PathMark n="05" label={f.label} />
+        <PathMark n="06" label={f.label} />
         <div className="mx-auto mt-6 grid max-w-6xl gap-10 sm:mt-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-16">
           {/* На телефон: заглавие → въпроси → карта. На десктоп двете части отляво са закачени заедно. */}
           <div className="contents lg:sticky lg:top-24 lg:block lg:self-start">
             <div className="order-1 text-center lg:text-left">
-              <h2 className="balance text-[clamp(1.9rem,5.5vw,3.1rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-white">{f.h2}</h2>
+              <h2 className="balance text-[clamp(1.9rem,5.5vw,3.1rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-white"><AccentTitle text={f.h2} accents={["въпроси", "questions", "Fragen", "vragen"]} /></h2>
               <p className="balance mx-auto mt-4 max-w-[40ch] text-[16px] leading-relaxed text-slate-400 lg:mx-0">{f.sub}</p>
             </div>
             <div className="order-3 rounded-3xl border border-white/[0.08] bg-ink-panel p-6 lg:mt-10 sm:p-7">

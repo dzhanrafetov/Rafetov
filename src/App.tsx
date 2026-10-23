@@ -8,6 +8,7 @@ const pages: Pages = {
   Hero: React.lazy(() => import("./pages/Hero")),
   About: React.lazy(() => import("./pages/About")),
   Services: React.lazy(() => import("./pages/Services")),
+  Tools: React.lazy(() => import("./pages/Tools")),
   Guarantees: React.lazy(() => import("./pages/Guarantees")),
   Market: React.lazy(() => import("./pages/OnlinePresenceCTA")),
   Portfolio: React.lazy(() => import("./pages/Portfolio")),
@@ -22,6 +23,8 @@ const pages: Pages = {
   ProjectPage: React.lazy(() => import("./pages/ProjectPage")),
   ProjectsIndex: React.lazy(() => import("./pages/ProjectsIndex")),
   AboutPage: React.lazy(() => import("./pages/AboutPage")),
+  Planner: React.lazy(() => import("./pages/Planner")),
+  SiteCheck: React.lazy(() => import("./pages/SiteCheck")),
   NotFound: React.lazy(() => import("./pages/NotFound")),
 };
 

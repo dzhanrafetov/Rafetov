@@ -282,7 +282,7 @@ export default function SectionWorkGalleryMinimal({ page = false }: { page?: boo
   return (
     <section id="work" className="relative text-slate-200" style={{ backgroundColor: "#07090f" }}>
       <div className={`mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-24 ${page ? "pt-28 sm:pt-36" : "pt-4 sm:pt-6"}`}>
-        {!page && <PathMark n="02" label={c.label} />}
+        {!page && <PathMark n="03" label={c.label} />}
 
         <div className={`text-center ${page ? "" : "mt-8 sm:mt-10"}`}>
           <Heading className="mx-auto max-w-[22ch] text-[clamp(1.9rem,5.5vw,3rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-slate-50">

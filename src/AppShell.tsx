@@ -11,6 +11,7 @@ import { organizationJsonLd, SITE_ORIGIN } from "./seo/head";
 import { SERVICES, servicePath } from "./services";
 import { servicesCopy } from "./i18n/sections/services";
 import { ABOUT_BASE, PROJECT_BASE } from "./constants/projects";
+import { AUDIT_BASE, PLANNER_BASE } from "./constants/tools";
 import TrustedBy from "./components/TrustedBy";
 import { BLOG_BASE } from "./blog";
 
@@ -18,6 +19,7 @@ export type Pages = {
   Hero: ComponentType;
   About: ComponentType;
   Services: ComponentType;
+  Tools: ComponentType;
   Guarantees: ComponentType;
   Market: ComponentType;
   Portfolio: ComponentType;
@@ -32,6 +34,8 @@ export type Pages = {
   ProjectPage: ComponentType;
   ProjectsIndex: ComponentType;
   AboutPage: ComponentType;
+  Planner: ComponentType;
+  SiteCheck: ComponentType;
   NotFound: ComponentType;
 };
 
@@ -78,14 +82,15 @@ function Home({ pages }: { pages: Pages }) {
       },
     ],
   });
-  const { Hero, Services, Market, Portfolio, Reviews, Contact } = pages;
-  // Редът е „пътят“ от редизайна (2026-10): hero с чат → лога → 01 услуги → 02 проекти → 03 отзиви →
-  // 04 процес и 05 въпроси → 06 запитване. Всяка глава започва с PathMark.
+  const { Hero, Services, Tools, Market, Portfolio, Reviews, Contact } = pages;
+  // Редът е „пътят“ от редизайна (2026-10): hero с чат → лога → 01 услуги → 02 безплатни инструменти →
+  // 03 проекти → 04 отзиви → 05 процес и 06 въпроси → 07 запитване. Всяка глава започва с PathMark.
   return (
     <>
       <Hero />
       <TrustedBy />
       <Suspense fallback={<Loader small />}><Services /></Suspense>
+      <Suspense fallback={<Loader small />}><Tools /></Suspense>
       <Suspense fallback={<Loader small />}><Market /></Suspense>
       <Suspense fallback={<Loader small />}><Reviews /></Suspense>
       <Suspense fallback={<Loader small />}><Portfolio /></Suspense>
@@ -111,7 +116,7 @@ export default function AppShell({
   /** Само за браузъра (Analytics и др.). */
   children?: React.ReactNode;
 }) {
-  const { PrivacyPolicy, LegalNotice, BlogIndex, BlogPost, ServicePage, ProjectPage, ProjectsIndex, AboutPage, NotFound } = pages;
+  const { PrivacyPolicy, LegalNotice, BlogIndex, BlogPost, ServicePage, ProjectPage, ProjectsIndex, AboutPage, Planner, SiteCheck, NotFound } = pages;
   return (
     <LanguageProvider initialLang={initialLang}>
       <ScrollManager />
@@ -128,6 +133,9 @@ export default function AppShell({
               <Route path={`${p}${PROJECT_BASE[(p ? p.slice(1) : "bg") as Lang]}`} element={<ProjectsIndex />} />
               <Route path={`${p}${PROJECT_BASE[(p ? p.slice(1) : "bg") as Lang]}/:slug`} element={<ProjectPage />} />
               <Route path={`${p}${ABOUT_BASE[(p ? p.slice(1) : "bg") as Lang]}`} element={<AboutPage />} />
+              {/* Инструменти (фаза 2 на редизайна): планер на проект и безплатна проверка на сайт. */}
+              <Route path={`${p}${PLANNER_BASE[(p ? p.slice(1) : "bg") as Lang]}`} element={<Planner />} />
+              <Route path={`${p}${AUDIT_BASE[(p ? p.slice(1) : "bg") as Lang]}`} element={<SiteCheck />} />
               <Route path={`${p}/:base/:slug`} element={<ServicePage />} />
             </React.Fragment>
           ))}

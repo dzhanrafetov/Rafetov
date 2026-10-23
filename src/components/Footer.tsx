@@ -8,6 +8,9 @@ import { stripLang, useLang } from "../i18n";
 import { BLOG_BASE } from "../blog";
 import { SERVICES, servicePath } from "../services";
 import { servicesCopy } from "../i18n/sections/services";
+import { plannerCopy } from "../i18n/sections/planner";
+import { auditCopy } from "../i18n/sections/audit";
+import { AUDIT_BASE, PLANNER_BASE } from "../constants/tools";
 import LogoMark from "./LogoMark";
 
 // „За нас“ е скрита засега — страницата съществува, но не се показва в навигацията.
@@ -143,6 +146,18 @@ export default function Footer() {
                     </li>
                   );
                 })}
+                {/* Инструменти: планер на проект и безплатна проверка на сайт */}
+                {[
+                  { label: plannerCopy[lang].nav, to: href(PLANNER_BASE[lang]) },
+                  { label: auditCopy[lang].nav, to: href(AUDIT_BASE[lang]) },
+                ].map((l) => (
+                  <li key={l.to}>
+                    <RouterLink to={l.to} className="group flex items-center gap-2 text-[13px] text-slate-400 transition-colors hover:text-slate-100">
+                      <span aria-hidden className="h-px w-3 rounded-full bg-slate-700 transition-all duration-200 group-hover:w-4 group-hover:bg-[#22D3EE]" />
+                      {l.label}
+                    </RouterLink>
+                  </li>
+                ))}
               </ul>
             </div>
 

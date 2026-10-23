@@ -18,7 +18,7 @@ const de: Dict = {
     call: "Anrufen",
     callAria: "Anrufen: +359 897 758 062",
     langAria: "Sprache wählen",
-    links: { hero: "Start", services: "Leistungen", about: "Über uns", work: "Projekte", process: "Ablauf", blog: "Blog", contact: "Kontakt" },
+    links: { hero: "Start", services: "Leistungen", about: "Über uns", work: "Projekte", process: "Ablauf", blog: "Blog", contact: "Kontakt", check: "Website-Check", planner: "Projektplaner" },
   },
   hero: {
     badge: "Offen für Projekte",

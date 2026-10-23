@@ -11,10 +11,11 @@ export type CaseCopy = {
   task: string;
   /** Блокове „Какво направихме“, по ред на `site`. */
   site: { title: string; text: string }[];
-  adminIntro: string;
+  /** Само при проекти със скрийншоти на панела. */
+  adminIntro?: string;
   /** Описание под всеки скрийншот на панела, по ред на `admin`. */
-  admin: { title: string; text: string }[];
-  /** Още възможности на панела, без картинка. */
+  admin?: { title: string; text: string }[];
+  /** Още възможности: на панела (ако има) или на самия сайт, без картинка. */
   more: string[];
   /** Роли в платформата (само ЦЗПО). */
   roles?: { name: string; text: string }[];
@@ -22,7 +23,8 @@ export type CaseCopy = {
 
 export type CaseDetail = {
   site: string[];
-  admin: string[];
+  /** Скрийншоти на панела; липсва при проекти без собствен панел — тогава остават задачата, сайтът и списъкът „Още в проекта“. */
+  admin?: string[];
   /** Скрийншотите на панела са от демо данни (локална версия), не от истинския панел. */
   demo?: boolean;
   copy: Partial<Record<Lang, CaseCopy>>;
@@ -444,6 +446,540 @@ export const CASE_DETAILS: Record<string, CaseDetail> = {
           { name: "Lesgever", text: "Ziet alleen de eigen groepen. Geeft onlinelessen, laadt materiaal op, maakt en verbetert toetsen." },
           { name: "Cursist", text: "Volgt de lessen via het platform, downloadt materiaal, legt toetsen af en ziet het resultaat zodra het gepubliceerd is." },
           { name: "Controleur", text: "Medewerker van de arbeidsbemiddelingsdienst. Alleen inzage in de toegewezen groepen: deelnemers, rooster, aanwezigheid en resultaten." },
+        ],
+      },
+    },
+  },
+
+  /* ——— Проекти без собствен панел: задачата, сайтът и „Още в проекта“. Проверени на живо на 2026-10-24. ——— */
+
+  shop4home: {
+    site: ["/work/case/shop4home-home.webp", "/work/case/shop4home-categories.webp", "/work/case/shop4home-checkout.webp"],
+    copy: {
+      bg: {
+        task: "Вносител на стоки за дома и смарт уреди искаше онлайн магазин за хиляди продукти в десетки категории: бързо търсене, промоции и най-продавани на видно място и поръчка без регистрация с доставка с Еконт до офис или до адрес.",
+        site: [
+          { title: "Начало като витрина", text: "Категориите вляво, най-новото и промоциите в средата, банери към сезонните категории вдясно. Отстъпката и цената в евро и лева са на всяка карта." },
+          { title: "Каталог по категории", text: "Всяка категория показва колко продукта и подкатегории има. Търсенето се отваря от всяка страница, а любимите продукти се пазят в отделен списък." },
+          { title: "Поръчка без регистрация", text: "Количка, после данни за доставка: офис на Еконт или куриер до адрес, фактура за фирма и бележка към поръчката. Клиентът получава имейл с потвърждение." },
+        ],
+        more: [
+          "Промоции, нови продукти и най-продавани с брой продажби",
+          "Споделяне на продукт във Facebook, Viber и WhatsApp",
+          "„Може да харесаш“ под всеки продукт",
+          "Блог с категории: технологии, дом и градина, авто, здраве",
+          "Продуктите, категориите и поръчките се управляват от админ панел",
+        ],
+      },
+      en: {
+        task: "An importer of home goods and smart appliances wanted an online shop for thousands of products in dozens of categories: fast search, promotions and bestsellers in plain view, and ordering without registration with Econt delivery to an office or an address.",
+        site: [
+          { title: "A home page as a shop window", text: "Categories on the left, the newest products and promotions in the middle, banners for the seasonal categories on the right. The discount and the price in euro and leva sit on every card." },
+          { title: "Catalogue by category", text: "Every category shows how many products and subcategories it holds. Search opens from any page, and favourite products are kept in a separate list." },
+          { title: "Ordering without registration", text: "Basket, then delivery details: an Econt office or a courier to an address, an invoice for a company and a note to the order. The customer receives a confirmation email." },
+        ],
+        more: [
+          "Promotions, new products and bestsellers with the number sold",
+          "Sharing a product on Facebook, Viber and WhatsApp",
+          "\"You may also like\" under every product",
+          "A blog with categories: technology, home and garden, auto, health",
+          "Products, categories and orders are managed from an admin panel",
+        ],
+      },
+      de: {
+        task: "Ein Importeur von Haushaltswaren und smarten Geräten wollte einen Online-Shop für Tausende Produkte in Dutzenden Kategorien: schnelle Suche, Aktionen und Bestseller gut sichtbar und Bestellung ohne Registrierung mit Econt-Lieferung an eine Filiale oder eine Adresse.",
+        site: [
+          { title: "Startseite als Schaufenster", text: "Die Kategorien links, Neuheiten und Aktionen in der Mitte, Banner zu den Saisonkategorien rechts. Rabatt und Preis in Euro und Lew stehen auf jeder Karte." },
+          { title: "Katalog nach Kategorien", text: "Jede Kategorie zeigt, wie viele Produkte und Unterkategorien sie enthält. Die Suche öffnet sich von jeder Seite, und Lieblingsprodukte werden in einer eigenen Liste gespeichert." },
+          { title: "Bestellung ohne Registrierung", text: "Warenkorb, dann Lieferdaten: Econt-Filiale oder Kurier an die Adresse, Rechnung für Firmen und eine Notiz zur Bestellung. Der Kunde erhält eine Bestätigung per E-Mail." },
+        ],
+        more: [
+          "Aktionen, neue Produkte und Bestseller mit Verkaufszahl",
+          "Produkt teilen über Facebook, Viber und WhatsApp",
+          "„Das könnte Ihnen gefallen“ unter jedem Produkt",
+          "Blog mit Kategorien: Technik, Haus und Garten, Auto, Gesundheit",
+          "Produkte, Kategorien und Bestellungen werden über ein Admin-Panel verwaltet",
+        ],
+      },
+      nl: {
+        task: "Een invoerder van huishoudartikelen en slimme toestellen wilde een webshop voor duizenden producten in tientallen categorieën: snel zoeken, promoties en bestsellers in het zicht, en bestellen zonder registratie met levering via Econt naar een kantoor of een adres.",
+        site: [
+          { title: "Startpagina als etalage", text: "De categorieën links, nieuwigheden en promoties in het midden, banners naar de seizoenscategorieën rechts. Korting en prijs in euro en lev staan op elke kaart." },
+          { title: "Catalogus per categorie", text: "Elke categorie toont hoeveel producten en subcategorieën ze bevat. Zoeken opent vanaf elke pagina, en favoriete producten worden in een aparte lijst bewaard." },
+          { title: "Bestellen zonder registratie", text: "Winkelmandje, dan leveringsgegevens: een Econt-kantoor of een koerier aan huis, factuur voor een bedrijf en een opmerking bij de bestelling. De klant krijgt een bevestiging per e-mail." },
+        ],
+        more: [
+          "Promoties, nieuwe producten en bestsellers met het aantal verkocht",
+          "Product delen via Facebook, Viber en WhatsApp",
+          "\"Misschien vind je dit ook leuk\" onder elk product",
+          "Blog met categorieën: technologie, huis en tuin, auto, gezondheid",
+          "Producten, categorieën en bestellingen worden beheerd vanuit een beheerpaneel",
+        ],
+      },
+    },
+  },
+
+  "active-solar": {
+    site: ["/work/case/active-solar-calculator.webp", "/work/case/active-solar-products.webp", "/work/case/active-solar-portal.webp"],
+    copy: {
+      bg: {
+        task: "Фирма за проектиране и монтаж на фотоволтаици, сертифицирана в Нидерландия, искаше двуезичен сайт за домове и бизнес: каталог на оборудването, което монтира, калкулатор, който за минута дава ориентировъчна мощност и цена, и вход за клиенти към данните на тяхната система.",
+        site: [
+          { title: "Соларен калкулатор", text: "Клиентът избира дом или бизнес, въвежда месечната сметка или годишните kWh, вида и посоката на покрива, фазите и дали иска батерия. Вдясно веднага излиза системен лист: мощност, панели, инвертор, годишно производство и ориентировъчна цена, който се праща с един бутон като запитване." },
+          { title: "Каталог на оборудването", text: "Панели, инвертори, батерии, конструкции и аксесоари с филтри по категория и марка и търсене по модел. Цените не се публикуват: продуктите се събират в заявка, а офертата идва от фирмата." },
+          { title: "Вход за клиенти", text: "След монтажа клиентът получава имейл и парола и вижда монтираните продукти със серийни номера, гаранцията до коя дата, сигнал за повреда и заявка за профилактика или разширение." },
+        ],
+        more: [
+          "Български и английски със собствени адреси",
+          "Реализирани системи с мощност и оборудване",
+          "Монтаж, профилактика и ремонт на отделни страници",
+          "„Препоръчайте ни“: личен код на всеки клиент, който се въвежда в запитването",
+          "Анимация „Един ден от живота на вашата система“",
+          "Настройки за бисквитки, общи условия и поверителност",
+        ],
+      },
+      en: {
+        task: "A company that designs and installs photovoltaic systems, certified in the Netherlands, wanted a bilingual site for homes and business: a catalogue of the equipment it installs, a calculator that gives an indicative capacity and price in a minute, and a client login to the data of their own system.",
+        site: [
+          { title: "Solar calculator", text: "The client picks home or business, enters the monthly bill or the yearly kWh, the roof type and orientation, the phases and whether they want a battery. A system sheet appears on the right at once: capacity, panels, inverter, yearly production and an indicative price, sent as an enquiry with one button." },
+          { title: "Equipment catalogue", text: "Panels, inverters, batteries, mounting systems and accessories with filters by category and brand and search by model. Prices are not published: products are collected into a request and the quote comes from the company." },
+          { title: "Client login", text: "After installation the client receives an email and a password and sees the installed products with serial numbers, the warranty end dates, a fault report and a request for servicing or an extension." },
+        ],
+        more: [
+          "Bulgarian and English with their own URLs",
+          "Completed systems with capacity and equipment",
+          "Installation, servicing and repair on separate pages",
+          "\"Recommend us\": a personal code for every client, entered in the enquiry",
+          "An animation of a day in the life of your system",
+          "Cookie settings, terms and privacy",
+        ],
+      },
+      de: {
+        task: "Ein in den Niederlanden zertifiziertes Unternehmen für Planung und Montage von Photovoltaikanlagen wollte eine zweisprachige Website für Privathaushalte und Gewerbe: einen Katalog der Technik, die es montiert, einen Rechner, der in einer Minute Leistung und Richtpreis nennt, und einen Kundenzugang zu den Daten der eigenen Anlage.",
+        site: [
+          { title: "Solarrechner", text: "Der Kunde wählt Haus oder Gewerbe, gibt die Monatsrechnung oder die Jahres-kWh ein, Dachtyp und Ausrichtung, Phasen und ob er einen Speicher möchte. Rechts erscheint sofort ein Systemblatt: Leistung, Module, Wechselrichter, Jahresertrag und Richtpreis, das mit einem Klick als Anfrage gesendet wird." },
+          { title: "Katalog der Technik", text: "Module, Wechselrichter, Speicher, Unterkonstruktionen und Zubehör mit Filtern nach Kategorie und Marke und Suche nach Modell. Preise werden nicht veröffentlicht: Die Produkte werden in einer Anfrage gesammelt, das Angebot kommt vom Unternehmen." },
+          { title: "Kundenzugang", text: "Nach der Montage erhält der Kunde E-Mail und Passwort und sieht die montierten Produkte mit Seriennummern, die Garantie bis zu welchem Datum, eine Störungsmeldung und eine Anfrage für Wartung oder Erweiterung." },
+        ],
+        more: [
+          "Bulgarisch und Englisch mit eigenen Adressen",
+          "Realisierte Anlagen mit Leistung und Technik",
+          "Montage, Wartung und Reparatur auf eigenen Seiten",
+          "„Empfehlen Sie uns“: ein persönlicher Code für jeden Kunden, der in der Anfrage eingegeben wird",
+          "Animation „Ein Tag im Leben Ihrer Anlage“",
+          "Cookie-Einstellungen, AGB und Datenschutz",
+        ],
+      },
+      nl: {
+        task: "Een in Nederland gecertificeerd bedrijf voor ontwerp en installatie van zonnepanelen wilde een tweetalige website voor woningen en bedrijven: een catalogus van het materiaal dat het plaatst, een calculator die in een minuut een indicatief vermogen en een richtprijs geeft, en een klantenlogin naar de gegevens van de eigen installatie.",
+        site: [
+          { title: "Zonnecalculator", text: "De klant kiest woning of bedrijf, vult de maandfactuur of de jaarlijkse kWh in, het daktype en de oriëntatie, de fasen en of hij een batterij wil. Rechts verschijnt meteen een systeemblad: vermogen, panelen, omvormer, jaarproductie en richtprijs, dat met één knop als aanvraag wordt verstuurd." },
+          { title: "Catalogus van het materiaal", text: "Panelen, omvormers, batterijen, montagesystemen en accessoires met filters per categorie en merk en zoeken op model. Prijzen worden niet gepubliceerd: producten worden verzameld in een aanvraag en de offerte komt van het bedrijf." },
+          { title: "Klantenlogin", text: "Na de installatie krijgt de klant een e-mail en wachtwoord en ziet hij de geplaatste producten met serienummers, de garantie tot welke datum, een storingsmelding en een aanvraag voor onderhoud of uitbreiding." },
+        ],
+        more: [
+          "Bulgaars en Engels met eigen adressen",
+          "Gerealiseerde installaties met vermogen en materiaal",
+          "Installatie, onderhoud en herstelling op aparte pagina's",
+          "\"Beveel ons aan\": een persoonlijke code voor elke klant, in te vullen bij de aanvraag",
+          "Animatie \"Een dag uit het leven van uw installatie\"",
+          "Cookie-instellingen, algemene voorwaarden en privacy",
+        ],
+      },
+    },
+  },
+
+  "24tours": {
+    site: ["/work/case/24tours-booking.webp", "/work/case/24tours-vouchers.webp", "/work/case/24tours-tours.webp"],
+    copy: {
+      bg: {
+        task: "Фирма за офроуд турове с електрически мотори и джипове край Самоков и София искаше сайт, от който турът се резервира за минути: дата, час, участници, мотори и добавки, с промокод или ваучер. Плюс подаръчни ваучери, които се купуват онлайн и пристигат по имейл.",
+        site: [
+          { title: "Резервация в пет стъпки", text: "Тур, дата и час, участници и добавки, данни и потвърждение. Обобщението вдясно се смята в движение: мотори, GoPro, отстъпки и крайна сума. Потвърждението идва по имейл." },
+          { title: "Подаръчни ваучери", text: "Шест номинала с отстъпка, количество, име на получателя и по желание пластмасов ваучер с куриер. Кодовете пристигат по имейл и се въвеждат като промокод при резервация." },
+          { title: "Турове и мотори", text: "Всеки тур с програма, продължителност, ниво, какво е включено и бутон за резервация. Моторите са с въртящ момент, мощност, тегло и максимална скорост." },
+        ],
+        more: [
+          "Отзиви с оценка, снимка и преглед как ще изглежда преди публикуване",
+          "Често задавани въпроси",
+          "Блог със снимки от туровете",
+          "Форма за контакт и страница „Стани партньор“",
+          "Общи условия, поверителност и политика за бисквитки",
+        ],
+      },
+      en: {
+        task: "An off-road tour company with electric bikes and jeeps near Samokov and Sofia wanted a site where a tour is booked in minutes: date, time, participants, bikes and extras, with a promo code or a voucher. Plus gift vouchers bought online and delivered by email.",
+        site: [
+          { title: "Booking in five steps", text: "Tour, date and time, participants and extras, details and confirmation. The summary on the right updates as you go: bikes, GoPro, discounts and the final amount. The confirmation arrives by email." },
+          { title: "Gift vouchers", text: "Six values with a discount, quantity, the recipient's name and, if wanted, a plastic voucher by courier. The codes arrive by email and are entered as a promo code when booking." },
+          { title: "Tours and bikes", text: "Every tour with a programme, duration, level, what is included and a booking button. The bikes come with torque, power, weight and top speed." },
+        ],
+        more: [
+          "Reviews with a rating, a photo and a preview before publishing",
+          "Frequently asked questions",
+          "A blog with photos from the tours",
+          "A contact form and a \"Become a partner\" page",
+          "Terms, privacy and cookie policy",
+        ],
+      },
+      de: {
+        task: "Ein Anbieter von Offroad-Touren mit Elektromotorrädern und Jeeps bei Samokow und Sofia wollte eine Website, auf der eine Tour in Minuten gebucht ist: Datum, Uhrzeit, Teilnehmer, Motorräder und Extras, mit Promo-Code oder Gutschein. Dazu Geschenkgutscheine, die online gekauft werden und per E-Mail ankommen.",
+        site: [
+          { title: "Buchung in fünf Schritten", text: "Tour, Datum und Uhrzeit, Teilnehmer und Extras, Daten und Bestätigung. Die Übersicht rechts rechnet mit: Motorräder, GoPro, Rabatte und Endbetrag. Die Bestätigung kommt per E-Mail." },
+          { title: "Geschenkgutscheine", text: "Sechs Werte mit Rabatt, Menge, Name des Empfängers und auf Wunsch ein Plastikgutschein per Kurier. Die Codes kommen per E-Mail und werden bei der Buchung als Promo-Code eingegeben." },
+          { title: "Touren und Motorräder", text: "Jede Tour mit Programm, Dauer, Niveau, Leistungen und Buchungsbutton. Die Motorräder mit Drehmoment, Leistung, Gewicht und Höchstgeschwindigkeit." },
+        ],
+        more: [
+          "Bewertungen mit Note, Foto und Vorschau vor der Veröffentlichung",
+          "Häufige Fragen",
+          "Blog mit Fotos von den Touren",
+          "Kontaktformular und Seite „Partner werden“",
+          "AGB, Datenschutz und Cookie-Richtlinie",
+        ],
+      },
+      nl: {
+        task: "Een aanbieder van offroadtochten met elektrische motoren en jeeps bij Samokov en Sofia wilde een website waarop een tocht in enkele minuten geboekt is: datum, uur, deelnemers, motoren en extra's, met een promocode of waardebon. Plus cadeaubonnen die online worden gekocht en per e-mail aankomen.",
+        site: [
+          { title: "Boeken in vijf stappen", text: "Tocht, datum en uur, deelnemers en extra's, gegevens en bevestiging. Het overzicht rechts rekent mee: motoren, GoPro, kortingen en eindbedrag. De bevestiging komt per e-mail." },
+          { title: "Cadeaubonnen", text: "Zes waarden met korting, aantal, naam van de ontvanger en desgewenst een plastic bon per koerier. De codes komen per e-mail en worden bij het boeken als promocode ingevoerd." },
+          { title: "Tochten en motoren", text: "Elke tocht met programma, duur, niveau, wat inbegrepen is en een boekingsknop. De motoren met koppel, vermogen, gewicht en topsnelheid." },
+        ],
+        more: [
+          "Beoordelingen met score, foto en een voorbeeld voor publicatie",
+          "Veelgestelde vragen",
+          "Blog met foto's van de tochten",
+          "Contactformulier en pagina \"Word partner\"",
+          "Algemene voorwaarden, privacy en cookiebeleid",
+        ],
+      },
+    },
+  },
+
+  jitara: {
+    site: ["/work/case/jitara-catalog.webp", "/work/case/jitara-selection.webp", "/work/case/jitara-en.webp"],
+    copy: {
+      bg: {
+        task: "Мелница и хлебозавод във Враца, на пазара от 1993 г., искаше сайт на български и английски, който представя продуктите пред магазини, вериги и заведения и публикува проектите, съфинансирани от ЕС, така както го изисква програмата.",
+        site: [
+          { title: "Каталог по категории", text: "Хляб, брашно, питки и козунаци, закуски, крекери и солети, сладкарски изделия. Всеки продукт със снимка, грамаж и кратко описание, без цени: сайтът е за търговски партньори." },
+          { title: "Специална селекция", text: "Шест хляба със закваска, показани с етикета, съставките и хранителните стойности на 100 г, както са на опаковката." },
+          { title: "На английски", text: "Цялото съдържание има английска версия със собствени адреси, за партньори извън България. Превключването е от менюто на всяка страница." },
+        ],
+        more: [
+          "Страница „Проекти по ЕС“ с цел, резултати, финансиране и публичните покани за изтегляне",
+          "Лента за съфинансирането най-горе на всяка страница",
+          "„За нас“: собствена мелница, каменна мелница, два цеха, дистрибуция в цялата страна",
+          "Контакти за магазини, вериги и заведения с телефон на всяка страница",
+        ],
+      },
+      en: {
+        task: "A mill and bakery in Vratsa, in business since 1993, wanted a site in Bulgarian and English that presents the products to shops, retail chains and restaurants and publishes the projects co-funded by the EU, as the programme requires.",
+        site: [
+          { title: "Catalogue by category", text: "Bread, flour, pitas and kozunak, savoury snacks, crackers and pretzel sticks, pastries. Every product with a photo, weight and a short description, without prices: the site is for trade partners." },
+          { title: "Special selection", text: "Six sourdough breads shown with the label, the ingredients and the nutritional values per 100 g, as on the packaging." },
+          { title: "In English", text: "All the content has an English version with its own URLs, for partners outside Bulgaria. The switch is in the menu on every page." },
+        ],
+        more: [
+          "An \"EU projects\" page with the aim, results, funding and the public invitations to download",
+          "A co-funding bar at the top of every page",
+          "\"About us\": own mill, stone mill, two bakeries, distribution across the country",
+          "Contacts for shops, chains and restaurants with a phone number on every page",
+        ],
+      },
+      de: {
+        task: "Eine Mühle und Bäckerei in Wraza, seit 1993 am Markt, wollte eine Website auf Bulgarisch und Englisch, die die Produkte Geschäften, Handelsketten und Gastronomie vorstellt und die von der EU kofinanzierten Projekte veröffentlicht, wie es das Programm verlangt.",
+        site: [
+          { title: "Katalog nach Kategorien", text: "Brot, Mehl, Fladen und Kozunak, herzhaftes Gebäck, Cracker und Salzstangen, Süßwaren. Jedes Produkt mit Foto, Gewicht und kurzer Beschreibung, ohne Preise: Die Website richtet sich an Handelspartner." },
+          { title: "Spezielle Auswahl", text: "Sechs Sauerteigbrote, gezeigt mit Etikett, Zutaten und Nährwerten pro 100 g, wie auf der Verpackung." },
+          { title: "Auf Englisch", text: "Alle Inhalte gibt es in einer englischen Version mit eigenen Adressen, für Partner außerhalb Bulgariens. Der Wechsel ist im Menü jeder Seite." },
+        ],
+        more: [
+          "Seite „EU-Projekte“ mit Ziel, Ergebnissen, Finanzierung und den öffentlichen Ausschreibungen zum Herunterladen",
+          "Leiste zur Kofinanzierung ganz oben auf jeder Seite",
+          "„Über uns“: eigene Mühle, Steinmühle, zwei Werke, Vertrieb im ganzen Land",
+          "Kontakte für Geschäfte, Ketten und Gastronomie mit Telefonnummer auf jeder Seite",
+        ],
+      },
+      nl: {
+        task: "Een maalderij en bakkerij in Vratsa, actief sinds 1993, wilde een website in het Bulgaars en Engels die de producten voorstelt aan winkels, ketens en horeca en de door de EU medegefinancierde projecten publiceert, zoals het programma vereist.",
+        site: [
+          { title: "Catalogus per categorie", text: "Brood, bloem, pita's en kozunak, hartige snacks, crackers en zoutstengels, gebak. Elk product met foto, gewicht en korte beschrijving, zonder prijzen: de website is voor handelspartners." },
+          { title: "Speciale selectie", text: "Zes zuurdesembroden, getoond met het etiket, de ingrediënten en de voedingswaarden per 100 g, zoals op de verpakking." },
+          { title: "In het Engels", text: "Alle inhoud heeft een Engelse versie met eigen adressen, voor partners buiten Bulgarije. Wisselen gebeurt via het menu op elke pagina." },
+        ],
+        more: [
+          "Pagina \"EU-projecten\" met doel, resultaten, financiering en de openbare oproepen om te downloaden",
+          "Balk over de medefinanciering bovenaan elke pagina",
+          "\"Over ons\": eigen maalderij, steenmolen, twee bakkerijen, distributie in het hele land",
+          "Contact voor winkels, ketens en horeca met telefoonnummer op elke pagina",
+        ],
+      },
+    },
+  },
+
+  "alpha-reiniging": {
+    site: ["/work/case/alpha-reiniging-before-after.webp", "/work/case/alpha-reiniging-offerte.webp", "/work/case/alpha-reiniging-regions.webp"],
+    copy: {
+      bg: {
+        task: "Млада фирма за почистване от Гент искаше сайт на нидерландски, който показва истински резултати и води до безплатна оферта: осем услуги със собствени страници, работен район в цяла Фландрия и форма, в която клиентът избира услугите, пише къде е обектът и праща снимки.",
+        site: [
+          { title: "Преди и след", text: "Плъзгачи със снимки от собствени обекти: веранда, покрив, керемиди отблизо. На сайта пише, че няма стокови изображения, и е така." },
+          { title: "Заявка за оферта", text: "Клиентът отбелязва една или няколко услуги, пише пощенски код, срок и тип сграда, добавя до пет снимки или оставя телефон за обратно обаждане в избран часови интервал. Формата е защитена от спам с Cloudflare Turnstile." },
+          { title: "Работен район", text: "Регионите от Гент до Антверпен с общините във всеки и търсене „работите ли в моята община“." },
+        ],
+        more: [
+          "Осем услуги с отделна страница: подход, въпроси, съвети и свързани услуги",
+          "Оценки от Google и Trustlocal с връзка към профилите",
+          "Какво определя цената: площ, достъпност, замърсяване",
+          "Блог със съвети, подредени по теми",
+          "WhatsApp и телефон от всяка страница, включително в лентата на телефона",
+          "Настройки за бисквитки, поверителност и общи условия",
+        ],
+      },
+      en: {
+        task: "A young cleaning company from Ghent wanted a Dutch-language site that shows real results and leads to a free quote: eight services with their own pages, a service area across Flanders and a form in which the client picks the services, says where the property is and sends photos.",
+        site: [
+          { title: "Before and after", text: "Sliders with photos from the company's own jobs: a veranda, a roof, roof tiles up close. The site says there are no stock images, and there are none." },
+          { title: "Quote request", text: "The client ticks one or more services, enters a postcode, a preferred time frame and the type of building, adds up to five photos or leaves a phone number for a call back in a chosen time slot. The form is protected from spam with Cloudflare Turnstile." },
+          { title: "Service area", text: "The regions from Ghent to Antwerp with the municipalities in each and a search for \"do you work in my municipality\"." },
+        ],
+        more: [
+          "Eight services with a separate page: approach, questions, tips and related services",
+          "Google and Trustlocal ratings with links to the profiles",
+          "What determines the price: area, accessibility, degree of soiling",
+          "A blog with tips sorted by topic",
+          "WhatsApp and phone from every page, including the bar on mobile",
+          "Cookie settings, privacy and terms",
+        ],
+      },
+      de: {
+        task: "Ein junges Reinigungsunternehmen aus Gent wollte eine niederländischsprachige Website, die echte Ergebnisse zeigt und zum kostenlosen Angebot führt: acht Leistungen mit eigenen Seiten, ein Einsatzgebiet in ganz Flandern und ein Formular, in dem der Kunde die Leistungen wählt, den Ort angibt und Fotos schickt.",
+        site: [
+          { title: "Vorher und nachher", text: "Schieberegler mit Fotos von eigenen Aufträgen: Veranda, Dach, Dachziegel aus der Nähe. Die Website sagt, dass es keine Stockbilder gibt, und so ist es." },
+          { title: "Angebotsanfrage", text: "Der Kunde markiert eine oder mehrere Leistungen, gibt Postleitzahl, Wunschtermin und Gebäudetyp an, fügt bis zu fünf Fotos hinzu oder hinterlässt eine Telefonnummer für einen Rückruf im gewählten Zeitfenster. Das Formular ist mit Cloudflare Turnstile gegen Spam geschützt." },
+          { title: "Einsatzgebiet", text: "Die Regionen von Gent bis Antwerpen mit den Gemeinden in jeder und einer Suche „Arbeiten Sie in meiner Gemeinde?“." },
+        ],
+        more: [
+          "Acht Leistungen mit eigener Seite: Vorgehen, Fragen, Tipps und verwandte Leistungen",
+          "Bewertungen von Google und Trustlocal mit Link zu den Profilen",
+          "Was den Preis bestimmt: Fläche, Erreichbarkeit, Verschmutzung",
+          "Blog mit Tipps, nach Themen geordnet",
+          "WhatsApp und Telefon von jeder Seite, auch in der Leiste auf dem Handy",
+          "Cookie-Einstellungen, Datenschutz und AGB",
+        ],
+      },
+      nl: {
+        task: "Een jong schoonmaakbedrijf uit Gent wilde een Nederlandstalige website die echte resultaten toont en naar een gratis offerte leidt: acht diensten met eigen pagina's, een werkgebied in heel Vlaanderen en een formulier waarin de klant de diensten kiest, zegt waar het pand is en foto's stuurt.",
+        site: [
+          { title: "Voor en na", text: "Schuifbalken met foto's van eigen opdrachten: een veranda, een dak, dakpannen van dichtbij. De website zegt dat er geen stockbeelden zijn, en dat klopt." },
+          { title: "Offerteaanvraag", text: "De klant vinkt een of meer diensten aan, vult postcode, gewenste termijn en type gebouw in, voegt tot vijf foto's toe of laat een nummer achter om teruggebeld te worden in een gekozen tijdvak. Het formulier is tegen spam beschermd met Cloudflare Turnstile." },
+          { title: "Werkgebied", text: "De regio's van Gent tot Antwerpen met de gemeenten in elke regio en een zoekveld \"werken jullie in mijn gemeente\"." },
+        ],
+        more: [
+          "Acht diensten met een eigen pagina: aanpak, vragen, tips en verwante diensten",
+          "Beoordelingen van Google en Trustlocal met link naar de profielen",
+          "Wat de prijs bepaalt: oppervlakte, bereikbaarheid, vervuilingsgraad",
+          "Blog met tips, geordend per thema",
+          "WhatsApp en telefoon vanaf elke pagina, ook in de balk op de telefoon",
+          "Cookie-instellingen, privacybeleid en algemene voorwaarden",
+        ],
+      },
+    },
+  },
+
+  "hotel-fenix": {
+    site: ["/work/case/hotel-fenix-rooms.webp", "/work/case/hotel-fenix-reservation.webp", "/work/case/hotel-fenix-packages.webp"],
+    copy: {
+      bg: {
+        task: "Семеен хотел в Чепеларе искаше сайт, който показва стаите, ресторанта и планината така, както ги усещат гостите, и събира запитвания за дати без онлайн плащане: собственикът потвърждава лично по имейл или телефон.",
+        site: [
+          { title: "Стаи и мезонети", text: "Четири типа с квадратура, легла и брой гости. Всяка стая има страница със снимки, разпределение, удобства и форма за запитване за дати." },
+          { title: "Запитване за дати", text: "Настаняване и напускане, тип стая или „още не съм решил“, възрастни и деца, съобщение. Вляво е написано какво следва: проверка на наличността и потвърждение." },
+          { title: "Пакети", text: "Десет пакета за лято, за двама, семейства, групи и зима с филтри по вид, какво включва всеки, валидност и минимален престой." },
+        ],
+        more: [
+          "Ресторант с кухня, работно време и изба",
+          "Галерия на хотела, стаите и града",
+          "Локация със забележителности в района",
+          "Viber и телефон от всяка страница",
+          "Общи условия и поверителност",
+        ],
+      },
+      en: {
+        task: "A family hotel in Chepelare wanted a site that shows the rooms, the restaurant and the mountain the way guests experience them, and collects date enquiries without online payment: the owner confirms personally by email or phone.",
+        site: [
+          { title: "Rooms and maisonettes", text: "Four types with floor area, beds and number of guests. Every room has a page with photos, layout, amenities and a date enquiry form." },
+          { title: "Date enquiry", text: "Check-in and check-out, room type or \"not decided yet\", adults and children, a message. On the left it says what happens next: an availability check and a confirmation." },
+          { title: "Packages", text: "Ten packages for summer, couples, families, groups and winter with filters by type, what each includes, validity and minimum stay." },
+        ],
+        more: [
+          "A restaurant page with the kitchen, opening hours and wine cellar",
+          "A gallery of the hotel, the rooms and the town",
+          "Location with sights in the area",
+          "Viber and phone from every page",
+          "Terms and privacy",
+        ],
+      },
+      de: {
+        task: "Ein Familienhotel in Tschepelare wollte eine Website, die Zimmer, Restaurant und Berge so zeigt, wie Gäste sie erleben, und Anfragen für Termine ohne Online-Zahlung sammelt: Der Inhaber bestätigt persönlich per E-Mail oder Telefon.",
+        site: [
+          { title: "Zimmer und Maisonetten", text: "Vier Typen mit Fläche, Betten und Gästezahl. Jedes Zimmer hat eine Seite mit Fotos, Aufteilung, Ausstattung und einem Anfrageformular für Termine." },
+          { title: "Terminanfrage", text: "An- und Abreise, Zimmertyp oder „noch nicht entschieden“, Erwachsene und Kinder, Nachricht. Links steht, was danach passiert: Verfügbarkeitsprüfung und Bestätigung." },
+          { title: "Pakete", text: "Zehn Pakete für Sommer, zu zweit, Familien, Gruppen und Winter mit Filtern nach Art, Leistungen, Gültigkeit und Mindestaufenthalt." },
+        ],
+        more: [
+          "Restaurantseite mit Küche, Öffnungszeiten und Weinkeller",
+          "Galerie von Hotel, Zimmern und Stadt",
+          "Lage mit Sehenswürdigkeiten der Umgebung",
+          "Viber und Telefon von jeder Seite",
+          "AGB und Datenschutz",
+        ],
+      },
+      nl: {
+        task: "Een familiehotel in Chepelare wilde een website die de kamers, het restaurant en de bergen toont zoals gasten ze beleven, en aanvragen voor data verzamelt zonder online betaling: de eigenaar bevestigt persoonlijk per e-mail of telefoon.",
+        site: [
+          { title: "Kamers en maisonnettes", text: "Vier types met oppervlakte, bedden en aantal gasten. Elke kamer heeft een pagina met foto's, indeling, voorzieningen en een aanvraagformulier voor data." },
+          { title: "Aanvraag voor data", text: "Aankomst en vertrek, kamertype of \"nog niet beslist\", volwassenen en kinderen, bericht. Links staat wat er daarna gebeurt: beschikbaarheid nakijken en bevestigen." },
+          { title: "Arrangementen", text: "Tien arrangementen voor de zomer, voor twee, gezinnen, groepen en winter met filters per soort, wat elk omvat, geldigheid en minimumverblijf." },
+        ],
+        more: [
+          "Restaurantpagina met keuken, openingsuren en wijnkelder",
+          "Galerij van het hotel, de kamers en de stad",
+          "Locatie met bezienswaardigheden in de buurt",
+          "Viber en telefoon vanaf elke pagina",
+          "Algemene voorwaarden en privacy",
+        ],
+      },
+    },
+  },
+
+  "emis-cleaning": {
+    site: ["/work/case/emis-cleaning-services.webp", "/work/case/emis-cleaning-book.webp", "/work/case/emis-cleaning-process.webp"],
+    copy: {
+      bg: {
+        task: "Фирма за почистване в Югозападен Лондон искаше сайт, който вдъхва доверие на офиси и домакинства и превръща посещението в заявка: четири услуги, районите, които покрива, и резервация на почистване в три стъпки.",
+        site: [
+          { title: "Четири услуги", text: "Прозорци, офиси и магазини, почистване след строеж и основно почистване. Всяка има собствена страница със снимки преди и след." },
+          { title: "Резервация в три стъпки", text: "Клиентът избира една или няколко услуги и колко често: еднократно, всяка седмица, на две седмици или месечно. Вдясно пише какво следва: преглед на заявката, потвърждение по телефона и екип на място." },
+          { title: "Как работи", text: "Три стъпки от заявка до екип на адреса, със срок за отговор, и районите в Югозападен Лондон с пощенските им кодове." },
+        ],
+        more: [
+          "Проекти със снимки от обекти",
+          "Блог със съвети за наематели и офиси",
+          "„Стандартът Emis“: проверени служители, гъвкави часове, екологични препарати, гаранция",
+          "Телефон, имейл и бутон „Book a clean“ от всяка страница",
+          "Политика за поверителност и общи условия",
+        ],
+      },
+      en: {
+        task: "A cleaning company in South West London wanted a site that earns the trust of offices and households and turns a visit into a request: four services, the areas it covers and booking a clean in three steps.",
+        site: [
+          { title: "Four services", text: "Windows, offices and retail, after-building cleaning and deep cleaning. Each has its own page with before and after photos." },
+          { title: "Booking in three steps", text: "The client picks one or more services and how often: one-off, weekly, fortnightly or monthly. On the right it says what happens next: a review of the request, confirmation by phone and a team on site." },
+          { title: "How it works", text: "Three steps from request to a team at the address, with a response time, and the areas in South West London with their postcodes." },
+        ],
+        more: [
+          "Projects with photos from jobs",
+          "A blog with tips for tenants and offices",
+          "\"The Emis standard\": vetted staff, flexible hours, eco-friendly products, a guarantee",
+          "Phone, email and a \"Book a clean\" button from every page",
+          "Privacy policy and terms of service",
+        ],
+      },
+      de: {
+        task: "Ein Reinigungsunternehmen im Südwesten Londons wollte eine Website, die Büros und Haushalten Vertrauen gibt und den Besuch in eine Anfrage verwandelt: vier Leistungen, die abgedeckten Stadtteile und eine Buchung der Reinigung in drei Schritten.",
+        site: [
+          { title: "Vier Leistungen", text: "Fenster, Büros und Läden, Reinigung nach dem Bau und Grundreinigung. Jede hat eine eigene Seite mit Vorher-nachher-Fotos." },
+          { title: "Buchung in drei Schritten", text: "Der Kunde wählt eine oder mehrere Leistungen und die Häufigkeit: einmalig, wöchentlich, alle zwei Wochen oder monatlich. Rechts steht, was danach passiert: Prüfung der Anfrage, Bestätigung per Telefon und Team vor Ort." },
+          { title: "So läuft es ab", text: "Drei Schritte von der Anfrage bis zum Team an der Adresse, mit Antwortzeit, und die Stadtteile im Südwesten Londons mit ihren Postleitzahlen." },
+        ],
+        more: [
+          "Projekte mit Fotos von Aufträgen",
+          "Blog mit Tipps für Mieter und Büros",
+          "„Der Emis-Standard“: geprüfte Mitarbeiter, flexible Zeiten, umweltfreundliche Mittel, Garantie",
+          "Telefon, E-Mail und Button „Book a clean“ von jeder Seite",
+          "Datenschutz und Nutzungsbedingungen",
+        ],
+      },
+      nl: {
+        task: "Een schoonmaakbedrijf in Zuidwest-Londen wilde een website die vertrouwen wekt bij kantoren en gezinnen en een bezoek omzet in een aanvraag: vier diensten, de wijken die het bedient en een schoonmaak boeken in drie stappen.",
+        site: [
+          { title: "Vier diensten", text: "Ramen, kantoren en winkels, schoonmaak na bouwwerken en grondige schoonmaak. Elke dienst heeft een eigen pagina met foto's voor en na." },
+          { title: "Boeken in drie stappen", text: "De klant kiest een of meer diensten en hoe vaak: eenmalig, wekelijks, tweewekelijks of maandelijks. Rechts staat wat er daarna gebeurt: nazicht van de aanvraag, bevestiging per telefoon en een team ter plaatse." },
+          { title: "Hoe het werkt", text: "Drie stappen van aanvraag tot een team op het adres, met antwoordtermijn, en de wijken in Zuidwest-Londen met hun postcodes." },
+        ],
+        more: [
+          "Projecten met foto's van opdrachten",
+          "Blog met tips voor huurders en kantoren",
+          "\"De Emis-standaard\": gescreende medewerkers, flexibele uren, milieuvriendelijke producten, garantie",
+          "Telefoon, e-mail en knop \"Book a clean\" vanaf elke pagina",
+          "Privacybeleid en algemene voorwaarden",
+        ],
+      },
+    },
+  },
+
+  "nn-bau": {
+    site: ["/work/case/nn-bau-services.webp", "/work/case/nn-bau-projects.webp", "/work/case/nn-bau-anfrage.webp"],
+    copy: {
+      bg: {
+        task: "Строителна фирма от Дуисбург за хидроизолация, саниране, сух строеж и демонтаж искаше сайт на немски, който обяснява кога коя изолация е правилната, показва истински обекти и прави запитването лесно: формуляр в три стъпки или направо в WhatsApp.",
+        site: [
+          { title: "Четири направления", text: "Хидроизолацията е акцентът, с три подстраници: мазета отвътре, балкони и тераси, външни стълби. До нея саниране, сух строеж и демонтаж, всяко със собствена страница." },
+          { title: "Истински обекти", text: "Проекти със снимки и видео преди, по време и след: тераса, външна стълба, мазе с вода. На сайта пише, че няма стокови снимки, и е така." },
+          { title: "Запитване в три стъпки", text: "Услуга, обект, контакт. Пощенски код и град стигат, снимки до пет, а въведеното се пази между стъпките. Който предпочита, отваря WhatsApp с вече попълненото." },
+        ],
+        more: [
+          "Галерия от осем кадъра от строежи, подредени по раздели",
+          "Процес в пет стъпки: запитване, оглед, оферта, изпълнение, приемане",
+          "Въпросите, които клиентите задават преди запитване",
+          "Гаранция от пет години, описана при хидроизолацията",
+          "Импресум и защита на данните по немските изисквания",
+        ],
+      },
+      en: {
+        task: "A construction company from Duisburg for waterproofing, renovation, drywall and demolition wanted a German-language site that explains which waterproofing is the right one and when, shows real sites and makes the enquiry easy: a three-step form or straight to WhatsApp.",
+        site: [
+          { title: "Four areas of work", text: "Waterproofing is the focus, with three subpages: basements from the inside, balconies and terraces, outdoor stairs. Next to it renovation, drywall and demolition, each with its own page." },
+          { title: "Real sites", text: "Projects with photos and video before, during and after: a terrace, an outdoor staircase, a basement with water. The site says there are no stock photos, and there are none." },
+          { title: "Enquiry in three steps", text: "Service, property, contact. A postcode and town are enough, up to five photos, and what has been entered is kept between the steps. Those who prefer open WhatsApp with what they have already filled in." },
+        ],
+        more: [
+          "A gallery of eight shots from building sites, sorted by section",
+          "A five-step process: enquiry, site visit, quote, execution, hand-over",
+          "The questions clients ask before enquiring",
+          "A five-year guarantee, described with the waterproofing",
+          "Imprint and data protection to German requirements",
+        ],
+      },
+      de: {
+        task: "Ein Bauunternehmen aus Duisburg für Abdichtung, Sanierung, Trockenbau und Abbruch wollte eine deutschsprachige Website, die erklärt, wann welche Abdichtung die richtige ist, echte Baustellen zeigt und die Anfrage leicht macht: ein Formular in drei Schritten oder direkt per WhatsApp.",
+        site: [
+          { title: "Vier Bereiche", text: "Die Abdichtung ist der Schwerpunkt, mit drei Unterseiten: Keller von innen, Balkone und Terrassen, Außentreppen. Daneben Sanierung, Trockenbau und Abbruch, jeweils mit eigener Seite." },
+          { title: "Echte Baustellen", text: "Projekte mit Fotos und Videos vorher, währenddessen und nachher: Terrasse, Außentreppe, Keller mit Wasser. Die Website sagt, dass es keine Stockfotos gibt, und so ist es." },
+          { title: "Anfrage in drei Schritten", text: "Leistung, Objekt, Kontakt. Postleitzahl und Ort reichen, bis zu fünf Fotos, und die Angaben bleiben zwischen den Schritten erhalten. Wer möchte, öffnet WhatsApp mit dem bereits Ausgefüllten." },
+        ],
+        more: [
+          "Galerie mit acht Aufnahmen von Baustellen, nach Bereichen geordnet",
+          "Ablauf in fünf Schritten: Anfrage, Besichtigung, Angebot, Ausführung, Abnahme",
+          "Die Fragen, die Kunden vor der Anfrage stellen",
+          "Fünf Jahre Garantie, beschrieben bei der Abdichtung",
+          "Impressum und Datenschutz nach deutschen Vorgaben",
+        ],
+      },
+      nl: {
+        task: "Een bouwbedrijf uit Duisburg voor waterdichting, renovatie, gipskarton en sloop wilde een Duitstalige website die uitlegt wanneer welke waterdichting de juiste is, echte werven toont en de aanvraag makkelijk maakt: een formulier in drie stappen of rechtstreeks via WhatsApp.",
+        site: [
+          { title: "Vier domeinen", text: "Waterdichting is de focus, met drie subpagina's: kelders van binnenuit, balkons en terrassen, buitentrappen. Daarnaast renovatie, gipskarton en sloop, elk met een eigen pagina." },
+          { title: "Echte werven", text: "Projecten met foto's en video voor, tijdens en na: een terras, een buitentrap, een kelder met water. De website zegt dat er geen stockfoto's zijn, en dat klopt." },
+          { title: "Aanvraag in drie stappen", text: "Dienst, pand, contact. Postcode en gemeente volstaan, tot vijf foto's, en wat is ingevuld blijft bewaard tussen de stappen. Wie dat verkiest, opent WhatsApp met wat al ingevuld is." },
+        ],
+        more: [
+          "Galerij van acht beelden van werven, geordend per onderdeel",
+          "Proces in vijf stappen: aanvraag, plaatsbezoek, offerte, uitvoering, oplevering",
+          "De vragen die klanten stellen voor ze een aanvraag doen",
+          "Vijf jaar garantie, beschreven bij de waterdichting",
+          "Impressum en gegevensbescherming volgens de Duitse vereisten",
         ],
       },
     },

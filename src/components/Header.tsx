@@ -5,19 +5,33 @@ import { Link } from 'react-scroll';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { LANGS, LANG_META, setLangCookie, stripLang, useLang, withLang, type Lang } from '../i18n';
 import { BLOG_BASE } from '../blog';
+import { AUDIT_BASE, PLANNER_BASE } from '../constants/tools';
 import { SOCIALS } from '../constants/business';
 import Flag from './Flag';
 import LogoMark from './LogoMark';
 
-type MenuItem = { key: 'hero' | 'services' | 'about' | 'work' | 'process' | 'blog' | 'contact'; section?: string; route?: string | ((lang: Lang) => string) };
+type MenuItem = {
+  key: 'hero' | 'services' | 'about' | 'work' | 'process' | 'blog' | 'contact' | 'check' | 'planner';
+  section?: string;
+  route?: string | ((lang: Lang) => string);
+  /** Инструмент: с малка циан точка. В десктоп лентата се показва от xl нагоре (на 1024 px холандският ред не се събира);
+   *  `mobileOnly` го показва само в мобилното меню, за да не се претрупва лентата. */
+  tool?: boolean;
+  mobileOnly?: boolean;
+};
 const MENU_ITEMS: MenuItem[] = [
   { key: 'hero',     section: 'hero'     },
   { key: 'services', section: 'services' },
   { key: 'work',     section: 'work'     },
   { key: 'process',  section: 'process'  },
   { key: 'blog',     route: BLOG_BASE    },
+  { key: 'check',    route: (lang) => AUDIT_BASE[lang],   tool: true },
+  { key: 'planner',  route: (lang) => PLANNER_BASE[lang], tool: true, mobileOnly: true },
   { key: 'contact',  section: 'contact'  },
 ];
+
+/** Малка циан точка пред инструментите — спокоен знак „безплатно/ново“, без надпис. */
+const ToolDot = () => <span aria-hidden className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />;
 
 const MENU_LINK_CLASS =
   'hover:text-gray-600 transition-colors duration-300 transform hover:scale-105 cursor-pointer';
@@ -102,10 +116,11 @@ const Header = () => {
 
           {/* Desktop navigation */}
           {!isMenuOpen && (
-            <nav className="hidden lg:flex items-center gap-7 mx-auto text-[14px] font-semibold text-white/75">
-              {MENU_ITEMS.filter((m) => m.key !== 'hero' && m.key !== 'contact').map(({ key, section, route }) =>
+            <nav className="hidden lg:flex items-center gap-6 xl:gap-7 mx-auto text-[14px] font-semibold text-white/75">
+              {MENU_ITEMS.filter((m) => m.key !== 'hero' && m.key !== 'contact' && !m.mobileOnly).map(({ key, section, route, tool }) =>
                 route ? (
-                  <RouterLink key={key} to={href(typeof route === 'function' ? route(lang) : route)} className="transition-colors hover:text-white">
+                  <RouterLink key={key} to={href(typeof route === 'function' ? route(lang) : route)} className={`whitespace-nowrap transition-colors hover:text-white ${tool ? 'hidden items-center gap-2 text-white/90 xl:inline-flex' : ''}`}>
+                    {tool && <ToolDot />}
                     {t.header.links[key]}
                   </RouterLink>
                 ) : isHome ? (
@@ -240,11 +255,12 @@ const Header = () => {
         </div>
 
         {/* Menu Links */}
-        <nav className="flex-1 flex flex-col justify-center space-y-8 text-2xl font-semibold text-center">
+        <nav className="flex-1 flex flex-col justify-center space-y-6 overflow-y-auto text-2xl font-semibold text-center">
           {/* На началната страница скролваме плавно; извън нея навигираме към "/#секция". */}
-          {MENU_ITEMS.map(({ key, section, route }) =>
+          {MENU_ITEMS.map(({ key, section, route, tool }) =>
             route ? (
-              <RouterLink key={key} to={href(typeof route === 'function' ? route(lang) : route)} onClick={toggleMenu} className={MENU_LINK_CLASS}>
+              <RouterLink key={key} to={href(typeof route === 'function' ? route(lang) : route)} onClick={toggleMenu} className={`${MENU_LINK_CLASS} ${tool ? 'inline-flex items-center justify-center gap-2.5 whitespace-nowrap text-[1.1rem]' : ''}`}>
+                {tool && <ToolDot />}
                 {t.header.links[key]}
               </RouterLink>
             ) : isHome ? (

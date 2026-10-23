@@ -9,6 +9,7 @@ import AppShell, { type Pages } from "./AppShell";
 import Hero from "./pages/Hero";
 import About from "./pages/About";
 import Services from "./pages/Services";
+import Tools from "./pages/Tools";
 import Guarantees from "./pages/Guarantees";
 import Market from "./pages/OnlinePresenceCTA";
 import Portfolio from "./pages/Portfolio";
@@ -23,6 +24,8 @@ import ServicePage from "./pages/ServicePage";
 import ProjectPage from "./pages/ProjectPage";
 import ProjectsIndex from "./pages/ProjectsIndex";
 import AboutPage from "./pages/AboutPage";
+import Planner from "./pages/Planner";
+import SiteCheck from "./pages/SiteCheck";
 import NotFound from "./pages/NotFound";
 import { SeoCollectorContext, headToHtml, type HeadData } from "./seo/head";
 import { LANGS, langFromPath, withLang, type Lang } from "./i18n";
@@ -30,10 +33,11 @@ import { BLOG_BASE, POSTS, postAlternates, postPath } from "./blog";
 import { SERVICES, serviceAlternates, servicePath } from "./services";
 import { BUSINESS } from "./constants/business";
 import { PROJECT_BASE, projectAlternates, projectPath, projectsFor } from "./constants/projects";
+import { AUDIT_BASE, PLANNER_BASE } from "./constants/tools";
 
 const pages: Pages = {
-  Hero, About, Services, Guarantees, Market, Portfolio, Reviews, BlogTeaser, Contact,
-  PrivacyPolicy, LegalNotice, BlogIndex, BlogPost, ServicePage, ProjectPage, ProjectsIndex, AboutPage, NotFound,
+  Hero, About, Services, Tools, Guarantees, Market, Portfolio, Reviews, BlogTeaser, Contact,
+  PrivacyPolicy, LegalNotice, BlogIndex, BlogPost, ServicePage, ProjectPage, ProjectsIndex, AboutPage, Planner, SiteCheck, NotFound,
 };
 
 export type RouteEntry = {
@@ -73,6 +77,8 @@ export function getRoutes(): RouteEntry[] {
       const path = projectPath(p, lang);
       out.push({ url: withLang(path, lang), lang, path, alternates: projectAlternates(p), lastmod: BUILD_DATE, changefreq: "monthly", priority: 0.6 });
     }
+    out.push({ url: withLang(PLANNER_BASE[lang], lang), lang, path: PLANNER_BASE[lang], alternates: { ...PLANNER_BASE }, lastmod: BUILD_DATE, changefreq: "monthly", priority: 0.8 });
+    out.push({ url: withLang(AUDIT_BASE[lang], lang), lang, path: AUDIT_BASE[lang], alternates: { ...AUDIT_BASE }, lastmod: BUILD_DATE, changefreq: "monthly", priority: 0.8 });
     out.push({ url: withLang("/privacy", lang), lang, path: "/privacy", alternates: same("/privacy"), lastmod: LEGAL_LASTMOD, changefreq: "yearly", priority: 0.3 });
     out.push({ url: withLang("/legal", lang), lang, path: "/legal", alternates: same("/legal"), lastmod: LEGAL_LASTMOD, changefreq: "yearly", priority: 0.3 });
   }

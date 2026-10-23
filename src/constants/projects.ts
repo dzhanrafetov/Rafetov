@@ -47,9 +47,9 @@ export const mobileShot = (id: string): string | undefined => (MOBILE_SHOTS.has(
 /**
  * Цялата страница на живия сайт (десктоп 1440 → 1200 px, телефон 390 @2x → 600 px) в public/work/full/.
  * Страницата на проекта я превърта бавно в рамка на браузър и телефон. Заснети с Playwright на 2026-10-23.
- * Metesso няма: домейнът е изтекъл.
+ * Metesso е от metesso.vercel.app: домейнът metesso.com е изтекъл.
  */
-const FULL_SHOTS = new Set(["czpo", "24tours", "abi-studio", "active-solar", "aloeway", "alpha-reiniging", "amalfi-menu", "azteca-site", "beca", "chef-resat-menu", "chef-resat-site", "creative-homes", "dudo-group", "emis-cleaning", "het-pitta-loft", "hh-edelstahl", "hotel-fenix", "hustle-clothing", "innenausbau-ahmedov", "jitara", "kapisel", "korn-metal", "mig-group", "nn-bau", "opaka-fits", "pachka-stil", "pancetita-menu", "pet-zvezdi", "primasell", "santander", "shop4home", "slapfight", "szo", "taupe", "vulcho", "zirve1"]);
+const FULL_SHOTS = new Set(["czpo", "24tours", "abi-studio", "active-solar", "aloeway", "alpha-reiniging", "amalfi-menu", "azteca-site", "beca", "chef-resat-menu", "chef-resat-site", "creative-homes", "dudo-group", "emis-cleaning", "het-pitta-loft", "hh-edelstahl", "hotel-fenix", "hustle-clothing", "innenausbau-ahmedov", "jitara", "kapisel", "korn-metal", "metesso", "mig-group", "nn-bau", "opaka-fits", "pachka-stil", "pancetita-menu", "pet-zvezdi", "primasell", "santander", "shop4home", "slapfight", "szo", "taupe", "vulcho", "zirve1"]);
 export const fullShot = (id: string, kind: "d" | "m"): string | undefined => (FULL_SHOTS.has(id) ? `/work/full/${id}-${kind}.webp?v=1` : undefined);
 
 export const PROJECTS: Project[] = [
@@ -152,7 +152,7 @@ export const PROJECTS: Project[] = [
     tag: "site",
     title: "Metesso",
     img: "/work/metesso1.webp",
-    href: "https://www.metesso.com/",
+    href: "https://metesso.vercel.app/",
     country: "BG",
   },
   {

@@ -18,7 +18,7 @@ const en: Dict = {
     call: "Call",
     callAria: "Call us: +359 897 758 062",
     langAria: "Choose language",
-    links: { hero: "Home", services: "Services", about: "About", work: "Projects", process: "Process", blog: "Blog", contact: "Contact" },
+    links: { hero: "Home", services: "Services", about: "About", work: "Projects", process: "Process", blog: "Blog", contact: "Contact", check: "Free site check", planner: "Project planner" },
   },
   hero: {
     badge: "Open for projects",

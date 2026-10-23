@@ -17,6 +17,7 @@ import { GOOGLE_REVIEWS, googleReviewsUrl } from "../constants/business";
 import { projectPath, projectsFor } from "../constants/projects";
 import { REVIEW_TRANSLATIONS } from "./reviewTranslations";
 import { reviewsCopy } from "../i18n/sections/reviews";
+import AccentTitle from "../components/AccentTitle";
 
 /** Кавичките на езика на показания текст. */
 const QUOTES: Record<string, [string, string]> = { bg: ["„", "“"], de: ["„", "“"], nl: ["“", "”"], en: ["“", "”"] };
@@ -149,11 +150,11 @@ export default function Reviews() {
   return (
     <section id="reviews" className="relative text-slate-200" style={{ backgroundColor: "#07090f" }}>
       <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-24">
-        <PathMark n="03" label={c.chapter} />
+        <PathMark n="04" label={c.chapter} />
 
         <div className="mx-auto mt-6 max-w-[40rem] text-center">
           <h2 className="text-[clamp(2rem,1.35rem+2.8vw,3.25rem)] font-extrabold leading-[1.02] tracking-[-0.03em] text-white [text-wrap:balance]">
-            {c.title}
+            <AccentTitle text={c.title} accents={["клиентите", "clients say", "Kunden sagen", "klanten zeggen"]} />
           </h2>
           <p className="mx-auto mt-4 max-w-[46ch] text-[15.5px] leading-relaxed text-slate-400 [text-wrap:pretty] sm:text-[17px]">{c.sub}</p>
           <p className="mt-6 inline-flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 text-[14px] text-slate-400">

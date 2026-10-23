@@ -20,6 +20,7 @@ import { servicesCopy, type ServiceGroupKey, type ServiceKey, type ServicesCopy 
 import { PROJECTS, type Project, liveShot, mobileShot, projectPath } from "../constants/projects";
 import { serviceById, servicePath, type ServiceId } from "../services";
 import { GOOGLE_REVIEWS } from "../constants/business";
+import AccentTitle from "../components/AccentTitle";
 
 export type Vignette = "booking" | "mobile" | "desktop" | "apps" | "ai" | "ads" | "seo" | "care";
 
@@ -117,7 +118,7 @@ export default function Services() {
       <div className="mx-auto max-w-7xl">
         <PathMark n="01" label={c.mark} />
         <h2 className="mx-auto mt-6 max-w-3xl text-center text-[2rem] font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-5xl">
-          {c.title}
+          <AccentTitle text={c.title} accents={["онлайн.", "online.", "online braucht.", "online nodig heeft."]} />
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-center text-[15px] leading-relaxed text-slate-400 sm:text-lg">{c.sub}</p>
 

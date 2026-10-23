@@ -285,10 +285,26 @@ function CaseStudy({ detail, copy, title }: { detail: CaseDetail; copy: CaseCopy
     io.observe(el);
     return () => io.disconnect();
   }, []);
-  const advance = () => setTab((t) => (t + 1) % detail.admin.length);
-  const running = onScreen && !hold && detail.admin.length > 1;
-  const shot = detail.admin[tab];
-  const item = copy.admin[tab];
+  const shots = detail.admin ?? [];
+  const items = copy.admin ?? [];
+  const advance = () => setTab((t) => (t + 1) % shots.length);
+  const running = onScreen && !hold && shots.length > 1;
+  const shot = shots[tab];
+  const item = items[tab];
+
+  const moreList = copy.more.length > 0 && (
+    <div className={shots.length > 0 ? "mt-14" : undefined}>
+      <h3 className="text-[clamp(1.2rem,2.4vw,1.45rem)] font-extrabold tracking-[-0.02em] text-white">{shots.length > 0 ? s.more : s.moreSite}</h3>
+      <ul className="mt-5 grid gap-x-10 sm:grid-cols-2">
+        {copy.more.map((m) => (
+          <li key={m} className="flex items-start gap-3.5 border-b border-white/[0.07] py-3.5 text-[15.5px] leading-snug text-slate-200">
+            <Check aria-hidden strokeWidth={2.5} className="mt-0.5 h-4 w-4 shrink-0 text-accent-text" />
+            {m}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 
   return (
     <>
@@ -321,8 +337,8 @@ function CaseStudy({ detail, copy, title }: { detail: CaseDetail; copy: CaseCopy
         </section>
       )}
 
-      {/* Админ панелът */}
-      {detail.admin.length > 0 && (
+      {/* Админ панелът (само при проекти със скрийншоти на панела) */}
+      {shots.length > 0 && item && (
         <section className="mx-auto max-w-6xl px-5 pb-20 sm:px-6 sm:pb-28">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -343,7 +359,7 @@ function CaseStudy({ detail, copy, title }: { detail: CaseDetail; copy: CaseCopy
           >
             {/* Изборът: на телефон хоризонтален ред, на десктоп списък с описания */}
             <div role="tablist" aria-label={s.admin} className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 lg:mx-0 lg:flex-col lg:gap-1.5 lg:overflow-visible lg:px-0">
-              {copy.admin.map((a, i) => (
+              {items.map((a, i) => (
                 <button
                   key={a.title}
                   type="button"
@@ -356,7 +372,7 @@ function CaseStudy({ detail, copy, title }: { detail: CaseDetail; copy: CaseCopy
                 >
                   <span className={`block text-[15px] font-bold tracking-[-0.01em] ${tab === i ? "text-white" : "text-slate-300"}`}>{a.title}</span>
                   <span className="mt-1 hidden text-[14px] leading-relaxed text-slate-400 lg:block">{a.text}</span>
-                  {tab === i && detail.admin.length > 1 && (
+                  {tab === i && shots.length > 1 && (
                     <span
                       key={tab}
                       aria-hidden
@@ -398,21 +414,12 @@ function CaseStudy({ detail, copy, title }: { detail: CaseDetail; copy: CaseCopy
             </div>
           )}
 
-          {copy.more.length > 0 && (
-            <div className="mt-14">
-              <h3 className="text-[clamp(1.2rem,2.4vw,1.45rem)] font-extrabold tracking-[-0.02em] text-white">{s.more}</h3>
-              <ul className="mt-5 grid gap-x-10 sm:grid-cols-2">
-                {copy.more.map((m) => (
-                  <li key={m} className="flex items-start gap-3.5 border-b border-white/[0.07] py-3.5 text-[15.5px] leading-snug text-slate-200">
-                    <Check aria-hidden strokeWidth={2.5} className="mt-0.5 h-4 w-4 shrink-0 text-accent-text" />
-                    {m}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          {moreList}
         </section>
       )}
+
+      {/* Още в проекта: без панел списъкът стои в собствена секция */}
+      {shots.length === 0 && moreList && <section className="mx-auto max-w-6xl px-5 pb-20 sm:px-6 sm:pb-28">{moreList}</section>}
       <style>{`
         .prj-admin { animation: prj-fade .35s ease both; }
         .prj-timer { transform: scaleX(0); animation: prj-timer 4s linear forwards; }

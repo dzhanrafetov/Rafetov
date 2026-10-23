@@ -18,7 +18,7 @@ const bg: Dict = {
     call: "Обади се",
     callAria: "Обадете се: +359 897 758 062",
     langAria: "Избор на език",
-    links: { hero: "Начало", services: "Услуги", about: "За нас", work: "Проекти", process: "Процес", blog: "Блог", contact: "Контакт" },
+    links: { hero: "Начало", services: "Услуги", about: "За нас", work: "Проекти", process: "Процес", blog: "Блог", contact: "Контакт", check: "Безплатна проверка", planner: "Планер на проект" },
   },
   hero: {
     badge: "Отворени за проекти",

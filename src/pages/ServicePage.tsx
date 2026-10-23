@@ -19,6 +19,9 @@ import { SITE_ORIGIN } from "../seo/head";
 import { SERVICES, findService, findServiceAnyLang, serviceAlternates, servicePath, type Service } from "../services";
 import { servicesCopy } from "../i18n/sections/services";
 import { servicePageCopy } from "../i18n/sections/servicePage";
+import { plannerCopy } from "../i18n/sections/planner";
+import { auditCopy } from "../i18n/sections/audit";
+import { AUDIT_BASE, PLANNER_BASE } from "../constants/tools";
 import { PROJECT_BASE, PROJECTS, projectPath, projectsFor } from "../constants/projects";
 import { BUSINESS, GOOGLE_REVIEWS, VIBER_HREF, whatsappHref } from "../constants/business";
 import { AppsVignette, DeviceMockup, FlowVignette, VignetteView, proofProject } from "./Services";
@@ -28,6 +31,7 @@ import { Stars } from "../components/GoogleRating";
 import WhatsAppIcon from "../components/WhatsAppIcon";
 import ViberIcon from "../components/ViberIcon";
 import NotFound from "./NotFound";
+import AccentTitle from "../components/AccentTitle";
 
 /** Иконите на картите „Какво можем да направим“ — по име от `caseIcons` на услугата. */
 const CASE_ICONS: Record<string, LucideIcon> = {
@@ -37,6 +41,22 @@ const CASE_ICONS: Record<string, LucideIcon> = {
 
 const BTN =
   "inline-flex h-14 items-center justify-center gap-2.5 rounded-[14px] bg-accent px-7 text-[15px] font-semibold text-ink shadow-[0_6px_20px_-8px_rgba(34,211,238,.45)] transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_26px_-8px_rgba(34,211,238,.6)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text";
+
+/** Циан края на главното заглавие на всяка услуга (виж AccentTitle). Първата фраза, която се среща, печели. */
+const TITLE_ACCENTS = [
+  // bg
+  "който носи запитвания", "който продава лесно", "с QR код", "която води до запитвания", "без телефонни обаждания",
+  "за вашата работа", "в джоба на клиентите ви", "и производството", "повтарящата се работа", "в Google и в картите", "без месечен абонамент",
+  // en
+  "brings in enquiries", "sells easily", "QR menu", "lead to enquiries", "without phone calls", "built for your work",
+  "in your customers' pocket", "and the workshop", "the repetitive work", "in Google and on the map", "without a monthly subscription",
+  // de
+  "die Anfragen bringt", "der einfach verkauft", "mit QR-Code", "die zu Anfragen führt", "ohne Telefonate", "gebaut für Ihre Arbeit",
+  "in der Tasche Ihrer Kunden", "und Werkstatt", "die wiederkehrende Arbeit", "auf der Karte gefunden", "ohne monatliches Abo",
+  // nl
+  "die aanvragen oplevert", "eenvoudig bestellen", "op de telefoon van uw gasten", "de juiste mensen bereiken", "zonder telefoontjes",
+  "gebouwd voor uw werk", "in de zak van uw klanten", "kantoor en atelier", "het terugkerende werk", "en op de kaart", "zonder maandelijks abonnement",
+] as const;
 
 export default function ServicePage() {
   const { base = "", slug = "" } = useParams();
@@ -115,7 +135,7 @@ function ServiceView({ service }: { service: Service }) {
             <span aria-hidden>/</span>
             <RouterLink to={href("/#services")} className="rounded transition-colors hover:text-slate-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-text">{s.services}</RouterLink>
           </nav>
-          <h1 className="balance mt-6 text-[clamp(2.1rem,6.4vw,3.6rem)] font-extrabold leading-[1.03] tracking-[-0.034em] text-white">{c.title}</h1>
+          <h1 className="balance mt-6 text-[clamp(2.1rem,6.4vw,3.6rem)] font-extrabold leading-[1.03] tracking-[-0.034em] text-white"><AccentTitle text={c.title} accents={TITLE_ACCENTS} /></h1>
           <p className="balance mx-auto mt-6 max-w-[54ch] text-[16.5px] leading-[1.6] text-slate-400 sm:text-[17px] lg:mx-0">{c.intro}</p>
           <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
             <RouterLink to={brief} className={BTN}>
@@ -138,6 +158,16 @@ function ServiceView({ service }: { service: Service }) {
               <b className="font-semibold text-slate-200">{GOOGLE_REVIEWS.rating.toFixed(1).replace(".", lang === "en" ? "." : ",")}</b>{" "}
               {s.rating.replace("{n}", String(GOOGLE_REVIEWS.count))}
             </span>
+          </p>
+          {/* Тих линк: за SEO страницата — безплатната проверка на сайт; за останалите — планерът. */}
+          <p className="mt-3 text-[13.5px] text-slate-500">
+            {service.id === "seo" ? auditCopy[lang].entry.question : plannerCopy[lang].entry.question}{" "}
+            <RouterLink
+              to={href(service.id === "seo" ? AUDIT_BASE[lang] : PLANNER_BASE[lang])}
+              className="whitespace-nowrap font-semibold text-slate-300 underline decoration-white/20 underline-offset-[3px] transition-colors hover:text-white hover:decoration-accent"
+            >
+              {service.id === "seo" ? auditCopy[lang].entry.link : plannerCopy[lang].entry.link}
+            </RouterLink>
           </p>
         </div>
         <HeroVisual service={service} lang={lang} />

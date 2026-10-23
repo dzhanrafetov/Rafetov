@@ -22,6 +22,8 @@ export type ProjectPageCopy = {
   adminReal: string;
   adminDemo: string;
   more: string;
+  /** Същият списък при проекти без панел: още неща на самия сайт. */
+  moreSite: string;
   roles: string;
 };
 
@@ -44,6 +46,7 @@ export const projectPageCopy: Record<Lang, ProjectPageCopy> = {
     adminReal: "Истински панел · данните са скрити",
     adminDemo: "Демо данни",
     more: "Още в панела",
+    moreSite: "Още в проекта",
     roles: "Роли в платформата",
   },
   en: {
@@ -64,6 +67,7 @@ export const projectPageCopy: Record<Lang, ProjectPageCopy> = {
     adminReal: "Real panel · data hidden",
     adminDemo: "Demo data",
     more: "Also in the panel",
+    moreSite: "Also in the project",
     roles: "Roles in the platform",
   },
   de: {
@@ -84,6 +88,7 @@ export const projectPageCopy: Record<Lang, ProjectPageCopy> = {
     adminReal: "Echtes Panel · Daten verborgen",
     adminDemo: "Demodaten",
     more: "Außerdem im Panel",
+    moreSite: "Außerdem im Projekt",
     roles: "Rollen in der Plattform",
   },
   nl: {
@@ -104,6 +109,7 @@ export const projectPageCopy: Record<Lang, ProjectPageCopy> = {
     adminReal: "Echt paneel · gegevens verborgen",
     adminDemo: "Demogegevens",
     more: "Ook in het paneel",
+    moreSite: "Ook in het project",
     roles: "Rollen in het platform",
   },
 };

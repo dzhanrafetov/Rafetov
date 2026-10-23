@@ -22,8 +22,11 @@ import {
   type ContactCopy, type CountryKey, type ReplyKey, type ServiceKey,
 } from "../i18n/sections/contact";
 import type { SourceKey } from "../i18n/types";
+import { plannerCopy } from "../i18n/sections/planner";
+import { PLANNER_BASE } from "../constants/tools";
 import sendEmail from "../service/emailService";
 import { attributionLine, sourceKeysFor } from "../service/attribution";
+import AccentTitle from "../components/AccentTitle";
 
 type Step = "need" | "business" | "reply";
 type HasSite = "" | "yes" | "no";
@@ -376,11 +379,16 @@ export default function ContactUs() {
   return (
     <section id="contact" className="relative bg-ink text-slate-200">
       <div className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 sm:pb-28">
-        <PathMark n="06" label={s.chapter} />
+        <PathMark n="07" label={s.chapter} />
 
         <div className="mx-auto mt-6 max-w-[34ch] text-center sm:mt-8">
-          <h2 className="text-[clamp(1.9rem,5.6vw,3.1rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-slate-50">{s.h2}</h2>
+          <h2 className="text-[clamp(1.9rem,5.6vw,3.1rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-slate-50"><AccentTitle text={s.h2} accents={["за бизнеса си.", "your business.", "Ihrem Unternehmen.", "uw bedrijf."]} /></h2>
           <p className="mx-auto mt-4 max-w-[46ch] text-[15.5px] leading-relaxed text-slate-400">{s.sub}</p>
+          {/* Тих линк към планера: за хората, които още не знаят какво да поискат. */}
+          <p className="mt-3 text-[13.5px] text-slate-500">
+            {plannerCopy[lang].entry.question}{" "}
+            <Link to={href(PLANNER_BASE[lang])} className={`${directLinkCls} whitespace-nowrap`}>{plannerCopy[lang].entry.link}</Link>
+          </p>
         </div>
 
         <div className="mx-auto mt-10 flex max-w-4xl flex-col gap-8 sm:mt-14">

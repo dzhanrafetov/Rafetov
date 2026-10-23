@@ -29,7 +29,8 @@ export type Dict = {
     call: string;
     callAria: string;
     langAria: string;
-    links: { hero: string; services: string; about: string; work: string; process: string; blog: string; contact: string };
+    /** `check` и `planner` са инструментите: проверката е и в десктоп менюто, планерът само в мобилното. */
+    links: { hero: string; services: string; about: string; work: string; process: string; blog: string; contact: string; check: string; planner: string };
   };
   hero: {
     badge: string;

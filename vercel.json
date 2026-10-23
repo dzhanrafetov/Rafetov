@@ -1,6 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "trailingSlash": false,
+  "functions": {
+    "api/audit.ts": { "maxDuration": 60 }
+  },
   "headers": [
     {
       "source": "/assets/(.*)",
