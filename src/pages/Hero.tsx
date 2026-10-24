@@ -31,7 +31,7 @@ export default function Hero() {
     const el = chatRef.current;
     if (!el) return;
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
-    if (typeof IntersectionObserver === "undefined") return;
+    if (typeof IntersectionObserver === "undefined") return setPlay(true);
     const io = new IntersectionObserver(
       ([e]) => {
         if (!e.isIntersecting) return;
@@ -214,6 +214,10 @@ export default function Hero() {
       <style>{`
         .hero-balance { text-wrap: balance; }
         .hc-typing { opacity: 0; }
+        /* С JS чатът е скрит до старта на анимацията, иначе SSR версията се вижда цяла за миг и после започва отначало */
+        @media (prefers-reduced-motion: no-preference) {
+          .js .hc:not(.is-play) .hc-a, .js .hc-path:not(.is-play) .hc-node, .js .hc-path:not(.is-play) .hc-line { opacity: 0; }
+        }
         .hc.is-play .hc-a { animation: hc-in .6s cubic-bezier(.16,1,.3,1) var(--d, 0s) both; }
         .hc.is-play .hc-card { animation-name: hc-card; animation-duration: .8s; }
         .hc.is-play .hc-typing { animation: hc-typing 1.5s ease 1s both; }
