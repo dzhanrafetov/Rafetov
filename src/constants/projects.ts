@@ -363,8 +363,12 @@ export const PROJECTS: Project[] = [
   },
 ];
 
-/** Нидерландската версия е за Белгия: първо проекти от Белгия и Германия, после подбрани други. */
-const NL_PROJECT_IDS = [
+/**
+ * Всички езици показват всички проекти; разликата е само в реда.
+ * Нидерландската версия е за Белгия: първо проекти от Белгия и Германия, после другите чужди и подбрани български,
+ * а след тях останалите български в обичайния им ред.
+ */
+const NL_FIRST = [
   "alpha-reiniging", "het-pitta-loft",
   "nn-bau", "beca", "hh-edelstahl", "innenausbau-ahmedov",
   "emis-cleaning", "santander",
@@ -373,11 +377,13 @@ const NL_PROJECT_IDS = [
   "active-solar", "creative-homes",
 ];
 
+const NL_PROJECTS: Project[] = [
+  ...NL_FIRST.map((id) => PROJECTS.find((p) => p.id === id)).filter((p): p is Project => !!p),
+  ...PROJECTS.filter((p) => !NL_FIRST.includes(p.id)),
+];
+
 export function projectsFor(lang: Lang): Project[] {
-  const list =
-    lang === "nl"
-      ? (NL_PROJECT_IDS.map((id) => PROJECTS.find((p) => p.id === id)).filter(Boolean) as Project[])
-      : PROJECTS;
+  const list = lang === "nl" ? NL_PROJECTS : PROJECTS;
   return lang === "bg" ? list.map((p) => (p.imgBg ? { ...p, img: p.imgBg } : p)) : list;
 }
 

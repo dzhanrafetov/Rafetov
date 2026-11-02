@@ -49,8 +49,10 @@ const TILE: Record<ClientLogo["tile"], string> = {
 
 export default function TrustedBy() {
   const { t, lang, href } = useLang();
-  const visible = new Set(projectsFor(lang).map((p) => p.id));
-  const items = CLIENT_LOGOS.filter((c) => visible.has(c.id) && PROJECTS.some((p) => p.id === c.id));
+  const logos = CLIENT_LOGOS.filter((c) => PROJECTS.some((p) => p.id === c.id));
+  // Нидерландски: логата следват реда на проектите за езика, за да са белгийските и германските клиенти първи.
+  const order = projectsFor(lang).map((p) => p.id);
+  const items = lang === "nl" ? [...logos].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id)) : logos;
   if (items.length < 4) return null;
   // Два пъти един и същ ред, за да е безшевен цикълът.
   const row = [...items, ...items];
