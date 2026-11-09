@@ -66,7 +66,7 @@ export const PROJECTS: Project[] = [
     tag: "shop",
     title: "Vulcho.bg",
     img: "/work/valchoph.webp",
-    href: "https://valcho-zeta.vercel.app/",
+    href: "https://valcho.bg/",
     country: "BG",
   },
   {
