@@ -139,10 +139,10 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ["Online boeken en betalen van tours", "Cadeaubonnen, promocodes en kortingen", "Beheerpaneel voor tours en data"],
   ),
   "hustle-clothing": cs(
-    ["Каталог с дрехи по категории и размери", "Админ панел за продукти, промокодове и разпродажби", "Поръчка и доставка"],
-    ["Clothing catalogue by category and size", "Admin panel for products, promo codes and sales", "Ordering and delivery"],
-    ["Bekleidungskatalog nach Kategorie und Größe", "Admin-Bereich für Produkte, Gutscheincodes und Sales", "Bestellung und Lieferung"],
-    ["Kledingcatalogus per categorie en maat", "Beheerpaneel voor producten, promocodes en uitverkoop", "Bestellen en levering"],
+    ["Каталог с тениски по размери, с цена в евро и лева", "Админ панел за продукти, поръчки и промокодове", "Поръчка без регистрация с Еконт и наложен платеж"],
+    ["T-shirt catalogue by size, priced in euro and leva", "Admin panel for products, orders and promo codes", "Ordering without registration with Econt and cash on delivery"],
+    ["T-Shirt-Katalog nach Größen, mit Preisen in Euro und Lewa", "Admin-Bereich für Produkte, Bestellungen und Gutscheincodes", "Bestellung ohne Registrierung mit Econt und Nachnahme"],
+    ["T-shirtcatalogus per maat, met prijzen in euro en leva", "Beheerpaneel voor producten, bestellingen en promocodes", "Bestellen zonder registratie met Econt en betaling bij levering"],
   ),
   shop4home: cs(
     ["Широк асортимент за дома по категории", "Удобна поръчка от телефон", "Админ панел за поръчки, продукти и категории"],
@@ -233,5 +233,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ["Accounts for admins, teachers, students and inspectors", "Online applications, training groups and schedules", "Live online lessons with attendance reports", "Course materials and tests with automatic scoring"],
     ["Bereiche für Administratoren, Lehrkräfte, Teilnehmende und Prüfer", "Online-Bewerbung, Kursgruppen und Stundenpläne", "Live-Unterricht mit Anwesenheitsberichten", "Lernmaterialien und Tests mit automatischer Auswertung"],
     ["Accounts voor beheerders, docenten, cursisten en inspecteurs", "Online inschrijven, lesgroepen en roosters", "Online lessen met aanwezigheidsrapporten", "Lesmateriaal en toetsen met automatische verbetering"],
+  ),
+  "gs-aluminium": cs(
+    ["Нова визия на мястото на стария сайт", "Страница за всяка от осемте системи", "3D конфигуратор за пергола, веранда, зимна градина и навес", "Запитване за безплатен оглед със снимки на мястото"],
+    ["A new look replacing the old site", "A page for each of the eight systems", "3D configurator for pergolas, verandas, conservatories and carports", "Request for a free site visit with photos of the place"],
+    ["Neuer Auftritt anstelle der alten Website", "Eine Seite für jedes der acht Systeme", "3D-Konfigurator für Pergola, Veranda, Wintergarten und Carport", "Anfrage für einen kostenlosen Vor-Ort-Termin mit Fotos"],
+    ["Een nieuwe uitstraling in plaats van de oude website", "Een pagina voor elk van de acht systemen", "3D-configurator voor pergola, veranda, serre en carport", "Aanvraag voor een gratis plaatsbezoek met foto's van de plek"],
   ),
 };

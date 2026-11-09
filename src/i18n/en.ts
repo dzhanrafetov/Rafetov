@@ -192,6 +192,7 @@ const en: Dict = {
       "pachka-stil": "Website for a construction and renovation company in north-eastern Bulgaria, with services, before/after project photos, an inspection and quote request form and WhatsApp contact.",
       "kapisel": "Online store for professional hair care with 14 brands, filters by brand and hair concern, ordering without registration, cash on delivery and courier shipping.",
       "aloeway": "Online store for LR health and beauty products with monthly subscription packages, ordering without registration and a separate page for the business partnership.",
+      "gs-aluminium": "New four-language website for GS Aluminium from Ruse: conservatories, pergolas, verandas, carports and windows. A completely new look replacing the old site, a 3D configurator, photos and video from real projects and a request for a free site visit.",
       czpo: "Complete training platform for a licensed vocational training centre in Varna, with separate accounts for admins, teachers, students and Employment Agency inspectors. Online applications, training groups and schedules, live online lessons with attendance reports, course materials and tests with automatic scoring.",
     },
   },

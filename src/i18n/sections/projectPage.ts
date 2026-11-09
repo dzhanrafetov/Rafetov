@@ -22,16 +22,26 @@ export type ProjectPageCopy = {
   adminReal: string;
   adminDemo: string;
   more: string;
+  zoom: string;
+  prevTab: string;
+  nextTab: string;
+  close: string;
   /** Същият списък при проекти без панел: още неща на самия сайт. */
   moreSite: string;
   roles: string;
+  /** Преди и след (само при смяна на стар сайт). */
+  before: string;
+  beforeOld: string;
+  beforeNew: string;
+  beforeOldList: string;
+  beforeNewList: string;
 };
 
 export const projectPageCopy: Record<Lang, ProjectPageCopy> = {
   bg: {
     projects: "Проекти",
     recording: "Истинският сайт",
-    hint: "Страницата се превърта сама. Задръжте мишката, за да спре.",
+    hint: "Страницата се превърта сама. Бутонът горе вдясно я спира.",
     pause: "Спри превъртането",
     play: "Пусни превъртането",
     service: "Услуга",
@@ -46,13 +56,22 @@ export const projectPageCopy: Record<Lang, ProjectPageCopy> = {
     adminReal: "Истински панел · данните са скрити",
     adminDemo: "Демо данни",
     more: "Още в панела",
+    zoom: "Цял екран",
+    prevTab: "Предишен раздел",
+    nextTab: "Следващ раздел",
+    close: "Затвори",
     moreSite: "Още в проекта",
     roles: "Роли в платформата",
+    before: "Старият сайт и новият",
+    beforeOld: "Преди",
+    beforeNew: "След",
+    beforeOldList: "Какво не работеше",
+    beforeNewList: "Какво има сега",
   },
   en: {
     projects: "Projects",
     recording: "The real site",
-    hint: "The page scrolls by itself. Hover to pause.",
+    hint: "The page scrolls by itself. The button at the top right stops it.",
     pause: "Pause scrolling",
     play: "Play scrolling",
     service: "Service",
@@ -67,13 +86,22 @@ export const projectPageCopy: Record<Lang, ProjectPageCopy> = {
     adminReal: "Real panel · data hidden",
     adminDemo: "Demo data",
     more: "Also in the panel",
+    zoom: "Full screen",
+    prevTab: "Previous section",
+    nextTab: "Next section",
+    close: "Close",
     moreSite: "Also in the project",
     roles: "Roles in the platform",
+    before: "The old site and the new one",
+    beforeOld: "Before",
+    beforeNew: "After",
+    beforeOldList: "What did not work",
+    beforeNewList: "What is there now",
   },
   de: {
     projects: "Projekte",
     recording: "Die echte Webseite",
-    hint: "Die Seite scrollt von selbst. Mit der Maus darüber anhalten.",
+    hint: "Die Seite scrollt von selbst. Der Button oben rechts hält sie an.",
     pause: "Scrollen anhalten",
     play: "Scrollen starten",
     service: "Leistung",
@@ -88,13 +116,22 @@ export const projectPageCopy: Record<Lang, ProjectPageCopy> = {
     adminReal: "Echtes Panel · Daten verborgen",
     adminDemo: "Demodaten",
     more: "Außerdem im Panel",
+    zoom: "Vollbild",
+    prevTab: "Vorheriger Bereich",
+    nextTab: "Nächster Bereich",
+    close: "Schließen",
     moreSite: "Außerdem im Projekt",
     roles: "Rollen in der Plattform",
+    before: "Die alte Website und die neue",
+    beforeOld: "Vorher",
+    beforeNew: "Nachher",
+    beforeOldList: "Was nicht funktionierte",
+    beforeNewList: "Was es jetzt gibt",
   },
   nl: {
     projects: "Projecten",
     recording: "De echte website",
-    hint: "De pagina scrolt vanzelf. Beweeg de muis erover om te pauzeren.",
+    hint: "De pagina scrolt vanzelf. De knop rechtsboven zet hem stil.",
     pause: "Scrollen pauzeren",
     play: "Scrollen starten",
     service: "Dienst",
@@ -109,7 +146,16 @@ export const projectPageCopy: Record<Lang, ProjectPageCopy> = {
     adminReal: "Echt paneel · gegevens verborgen",
     adminDemo: "Demogegevens",
     more: "Ook in het paneel",
+    zoom: "Volledig scherm",
+    prevTab: "Vorige sectie",
+    nextTab: "Volgende sectie",
+    close: "Sluiten",
     moreSite: "Ook in het project",
     roles: "Rollen in het platform",
+    before: "De oude website en de nieuwe",
+    beforeOld: "Voor",
+    beforeNew: "Na",
+    beforeOldList: "Wat niet werkte",
+    beforeNewList: "Wat er nu is",
   },
 };

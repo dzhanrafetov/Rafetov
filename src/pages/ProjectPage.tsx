@@ -6,7 +6,7 @@
  */
 import { useEffect, useRef, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Lock, Pause, Play } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Lock, Maximize2, Pause, Play, X } from "lucide-react";
 import { useLang, withLang } from "../i18n";
 import { useSeo } from "../hooks/useSeo";
 import { SITE_ORIGIN } from "../seo/head";
@@ -252,11 +252,11 @@ function ProjectView({ project: p }: { project: Project }) {
       <style>{`
         .prj-page .balance { text-wrap: balance; }
         .prj-page ::selection { background: rgba(34,211,238,.28); color: #fff; }
-        /* Превъртане на записа: кратка пауза горе и долу, после обратно. Разстоянието и времето идват от JS. */
+        /* Превъртане на записа: равномерно, с кратка пауза горе и долу, после обратно. Спира само с бутона. Разстоянието и времето идват от JS. */
         .shot-img { will-change: transform; }
-        .shot.is-ready .shot-img { animation: shot-scroll var(--dur, 20s) cubic-bezier(.45,.05,.55,.95) infinite alternate; }
-        .shot.is-paused .shot-img, .shot-stage:hover .shot-img { animation-play-state: paused; }
-        @keyframes shot-scroll { 0%, 3% { transform: translateY(0); } 97%, 100% { transform: translateY(calc(var(--dist, 0px) * -1)); } }
+        .shot.is-ready .shot-img { animation: shot-scroll var(--dur, 20s) linear infinite alternate; }
+        .shot.is-paused .shot-img { animation-play-state: paused; }
+        @keyframes shot-scroll { 0%, 4% { transform: translateY(0); } 96%, 100% { transform: translateY(calc(var(--dist, 0px) * -1)); } }
         @media (prefers-reduced-motion: reduce) {
           .shot.is-ready .shot-img { animation: none; }
           .shot { overflow-y: auto !important; }
@@ -277,6 +277,7 @@ function CaseStudy({ detail, copy, title }: { detail: CaseDetail; copy: CaseCopy
   // Разделите се сменят сами (лентата на активния бутон отмерва времето); спират при посочване с мишката или извън екрана.
   const [hold, setHold] = useState(false);
   const [onScreen, setOnScreen] = useState(false);
+  const [zoom, setZoom] = useState(false);
   const panel = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = panel.current;
@@ -288,9 +289,22 @@ function CaseStudy({ detail, copy, title }: { detail: CaseDetail; copy: CaseCopy
   const shots = detail.admin ?? [];
   const items = copy.admin ?? [];
   const advance = () => setTab((t) => (t + 1) % shots.length);
-  const running = onScreen && !hold && shots.length > 1;
+  const running = onScreen && !hold && !zoom && shots.length > 1;
   const shot = shots[tab];
   const item = items[tab];
+  const go = (d: number) => setTab((t) => (t + d + shots.length) % shots.length);
+  const touchX = useRef(0);
+  useEffect(() => {
+    if (!zoom) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setZoom(false);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [zoom]);
 
   const moreList = copy.more.length > 0 && (
     <div className={shots.length > 0 ? "mt-14" : undefined}>
@@ -316,6 +330,43 @@ function CaseStudy({ detail, copy, title }: { detail: CaseDetail; copy: CaseCopy
         </div>
       </section>
 
+      {/* Преди и след (само при смяна на стар сайт) */}
+      {detail.before && copy.before && (
+        <section className="mx-auto max-w-6xl px-5 pb-20 sm:px-6 sm:pb-28">
+          <h2 className={H2}>{s.before}</h2>
+          <p className="mt-4 max-w-[60ch] text-[16px] leading-relaxed text-slate-400" style={{ textWrap: "pretty" } as React.CSSProperties}>{copy.before.intro}</p>
+          <div className="mt-10 grid gap-10 sm:mt-14 lg:grid-cols-2 lg:gap-8">
+            {([
+              { label: s.beforeOld, host: detail.before.oldHost, img: detail.before.oldImg, list: s.beforeOldList, items: copy.before.old, isNew: false },
+              { label: s.beforeNew, host: detail.before.newHost, img: detail.before.newImg, list: s.beforeNewList, items: copy.before.new, isNew: true },
+            ]).map((c) => (
+              <div key={c.host}>
+                <figure className={`overflow-hidden rounded-[18px] border bg-ink-raised ${c.isNew ? `border-white/[0.14] ${SHADOW}` : "border-white/[0.08]"}`}>
+                  <figcaption className="flex items-center gap-2.5 border-b border-white/[0.08] px-4 py-2.5 text-[13px]">
+                    <span className={`rounded-full px-2.5 py-0.5 font-semibold ${c.isNew ? "bg-accent text-ink" : "bg-white/[0.08] text-slate-300"}`}>{c.label}</span>
+                    <span className="truncate text-slate-400">{c.host}</span>
+                  </figcaption>
+                  <img src={c.img} alt={`${title}: ${c.label} · ${c.host}`} width={1200} height={750} loading="lazy" decoding="async" className={`block h-auto w-full ${c.isNew ? "" : "opacity-90"}`} />
+                </figure>
+                <h3 className="mt-7 text-[clamp(1.15rem,2.2vw,1.35rem)] font-extrabold tracking-[-0.02em] text-white">{c.list}</h3>
+                <ul className="mt-3">
+                  {c.items.map((m) => (
+                    <li key={m} className={`flex items-start gap-3.5 border-b border-white/[0.07] py-3.5 text-[15.5px] leading-snug ${c.isNew ? "text-slate-200" : "text-slate-400"}`}>
+                      {c.isNew ? (
+                        <Check aria-hidden strokeWidth={2.5} className="mt-0.5 h-4 w-4 shrink-0 text-accent-text" />
+                      ) : (
+                        <X aria-hidden strokeWidth={2.5} className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
+                      )}
+                      {m}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Какво направихме */}
       {copy.site.length > 0 && (
         <section className="mx-auto max-w-6xl px-5 pb-20 sm:px-6 sm:pb-28">
@@ -327,8 +378,10 @@ function CaseStudy({ detail, copy, title }: { detail: CaseDetail; copy: CaseCopy
                   <img src={detail.site[i]} alt={`${title}: ${b.title}`} width={1200} loading="lazy" decoding="async" className="block h-auto w-full" />
                 </figure>
                 <div className="lg:col-span-5">
-                  <span className="text-[13px] font-bold tabular-nums text-accent-text">{String(i + 1).padStart(2, "0")}</span>
-                  <h3 className="mt-2 text-[clamp(1.3rem,2.6vw,1.6rem)] font-extrabold tracking-[-0.02em] text-white">{b.title}</h3>
+                  <h3 className="flex items-baseline gap-3 text-[clamp(1.3rem,2.6vw,1.6rem)] font-extrabold tracking-[-0.02em] text-white">
+                    <span className="text-[0.62em] font-bold tabular-nums tracking-normal text-accent-text">{String(i + 1).padStart(2, "0")}</span>
+                    <span>{b.title}</span>
+                  </h3>
                   <p className="mt-3 max-w-[46ch] text-[16px] leading-relaxed text-slate-400">{b.text}</p>
                 </div>
               </article>
@@ -353,12 +406,12 @@ function CaseStudy({ detail, copy, title }: { detail: CaseDetail; copy: CaseCopy
 
           <div
             ref={panel}
-            onPointerEnter={() => setHold(true)}
-            onPointerLeave={() => setHold(false)}
-            className="mt-10 grid gap-6 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-8"
+            onPointerEnter={(e) => e.pointerType === "mouse" && setHold(true)}
+            onPointerLeave={(e) => e.pointerType === "mouse" && setHold(false)}
+            className="mt-10 grid gap-6 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:items-start lg:gap-8"
           >
-            {/* Изборът: на телефон хоризонтален ред, на десктоп списък с описания */}
-            <div role="tablist" aria-label={s.admin} className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 lg:mx-0 lg:flex-col lg:gap-1.5 lg:overflow-visible lg:px-0">
+            {/* Десктоп: списък, в който само активният раздел е разгънат с описание, за да е колкото снимката */}
+            <div role="tablist" aria-label={s.admin} className="hidden lg:flex lg:flex-col lg:gap-1.5">
               {items.map((a, i) => (
                 <button
                   key={a.title}
@@ -366,12 +419,15 @@ function CaseStudy({ detail, copy, title }: { detail: CaseDetail; copy: CaseCopy
                   role="tab"
                   aria-selected={tab === i}
                   onClick={() => setTab(i)}
-                  className={`relative shrink-0 overflow-hidden rounded-2xl border px-4 py-3 text-left transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-text lg:px-5 lg:py-4 ${
-                    tab === i ? "border-accent/40 bg-accent/[0.07]" : "border-white/[0.08] hover:border-white/[0.16] hover:bg-white/[0.02]"
+                  className={`relative overflow-hidden rounded-2xl border px-5 text-left transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-text ${
+                    tab === i ? "border-accent/40 bg-accent/[0.07] py-4" : "border-transparent py-3 hover:bg-white/[0.03]"
                   }`}
                 >
-                  <span className={`block text-[15px] font-bold tracking-[-0.01em] ${tab === i ? "text-white" : "text-slate-300"}`}>{a.title}</span>
-                  <span className="mt-1 hidden text-[14px] leading-relaxed text-slate-400 lg:block">{a.text}</span>
+                  <span className="flex items-baseline gap-3">
+                    <span className={`text-[12px] font-bold tabular-nums ${tab === i ? "text-accent-text" : "text-slate-500"}`}>{String(i + 1).padStart(2, "0")}</span>
+                    <span className={`text-[15.5px] font-bold tracking-[-0.01em] ${tab === i ? "text-white" : "text-slate-300"}`}>{a.title}</span>
+                  </span>
+                  {tab === i && <span className="mt-1.5 block pl-[30px] text-[14px] leading-relaxed text-slate-400">{a.text}</span>}
                   {tab === i && shots.length > 1 && (
                     <span
                       key={tab}
@@ -384,21 +440,94 @@ function CaseStudy({ detail, copy, title }: { detail: CaseDetail; copy: CaseCopy
                 </button>
               ))}
             </div>
+
             <figure>
+              {/* Телефон: лентички като в сторита вместо хоризонтален ред бутони */}
+              {shots.length > 1 && (
+                <div aria-hidden className="mb-3 flex gap-1.5 lg:hidden">
+                  {shots.map((_, i) => (
+                    <span key={i} className="relative h-[3px] flex-1 overflow-hidden rounded-full bg-white/[0.12]">
+                      {i < tab && <span className="absolute inset-0 bg-accent" />}
+                      {i === tab && (
+                        <span
+                          key={tab}
+                          onAnimationEnd={advance}
+                          className="prj-timer absolute inset-0 origin-left bg-accent"
+                          style={{ animationPlayState: running ? "running" : "paused" }}
+                        />
+                      )}
+                    </span>
+                  ))}
+                </div>
+              )}
               <div className={`overflow-hidden rounded-[14px] border border-white/[0.12] bg-[#1a2437] p-[3px] ${SHADOW}`}>
                 <div className="overflow-hidden rounded-[11px] bg-white">
                   <div className="flex h-8 items-center gap-1.5 bg-ink-raised px-3">
                     <i aria-hidden className="h-2 w-2 rounded-full bg-white/[0.14]" />
                     <i aria-hidden className="h-2 w-2 rounded-full bg-white/[0.14]" />
                     <i aria-hidden className="h-2 w-2 rounded-full bg-white/[0.14]" />
-                    <span className="ml-2 text-[11.5px] text-slate-400">{item.title}</span>
+                    <span className="ml-2 truncate text-[11.5px] text-slate-400">{item.title}</span>
                   </div>
-                  <img key={shot} src={shot} alt={`${title}, ${s.admin.toLowerCase()}: ${item.title}`} width={1440} height={691} loading="lazy" decoding="async" className="prj-admin block aspect-[1440/691] h-auto w-full object-cover object-top" />
+                  {/* На телефон снимката е изрязана до съдържанието (без менюто вляво), за да се чете; цялата се отваря на цял екран */}
+                  <button
+                    type="button"
+                    onClick={() => setZoom(true)}
+                    onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+                    onTouchEnd={(e) => {
+                      const dx = e.changedTouches[0].clientX - touchX.current;
+                      if (Math.abs(dx) > 40) {
+                        e.preventDefault();
+                        go(dx < 0 ? 1 : -1);
+                      }
+                    }}
+                    aria-label={`${s.zoom}: ${item.title}`}
+                    className="group relative block w-full cursor-zoom-in"
+                  >
+                    <img key={shot} src={shot} alt={`${title}, ${s.admin.toLowerCase()}: ${item.title}`} width={1440} height={691} loading="lazy" decoding="async" className="prj-admin block aspect-[1440/691] h-auto w-full object-cover object-top" />
+                    <span className="absolute bottom-2 right-2 inline-flex items-center gap-1.5 rounded-full bg-ink/80 p-2 text-[11.5px] font-semibold text-white opacity-90 backdrop-blur transition-opacity group-hover:opacity-100 sm:bottom-2.5 sm:right-2.5 sm:px-2.5 sm:py-1.5 lg:opacity-0">
+                      <Maximize2 aria-hidden className="h-3.5 w-3.5" />
+                      <span className="sr-only sm:not-sr-only">{s.zoom}</span>
+                    </span>
+                  </button>
                 </div>
               </div>
-              <figcaption className="mt-4 text-[14.5px] leading-relaxed text-slate-400 lg:hidden">{item.text}</figcaption>
+              {/* Телефон: стрелки, номер и описание под снимката */}
+              <figcaption className="mt-4 lg:hidden">
+                <div className="flex items-center gap-3">
+                  <span className="flex min-w-0 flex-1 items-baseline gap-2.5">
+                    <span className="text-[13px] font-bold tabular-nums text-accent-text">{String(tab + 1).padStart(2, "0")}</span>
+                    <span className="text-[18px] font-bold leading-snug tracking-[-0.01em] text-white">{item.title}</span>
+                  </span>
+                  {shots.length > 1 && (
+                    <span className="flex shrink-0 gap-2">
+                      <button type="button" onClick={() => go(-1)} aria-label={s.prevTab} className="grid h-11 w-11 place-items-center rounded-full border border-white/[0.12] text-slate-200 active:bg-white/[0.06]">
+                        <ArrowLeft aria-hidden className="h-[18px] w-[18px]" />
+                      </button>
+                      <button type="button" onClick={() => go(1)} aria-label={s.nextTab} className="grid h-11 w-11 place-items-center rounded-full border border-white/[0.12] text-slate-200 active:bg-white/[0.06]">
+                        <ArrowRight aria-hidden className="h-[18px] w-[18px]" />
+                      </button>
+                    </span>
+                  )}
+                </div>
+                <p className="mt-2 text-[15px] leading-relaxed text-slate-400">{item.text}</p>
+              </figcaption>
             </figure>
           </div>
+
+          {zoom && (
+            <div role="dialog" aria-modal="true" aria-label={item.title} onClick={() => setZoom(false)} className="fixed inset-0 z-[100] flex flex-col bg-ink/95 backdrop-blur-sm">
+              <div className="flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
+                <span className="truncate text-[14px] font-semibold text-white">{item.title}</span>
+                <button type="button" onClick={() => setZoom(false)} aria-label={s.close} className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/[0.14] text-white">
+                  <X aria-hidden className="h-5 w-5" />
+                </button>
+              </div>
+              {/* На телефон снимката е широка: превърта се хоризонтално, може и с два пръста */}
+              <div className="flex flex-1 items-center overflow-auto px-4 pb-6 sm:px-6" onClick={(e) => e.stopPropagation()}>
+                <img src={shot} alt={`${title}, ${s.admin.toLowerCase()}: ${item.title}`} className="mx-auto block h-auto w-[220%] max-w-none rounded-lg sm:w-full sm:max-w-[1440px]" />
+              </div>
+            </div>
+          )}
 
           {copy.roles && (
             <div className="mt-14">
