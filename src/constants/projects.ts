@@ -13,6 +13,8 @@ export type Project = {
   siteLangs?: string[];
   /** Името на автора на отзива в Google за този проект (от constants/reviews.ts), ако има такъв. */
   review?: string;
+  /** Само на страницата за строители (/stroitelstvo): не се показва в портфолиото на сайта и няма своя страница. */
+  buildersOnly?: boolean;
 };
 
 /** Базов път на страниците на проектите за всеки език (без езиков префикс). */
@@ -153,6 +155,7 @@ export const PROJECTS: Project[] = [
     img: "/work/bk-handwerk.webp",
     href: "https://www.bauelemente-handwerk.de/",
     country: "DE",
+    buildersOnly: true,
   },
   {
     id: "gs-aluminium",
@@ -400,8 +403,13 @@ const NL_PROJECTS: Project[] = [
 ];
 
 export function projectsFor(lang: Lang): Project[] {
-  const list = lang === "nl" ? NL_PROJECTS : PROJECTS;
+  const list = (lang === "nl" ? NL_PROJECTS : PROJECTS).filter((p) => !p.buildersOnly);
   return lang === "bg" ? list.map((p) => (p.imgBg ? { ...p, img: p.imgBg } : p)) : list;
+}
+
+/** Всички проекти за страницата за строители, включително тези само за нея (buildersOnly). */
+export function buildersProjects(): Project[] {
+  return PROJECTS.map((p) => (p.imgBg ? { ...p, img: p.imgBg } : p));
 }
 
 export function projectPath(p: Project, lang: Lang): string {

@@ -28,7 +28,7 @@ import { attributionLine } from "../service/attribution";
 import Flag from "../components/Flag";
 import TradeIcon, { type TradeKey } from "../components/TradeIcons";
 import { BUSINESS, GOOGLE_REVIEWS, VIBER_HREF, whatsappHref } from "../constants/business";
-import { liveShot, projectPath, projectsFor, type Project } from "../constants/projects";
+import { buildersProjects, liveShot, projectPath, type Project } from "../constants/projects";
 
 export const BUILDERS_PATH = "/stroitelstvo";
 
@@ -80,7 +80,7 @@ const WORK: { id: string; place: string; note: string }[] = [
   { id: "taupe", place: "София", note: "Жилищен проект" },
 ];
 
-const GET = ["Сайт с вашите обекти и снимки", "Бутон за WhatsApp и обаждане", "Meta реклама към работеща форма", "Виждате колко запитвания идват"];
+const GET = ["Сайт с вашите обекти и снимки", "Бутон за WhatsApp и обаждане", "Форма за оглед, която наистина праща", "На български, немски или няколко езика"];
 
 const TERMS = ["Фиксирана цена — до 1 час", "Виждате сайта преди пускане", "30 дни безплатни малки промени", "Сайт без месечен абонамент"];
 
@@ -127,7 +127,6 @@ const AD_EXAMPLES: { src: string; alt: string }[] = [
   { src: "/builders/ads/pijo-bordyuri.webp", alt: "Реклама на Пижо Бригада за бордюри" },
   { src: "/builders/ads/gs-naves.webp", alt: "Реклама на GS Aluminium за навеси за кола" },
   { src: "/builders/ads/mazilka-sofia.webp", alt: "Реклама на Ради Строй за декоративни мазилки" },
-  { src: "/builders/ads/taupe-fasada.webp", alt: "Реклама на Taupe за апартаменти" },
   { src: "/builders/ads/ch-edin-ekip.webp", alt: "Реклама на CreativeHomes: целият ремонт с един екип" },
 ];
 
@@ -209,7 +208,7 @@ export default function Builders() {
     setAlternates({ bg: BUILDERS_PATH, en: "/", de: "/", nl: "/" });
   }, [setAlternates]);
 
-  const all = projectsFor("bg");
+  const all = buildersProjects();
   const work = WORK.map((w) => ({ ...w, p: all.find((p) => p.id === w.id) })).filter((x): x is typeof x & { p: Project } => !!x.p);
 
   const wa = whatsappHref(WA_TEXT);
@@ -318,7 +317,10 @@ export default function Builders() {
             const title = t.work.titles?.[p.id] ?? p.title;
             return (
               <li key={p.id}>
-                <RouterLink to={withQs(projectPath(p, "bg"), qs)} className={`flex h-full flex-col overflow-hidden rounded-xl border ${focus}`} style={{ background: C.panel, borderColor: C.line }}>
+                {(() => {
+                  const cls = `flex h-full flex-col overflow-hidden rounded-xl border ${focus}`;
+                  const style = { background: C.panel, borderColor: C.line };
+                  const body = (<>
                   <img src={p.img} alt={`Сайтът на ${title}`} width={450} height={295} loading="lazy" decoding="async" className="aspect-[16/10] w-full object-cover object-top" style={{ background: C.bg }} />
                   <span className="flex flex-1 flex-col items-center p-2.5 text-center sm:items-start sm:p-3 sm:text-left">
                     <span style={OSWALD} className="text-[16px] uppercase leading-tight tracking-[0.02em] sm:text-[18px]">{title}</span>
@@ -328,10 +330,17 @@ export default function Builders() {
                     </span>
                     <span className="mt-0.5 text-[13.5px] leading-snug" style={{ color: C.muted }}>{note}</span>
                     <span style={{ ...OSWALD, color: C.yellow }} className="mt-auto flex items-center gap-1 pt-2.5 text-[15px] uppercase tracking-[0.03em]">
-                      Вижте проекта <ArrowRight className="h-4 w-4" aria-hidden />
+                      {p.buildersOnly ? "Вижте сайта" : "Вижте проекта"} <ArrowRight className="h-4 w-4" aria-hidden />
                     </span>
                   </span>
-                </RouterLink>
+                  </>);
+                  // Проект само за тази страница: няма своя страница в портфолиото, затова води към живия сайт.
+                  return p.buildersOnly && p.href ? (
+                    <a href={p.href} target="_blank" rel="noopener noreferrer" className={cls} style={style}>{body}</a>
+                  ) : (
+                    <RouterLink to={withQs(projectPath(p, "bg"), qs)} className={cls} style={style}>{body}</RouterLink>
+                  );
+                })()}
               </li>
             );
           })}
@@ -339,13 +348,18 @@ export default function Builders() {
       </section>
 
       {/* ── Какво получавате + без риск ── */}
-      <section className="mx-auto grid max-w-4xl gap-3 px-4 pb-14 md:grid-cols-2" aria-label="Какво получавате">
+      <section className="mx-auto max-w-4xl px-4 pb-14" aria-labelledby="b-site">
+        <h2 id="b-site" style={OSWALD} className={`text-center ${h2}`}>
+          Сайт за <span style={{ color: C.yellow }}>вашата фирма</span>
+        </h2>
+        <p className="mt-3 text-center text-[17px]" style={{ color: C.muted }}>Може и без реклама. Фиксирана цена до 1 час.</p>
+        <div className="mt-6 grid gap-3 md:grid-cols-2">
         {[
           { title: "Какво получавате", items: GET },
           { title: "Ясни условия", items: TERMS },
         ].map((b) => (
           <div key={b.title} className="rounded-2xl border p-5" style={{ background: C.panel, borderColor: C.line }}>
-            <h2 style={OSWALD} className="text-center text-[26px] uppercase leading-tight md:text-left">{b.title}</h2>
+            <h3 style={OSWALD} className="text-center text-[26px] uppercase leading-tight md:text-left">{b.title}</h3>
             <ul className="mx-auto mt-4 w-fit space-y-3 md:mx-0">
               {b.items.map((it) => (
                 <li key={it} className="flex items-start gap-3 text-[18px] leading-snug">
@@ -358,13 +372,15 @@ export default function Builders() {
             </ul>
           </div>
         ))}
+        </div>
       </section>
 
       {/* ── Само реклама: цени, примерни реклами, примерен отчет ── */}
       <section id="b-ads" className="mx-auto max-w-4xl scroll-mt-20 px-4 pb-14" aria-labelledby="b-ads-h">
         <h2 id="b-ads-h" style={OSWALD} className={`text-center ${h2}`}>
-          Нямате бюджет за сайт? <span style={{ color: C.yellow }}>Започнете с реклама.</span>
+          Реклама във <span style={{ color: C.yellow }}>Facebook и Instagram</span>
         </h2>
+        <p className="mt-3 text-center text-[17px]" style={{ color: C.muted }}>С наш сайт или без сайт — започвате от 120 €.</p>
         <ul className="mt-6 grid gap-2.5 sm:grid-cols-3">
           {ADS_PRICE.map((p) => (
             <li key={p.label} className="rounded-xl border p-4 text-center" style={{ background: C.panel, borderColor: C.line }}>
