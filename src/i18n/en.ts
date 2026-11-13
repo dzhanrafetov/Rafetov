@@ -185,6 +185,7 @@ const en: Dict = {
       "mig-group": "Website for a land surveying company in Sofia — cadastre, setting out, drone surveying and 3D laser scanning.",
       "innenausbau-ahmedov": "Website for an interior finishing business in Hanau, Germany, with a project portfolio and quote request form.",
       "nn-bau": "Website for waterproofing, renovation, drywall and demolition services in Duisburg, Germany, with a clear service overview and a quote request form.",
+      "bk-handwerk": "Website for PVC and aluminium windows, entry doors, roller shutters and sun protection in Munich, Germany, with a quote request page, WhatsApp and a project gallery.",
       "alpha-reiniging": "Website for a cleaning company in Ghent, Belgium — windows, roofs, facades and solar panels — with a service overview and a quote request.",
       "active-solar": "Bilingual website for a solar installer serving homes and companies, with a catalogue of panels, inverters and batteries, a solar calculator and a client account for warranties and service.",
       "creative-homes": "Website for an interior design, renovation and custom furniture studio in Sofia, with a project portfolio, before/after comparisons, a blog and a quote form based on area and budget.",

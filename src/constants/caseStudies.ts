@@ -186,6 +186,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ["Abdichtung, Sanierung, Trockenbau und Abbruch", "Klare Darstellung jeder Leistung", "Angebotsformular auf Deutsch"],
     ["Waterdichting, renovatie, gyproc en sloop", "Duidelijke presentatie van elke dienst", "Offerteformulier in het Duits"],
   ),
+  "bk-handwerk": cs(
+    ["PVC- и алуминиеви прозорци, входни врати, ролетни и слънцезащита", "Заявка за оферта, телефон и WhatsApp", "Сайт на немски за Мюнхен и района"],
+    ["PVC and aluminium windows, entry doors, roller shutters and sun protection", "Quote request, phone and WhatsApp", "German-language site for Munich and the area"],
+    ["Kunststoff- und Aluminiumfenster, Haustüren, Rollläden und Sonnenschutz", "Angebotsanfrage, Telefon und WhatsApp", "Deutschsprachige Webseite für München und Umgebung"],
+    ["Pvc- en aluminium ramen, voordeuren, rolluiken en zonwering", "Offerteaanvraag, telefoon en WhatsApp", "Duitstalige website voor München en omgeving"],
+  ),
   "alpha-reiniging": cs(
     ["Прозорци, покриви, фасади и соларни панели", "Заявка за оферта в няколко стъпки", "Сайт на нидерландски за Гент и региона"],
     ["Windows, roofs, facades and solar panels", "Multi-step quote request", "Dutch-language site for Ghent and the region"],

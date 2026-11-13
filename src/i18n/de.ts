@@ -185,6 +185,7 @@ const de: Dict = {
       "mig-group": "Webseite für Vermessungsleistungen — Kataster, Absteckung, Drohnenvermessung und 3D-Laserscanning.",
       "innenausbau-ahmedov": "Webseite für Innenausbau in Hanau, Deutschland, mit Projektreferenzen und Anfrageformular.",
       "nn-bau": "Webseite für Abdichtung, Sanierung, Trockenbau und Abbrucharbeiten in Duisburg, Deutschland, mit klarer Leistungsübersicht und Anfrageformular.",
+      "bk-handwerk": "Webseite für Kunststoff- und Aluminiumfenster, Haustüren, Rollläden und Sonnenschutz in München, Deutschland, mit Angebotsanfrage, WhatsApp und Referenzgalerie.",
       "alpha-reiniging": "Webseite für ein Reinigungsunternehmen in Gent, Belgien – Fenster, Dächer, Fassaden und Solaranlagen – mit Leistungsübersicht und Angebotsanfrage.",
       "active-solar": "Zweisprachige Webseite für einen Photovoltaik-Installateur für Haushalte und Unternehmen, mit Katalog für Module, Wechselrichter und Speicher, Solarrechner und Kundenkonto für Garantie und Service.",
       "creative-homes": "Webseite für ein Studio für Innenarchitektur, Renovierung und Möbel nach Maß in Sofia, mit Projektportfolio, Vorher-nachher-Vergleichen, Blog und Angebotsformular nach Fläche und Budget.",
