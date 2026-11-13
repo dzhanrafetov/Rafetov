@@ -28,7 +28,7 @@ import { attributionLine } from "../service/attribution";
 import Flag from "../components/Flag";
 import TradeIcon, { type TradeKey } from "../components/TradeIcons";
 import { BUSINESS, GOOGLE_REVIEWS, VIBER_HREF, whatsappHref } from "../constants/business";
-import { buildersProjects, liveShot, projectPath, type Project } from "../constants/projects";
+import { buildersProjects, projectPath, type Project } from "../constants/projects";
 
 export const BUILDERS_PATH = "/stroitelstvo";
 
@@ -178,11 +178,11 @@ export default function Builders() {
   const src = new URLSearchParams(qs).get("utm_source") ?? "";
 
   useSeo({
-    title: "Сайт и реклама за строителни фирми | Rafetov",
-    description: "Сайтове и Meta реклами за строителни фирми и майстори в България и Германия. Реални обекти, WhatsApp бутон, оферта до 1 час.",
+    title: "Сайт и реклама за строители | Rafetov",
+    description: "40 запитвания за 6 дни. Реклами във Facebook и сайтове за строителни фирми. Отговор до 20 минути.",
     path: BUILDERS_PATH,
     alternates: { bg: BUILDERS_PATH },
-    image: liveShot("nn-bau") ?? undefined,
+    image: "/builders/og-stroitelstvo.jpg",
     jsonLd: [
       {
         "@context": "https://schema.org",
