@@ -25,6 +25,7 @@ const pages: Pages = {
   AboutPage: React.lazy(() => import("./pages/AboutPage")),
   Planner: React.lazy(() => import("./pages/Planner")),
   SiteCheck: React.lazy(() => import("./pages/SiteCheck")),
+  Builders: React.lazy(() => import("./pages/Builders")),
   NotFound: React.lazy(() => import("./pages/NotFound")),
 };
 

@@ -26,6 +26,7 @@ import ProjectsIndex from "./pages/ProjectsIndex";
 import AboutPage from "./pages/AboutPage";
 import Planner from "./pages/Planner";
 import SiteCheck from "./pages/SiteCheck";
+import Builders, { BUILDERS_PATH } from "./pages/Builders";
 import NotFound from "./pages/NotFound";
 import { SeoCollectorContext, headToHtml, type HeadData } from "./seo/head";
 import { LANGS, langFromPath, withLang, type Lang } from "./i18n";
@@ -37,7 +38,7 @@ import { AUDIT_BASE, PLANNER_BASE } from "./constants/tools";
 
 const pages: Pages = {
   Hero, About, Services, Tools, Guarantees, Market, Portfolio, Reviews, BlogTeaser, Contact,
-  PrivacyPolicy, LegalNotice, BlogIndex, BlogPost, ServicePage, ProjectPage, ProjectsIndex, AboutPage, Planner, SiteCheck, NotFound,
+  PrivacyPolicy, LegalNotice, BlogIndex, BlogPost, ServicePage, ProjectPage, ProjectsIndex, AboutPage, Planner, SiteCheck, Builders, NotFound,
 };
 
 export type RouteEntry = {
@@ -79,6 +80,7 @@ export function getRoutes(): RouteEntry[] {
     }
     out.push({ url: withLang(PLANNER_BASE[lang], lang), lang, path: PLANNER_BASE[lang], alternates: { ...PLANNER_BASE }, lastmod: BUILD_DATE, changefreq: "monthly", priority: 0.8 });
     out.push({ url: withLang(AUDIT_BASE[lang], lang), lang, path: AUDIT_BASE[lang], alternates: { ...AUDIT_BASE }, lastmod: BUILD_DATE, changefreq: "monthly", priority: 0.8 });
+    if (lang === "bg") out.push({ url: BUILDERS_PATH, lang, path: BUILDERS_PATH, alternates: { bg: BUILDERS_PATH }, lastmod: BUILD_DATE, changefreq: "monthly", priority: 0.8 });
     out.push({ url: withLang("/privacy", lang), lang, path: "/privacy", alternates: same("/privacy"), lastmod: LEGAL_LASTMOD, changefreq: "yearly", priority: 0.3 });
     out.push({ url: withLang("/legal", lang), lang, path: "/legal", alternates: same("/legal"), lastmod: LEGAL_LASTMOD, changefreq: "yearly", priority: 0.3 });
   }

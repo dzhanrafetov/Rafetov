@@ -1,5 +1,5 @@
 import React, { Suspense, type ComponentType } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import FloatingContact from "./components/FloatingContact";
@@ -36,6 +36,7 @@ export type Pages = {
   AboutPage: ComponentType;
   Planner: ComponentType;
   SiteCheck: ComponentType;
+  Builders: ComponentType;
   NotFound: ComponentType;
 };
 
@@ -99,6 +100,18 @@ function Home({ pages }: { pages: Pages }) {
   );
 }
 
+/** Общите бутони за контакт; страницата за строители има своя лепкава лента в нейния вид. */
+function SiteContact() {
+  const { pathname } = useLocation();
+  if (pathname === "/stroitelstvo") return null;
+  return (
+    <>
+      <FloatingContact />
+      <MobileBar />
+    </>
+  );
+}
+
 /** Едни и същи страници на "/", "/en" и "/de". */
 const PREFIXES = ["", ...PREFIXED_LANGS.map((l) => `/${l}`)];
 
@@ -116,7 +129,7 @@ export default function AppShell({
   /** Само за браузъра (Analytics и др.). */
   children?: React.ReactNode;
 }) {
-  const { PrivacyPolicy, LegalNotice, BlogIndex, BlogPost, ServicePage, ProjectPage, ProjectsIndex, AboutPage, Planner, SiteCheck, NotFound } = pages;
+  const { PrivacyPolicy, LegalNotice, BlogIndex, BlogPost, ServicePage, ProjectPage, ProjectsIndex, AboutPage, Planner, SiteCheck, Builders, NotFound } = pages;
   return (
     <LanguageProvider initialLang={initialLang}>
       <ScrollManager />
@@ -139,15 +152,16 @@ export default function AppShell({
               <Route path={`${p}/:base/:slug`} element={<ServicePage />} />
             </React.Fragment>
           ))}
+          {/* Само на български: целта на линка в биото на видеата за строители. */}
+          <Route path="/stroitelstvo" element={<Builders />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
       <Footer />
-      <FloatingContact />
+      <SiteContact />
       {/* Резервира мястото под лепкавата лента — иначе тя закрива дъното на всяка страница
           (вкл. бутона „Изпрати запитване“) и тапът попада в „Обади се“. */}
       <div aria-hidden className="lg:hidden" style={{ height: "calc(4.5rem + env(safe-area-inset-bottom, 0px))" }} />
-      <MobileBar />
       {children}
     </LanguageProvider>
   );

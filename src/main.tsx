@@ -27,6 +27,7 @@ function preloadFor(path: string): Promise<unknown>[] {
   }
   if (path === "/blog") return [import("./pages/BlogIndex")];
   if (path.startsWith("/blog/")) return [import("./pages/BlogPost")];
+  if (path === "/stroitelstvo") return [import("./pages/Builders")];
   if (path === "/privacy") return [import("./pages/PrivacyPolicy")];
   if (path === "/legal") return [import("./pages/LegalNotice")];
   if (/^\/(uslugi|services|leistungen|diensten)\//.test(path)) return [import("./pages/ServicePage")];
