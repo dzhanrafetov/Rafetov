@@ -193,6 +193,7 @@ export const SERVICES: Service[] = [
     id: "shop",
     key: "shop",
     visual: { project: { bg: "shop4home", en: "shop4home", de: "shop4home", nl: "shop4home" } },
+    projects: ["vulcho", "printtopia", "zirve1", "azteca-site", "szo", "24tours"],
     tag: "shop",
     accent: "#34D399",
     relatedPosts: ["onlain-magazin-dostavki", "kolko-struva-sait"],

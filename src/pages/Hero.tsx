@@ -52,6 +52,19 @@ export default function Hero() {
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-5 pt-24 sm:px-8 sm:pt-32 lg:grid-cols-[minmax(0,1.15fr)_minmax(400px,520px)] lg:items-center lg:gap-16 lg:pt-28 xl:px-12">
         {/* ── Копие ── */}
         <div className="text-center lg:text-left">
+          {/* Път за строителите от TikTok: първото, което виждат на телефона, без да се крие останалото. Само на български. */}
+          {lang === "bg" && (
+            <a
+              href="/stroitelstvo"
+              onClick={() => track("hero_builders")}
+              className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/[0.04] py-2 pl-3.5 pr-4 text-[14px] font-medium text-slate-300 transition-colors duration-200 hover:border-accent/50 hover:text-white
+                         focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-text/60 sm:mb-8"
+            >
+              <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+              Строителна фирма?
+              <span className="font-semibold text-accent-text">Вижте тук →</span>
+            </a>
+          )}
           <h1 className="hero-balance mx-auto max-w-[14ch] text-[clamp(2.35rem,9.2vw,4.5rem)] font-extrabold leading-[1.02] tracking-[-0.034em] text-white lg:mx-0 lg:max-w-[640px]">
             {c.h1[0]}
             <span className="text-accent-text">{c.h1[1]}</span>

@@ -33,6 +33,9 @@ const MENU_ITEMS: MenuItem[] = [
 /** Малка циан точка пред инструментите — спокоен знак „безплатно/ново“, без надпис. */
 const ToolDot = () => <span aria-hidden className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />;
 
+/** Страницата за строители е само на български. */
+const BUILDERS_LABEL = 'За строители';
+
 const MENU_LINK_CLASS =
   'hover:text-gray-600 transition-colors duration-300 transform hover:scale-105 cursor-pointer';
 
@@ -132,6 +135,13 @@ const Header = () => {
                     {t.header.links[key]}
                   </RouterLink>
                 )
+              )}
+              {/* Път към страницата за строители (само на български): за хората, дошли от видеата в TikTok */}
+              {lang === 'bg' && (
+                <RouterLink to="/stroitelstvo" className="inline-flex items-center gap-2 whitespace-nowrap text-white/90 transition-colors hover:text-white">
+                  <ToolDot />
+                  {BUILDERS_LABEL}
+                </RouterLink>
               )}
             </nav>
           )}
@@ -280,6 +290,12 @@ const Header = () => {
                 {t.header.links[key]}
               </RouterLink>
             )
+          )}
+          {lang === 'bg' && (
+            <RouterLink to="/stroitelstvo" onClick={toggleMenu} className={`${MENU_LINK_CLASS} inline-flex items-center justify-center gap-2.5 whitespace-nowrap text-[1.1rem]`}>
+              <ToolDot />
+              {BUILDERS_LABEL}
+            </RouterLink>
           )}
         </nav>
 

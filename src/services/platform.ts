@@ -2,13 +2,13 @@ import type { Service } from "./index";
 
 /**
  * Платформи и вътрешни системи: CRM, портали, учебни платформи.
- * Единственото реално доказателство е платформата на ЦЗПО; без измислени резултати, цената се казва след разговор.
+ * Реалните доказателства са платформата на ЦЗПО и Printtopia (магазин с редактор, B2B и админ); без измислени резултати, цената се казва след разговор.
  */
 export const platformService: Service = {
   id: "platform",
   key: "platform",
   visual: { vignette: "apps" },
-  projects: ["czpo"],
+  projects: ["czpo", "printtopia"],
   caseIcons: ["Users", "ClipboardList", "CalendarCheck", "FileText", "LayoutDashboard", "Workflow"],
   tag: "platform",
   accent: "#22D3EE",

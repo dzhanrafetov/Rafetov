@@ -240,6 +240,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ["Bereiche für Administratoren, Lehrkräfte, Teilnehmende und Prüfer", "Online-Bewerbung, Kursgruppen und Stundenpläne", "Live-Unterricht mit Anwesenheitsberichten", "Lernmaterialien und Tests mit automatischer Auswertung"],
     ["Accounts voor beheerders, docenten, cursisten en inspecteurs", "Online inschrijven, lesgroepen en roosters", "Online lessen met aanwezigheidsrapporten", "Lesmateriaal en toetsen met automatische verbetering"],
   ),
+  printtopia: cs(
+    ["Каталог с печатни, презентационни и сувенирни продукти", "Цена с ДДС за всеки тираж веднага, без запитване", "Качване на файл с безплатна проверка, шаблони с точните размери или поръчка на дизайн", "Доставка с Еконт до адрес или офис, или вземане от печатницата", "Админ панел за продукти, цени, файлове и поръчки"],
+    ["Catalogue of print, display and branded products", "Price with VAT for every quantity at once, no enquiry needed", "File upload with a free check, templates in the exact size or a design order", "Econt delivery to an address or office, or pickup at the print house", "Admin panel for products, prices, files and orders"],
+    ["Katalog mit Druck-, Präsentations- und Werbeartikeln", "Preis inkl. MwSt. für jede Auflage sofort, ohne Anfrage", "Datei-Upload mit kostenloser Prüfung, Vorlagen im exakten Format oder Design-Auftrag", "Versand mit Econt an Adresse oder Filiale oder Abholung in der Druckerei", "Admin-Bereich für Produkte, Preise, Dateien und Bestellungen"],
+    ["Catalogus met drukwerk, presentatiemateriaal en relatiegeschenken", "Prijs met btw voor elke oplage meteen, zonder offerteaanvraag", "Bestand uploaden met gratis controle, sjablonen op exact formaat of een ontwerp bestellen", "Levering met Econt naar adres of kantoor, of afhalen bij de drukkerij", "Beheerpaneel voor producten, prijzen, bestanden en bestellingen"],
+  ),
   "gs-aluminium": cs(
     ["Нова визия на мястото на стария сайт", "Страница за всяка от осемте системи", "3D конфигуратор за пергола, веранда, зимна градина и навес", "Запитване за безплатен оглед със снимки на мястото"],
     ["A new look replacing the old site", "A page for each of the eight systems", "3D configurator for pergolas, verandas, conservatories and carports", "Request for a free site visit with photos of the place"],

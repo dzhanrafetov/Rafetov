@@ -150,6 +150,7 @@ export default function Footer() {
                 {[
                   { label: plannerCopy[lang].nav, to: href(PLANNER_BASE[lang]) },
                   { label: auditCopy[lang].nav, to: href(AUDIT_BASE[lang]) },
+                  ...(lang === "bg" ? [{ label: "За строителни фирми", to: "/stroitelstvo" }] : []),
                 ].map((l) => (
                   <li key={l.to}>
                     <RouterLink to={l.to} className="group flex items-center gap-2 text-[13px] text-slate-400 transition-colors hover:text-slate-100">

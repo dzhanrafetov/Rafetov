@@ -39,11 +39,11 @@ export const FEATURED: Record<Lang, string[]> = {
  * Ползва се вместо мокъпа там, където снимката е голяма — мокъпите са 900×589 и изглеждат размазани.
  * Metesso и Korn Metal нямат: анимацията и видеото им не се заснемат чисто.
  */
-const LIVE_SHOTS = new Set(["gs-aluminium", "czpo", "24tours", "abi-studio", "active-solar", "aloeway", "alpha-reiniging", "amalfi-menu", "azteca-site", "beca", "chef-resat-menu", "chef-resat-site", "creative-homes", "dudo-group", "emis-cleaning", "het-pitta-loft", "hh-edelstahl", "hotel-fenix", "hustle-clothing", "innenausbau-ahmedov", "jitara", "kapisel", "mig-group", "nn-bau", "bk-handwerk", "opaka-fits", "pachka-stil", "pancetita-menu", "pet-zvezdi", "primasell", "santander", "shop4home", "slapfight", "szo", "taupe", "vulcho", "zirve1"]);
+const LIVE_SHOTS = new Set(["printtopia", "gs-aluminium", "czpo", "24tours", "abi-studio", "active-solar", "aloeway", "alpha-reiniging", "amalfi-menu", "azteca-site", "beca", "chef-resat-menu", "chef-resat-site", "creative-homes", "dudo-group", "emis-cleaning", "het-pitta-loft", "hh-edelstahl", "hotel-fenix", "hustle-clothing", "innenausbau-ahmedov", "jitara", "kapisel", "mig-group", "nn-bau", "bk-handwerk", "opaka-fits", "pachka-stil", "pancetita-menu", "pet-zvezdi", "primasell", "santander", "shop4home", "slapfight", "szo", "taupe", "vulcho", "zirve1"]);
 export const liveShot = (id: string): string | undefined => (LIVE_SHOTS.has(id) ? `/work/live/${id}.webp?v=4` : undefined);
 
 /** Мобилни снимки (390×844 @2x → 780×1688) в public/work/mobile/ — за мокъпи с телефон. */
-const MOBILE_SHOTS = new Set(["gs-aluminium", "amalfi-menu", "chef-resat-menu", "pancetita-menu", "alpha-reiniging", "beca", "chef-resat-site", "creative-homes", "czpo", "emis-cleaning", "het-pitta-loft", "innenausbau-ahmedov", "jitara", "nn-bau", "bk-handwerk", "shop4home", "vulcho", "zirve1"]);
+const MOBILE_SHOTS = new Set(["printtopia", "gs-aluminium", "amalfi-menu", "chef-resat-menu", "pancetita-menu", "alpha-reiniging", "beca", "chef-resat-site", "creative-homes", "czpo", "emis-cleaning", "het-pitta-loft", "innenausbau-ahmedov", "jitara", "nn-bau", "bk-handwerk", "shop4home", "vulcho", "zirve1"]);
 export const mobileShot = (id: string): string | undefined => (MOBILE_SHOTS.has(id) ? `/work/mobile/${id}.webp?v=3` : undefined);
 
 /**
@@ -51,7 +51,7 @@ export const mobileShot = (id: string): string | undefined => (MOBILE_SHOTS.has(
  * Страницата на проекта я превърта бавно в рамка на браузър и телефон. Заснети с Playwright на 2026-10-23.
  * Metesso е от metesso.vercel.app: домейнът metesso.com е изтекъл.
  */
-const FULL_SHOTS = new Set(["gs-aluminium", "czpo", "24tours", "abi-studio", "active-solar", "aloeway", "alpha-reiniging", "amalfi-menu", "azteca-site", "beca", "chef-resat-menu", "chef-resat-site", "creative-homes", "dudo-group", "emis-cleaning", "het-pitta-loft", "hh-edelstahl", "hotel-fenix", "hustle-clothing", "innenausbau-ahmedov", "jitara", "kapisel", "korn-metal", "metesso", "mig-group", "nn-bau", "bk-handwerk", "opaka-fits", "pachka-stil", "pancetita-menu", "pet-zvezdi", "primasell", "santander", "shop4home", "slapfight", "szo", "taupe", "vulcho", "zirve1"]);
+const FULL_SHOTS = new Set(["printtopia", "gs-aluminium", "czpo", "24tours", "abi-studio", "active-solar", "aloeway", "alpha-reiniging", "amalfi-menu", "azteca-site", "beca", "chef-resat-menu", "chef-resat-site", "creative-homes", "dudo-group", "emis-cleaning", "het-pitta-loft", "hh-edelstahl", "hotel-fenix", "hustle-clothing", "innenausbau-ahmedov", "jitara", "kapisel", "korn-metal", "metesso", "mig-group", "nn-bau", "bk-handwerk", "opaka-fits", "pachka-stil", "pancetita-menu", "pet-zvezdi", "primasell", "santander", "shop4home", "slapfight", "szo", "taupe", "vulcho", "zirve1"]);
 export const fullShot = (id: string, kind: "d" | "m"): string | undefined => (FULL_SHOTS.has(id) ? `/work/full/${id}-${kind}.webp?v=3` : undefined);
 
 export const PROJECTS: Project[] = [
@@ -379,6 +379,14 @@ export const PROJECTS: Project[] = [
     title: "ЦЗПО",
     img: "/work/czpo.webp",
     href: "https://czpo.bg/",
+    country: "BG",
+  },
+  {
+    id: "printtopia",
+    tag: "shop",
+    title: "Printtopia",
+    img: "/work/printtopia.webp",
+    href: "https://printtopia.vercel.app/",
     country: "BG",
   },
 ];

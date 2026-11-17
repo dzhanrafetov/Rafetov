@@ -195,6 +195,7 @@ const de: Dict = {
       "aloeway": "Onlineshop für LR-Gesundheits- und Beautyprodukte mit Abo-Paketen und monatlicher Lieferung, Bestellung ohne Registrierung und einer eigenen Seite zur Geschäftspartnerschaft.",
       "gs-aluminium": "Neue Website in vier Sprachen für GS Aluminium aus Russe: Wintergärten, Pergolen, Terrassendächer, Carports und Fenster. Ein komplett neuer Auftritt anstelle der alten Website, 3D-Konfigurator, Fotos und Videos von echten Projekten und Anfrage für einen kostenlosen Vor-Ort-Termin.",
       czpo: "Komplette Schulungsplattform für ein lizenziertes Berufsbildungszentrum in Warna, mit eigenen Bereichen für Administratoren, Lehrkräfte, Teilnehmende und Prüfer der Arbeitsagentur. Online-Bewerbung, Kursgruppen und Stundenpläne, Live-Unterricht mit Anwesenheitsberichten, Lernmaterialien und Tests mit automatischer Auswertung.",
+      printtopia: "Onlineshop für eine Druckerei: Flyer, Visitenkarten, Broschüren, Werbematerialien und Werbegeschenke. Der Preis inkl. MwSt. für die gewählte Auflage ist sofort sichtbar, die Datei wird mit kostenloser Prüfung hochgeladen oder ein Design bestellt, Versand über Econt. Der Inhaber legt Produkte an, ändert Preise und bearbeitet Bestellungen in einem eigenen Admin-Bereich.",
     },
   },
   reviews: {
